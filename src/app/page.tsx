@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/app-link";
 import { CalendarDays, Heart, Info, Map, Star } from "lucide-react";
 import program from "@/data/program.json";
 import { InstallHint } from "@/components/install-hint";

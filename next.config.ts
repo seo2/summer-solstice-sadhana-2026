@@ -1,12 +1,12 @@
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v2";
+const OFFLINE_CACHE = "solstice-full-offline-v3";
 
 const withPWA = withPWAInit({
   dest: "public",
   register: true,
-  cacheOnFrontEndNav: true,
+  cacheOnFrontEndNav: false,
   reloadOnOnline: false,
   disable: process.env.NODE_ENV === "development",
   workboxOptions: {
@@ -20,7 +20,6 @@ const withPWA = withPWAInit({
           request.destination === "script" ||
           request.destination === "style" ||
           request.destination === "image" ||
-          url.pathname.endsWith(".txt") ||
           url.pathname === "/manifest.webmanifest",
         handler: "StaleWhileRevalidate",
         options: {

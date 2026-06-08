@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/app-link";
 import { BookOpen, CalendarDays, ChevronDown, HeartPulse, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
 import type { InfoPage } from "@/lib/types";

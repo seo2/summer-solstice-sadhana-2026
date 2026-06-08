@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { AppLink as Link } from "@/components/app-link";
 import { Heart, MapPin, Star } from "lucide-react";
 import type { Activity } from "@/lib/types";
 import { formatDate, timeRange } from "@/lib/utils";

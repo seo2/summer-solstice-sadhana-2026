@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
+import { AppLink as Link } from "@/components/app-link";
 import { CalendarDays, Heart, Home, Info, Map, Star } from "lucide-react";
 import { OfflinePreloader } from "@/components/offline-preloader";
 import "./globals.css";

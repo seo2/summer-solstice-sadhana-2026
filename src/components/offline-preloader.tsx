@@ -5,12 +5,11 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, DownloadCloud } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v2";
-const STORAGE_KEY = "solstice-full-offline-v2-complete";
+const CACHE_NAME = "solstice-full-offline-v3";
+const STORAGE_KEY = "solstice-full-offline-v3-complete";
 const CONCURRENCY = 6;
 
 const staticRoutes = ["/", "/program", "/agenda", "/favorites", "/info", "/map", "/manifest.webmanifest"];
-const staticPayloads = ["/index.txt", "/program.txt", "/agenda.txt", "/favorites.txt", "/info.txt", "/map.txt"];
 const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/icons/icon-192.svg", "/icons/icon-512.svg"];
 
 async function waitForServiceWorker() {
@@ -27,10 +26,14 @@ async function waitForServiceWorker() {
 }
 
 async function warmUrl(cache: Cache, url: string) {
-  const fetchUrl = url === "/agenta.txt" ? "/agenda.txt" : url;
-  const request = new Request(fetchUrl, { cache: "reload" });
+  const isRoute = url === "/" || !url.includes(".");
+  const request = new Request(url, {
+    cache: "reload",
+    headers: isRoute ? { Accept: "text/html,application/xhtml+xml" } : undefined,
+  });
   const response = await fetch(request);
-  if (response.ok) await cache.put(url, response.clone());
+  const contentType = response.headers.get("content-type") ?? "";
+  if (response.ok && (!isRoute || contentType.includes("text/html"))) await cache.put(url, response.clone());
   return response.ok;
 }
 
@@ -64,9 +67,7 @@ export function OfflinePreloader() {
 
   const urls = useMemo(() => {
     const detailRoutes = (program as Activity[]).map((activity) => `/program/${activity.id}`);
-    const detailPayloads = (program as Activity[]).map((activity) => `/program/${activity.id}.txt`);
-    const typoFallbacks = ["/agenta.txt"];
-    return Array.from(new Set([...staticRoutes, ...staticPayloads, ...detailRoutes, ...detailPayloads, ...staticAssets, ...typoFallbacks]));
+    return Array.from(new Set([...staticRoutes, ...detailRoutes, ...staticAssets]));
   }, []);
 
   useEffect(() => {
