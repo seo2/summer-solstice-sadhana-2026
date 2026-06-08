@@ -11,13 +11,20 @@ const todayHighlights = activities.slice(0, 5);
 export default function Home() {
   return (
     <div className="space-y-5">
-      <section className="overflow-hidden rounded-[2rem] bg-stone-950 p-6 text-white shadow-2xl">
-        <p className="text-sm font-bold uppercase tracking-[0.24em] text-orange-200">June 19–27, 2026</p>
-        <h1 className="mt-3 text-4xl font-black leading-tight">Summer Solstice Sadhana</h1>
-        <p className="mt-3 text-base leading-7 text-orange-50/85">Offline-first festival guide for the daily schedule, favorites, personal agenda, venues and essential info.</p>
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          <Link href="/program" className="rounded-2xl bg-orange-300 px-4 py-3 text-center font-bold text-stone-950">Open Program</Link>
-          <Link href="/agenda" className="rounded-2xl bg-white/10 px-4 py-3 text-center font-bold text-white ring-1 ring-white/20">My Agenda</Link>
+      <section className="relative overflow-hidden rounded-[2rem] bg-[#2f62b6] p-6 text-white shadow-2xl">
+        <div className="absolute inset-0 bg-[url('/images/solstice-cover-top.jpg')] bg-cover bg-center opacity-35" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-400/75 via-white/50 to-[#2f62b6]/90" />
+        <div className="absolute -right-16 top-12 h-48 w-48 rounded-full bg-white/25 blur-3xl" />
+        <div className="relative min-h-[18rem] pt-10">
+          <p className="solstice-kicker text-sm font-bold uppercase text-[#f39200] drop-shadow-sm">June 19–27, 2026</p>
+          <h1 className="solstice-title mt-3 text-5xl font-black uppercase leading-[0.9] text-white sm:text-6xl">Summer Solstice</h1>
+          <p className="mt-1 text-4xl font-black uppercase leading-none tracking-tight text-[#2f62b6] drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)] sm:text-5xl">Sadhana</p>
+          <p className="mt-4 text-lg font-semibold text-[#2f62b6] drop-shadow-[0_1px_8px_rgba(255,255,255,0.9)]">Chardi Kala: A Celebration of Joy</p>
+          <div className="sun-pill mt-5 inline-flex rounded-none px-5 py-3 text-xl font-bold uppercase tracking-[0.12em] text-white">June 19–27</div>
+        </div>
+        <div className="relative mt-5 grid grid-cols-2 gap-3">
+          <Link href="/program" className="rounded-2xl bg-white px-4 py-3 text-center font-bold text-[#2f62b6] shadow-lg">Open Program</Link>
+          <Link href="/agenda" className="rounded-2xl bg-white/15 px-4 py-3 text-center font-bold text-white ring-1 ring-white/40 backdrop-blur">My Agenda</Link>
         </div>
       </section>
 
@@ -34,20 +41,20 @@ export default function Home() {
           const Icon = item.icon;
           return (
             <Link key={item.href} href={item.href} className="card rounded-3xl p-4">
-              <Icon className="h-6 w-6 text-orange-700" />
-              <p className="mt-3 text-lg font-bold text-stone-950">{item.label}</p>
-              <p className="text-sm font-semibold text-stone-500">{item.value}</p>
+              <Icon className="h-6 w-6 text-[#2f62b6]" />
+              <p className="mt-3 text-lg font-bold text-slate-900">{item.label}</p>
+              <p className="text-sm font-semibold text-slate-500">{item.value}</p>
             </Link>
           );
         })}
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-black text-stone-950">First activities</h2>
+        <h2 className="text-2xl font-black text-[#2f62b6]">First activities</h2>
         {todayHighlights.map((item) => (
           <Link key={item.id} href={`/program/${item.id}`} className="card block rounded-3xl p-4">
-            <p className="text-sm font-bold text-orange-800">{formatDate(item.date)} · {timeRange(item.startTime, item.endTime)}</p>
-            <p className="mt-1 text-lg font-bold text-stone-950">{item.title}</p>
+            <p className="text-sm font-bold text-[#f39200]">{formatDate(item.date)} · {timeRange(item.startTime, item.endTime)}</p>
+            <p className="mt-1 text-lg font-bold text-slate-900">{item.title}</p>
           </Link>
         ))}
       </section>

@@ -42,7 +42,10 @@ next-env.d.ts
 
 # local extraction/build helpers
 .venv/
+.venv-pdf/
 extracted_pages/
+references/design/*.pdf
+references/design/rendered/
 public/sw.js
 public/workbox-*.js
 public/swe-worker-*.js

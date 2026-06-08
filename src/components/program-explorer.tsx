@@ -36,19 +36,19 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
     <section className="space-y-4">
       <div className="card rounded-3xl p-4">
         <label className="flex items-center gap-2 rounded-2xl bg-white px-3 py-3 text-stone-700 shadow-sm">
-          <Search className="h-5 w-5 text-orange-700" />
+          <Search className="h-5 w-5 text-[#2f62b6]" />
           <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search title, teacher, place..." className="w-full bg-transparent text-base outline-none" />
         </label>
         <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <select value={date} onChange={(event) => setDate(event.target.value)} className="rounded-2xl border border-orange-900/10 bg-white px-3 py-3 text-sm font-semibold text-stone-800">
+          <select value={date} onChange={(event) => setDate(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
             <option value="all">All days</option>
             {dates.map((item) => <option key={item} value={item}>{formatDate(item)}</option>)}
           </select>
-          <select value={venue} onChange={(event) => setVenue(event.target.value)} className="rounded-2xl border border-orange-900/10 bg-white px-3 py-3 text-sm font-semibold text-stone-800">
+          <select value={venue} onChange={(event) => setVenue(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
             <option value="all">All venues</option>
             {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
           </select>
-          <select value={category} onChange={(event) => setCategory(event.target.value)} className="rounded-2xl border border-orange-900/10 bg-white px-3 py-3 text-sm font-semibold text-stone-800">
+          <select value={category} onChange={(event) => setCategory(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
             <option value="all">All categories</option>
             {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
           </select>

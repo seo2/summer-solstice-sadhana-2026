@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #fff8ef;
-  --foreground: #2f241b;
+  --background: #f7fbff;
+  --foreground: #374151;
+  --solstice-blue: #2f62b6;
+  --solstice-sky: #39a9ef;
+  --solstice-orange: #f39200;
+  --solstice-gold: #ffd66b;
+  --solstice-mist: #eef9f5;
 }
 
 @theme inline {
@@ -23,10 +28,22 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(255, 221, 169, 0.65), transparent 28rem),
-    linear-gradient(180deg, #fff8ef 0%, #f6efe4 52%, #edf4ee 100%);
+    radial-gradient(circle at 18% -8%, rgba(57, 169, 239, 0.3), transparent 22rem),
+    radial-gradient(circle at 88% 12%, rgba(255, 214, 107, 0.32), transparent 18rem),
+    linear-gradient(180deg, #f8fcff 0%, #ffffff 42%, #fff8ea 100%);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(115deg, transparent 0 18%, rgba(47, 98, 182, 0.055) 18.3% 18.8%, transparent 19.1% 100%),
+    linear-gradient(70deg, transparent 0 70%, rgba(243, 146, 0, 0.08) 70.2% 70.8%, transparent 71% 100%);
 }
 
 button,
@@ -41,14 +58,29 @@ select {
 }
 
 .card {
-  border: 1px solid rgba(108, 84, 55, 0.15);
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 20px 60px rgba(72, 54, 35, 0.08);
+  border: 1px solid rgba(47, 98, 182, 0.12);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 20px 60px rgba(47, 98, 182, 0.08);
   backdrop-filter: blur(18px);
 }
 
 .badge {
-  border: 1px solid rgba(157, 101, 44, 0.18);
-  background: rgba(255, 244, 226, 0.85);
-  color: #7b4a20;
+  border: 1px solid rgba(243, 146, 0, 0.26);
+  background: rgba(255, 246, 225, 0.92);
+  color: #9a5a00;
+}
+
+.solstice-title {
+  letter-spacing: -0.055em;
+  text-shadow: 0 4px 18px rgba(47, 98, 182, 0.28);
+}
+
+.solstice-kicker {
+  color: var(--solstice-orange);
+  letter-spacing: 0.22em;
+}
+
+.sun-pill {
+  background: linear-gradient(90deg, #f39200 0%, #ffad1f 100%);
+  box-shadow: 0 16px 36px rgba(243, 146, 0, 0.28);
 }
