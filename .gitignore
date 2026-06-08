@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local extraction/build helpers
+.venv/
+extracted_pages/
+public/sw.js
+public/workbox-*.js
+public/swe-worker-*.js

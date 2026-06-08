@@ -1,65 +1,56 @@
-import Image from "next/image";
+import Link from "next/link";
+import { CalendarDays, Heart, Info, Map, Star } from "lucide-react";
+import program from "@/data/program.json";
+import { InstallHint } from "@/components/install-hint";
+import type { Activity } from "@/lib/types";
+import { formatDate, timeRange } from "@/lib/utils";
+
+const activities = program as Activity[];
+const todayHighlights = activities.slice(0, 5);
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="space-y-5">
+      <section className="overflow-hidden rounded-[2rem] bg-stone-950 p-6 text-white shadow-2xl">
+        <p className="text-sm font-bold uppercase tracking-[0.24em] text-orange-200">June 19–27, 2026</p>
+        <h1 className="mt-3 text-4xl font-black leading-tight">Summer Solstice Sadhana</h1>
+        <p className="mt-3 text-base leading-7 text-orange-50/85">Offline-first festival guide for the daily schedule, favorites, personal agenda, venues and essential info.</p>
+        <div className="mt-5 grid grid-cols-2 gap-3">
+          <Link href="/program" className="rounded-2xl bg-orange-300 px-4 py-3 text-center font-bold text-stone-950">Open Program</Link>
+          <Link href="/agenda" className="rounded-2xl bg-white/10 px-4 py-3 text-center font-bold text-white ring-1 ring-white/20">My Agenda</Link>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
+
+      <InstallHint />
+
+      <section className="grid grid-cols-2 gap-3">
+        {[
+          { href: "/program", label: "Program", icon: CalendarDays, value: `${activities.length} items` },
+          { href: "/agenda", label: "My Agenda", icon: Star, value: "local" },
+          { href: "/favorites", label: "Favorites", icon: Heart, value: "local" },
+          { href: "/info", label: "Info", icon: Info, value: "PDF pages" },
+          { href: "/map", label: "Map", icon: Map, value: "venues" },
+        ].map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link key={item.href} href={item.href} className="card rounded-3xl p-4">
+              <Icon className="h-6 w-6 text-orange-700" />
+              <p className="mt-3 text-lg font-bold text-stone-950">{item.label}</p>
+              <p className="text-sm font-semibold text-stone-500">{item.value}</p>
+            </Link>
+          );
+        })}
+      </section>
+
+      <section className="space-y-3">
+        <h2 className="text-2xl font-black text-stone-950">First activities</h2>
+        {todayHighlights.map((item) => (
+          <Link key={item.id} href={`/program/${item.id}`} className="card block rounded-3xl p-4">
+            <p className="text-sm font-bold text-orange-800">{formatDate(item.date)} · {timeRange(item.startTime, item.endTime)}</p>
+            <p className="mt-1 text-lg font-bold text-stone-950">{item.title}</p>
+          </Link>
+        ))}
+      </section>
     </div>
   );
 }

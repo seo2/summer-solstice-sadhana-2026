@@ -1,0 +1,54 @@
+[
+  {
+    "id": "dance-yoga",
+    "name": "Dance Yoga"
+  },
+  {
+    "id": "gurdwara",
+    "name": "Gurdwara"
+  },
+  {
+    "id": "kriya-and-meditation",
+    "name": "Kriya and Meditation"
+  },
+  {
+    "id": "lecture",
+    "name": "Lecture"
+  },
+  {
+    "id": "logistics",
+    "name": "Logistics"
+  },
+  {
+    "id": "mantras",
+    "name": "Mantras"
+  },
+  {
+    "id": "meal",
+    "name": "Meal"
+  },
+  {
+    "id": "meditation",
+    "name": "Meditation"
+  },
+  {
+    "id": "music",
+    "name": "Music"
+  },
+  {
+    "id": "sadhana",
+    "name": "Sadhana"
+  },
+  {
+    "id": "service",
+    "name": "Service"
+  },
+  {
+    "id": "white-tantric-yoga",
+    "name": "White Tantric Yoga"
+  },
+  {
+    "id": "workshop",
+    "name": "Workshop"
+  }
+]

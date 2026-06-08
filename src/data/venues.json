@@ -1,0 +1,32 @@
+[
+  {
+    "id": "atma-shelter",
+    "name": "Atma Shelter",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  },
+  {
+    "id": "dining-hall",
+    "name": "Dining Hall",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  },
+  {
+    "id": "gurdwara",
+    "name": "Gurdwara",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  },
+  {
+    "id": "prem-shelter",
+    "name": "Prem Shelter",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  },
+  {
+    "id": "sdi-academy",
+    "name": "SDI Academy",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  },
+  {
+    "id": "tantric-shelter",
+    "name": "Tantric Shelter",
+    "description": "Venue extraído del programa del PDF. Revisar ubicación exacta en el mapa del booklet."
+  }
+]
