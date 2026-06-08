@@ -5,8 +5,9 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, DownloadCloud } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v3";
-const STORAGE_KEY = "solstice-full-offline-v3-complete";
+const CACHE_NAME = "solstice-full-offline-v4";
+const STORAGE_KEY = "solstice-full-offline-v4-complete";
+const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
 const staticRoutes = ["/", "/program", "/agenda", "/favorites", "/info", "/map", "/manifest.webmanifest"];
@@ -25,6 +26,37 @@ async function waitForServiceWorker() {
   }
 }
 
+async function deleteOldOfflineCaches() {
+  const cacheNames = await caches.keys();
+  await Promise.all(
+    cacheNames
+      .filter((name) => name.startsWith(OLD_CACHE_PREFIX) && name !== CACHE_NAME)
+      .map((name) => caches.delete(name)),
+  );
+}
+
+function extractStaticAssets(html: string) {
+  const urls = new Set<string>();
+  for (const match of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
+    const value = match[1];
+    if (value.startsWith("/_next/static/") || value.startsWith("/images/") || value.startsWith("/icons/")) {
+      urls.add(value);
+    }
+  }
+  return Array.from(urls);
+}
+
+async function warmAsset(cache: Cache, url: string) {
+  try {
+    if (await cache.match(url)) return true;
+    const response = await fetch(new Request(url, { cache: "reload" }));
+    if (response.ok) await cache.put(url, response.clone());
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
 async function warmUrl(cache: Cache, url: string) {
   const isRoute = url === "/" || !url.includes(".");
   const request = new Request(url, {
@@ -33,12 +65,20 @@ async function warmUrl(cache: Cache, url: string) {
   });
   const response = await fetch(request);
   const contentType = response.headers.get("content-type") ?? "";
-  if (response.ok && (!isRoute || contentType.includes("text/html"))) await cache.put(url, response.clone());
+  if (response.ok && (!isRoute || contentType.includes("text/html"))) {
+    await cache.put(url, response.clone());
+    if (isRoute) {
+      const html = await response.clone().text();
+      const assets = extractStaticAssets(html);
+      await Promise.all(assets.map((assetUrl) => warmAsset(cache, assetUrl)));
+    }
+  }
   return response.ok;
 }
 
 async function warmOfflineCache(urls: string[], onProgress: (completed: number, total: number) => void) {
   await waitForServiceWorker();
+  await deleteOldOfflineCaches();
   const cache = await caches.open(CACHE_NAME);
   let completed = 0;
   let cursor = 0;
