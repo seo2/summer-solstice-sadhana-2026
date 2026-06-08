@@ -29,5 +29,6 @@ export type InfoPage = {
   id: string;
   title: string;
   sourcePage?: number;
+  sourcePageLabel?: string;
   content: string;
 };
