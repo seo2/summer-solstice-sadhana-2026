@@ -27,35 +27,41 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       .filter((item) => (category === "all" ? true : item.category === category))
       .filter((item) => {
         if (!q) return true;
-        return [item.title, item.description, item.facilitator, item.location].filter(Boolean).join(" ").toLowerCase().includes(q);
+        return [item.title, item.description, item.facilitator, item.location, item.category].filter(Boolean).join(" ").toLowerCase().includes(q);
       })
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
   }, [activities, agendaIds, category, date, favoriteIds, mode, query, venue]);
 
   return (
     <section className="space-y-4">
-      <div className="card rounded-3xl p-4">
-        <label className="flex items-center gap-2 rounded-2xl bg-white px-3 py-3 text-stone-700 shadow-sm">
-          <Search className="h-5 w-5 text-[#2f62b6]" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search title, teacher, place..." className="w-full bg-transparent text-base outline-none" />
-        </label>
-        <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <select value={date} onChange={(event) => setDate(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
-            <option value="all">All days</option>
-            {dates.map((item) => <option key={item} value={item}>{formatDate(item)}</option>)}
-          </select>
-          <select value={venue} onChange={(event) => setVenue(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
-            <option value="all">All venues</option>
-            {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
-          </select>
-          <select value={category} onChange={(event) => setCategory(event.target.value)} className="rounded-2xl border border-sky-900/10 bg-white px-3 py-3 text-sm font-semibold text-slate-800">
-            <option value="all">All categories</option>
-            {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
-          </select>
+      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-[1.9rem] bg-white/55 p-1 backdrop-blur-xl sm:top-[4.75rem]">
+        <div className="filter-glass-card rounded-[1.75rem] p-4">
+          <label className="flex items-center gap-2 rounded-[1.25rem] bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
+            <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
+            <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search title, teacher, place..."
+              className="w-full bg-transparent text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+            />
+          </label>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <select value={date} onChange={(event) => setDate(event.target.value)} className="filter-select">
+              <option value="all">Day</option>
+              {dates.map((item) => <option key={item} value={item}>{formatDate(item)}</option>)}
+            </select>
+            <select value={venue} onChange={(event) => setVenue(event.target.value)} className="filter-select">
+              <option value="all">Venue</option>
+              {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
+            </select>
+            <select value={category} onChange={(event) => setCategory(event.target.value)} className="filter-select">
+              <option value="all">Category</option>
+              {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
+            </select>
+          </div>
+          <p className="mt-3 px-1 text-sm font-semibold text-stone-500">{filtered.length} activities</p>
         </div>
       </div>
-
-      <p className="px-1 text-sm font-semibold text-stone-600">{filtered.length} activities</p>
 
       {filtered.length === 0 ? (
         <div className="card rounded-3xl p-8 text-center">
