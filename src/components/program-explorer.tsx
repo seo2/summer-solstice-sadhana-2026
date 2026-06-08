@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Search } from "lucide-react";
+import { Heart, Search, Star } from "lucide-react";
+import { AppLink as Link } from "@/components/app-link";
 import { ActivityCard } from "@/components/activity-card";
 import { useSavedActivities } from "@/lib/db";
 import type { Activity, Category, Venue } from "@/lib/types";
@@ -17,6 +18,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
   const [category, setCategory] = useState("all");
 
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
+  const savedCount = mode === "favorites" ? favoriteIds.size : mode === "agenda" ? agendaIds.size : activities.length;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -31,6 +33,26 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       })
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
   }, [activities, agendaIds, category, date, favoriteIds, mode, query, venue]);
+
+  if (mode !== "all" && savedCount === 0) {
+    const isAgenda = mode === "agenda";
+    const Icon = isAgenda ? Star : Heart;
+
+    return (
+      <section className="empty-saved-card rounded-[2rem] p-8 text-center">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-sky-900/10">
+          <Icon className={cn("h-12 w-12", isAgenda ? "fill-[#2f62b6]/10 text-[#2f62b6]" : "fill-rose-500/10 text-rose-500")} />
+        </div>
+        <h2 className="mt-5 text-2xl font-black tracking-[-0.03em] text-slate-950">{isAgenda ? "Your agenda is empty" : "No favorites yet"}</h2>
+        <p className="mx-auto mt-2 max-w-xs text-sm font-semibold leading-6 text-stone-600">
+          Browse the Program and tap {isAgenda ? "★" : "♥"} to add activities here
+        </p>
+        <Link href="/program" className="mt-6 inline-flex items-center justify-center rounded-[1.25rem] bg-[#2f62b6] px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-900/15">
+          Browse Program
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <section className="space-y-4">
@@ -63,7 +85,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
             </select>
           </div>
-          <p className="mt-3 px-1 text-sm font-semibold text-stone-500">{filtered.length} activities</p>
+          <p className="mt-3 px-1 text-sm font-semibold text-stone-500">{mode === "all" ? `${filtered.length} activities` : `${filtered.length} ${filtered.length === 1 ? "activity" : "activities"} saved`}</p>
         </div>
       </div>
 

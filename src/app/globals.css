@@ -88,6 +88,16 @@ select {
   backdrop-filter: blur(20px);
 }
 
+.empty-saved-card {
+  border: 1px solid rgba(47, 98, 182, 0.12);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 214, 107, 0.22), transparent 10rem),
+    radial-gradient(circle at 100% 100%, rgba(57, 169, 239, 0.16), transparent 10rem),
+    rgba(255, 255, 255, 0.9);
+  box-shadow: 0 24px 70px rgba(47, 98, 182, 0.1);
+  backdrop-filter: blur(20px);
+}
+
 .filter-select {
   min-width: 0;
   border: 1px solid rgba(71, 85, 105, 0.18);
