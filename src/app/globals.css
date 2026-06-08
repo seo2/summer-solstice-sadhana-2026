@@ -84,3 +84,9 @@ select {
   background: linear-gradient(90deg, #f39200 0%, #ffad1f 100%);
   box-shadow: 0 16px 36px rgba(243, 146, 0, 0.28);
 }
+
+.solstice-hero-cover {
+  background-image: url('/images/solstice-cover-top.jpg');
+  background-position: center;
+  background-size: cover;
+}

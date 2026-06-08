@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <div className="space-y-5">
       <section className="relative overflow-hidden rounded-[2rem] bg-[#2f62b6] p-6 text-white shadow-2xl">
-        <div className="absolute inset-0 bg-[url('/images/solstice-cover-top.jpg')] bg-cover bg-center opacity-35" />
+        <div className="solstice-hero-cover absolute inset-0 opacity-35" />
         <div className="absolute inset-0 bg-gradient-to-b from-sky-400/75 via-white/50 to-[#2f62b6]/90" />
         <div className="absolute -right-16 top-12 h-48 w-48 rounded-full bg-white/25 blur-3xl" />
         <div className="relative min-h-[18rem] pt-10">
