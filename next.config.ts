@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
+const OFFLINE_CACHE = "solstice-full-offline-v2";
+
 const withPWA = withPWAInit({
   dest: "public",
   register: true,
@@ -12,11 +14,18 @@ const withPWA = withPWAInit({
     clientsClaim: true,
     runtimeCaching: [
       {
-        urlPattern: ({ request }) => request.destination === "document" || request.destination === "script" || request.destination === "style" || request.destination === "image" || request.url.includes("/data/"),
+        urlPattern: ({ request, url }) =>
+          request.mode === "navigate" ||
+          request.destination === "document" ||
+          request.destination === "script" ||
+          request.destination === "style" ||
+          request.destination === "image" ||
+          url.pathname.endsWith(".txt") ||
+          url.pathname === "/manifest.webmanifest",
         handler: "StaleWhileRevalidate",
         options: {
-          cacheName: "solstice-app-shell",
-          expiration: { maxEntries: 128, maxAgeSeconds: 60 * 60 * 24 * 30 },
+          cacheName: OFFLINE_CACHE,
+          expiration: { maxEntries: 500, maxAgeSeconds: 60 * 60 * 24 * 30 },
         },
       },
     ],
