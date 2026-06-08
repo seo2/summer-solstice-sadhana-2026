@@ -5,8 +5,8 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, DownloadCloud } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v5";
-const STORAGE_KEY = "solstice-full-offline-v5-complete";
+const CACHE_NAME = "solstice-full-offline-v6";
+const STORAGE_KEY = "solstice-full-offline-v6-complete";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
