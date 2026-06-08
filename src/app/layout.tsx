@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
 import { CalendarDays, Heart, Home, Info, Map, Star } from "lucide-react";
+import { OfflinePreloader } from "@/components/offline-preloader";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             </div>
           </header>
           <main className="safe-bottom flex-1 px-4 py-5">{children}</main>
+          <OfflinePreloader />
           <nav className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-3xl border-t border-sky-900/10 bg-white/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
             <div className="grid grid-cols-5 gap-1">
               {navItems.map((item) => {

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, CalendarDays, HeartPulse, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, HeartPulse, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
 import type { InfoPage } from "@/lib/types";
 
@@ -10,6 +10,15 @@ type InfoGroup = {
   icon: typeof Info;
   accent: string;
   pages: string[];
+};
+
+type InfoSection = {
+  title?: string;
+  paragraphs: string[];
+  bullets: string[];
+  numbered: string[];
+  definitions: { label: string; value: string }[];
+  quotes: string[];
 };
 
 const pageTitles: Record<string, string> = {
@@ -33,6 +42,46 @@ const pageTitles: Record<string, string> = {
   "page-51": "Daily Meals & Class Rhythm",
   "page-52": "Evening Programs & Lights Out",
 };
+
+const sectionHeadings = new Set([
+  "Getting around",
+  "Taking Care of Yourself",
+  "Watch out for Dehydration",
+  "Name Badges and Wristbands",
+  "Climate",
+  "Tenting Areas",
+  "Showers and Toilets",
+  "Hand Washing",
+  "Meals",
+  "Please Refrain from Using Scented Products",
+  "Take a Break from Your Cell Phones & Gadgets",
+  "Medical Conditions",
+  "First Aid",
+  "Photography and Videography at Solstice",
+  "Personal photography and video are allowed at Solstice, with the following rules:",
+  "Bazaar",
+  "Bazaar Hours (may be changed at 3HO’s discretion):",
+  "Lost and Found",
+  "Leaving Camp",
+  "Security at Solstice",
+  "In Case of Emergency",
+  "Youth Camp",
+  "Wake-Up Call",
+  "Hydrotherapy",
+  "Sadhana",
+  "Gurdwara",
+  "Breakfast",
+  "Karma Yoga and Service Exchange Team Gatherings",
+  "Morning Classes",
+  "Lunch",
+  "Afternoon Classes",
+  "Dinner",
+  "Evening Programs",
+  "Lights Out & Camp Quiet",
+  "Code of Conduct",
+]);
+
+const definitionLabels = new Set(["Posture", "Mantra", "Meaning of the Mantra", "Breath", "Mudra", "Eye Focus", "Time", "End", "Comments", "Directions"]);
 
 const infoGroups: InfoGroup[] = [
   {
@@ -95,13 +144,165 @@ const infoGroups: InfoGroup[] = [
 
 const pagesById = new Map((infoPages as InfoPage[]).map((page) => [page.id, page]));
 
-function paragraphsFor(page: InfoPage) {
+function cleanText(value: string) {
+  return value
+    .replace(/\u00ad/g, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s+([,.;:!?])/g, "$1")
+    .replace(/\byour self\b/g, "yourself")
+    .replace(/\bPlea se\b/g, "Please")
+    .replace(/\bimportan ce\b/g, "importance")
+    .replace(/\bdehy dration\b/g, "dehydration")
+    .replace(/\bdehy ration\b/g, "dehydration")
+    .replace(/\bphy sical\b/g, "physical")
+    .replace(/\bex traordinary\b/g, "extraordinary")
+    .replace(/\btemperatu res\b/g, "temperatures")
+    .replace(/\bBe cause\b/g, "Because")
+    .replace(/\bwa ter\b/g, "water")
+    .replace(/\bme dications\b/g, "medications")
+    .replace(/\bdu ring\b/g, "during")
+    .replace(/\bemergen cy\b/g, "emergency")
+    .replace(/\bpermi tted\b/g, "permitted")
+    .replace(/\bsensi tive\b/g, "sensitive")
+    .replace(/\bSolsti ce\b/g, "Solstice")
+    .trim();
+}
+
+function normalizeLines(page: InfoPage) {
   return page.content
     .replace(/\u00ad/g, "")
-    .split(/\n\s*\n/g)
-    .map((paragraph) => paragraph.replace(/\n/g, " ").replace(/\s{2,}/g, " ").trim())
+    .split(/\n+/g)
+    .map(cleanText)
     .filter(Boolean)
-    .filter((paragraph) => paragraph !== page.title && paragraph !== pageTitles[page.id]);
+    .filter((line) => line !== page.title && line !== pageTitles[page.id] && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
+}
+
+function createSection(title?: string): InfoSection {
+  return { title, paragraphs: [], bullets: [], numbered: [], definitions: [], quotes: [] };
+}
+
+function pushParagraph(section: InfoSection, buffer: string[]) {
+  if (!buffer.length) return;
+  section.paragraphs.push(cleanText(buffer.join(" ")));
+  buffer.length = 0;
+}
+
+function isSectionHeading(line: string) {
+  return sectionHeadings.has(line);
+}
+
+function sectionsFor(page: InfoPage) {
+  const lines = normalizeLines(page);
+  const sections: InfoSection[] = [];
+  let current = createSection();
+  const paragraphBuffer: string[] = [];
+
+  const commitSection = () => {
+    pushParagraph(current, paragraphBuffer);
+    if (current.title || current.paragraphs.length || current.bullets.length || current.numbered.length || current.definitions.length || current.quotes.length) {
+      sections.push(current);
+    }
+  };
+
+  for (const line of lines) {
+    if (isSectionHeading(line)) {
+      commitSection();
+      current = createSection(line.replace(/:$/, ""));
+      continue;
+    }
+
+    if (/^[∙•—-]\s*/.test(line)) {
+      pushParagraph(current, paragraphBuffer);
+      current.bullets.push(cleanText(line.replace(/^[∙•—-]\s*/, "")));
+      continue;
+    }
+
+    if (/^\d+\.\s*/.test(line)) {
+      pushParagraph(current, paragraphBuffer);
+      current.numbered.push(cleanText(line.replace(/^\d+\.\s*/, "")));
+      continue;
+    }
+
+    const definitionMatch = line.match(/^([^:]{3,36}):\s+(.+)$/);
+    if (definitionMatch && definitionLabels.has(definitionMatch[1])) {
+      pushParagraph(current, paragraphBuffer);
+      current.definitions.push({ label: definitionMatch[1], value: cleanText(definitionMatch[2]) });
+      continue;
+    }
+
+    if (/^[“\"]/.test(line) || /Yogi Bhajan/.test(line)) {
+      pushParagraph(current, paragraphBuffer);
+      current.quotes.push(line);
+      continue;
+    }
+
+    paragraphBuffer.push(line);
+  }
+
+  commitSection();
+  return sections;
+}
+
+function SectionCard({ section, index }: { section: InfoSection; index: number }) {
+  const hasStructuredLists = section.bullets.length || section.numbered.length || section.definitions.length;
+
+  return (
+    <article className="overflow-hidden rounded-3xl border border-sky-900/10 bg-white shadow-sm">
+      {section.title ? (
+        <div className="bg-gradient-to-r from-sky-50 to-orange-50 px-4 py-3">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f39200]">Section {index + 1}</p>
+          <h3 className="mt-1 text-lg font-black leading-tight text-[#2f62b6]">{section.title}</h3>
+        </div>
+      ) : null}
+
+      <div className="space-y-4 p-4">
+        {section.quotes.map((quote) => (
+          <blockquote key={quote.slice(0, 90)} className="rounded-2xl border-l-4 border-[#f39200] bg-orange-50 px-4 py-3 text-base font-semibold leading-7 text-slate-800">
+            {quote}
+          </blockquote>
+        ))}
+
+        {section.paragraphs.map((paragraph, paragraphIndex) => (
+          <p key={paragraph.slice(0, 90)} className={`${paragraphIndex === 0 && !section.title && !hasStructuredLists ? "rounded-2xl bg-sky-50 p-4 font-semibold text-[#2f62b6]" : "text-slate-700"} text-sm leading-7`}>
+            {paragraph}
+          </p>
+        ))}
+
+        {section.definitions.length ? (
+          <dl className="grid gap-3">
+            {section.definitions.map((definition) => (
+              <div key={definition.label} className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-900/5">
+                <dt className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{definition.label}</dt>
+                <dd className="mt-1 text-sm leading-6 text-slate-700">{definition.value}</dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
+
+        {section.numbered.length ? (
+          <ol className="space-y-3">
+            {section.numbered.map((item, itemIndex) => (
+              <li key={item.slice(0, 90)} className="flex gap-3 rounded-2xl bg-indigo-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-indigo-900/5">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-xs font-black text-white">{itemIndex + 1}</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ol>
+        ) : null}
+
+        {section.bullets.length ? (
+          <ul className="space-y-2">
+            {section.bullets.map((item) => (
+              <li key={item.slice(0, 90)} className="flex gap-3 rounded-2xl bg-emerald-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-emerald-900/5">
+                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null}
+      </div>
+    </article>
+  );
 }
 
 function sourceLabel(page: InfoPage) {
@@ -119,7 +320,7 @@ export default function InfoPage() {
           <p className="text-sm font-bold uppercase tracking-[0.22em] text-orange-100">Offline info</p>
           <h1 className="mt-2 text-4xl font-black leading-none">Info Hub</h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-sky-50/90">
-            Información esencial del programa agrupada por tipo para encontrar rápido lo que necesitas durante el festival, incluso offline.
+            Essential program information grouped by topic so you can quickly find what you need during the festival, even offline.
           </p>
         </div>
       </section>
@@ -157,6 +358,7 @@ export default function InfoPage() {
               <div className="space-y-3">
                 {groupPages.map((page, index) => {
                   const isFeatured = page.id === "code-of-conduct" || page.id === "page-17";
+                  const sections = sectionsFor(page);
                   return (
                     <details key={page.id} open={index === 0 && group.id === "rules"} className={`card group rounded-3xl p-4 ${isFeatured ? "ring-2 ring-[#f39200]/20" : ""}`}>
                       <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
@@ -164,15 +366,21 @@ export default function InfoPage() {
                           <span className="block text-lg font-black leading-snug text-slate-950">{pageTitles[page.id] ?? page.title}</span>
                           <span className="mt-1 block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{sourceLabel(page)}</span>
                         </span>
-                        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500 group-open:bg-[#2f62b6] group-open:text-white">Open</span>
+                        <span className="flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500 group-open:bg-[#2f62b6] group-open:text-white">
+                          Open <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
+                        </span>
                       </summary>
 
-                      <div className="mt-4 space-y-4 border-t border-sky-900/10 pt-4">
-                        {paragraphsFor(page).map((paragraph) => (
-                          <p key={paragraph.slice(0, 80)} className="text-sm leading-7 text-slate-700">
-                            {paragraph}
-                          </p>
-                        ))}
+                      <div className="mt-4 border-t border-sky-900/10 pt-4">
+                        <div className="mb-4 flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500 ring-1 ring-slate-900/5">
+                          <span>Offline reading card</span>
+                          <span>{sections.length} {sections.length === 1 ? "section" : "sections"}</span>
+                        </div>
+                        <div className="space-y-3">
+                          {sections.map((section, sectionIndex) => (
+                            <SectionCard key={`${page.id}-${section.title ?? sectionIndex}`} section={section} index={sectionIndex} />
+                          ))}
+                        </div>
                       </div>
                     </details>
                   );
@@ -184,7 +392,7 @@ export default function InfoPage() {
       </section>
 
       <p className="rounded-3xl bg-sky-50 p-4 text-sm leading-6 text-slate-700 ring-1 ring-sky-900/10">
-        Tip: abre las secciones importantes una vez con conexión. La PWA guarda esta información para consultarla sin señal después de instalarla en la pantalla de inicio.
+        Tip: open the important sections once while you have internet. The PWA keeps this information available offline after you install it on your Home Screen.
       </p>
     </div>
   );

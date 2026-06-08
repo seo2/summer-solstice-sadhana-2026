@@ -1,0 +1,24 @@
+# Local build artifacts
+.next
+out
+build
+*.tsbuildinfo
+next-env.d.ts
+
+# Dependencies / local tooling
+node_modules
+.venv
+.venv-pdf
+
+# Local reference/source files not needed in deployment
+references/design/*.pdf
+references/design/rendered
+extracted_pages
+
+# Generated PWA artifacts are rebuilt by Vercel
+public/sw.js
+public/workbox-*.js
+public/swe-worker-*.js
+
+# Misc
+.DS_Store
