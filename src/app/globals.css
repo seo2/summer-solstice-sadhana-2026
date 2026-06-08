@@ -148,6 +148,16 @@ select {
   backdrop-filter: blur(18px);
 }
 
+.activity-detail-card {
+  border: 1px solid rgba(47, 98, 182, 0.12);
+  background:
+    radial-gradient(circle at 100% 0%, rgba(255, 214, 107, 0.2), transparent 10rem),
+    radial-gradient(circle at 0% 100%, rgba(57, 169, 239, 0.12), transparent 11rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.86));
+  box-shadow: 0 24px 70px rgba(47, 98, 182, 0.1);
+  backdrop-filter: blur(20px);
+}
+
 .activity-action-button {
   display: inline-flex;
   height: 2.5rem;

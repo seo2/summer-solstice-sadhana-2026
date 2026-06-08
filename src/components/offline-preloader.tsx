@@ -2,11 +2,12 @@
 
 import program from "@/data/program.json";
 import type { Activity } from "@/lib/types";
-import { CheckCircle, DownloadCloud } from "lucide-react";
+import { CheckCircle, DownloadCloud, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v8";
-const STORAGE_KEY = "solstice-full-offline-v8-complete";
+const CACHE_NAME = "solstice-full-offline-v9";
+const STORAGE_KEY = "solstice-full-offline-v9-complete";
+const DISMISSED_KEY = "solstice-full-offline-v9-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
@@ -103,6 +104,7 @@ async function warmOfflineCache(urls: string[], onProgress: (completed: number, 
 
 export function OfflinePreloader() {
   const [status, setStatus] = useState<"idle" | "warming" | "complete" | "unsupported">("idle");
+  const [dismissed, setDismissed] = useState(false);
   const [progress, setProgress] = useState({ completed: 0, total: 0 });
 
   const urls = useMemo(() => {
@@ -118,6 +120,7 @@ export function OfflinePreloader() {
 
     const alreadyComplete = localStorage.getItem(STORAGE_KEY) === "true";
     if (alreadyComplete) {
+      setDismissed(localStorage.getItem(DISMISSED_KEY) === "true");
       setStatus("complete");
       return;
     }
@@ -142,10 +145,23 @@ export function OfflinePreloader() {
   if (status === "unsupported" || status === "idle") return null;
 
   if (status === "complete") {
+    if (dismissed) return null;
+
     return (
       <div className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] z-40 mx-auto flex max-w-3xl items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-2xl">
         <CheckCircle className="h-5 w-5 shrink-0" />
-        <span>Offline content ready on this device.</span>
+        <span className="min-w-0 flex-1">Offline content ready on this device.</span>
+        <button
+          type="button"
+          aria-label="Dismiss offline ready message"
+          onClick={() => {
+            localStorage.setItem(DISMISSED_KEY, "true");
+            setDismissed(true);
+          }}
+          className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition hover:bg-white/25"
+        >
+          <X className="h-4 w-4" />
+        </button>
       </div>
     );
   }
