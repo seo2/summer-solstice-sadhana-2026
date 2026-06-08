@@ -13,7 +13,7 @@ export default function InfoPage() {
         {(infoPages as InfoPage[]).map((page) => (
           <details key={page.id} className="card rounded-3xl p-4">
             <summary className="cursor-pointer text-lg font-bold text-slate-950">{page.title}</summary>
-            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">PDF page {page.sourcePageLabel ?? page.sourcePage}</p>
+            <p className="mt-1 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">PDF page {page.sourcePage}</p>
             <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">{page.content}</p>
           </details>
         ))}
