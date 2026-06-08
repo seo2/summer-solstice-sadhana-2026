@@ -101,6 +101,44 @@ select {
   box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.day-filter-button {
+  flex: 0 0 auto;
+  min-width: max-content;
+  border: 1px solid rgba(47, 98, 182, 0.12);
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.94);
+  padding: 0.72rem 1rem;
+  color: #2f62b6;
+  font-size: 0.875rem;
+  font-weight: 900;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.04);
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.day-filter-button:active {
+  transform: scale(0.98);
+}
+
+.day-filter-button-active {
+  border-color: rgba(47, 98, 182, 0.92);
+  background: linear-gradient(135deg, #2f62b6, #39a9ef);
+  color: #ffffff;
+  box-shadow: 0 12px 26px rgba(47, 98, 182, 0.24);
+}
+
 .activity-list-card {
   border: 1px solid rgba(47, 98, 182, 0.1);
   background:

@@ -5,7 +5,7 @@ import { Search } from "lucide-react";
 import { ActivityCard } from "@/components/activity-card";
 import { useSavedActivities } from "@/lib/db";
 import type { Activity, Category, Venue } from "@/lib/types";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 
 type Mode = "all" | "favorites" | "agenda";
 
@@ -45,11 +45,15 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               className="w-full bg-transparent text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
             />
           </label>
-          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-3">
-            <select value={date} onChange={(event) => setDate(event.target.value)} className="filter-select">
-              <option value="all">Day</option>
-              {dates.map((item) => <option key={item} value={item}>{formatDate(item)}</option>)}
-            </select>
+          <div className="no-scrollbar -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" aria-label="Filter by day">
+            <button type="button" onClick={() => setDate("all")} className={cn("day-filter-button", date === "all" && "day-filter-button-active")}>All days</button>
+            {dates.map((item) => (
+              <button key={item} type="button" onClick={() => setDate(item)} className={cn("day-filter-button", date === item && "day-filter-button-active")}>
+                {formatDate(item)}
+              </button>
+            ))}
+          </div>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             <select value={venue} onChange={(event) => setVenue(event.target.value)} className="filter-select">
               <option value="all">Venue</option>
               {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
