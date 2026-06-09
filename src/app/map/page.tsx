@@ -1,9 +1,18 @@
+"use client";
+
 import Image from "next/image";
+import { Minus, Plus } from "lucide-react";
+import { useMemo, useState } from "react";
 import venues from "@/data/venues.json";
 import program from "@/data/program.json";
 import type { Activity, Venue } from "@/lib/types";
 
 const activities = program as Activity[];
+const MAP_WIDTH = 1266;
+const MAP_HEIGHT = 1204;
+const MIN_ZOOM = 0.75;
+const MAX_ZOOM = 1.75;
+const ZOOM_STEP = 0.25;
 
 const mapLegend = [
   { number: 1, label: "SSS Cabin", color: "#e8a323" },
@@ -22,6 +31,12 @@ const mapLegend = [
 ];
 
 export default function MapPage() {
+  const [zoom, setZoom] = useState(1);
+  const mapSize = useMemo(() => ({ width: Math.round(MAP_WIDTH * zoom), height: Math.round(MAP_HEIGHT * zoom) }), [zoom]);
+
+  const zoomOut = () => setZoom((value) => Math.max(MIN_ZOOM, value - ZOOM_STEP));
+  const zoomIn = () => setZoom((value) => Math.min(MAX_ZOOM, value + ZOOM_STEP));
+
   return (
     <div className="space-y-4">
       <div>
@@ -30,14 +45,38 @@ export default function MapPage() {
         <p className="mt-2 text-sm leading-6 text-stone-700">Use this camp map to find key venues and gathering spaces during Summer Solstice.</p>
       </div>
       <div className="card rounded-[2rem] p-2">
-        <p className="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-[0.16em] text-stone-500">Scroll to explore the full map</p>
-        <div className="max-h-[70vh] overflow-auto rounded-[1.6rem] bg-white overscroll-contain">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-2 pt-1">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-stone-500">Scroll to explore the full map</p>
+          <div className="flex items-center gap-2 rounded-full bg-white p-1 shadow-sm ring-1 ring-sky-900/10">
+            <button
+              type="button"
+              onClick={zoomOut}
+              disabled={zoom <= MIN_ZOOM}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] disabled:opacity-40"
+              aria-label="Zoom out map"
+            >
+              <Minus className="h-4 w-4" />
+            </button>
+            <span className="min-w-12 text-center text-xs font-black text-stone-600">{Math.round(zoom * 100)}%</span>
+            <button
+              type="button"
+              onClick={zoomIn}
+              disabled={zoom >= MAX_ZOOM}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2f62b6] text-white disabled:opacity-40"
+              aria-label="Zoom in map"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+          </div>
+        </div>
+        <div className="app-map-scroll max-h-[70vh] overflow-auto rounded-[1.6rem] bg-white overscroll-contain">
           <Image
             src="/images/camp-map.png"
             alt="Camp map for Summer Solstice 2026"
-            width={1266}
-            height={1204}
-            className="h-auto w-[1266px] max-w-none rounded-[1.6rem] sm:w-full sm:max-w-full"
+            width={MAP_WIDTH}
+            height={MAP_HEIGHT}
+            className="max-w-none rounded-[1.6rem]"
+            style={mapSize}
             priority
           />
         </div>

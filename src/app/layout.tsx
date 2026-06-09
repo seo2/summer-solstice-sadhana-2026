@@ -21,6 +21,9 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#39a9ef",
   viewportFit: "cover",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 const navItems = [
