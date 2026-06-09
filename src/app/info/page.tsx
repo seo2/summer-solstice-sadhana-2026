@@ -86,7 +86,7 @@ const definitionLabels = new Set(["Posture", "Mantra", "Meaning of the Mantra", 
 const infoGroups: InfoGroup[] = [
   {
     id: "start-here",
-    title: "Start here",
+    title: "Start Here",
     description: "Orientation, getting around, climate, hydration and basic camp setup.",
     icon: MapPin,
     accent: "bg-sky-50 text-[#2f62b6] ring-sky-900/10",
@@ -94,7 +94,7 @@ const infoGroups: InfoGroup[] = [
   },
   {
     id: "health-safety",
-    title: "Health & safety",
+    title: "Health & Safety",
     description: "First Aid, emergency response, medical needs, phones and media boundaries.",
     icon: HeartPulse,
     accent: "bg-rose-50 text-rose-700 ring-rose-900/10",
@@ -102,7 +102,7 @@ const infoGroups: InfoGroup[] = [
   },
   {
     id: "camp-life",
-    title: "Camp life logistics",
+    title: "Camp Life",
     description: "Meals, showers, toilets, bazaar, lost & found, shuttles and security.",
     icon: Leaf,
     accent: "bg-emerald-50 text-emerald-700 ring-emerald-900/10",
@@ -110,7 +110,7 @@ const infoGroups: InfoGroup[] = [
   },
   {
     id: "rules",
-    title: "Community agreements",
+    title: "Community Agreements",
     description: "The full Code of Conduct from PDF pages 18–20, cleaned for offline reading.",
     icon: ShieldCheck,
     accent: "bg-amber-50 text-[#9a5a00] ring-amber-900/10",
@@ -118,7 +118,7 @@ const infoGroups: InfoGroup[] = [
   },
   {
     id: "daily-rhythm",
-    title: "Daily rhythm",
+    title: "Daily Rhythm",
     description: "Wake-up call, hydrotherapy, Sadhana, meals, classes and evening programs.",
     icon: CalendarDays,
     accent: "bg-orange-50 text-[#f39200] ring-orange-900/10",
@@ -126,7 +126,7 @@ const infoGroups: InfoGroup[] = [
   },
   {
     id: "practice",
-    title: "Practice & inspiration",
+    title: "Practice & Inspiration",
     description: "Solstice meditation instructions and inspirational opening pages.",
     icon: BookOpen,
     accent: "bg-indigo-50 text-indigo-700 ring-indigo-900/10",
@@ -247,7 +247,7 @@ function SectionCard({ section, index }: { section: InfoSection; index: number }
   const hasStructuredLists = section.bullets.length || section.numbered.length || section.definitions.length;
 
   return (
-    <article className="overflow-hidden rounded-3xl border border-sky-900/10 bg-white shadow-sm">
+    <article className="overflow-hidden rounded-[1.75rem] border border-sky-900/10 bg-white shadow-sm">
       {section.title ? (
         <div className="bg-gradient-to-r from-sky-50 to-orange-50 px-4 py-3">
           <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f39200]">Section {index + 1}</p>
@@ -325,11 +325,11 @@ export default function InfoPage() {
         </div>
       </section>
 
-      <section aria-label="Info categories" className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <section aria-label="Info categories" className="grid grid-cols-2 gap-3">
         {infoGroups.map((group) => {
           const Icon = group.icon;
           return (
-            <Link key={group.id} href={`#${group.id}`} className={`rounded-3xl p-4 ring-1 ${group.accent}`}>
+            <Link key={group.id} href={`#${group.id}`} className={`rounded-3xl p-4 shadow-sm ring-1 ${group.accent}`}>
               <Icon className="h-6 w-6" />
               <p className="mt-3 text-sm font-black leading-tight">{group.title}</p>
               <p className="mt-1 text-xs font-semibold opacity-75">{group.pages.length} {group.pages.length === 1 ? "item" : "items"}</p>
@@ -360,14 +360,14 @@ export default function InfoPage() {
                   const isFeatured = page.id === "code-of-conduct" || page.id === "page-17";
                   const sections = sectionsFor(page);
                   return (
-                    <details key={page.id} open={index === 0 && group.id === "rules"} className={`card group rounded-3xl p-4 ${isFeatured ? "ring-2 ring-[#f39200]/20" : ""}`}>
+                    <details key={page.id} open={index === 0 && group.id === "rules"} className={`card group rounded-[1.75rem] p-4 ${isFeatured ? "ring-2 ring-[#f39200]/20" : ""}`}>
                       <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                         <span>
                           <span className="block text-lg font-black leading-snug text-slate-950">{pageTitles[page.id] ?? page.title}</span>
                           <span className="mt-1 block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{sourceLabel(page)}</span>
                         </span>
                         <span className="flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500 group-open:bg-[#2f62b6] group-open:text-white">
-                          Open <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
+                          Open <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
                         </span>
                       </summary>
 
@@ -391,8 +391,8 @@ export default function InfoPage() {
         })}
       </section>
 
-      <p className="rounded-3xl bg-sky-50 p-4 text-sm leading-6 text-slate-700 ring-1 ring-sky-900/10">
-        Tip: open the important sections once while you have internet. The PWA keeps this information available offline after you install it on your Home Screen.
+      <p className="rounded-3xl bg-sky-50 p-4 text-sm font-semibold leading-6 text-slate-700 ring-1 ring-sky-900/10">
+        Open sections while online — PWA caches them for offline reading.
       </p>
     </div>
   );
