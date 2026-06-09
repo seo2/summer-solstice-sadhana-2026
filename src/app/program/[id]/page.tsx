@@ -38,7 +38,6 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
         </div>
         {activity.facilitator && <p className="mt-7 text-base font-bold text-stone-800">Facilitator: {activity.facilitator}{activity.country ? ` · ${activity.country}` : ""}</p>}
         {activity.description && <p className="mt-7 whitespace-pre-wrap text-base leading-8 text-stone-700">{activity.description}</p>}
-        {activity.sourcePage && <p className="mt-8 text-xs font-bold uppercase tracking-[0.18em] text-stone-500">Source PDF page {activity.sourcePage}</p>}
       </div>
       <div className="rounded-[1.75rem] bg-sky-50/92 p-4 text-sm font-semibold leading-6 text-slate-700 ring-1 ring-[#2f62b6]/20">
         Use the heart and star buttons from the Program list to save this activity locally.

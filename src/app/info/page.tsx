@@ -25,12 +25,11 @@ const pageTitles: Record<string, string> = {
   "page-5": "Meditation to unlock the joy!",
   "page-8": "Keep Up Quote",
   "page-9": "Stuff You Need to Know",
-  "page-11": "Climate & Tenting Areas",
   "page-12": "Showers, Toilets, Meals & Scents",
   "page-13": "Phones, Gadgets & Medical Conditions",
   "page-14": "First Aid, Photography & Video",
   "page-15": "Bazaar, Lost & Found, Leaving Camp",
-  "page-16": "Shuttles & Security",
+  "page-16": "Security at Solstice",
   "page-17": "Emergency Response",
   "code-of-conduct": "Code of Conduct",
   "page-21": "Youth Camp",
@@ -46,8 +45,8 @@ const sectionHeadings = new Set([
   "Watch out for Dehydration",
   "Name Badges and Wristbands",
   "Climate",
-  "Tenting Areas",
   "Showers and Toilets",
+  "Tenting Areas",
   "Hand Washing",
   "Meals",
   "Please Refrain from Using Scented Products",
@@ -87,7 +86,7 @@ const infoGroups: InfoGroup[] = [
     description: "Orientation, getting around, climate, hydration and basic camp setup.",
     icon: MapPin,
     accent: "bg-sky-50 text-[#2f62b6] ring-sky-900/10",
-    pages: ["page-9", "page-11"],
+    pages: ["page-9"],
   },
   {
     id: "health-safety",
@@ -100,7 +99,7 @@ const infoGroups: InfoGroup[] = [
   {
     id: "camp-life",
     title: "Camp Life",
-    description: "Meals, showers, toilets, bazaar, lost & found, shuttles and security.",
+    description: "Meals, showers, toilets, bazaar, lost & found, leaving camp and security.",
     icon: Leaf,
     accent: "bg-emerald-50 text-emerald-700 ring-emerald-900/10",
     pages: ["page-12", "page-15", "page-16"],
@@ -108,7 +107,7 @@ const infoGroups: InfoGroup[] = [
   {
     id: "rules",
     title: "Community Agreements",
-    description: "The full Code of Conduct from PDF pages 18–20, cleaned for offline reading.",
+    description: "The full Code of Conduct, cleaned for offline reading.",
     icon: ShieldCheck,
     accent: "bg-amber-50 text-[#9a5a00] ring-amber-900/10",
     pages: ["code-of-conduct"],
@@ -171,7 +170,7 @@ function normalizeLines(page: InfoPage) {
     .split(/\n+/g)
     .map(cleanText)
     .filter(Boolean)
-    .filter((line) => line !== page.title && line !== pageTitles[page.id] && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
+    .filter((line) => (page.id === "page-16" || (line !== page.title && line !== pageTitles[page.id])) && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
 }
 
 function createSection(title?: string): InfoSection {
@@ -240,15 +239,14 @@ function sectionsFor(page: InfoPage) {
   return sections;
 }
 
-function SectionCard({ section, index }: { section: InfoSection; index: number }) {
+function SectionCard({ section }: { section: InfoSection }) {
   const hasStructuredLists = section.bullets.length || section.numbered.length || section.definitions.length;
 
   return (
     <article className="overflow-hidden rounded-[1.75rem] border border-sky-900/10 bg-white shadow-sm">
       {section.title ? (
         <div className="bg-gradient-to-r from-sky-50 to-orange-50 px-4 py-3">
-          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f39200]">Section {index + 1}</p>
-          <h3 className="mt-1 text-lg font-black leading-tight text-[#2f62b6]">{section.title}</h3>
+          <h3 className="text-lg font-black leading-tight text-[#2f62b6]">{section.title}</h3>
         </div>
       ) : null}
 
@@ -300,12 +298,6 @@ function SectionCard({ section, index }: { section: InfoSection; index: number }
       </div>
     </article>
   );
-}
-
-function sourceLabel(page: InfoPage) {
-  if (page.id === "code-of-conduct") return "PDF pages 18–20";
-  if (page.id === "page-5") return "PDF pages 5–7";
-  return page.sourcePage ? `PDF page ${page.sourcePage}` : "PDF excerpt";
 }
 
 export default function InfoPage() {
@@ -362,7 +354,6 @@ export default function InfoPage() {
                       <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                         <span>
                           <span className="block text-lg font-black leading-snug text-slate-950">{pageTitles[page.id] ?? page.title}</span>
-                          <span className="mt-1 block text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">{sourceLabel(page)}</span>
                         </span>
                         <span className="flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-500 group-open:bg-[#2f62b6] group-open:text-white">
                           Open <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" aria-hidden="true" />
@@ -370,13 +361,9 @@ export default function InfoPage() {
                       </summary>
 
                       <div className="mt-4 border-t border-sky-900/10 pt-4">
-                        <div className="mb-4 flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2 text-xs font-bold text-slate-500 ring-1 ring-slate-900/5">
-                          <span>Offline reading card</span>
-                          <span>{sections.length} {sections.length === 1 ? "section" : "sections"}</span>
-                        </div>
                         <div className="space-y-3">
                           {sections.map((section, sectionIndex) => (
-                            <SectionCard key={`${page.id}-${section.title ?? sectionIndex}`} section={section} index={sectionIndex} />
+                            <SectionCard key={`${page.id}-${section.title ?? sectionIndex}`} section={section} />
                           ))}
                         </div>
                       </div>
