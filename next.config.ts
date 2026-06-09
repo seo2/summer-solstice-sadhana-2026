@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v11";
+const OFFLINE_CACHE = "solstice-full-offline-v12";
 
 const withPWA = withPWAInit({
   dest: "public",

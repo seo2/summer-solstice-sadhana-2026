@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Solstice 2026",
+    title: "Summer Solstice 2026",
   },
 };
 
@@ -40,7 +40,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="flex items-center justify-between gap-3">
               <Link href="/" className="leading-tight">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>
-                <p className="text-lg font-bold text-[#2f62b6]">Solstice 2026</p>
+                <p className="text-lg font-bold text-[#2f62b6]">Summer Solstice 2026</p>
               </Link>
               <Link href="/map" className="rounded-full bg-[#2f62b6] px-4 py-2 text-sm font-semibold text-white shadow-sm">
                 <Map className="mr-1 inline h-4 w-4" /> Map

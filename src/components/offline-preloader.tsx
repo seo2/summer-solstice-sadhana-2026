@@ -5,14 +5,14 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, DownloadCloud, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v11";
-const STORAGE_KEY = "solstice-full-offline-v11-complete";
-const DISMISSED_KEY = "solstice-full-offline-v11-dismissed";
+const CACHE_NAME = "solstice-full-offline-v12";
+const STORAGE_KEY = "solstice-full-offline-v12-complete";
+const DISMISSED_KEY = "solstice-full-offline-v12-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
 const staticRoutes = ["/", "/program", "/agenda", "/favorites", "/info", "/map", "/manifest.webmanifest"];
-const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/icons/icon-192.svg", "/icons/icon-512.svg"];
+const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/images/camp-map.png", "/icons/icon-192.svg", "/icons/icon-512.svg"];
 
 async function waitForServiceWorker() {
   if (!("serviceWorker" in navigator)) return;

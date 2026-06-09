@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "org.3ho.summersolstice2026",
-  appName: "Solstice 2026",
+  appName: "Summer Solstice 2026",
   webDir: "out",
   server: {
     androidScheme: "https",
