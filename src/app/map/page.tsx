@@ -39,6 +39,22 @@ export default function MapPage() {
           priority
         />
       </div>
+      <section className="card rounded-[2rem] p-4">
+        <h2 className="text-xl font-black text-stone-950">Map Legend</h2>
+        <div className="mt-4 grid gap-x-4 gap-y-5 sm:grid-cols-2 lg:grid-cols-3">
+          {mapLegend.map((item) => (
+            <div key={item.number} className="flex items-start gap-3">
+              <span
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-stone-950 text-lg font-black text-stone-950 shadow-sm"
+                style={{ backgroundColor: item.color }}
+              >
+                {item.number}
+              </span>
+              <span className="whitespace-pre-line pt-1 text-lg font-medium leading-tight text-stone-700">{item.label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
       <section className="space-y-3">
         {(venues as Venue[]).map((venue) => {
           const count = activities.filter((activity) => activity.location === venue.name).length;
