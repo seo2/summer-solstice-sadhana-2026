@@ -170,7 +170,7 @@ function normalizeLines(page: InfoPage) {
     .split(/\n+/g)
     .map(cleanText)
     .filter(Boolean)
-    .filter((line) => (page.id === "page-16" || (line !== page.title && line !== pageTitles[page.id])) && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
+    .filter((line) => (page.id === "page-16" || page.id === "page-50" || (line !== page.title && line !== pageTitles[page.id])) && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
 }
 
 function createSection(title?: string): InfoSection {
