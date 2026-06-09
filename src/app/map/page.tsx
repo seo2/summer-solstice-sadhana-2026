@@ -29,15 +29,18 @@ export default function MapPage() {
         <h1 className="text-3xl font-black text-stone-950">Venues</h1>
         <p className="mt-2 text-sm leading-6 text-stone-700">Use this camp map to find key venues and gathering spaces during Summer Solstice.</p>
       </div>
-      <div className="card overflow-hidden rounded-[2rem] p-2">
-        <Image
-          src="/images/camp-map.png"
-          alt="Camp map for Summer Solstice 2026"
-          width={1266}
-          height={1204}
-          className="h-auto w-full rounded-[1.6rem]"
-          priority
-        />
+      <div className="card rounded-[2rem] p-2">
+        <p className="px-3 pb-2 pt-1 text-xs font-bold uppercase tracking-[0.16em] text-stone-500">Scroll to explore the full map</p>
+        <div className="max-h-[70vh] overflow-auto rounded-[1.6rem] bg-white overscroll-contain">
+          <Image
+            src="/images/camp-map.png"
+            alt="Camp map for Summer Solstice 2026"
+            width={1266}
+            height={1204}
+            className="h-auto w-[1266px] max-w-none rounded-[1.6rem] sm:w-full sm:max-w-full"
+            priority
+          />
+        </div>
       </div>
       <section className="card rounded-[2rem] p-4">
         <h2 className="text-xl font-black text-stone-950">Map Legend</h2>
