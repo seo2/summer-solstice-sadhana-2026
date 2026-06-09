@@ -22,12 +22,9 @@ type InfoSection = {
 };
 
 const pageTitles: Record<string, string> = {
-  "page-5": "Meditation to Unlock the Joy",
-  "page-6": "Meditation: Arm Sequence",
-  "page-7": "Meditation: Timing & Closing",
+  "page-5": "Meditation to unlock the joy!",
   "page-8": "Keep Up Quote",
-  "page-9": "Getting Around & Self Care",
-  "page-10": "Hydration, Water & Badges",
+  "page-9": "Stuff You Need to Know",
   "page-11": "Climate & Tenting Areas",
   "page-12": "Showers, Toilets, Meals & Scents",
   "page-13": "Phones, Gadgets & Medical Conditions",
@@ -90,7 +87,7 @@ const infoGroups: InfoGroup[] = [
     description: "Orientation, getting around, climate, hydration and basic camp setup.",
     icon: MapPin,
     accent: "bg-sky-50 text-[#2f62b6] ring-sky-900/10",
-    pages: ["page-9", "page-10", "page-11"],
+    pages: ["page-9", "page-11"],
   },
   {
     id: "health-safety",
@@ -130,7 +127,7 @@ const infoGroups: InfoGroup[] = [
     description: "Solstice meditation instructions and inspirational opening pages.",
     icon: BookOpen,
     accent: "bg-indigo-50 text-indigo-700 ring-indigo-900/10",
-    pages: ["page-5", "page-6", "page-7", "page-8"],
+    pages: ["page-5", "page-8"],
   },
   {
     id: "families",
@@ -307,6 +304,7 @@ function SectionCard({ section, index }: { section: InfoSection; index: number }
 
 function sourceLabel(page: InfoPage) {
   if (page.id === "code-of-conduct") return "PDF pages 18–20";
+  if (page.id === "page-5") return "PDF pages 5–7";
   return page.sourcePage ? `PDF page ${page.sourcePage}` : "PDF excerpt";
 }
 
