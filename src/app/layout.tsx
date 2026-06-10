@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "Summer Solstice 2026",
+    title: "SSOL26",
   },
   icons: {
     apple: "/icons/icon-192.png",

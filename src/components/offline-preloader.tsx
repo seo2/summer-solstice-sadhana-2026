@@ -167,6 +167,10 @@ export function OfflinePreloader() {
   // True if this page session triggered a cache warm (i.e. first install or cache cleared)
   const hadSplash = useRef(false);
 
+  useEffect(() => {
+    (screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> })?.lock?.("portrait").catch(() => {});
+  }, []);
+
   const urls = useMemo(() => {
     const detailRoutes = (program as Activity[]).map((activity) => `/program/${activity.id}`);
     return Array.from(new Set([...staticRoutes, ...detailRoutes, ...staticAssets]));
