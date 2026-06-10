@@ -198,11 +198,11 @@ export function MapViewer() {
       {/* Legend modal */}
       {showLegend && (
         <div
-          className="fixed inset-0 z-50 flex items-end justify-center bg-stone-950/40 backdrop-blur-sm"
+          className="fixed inset-0 z-60 flex items-end justify-center bg-stone-950/40 backdrop-blur-sm"
           onClick={() => setShowLegend(false)}
         >
           <div
-            className="card w-full max-w-lg rounded-t-2xl p-5 pb-8"
+            className="card w-full max-w-lg rounded-t-2xl p-5 pb-[calc(env(safe-area-inset-bottom)+2rem)]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">

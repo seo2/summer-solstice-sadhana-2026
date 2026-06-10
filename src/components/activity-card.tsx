@@ -1,17 +1,35 @@
 import { AppLink as Link } from "@/components/app-link";
-import { Heart, MapPin, Star } from "lucide-react";
+import { Heart, MapPin } from "lucide-react";
 import type { Activity } from "@/lib/types";
 import { formatDate, timeRange } from "@/lib/utils";
+
+const ROUTINE_CATEGORIES = new Set(["Meal", "Logistics"]);
+const ROUTINE_TITLE = /^rise up/i;
+
+function isRoutine(activity: Activity) {
+  return (activity.category !== undefined && activity.category !== null && ROUTINE_CATEGORIES.has(activity.category)) ||
+    ROUTINE_TITLE.test(activity.title);
+}
 
 type Props = {
   activity: Activity;
   isFavorite?: boolean;
-  isAgenda?: boolean;
   onToggleFavorite?: (id: string) => void;
-  onToggleAgenda?: (id: string) => void;
 };
 
-export function ActivityCard({ activity, isFavorite, isAgenda, onToggleFavorite, onToggleAgenda }: Props) {
+export function ActivityCard({ activity, isFavorite, onToggleFavorite }: Props) {
+  if (isRoutine(activity)) {
+    return (
+      <div className="flex items-center gap-3 rounded-xl bg-stone-50 px-4 py-3 ring-1 ring-stone-200">
+        <span className="h-2 w-2 shrink-0 rounded-full bg-stone-300" />
+        <div className="min-w-0 flex-1">
+          <p className="text-xs font-semibold text-stone-400">{timeRange(activity.startTime, activity.endTime)}</p>
+          <p className="text-sm font-bold leading-snug text-stone-500">{activity.title}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <article className="activity-list-card relative overflow-hidden rounded-2xl p-4">
       <div className="flex items-start justify-between gap-3">
@@ -19,7 +37,7 @@ export function ActivityCard({ activity, isFavorite, isAgenda, onToggleFavorite,
           <p className="text-sm font-bold leading-tight text-[#f39200]">{formatDate(activity.date)} · {timeRange(activity.startTime, activity.endTime)}</p>
           <h3 className="mt-2 line-clamp-2 text-[18px] font-black leading-snug text-slate-900">{activity.title}</h3>
         </Link>
-        <div className="relative z-10 flex shrink-0 gap-2">
+        <div className="relative z-10 flex shrink-0">
           <button
             type="button"
             aria-label="Toggle favorite"
@@ -27,14 +45,6 @@ export function ActivityCard({ activity, isFavorite, isAgenda, onToggleFavorite,
             className={`activity-action-button ${isFavorite ? "bg-rose-500 text-white ring-rose-400/40" : "bg-white text-slate-600 ring-sky-900/10"}`}
           >
             <Heart className="h-5 w-5" fill={isFavorite ? "currentColor" : "none"} />
-          </button>
-          <button
-            type="button"
-            aria-label="Toggle agenda"
-            onClick={() => onToggleAgenda?.(activity.id)}
-            className={`activity-action-button ${isAgenda ? "bg-[#f39200] text-white ring-orange-300/60" : "bg-white text-slate-600 ring-sky-900/10"}`}
-          >
-            <Star className="h-5 w-5" fill={isAgenda ? "currentColor" : "none"} />
           </button>
         </div>
       </div>

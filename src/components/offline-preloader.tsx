@@ -5,13 +5,13 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v26";
-const STORAGE_KEY = "solstice-full-offline-v26-complete";
-const DISMISSED_KEY = "solstice-full-offline-v26-dismissed";
+const CACHE_NAME = "solstice-full-offline-v27";
+const STORAGE_KEY = "solstice-full-offline-v27-complete";
+const DISMISSED_KEY = "solstice-full-offline-v27-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
-const staticRoutes = ["/", "/program", "/agenda", "/favorites", "/info", "/map", "/manifest.webmanifest"];
+const staticRoutes = ["/", "/program", "/favorites", "/info", "/map", "/manifest.webmanifest"];
 const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/images/camp-map.png", "/images/icon.png", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 async function waitForServiceWorker() {

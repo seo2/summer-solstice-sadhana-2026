@@ -10,7 +10,6 @@ type SavedActivity = {
 
 class SolsticeDatabase extends Dexie {
   favorites!: Table<SavedActivity, string>;
-  agenda!: Table<SavedActivity, string>;
 
   constructor() {
     super("summer-solstice-sadhana-2026");
@@ -35,14 +34,10 @@ async function toggle(table: Table<SavedActivity, string>, activityId: string) {
 
 export function useSavedActivities() {
   const favorites = useLiveQuery(() => db.favorites.toArray(), [], []);
-  const agenda = useLiveQuery(() => db.agenda.toArray(), [], []);
   const favoriteIds = new Set(favorites.map((item) => item.activityId));
-  const agendaIds = new Set(agenda.map((item) => item.activityId));
 
   return {
     favoriteIds,
-    agendaIds,
     toggleFavorite: (activityId: string) => toggle(db.favorites, activityId),
-    toggleAgenda: (activityId: string) => toggle(db.agenda, activityId),
   };
 }

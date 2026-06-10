@@ -1,5 +1,5 @@
 import { AppLink as Link } from "@/components/app-link";
-import { BookOpen, CalendarDays, ChevronDown, HeartPulse, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
 import type { InfoPage } from "@/lib/types";
 
@@ -19,9 +19,19 @@ type InfoSection = {
   numbered: string[];
   definitions: { label: string; value: string }[];
   quotes: string[];
+  footnotes: string[];
 };
 
 const pageTitles: Record<string, string> = {
+  "page-welcome": "Welcome",
+  "page-sikh-dharma": "Sikh Dharma",
+  "page-gurdwara-detailed": "Gurdwara",
+  "page-solstice-diet": "The Solstice Diet",
+  "page-kundalini-yoga": "Kundalini Yoga",
+  "page-karma-yoga": "Karma Yoga",
+  "page-terms": "Terms Heard Around Camp",
+  "page-bringing-home": "Bringing Solstice Home",
+  "page-eco-3ho": "Eco-3HO",
   "page-5": "Meditation to unlock the joy!",
   "page-8": "Keep Up Quote",
   "page-9": "Stuff You Need to Know",
@@ -37,6 +47,11 @@ const pageTitles: Record<string, string> = {
   "page-50": "Sadhana & Gurdwara",
   "page-51": "Daily Meals & Class Rhythm",
   "page-52": "Evening Programs & Lights Out",
+  "page-faq-general": "General",
+  "page-faq-tickets": "Tickets & Registration",
+  "page-faq-accommodations": "Accommodations",
+  "page-faq-payment": "Payment Methods",
+  "page-faq-cancellation": "Cancellation & Refund",
 };
 
 const sectionHeadings = new Set([
@@ -75,6 +90,75 @@ const sectionHeadings = new Set([
   "Evening Programs",
   "Lights Out & Camp Quiet",
   "Code of Conduct",
+  // Sikh Dharma
+  "What is Sikh Dharma?",
+  // Gurdwara detailed
+  "Program",
+  "Attending Gurdwara",
+  "Kirtan Darbar",
+  "Sehaj Path",
+  // Solstice Diet
+  "Food of the Yogis",
+  "Solstice Hot Sauce",
+  "Yogi Tea",
+  "Golden Milk",
+  // Kundalini Yoga
+  "Kriya Techniques",
+  "Key Effects",
+  // Terms
+  "Terms Heard Around Camp",
+  "Adi Shakti",
+  "Akhand Path",
+  "Amrit Ceremony",
+  "Anand Karaj",
+  "Ardas",
+  "Bole So Nihal, Sat Siri Akal",
+  "Gatka",
+  "G.O.D.",
+  "Gurbani",
+  "Kaur",
+  "Kirtan Sohila",
+  "Nagar Kirtan",
+  "Rehiras",
+  "Sat Nam",
+  "Shabad",
+  "Sikh Vows",
+  "Singh",
+  "Wahe Guru Ji Ka Khalsa, Wahe Guru Ji Ki Fateh!",
+  // Eco-3HO
+  "Waste Management and You!",
+  "Pack It In, Pack It Out",
+  "Compost FOOD WASTE ONLY!",
+  "Recycling",
+  "Trash",
+  // FAQ — General
+  "Can I attend if I have never done Kundalini Yoga before?",
+  "Who can I contact if I have questions about my registration?",
+  // FAQ — Tickets
+  "How do I purchase tickets for Solstice?",
+  "Are tickets available for purchase onsite?",
+  "What is included in a ticket?",
+  "Are there any discounts available for early bird tickets?",
+  "Until when is the Early Bird discount available?",
+  "How much discount do I receive as an IKYTA or Premium 3HO member?",
+  "What should I do if I haven't received my ticket confirmation email?",
+  "Are there any age restrictions for attending the event?",
+  "What are the terms and conditions I agree to when purchasing a ticket?",
+  // FAQ — Accommodations
+  "What types of accommodation are available at the event?",
+  "Can I reserve a specific type of accommodation in advance?",
+  "Can I choose who I share a dorm room with?",
+  "Is parking available?",
+  "Can I make changes to my accommodation after purchase?",
+  "Can I bring my own tent?",
+  // FAQ — Payment
+  "What payment options are available?",
+  "Why do I need to pay the transaction fees?",
+  // FAQ — Cancellation
+  "What is the refund policy if I need to cancel my ticket?",
+  "Is there a cancellation fee?",
+  "Can I transfer my ticket to someone else?",
+  "What happens if the event is canceled due to unforeseen circumstances?",
 ]);
 
 const definitionLabels = new Set(["Posture", "Mantra", "Meaning of the Mantra", "Breath", "Mudra", "Eye Focus", "Time", "End", "Comments", "Directions"]);
@@ -86,7 +170,7 @@ const infoGroups: InfoGroup[] = [
     description: "Orientation, getting around, climate, hydration and basic camp setup.",
     icon: MapPin,
     accent: "bg-sky-50 text-[#2f62b6] ring-sky-900/10",
-    pages: ["page-9"],
+    pages: ["page-welcome", "page-9", "page-terms", "page-bringing-home"],
   },
   {
     id: "health-safety",
@@ -102,7 +186,7 @@ const infoGroups: InfoGroup[] = [
     description: "Meals, showers, toilets, bazaar, lost & found, leaving camp and security.",
     icon: Leaf,
     accent: "bg-emerald-50 text-emerald-700 ring-emerald-900/10",
-    pages: ["page-12", "page-15", "page-16"],
+    pages: ["page-12", "page-15", "page-16", "page-eco-3ho"],
   },
   {
     id: "rules",
@@ -118,7 +202,15 @@ const infoGroups: InfoGroup[] = [
     description: "Wake-up call, hydrotherapy, Sadhana, meals, classes and evening programs.",
     icon: CalendarDays,
     accent: "bg-orange-50 text-[#f39200] ring-orange-900/10",
-    pages: ["page-49", "page-50", "page-51", "page-52"],
+    pages: ["page-49", "page-50", "page-51", "page-solstice-diet", "page-52"],
+  },
+  {
+    id: "yoga-dharma",
+    title: "Yoga & Dharma",
+    description: "Sikh Dharma, Gurdwara, Kundalini Yoga and Karma Yoga — the spiritual practices of Solstice.",
+    icon: Flame,
+    accent: "bg-violet-50 text-violet-700 ring-violet-900/10",
+    pages: ["page-sikh-dharma", "page-gurdwara-detailed", "page-kundalini-yoga", "page-karma-yoga"],
   },
   {
     id: "practice",
@@ -135,6 +227,14 @@ const infoGroups: InfoGroup[] = [
     icon: Users,
     accent: "bg-cyan-50 text-cyan-700 ring-cyan-900/10",
     pages: ["page-21"],
+  },
+  {
+    id: "faq",
+    title: "FAQ",
+    description: "Frequently asked questions about tickets, accommodations, payments and cancellations.",
+    icon: HelpCircle,
+    accent: "bg-purple-50 text-purple-700 ring-purple-900/10",
+    pages: ["page-faq-general", "page-faq-tickets", "page-faq-accommodations", "page-faq-payment", "page-faq-cancellation"],
   },
 ];
 
@@ -176,7 +276,7 @@ function normalizeLines(page: InfoPage) {
 }
 
 function createSection(title?: string): InfoSection {
-  return { title, paragraphs: [], bullets: [], numbered: [], definitions: [], quotes: [] };
+  return { title, paragraphs: [], bullets: [], numbered: [], definitions: [], quotes: [], footnotes: [] };
 }
 
 function pushParagraph(section: InfoSection, buffer: string[]) {
@@ -195,6 +295,7 @@ function sectionsFor(page: InfoPage) {
   let current = createSection();
   const paragraphBuffer: string[] = [];
   const quoteBuffer: string[] = [];
+  const footnoteBuffer: string[] = [];
 
   const flushQuote = () => {
     if (!quoteBuffer.length) return;
@@ -202,10 +303,17 @@ function sectionsFor(page: InfoPage) {
     quoteBuffer.length = 0;
   };
 
+  const flushFootnote = () => {
+    if (!footnoteBuffer.length) return;
+    current.footnotes.push(cleanText(footnoteBuffer.join(" ")));
+    footnoteBuffer.length = 0;
+  };
+
   const commitSection = () => {
     pushParagraph(current, paragraphBuffer);
     flushQuote();
-    if (current.title || current.paragraphs.length || current.bullets.length || current.numbered.length || current.definitions.length || current.quotes.length) {
+    flushFootnote();
+    if (current.title || current.paragraphs.length || current.bullets.length || current.numbered.length || current.definitions.length || current.quotes.length || current.footnotes.length) {
       sections.push(current);
     }
   };
@@ -220,6 +328,7 @@ function sectionsFor(page: InfoPage) {
     if (/^[∙•—-]\s*/.test(line)) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
+      flushFootnote();
       current.bullets.push(cleanText(line.replace(/^[∙•—-]\s*/, "")));
       continue;
     }
@@ -262,6 +371,27 @@ function sectionsFor(page: InfoPage) {
       continue;
     }
 
+    // Explicit paragraph break marker
+    if (line === "¶") {
+      pushParagraph(current, paragraphBuffer);
+      continue;
+    }
+
+    // Asterisk-prefixed footnote notes (e.g. "* note" or "**note") — render after bullets
+    if (/^\*{1,2}/.test(line)) {
+      pushParagraph(current, paragraphBuffer);
+      flushQuote();
+      flushFootnote();
+      footnoteBuffer.push(line);
+      continue;
+    }
+
+    // Continuation of an open footnote
+    if (footnoteBuffer.length > 0) {
+      footnoteBuffer.push(line);
+      continue;
+    }
+
     paragraphBuffer.push(line);
   }
 
@@ -275,7 +405,7 @@ function SectionCard({ section }: { section: InfoSection }) {
   return (
     <article className="overflow-hidden rounded-xl border border-sky-900/10 bg-white shadow-sm">
       {section.title ? (
-        <div className="bg-gradient-to-r from-sky-50 to-orange-50 px-4 py-3">
+        <div className="bg-linear-to-r from-sky-50 to-orange-50 px-4 py-3">
           <h3 className="text-lg font-black leading-tight text-[#2f62b6]">{section.title}</h3>
         </div>
       ) : null}
@@ -324,6 +454,16 @@ function SectionCard({ section }: { section: InfoSection }) {
               </li>
             ))}
           </ul>
+        ) : null}
+
+        {section.footnotes.length ? (
+          <div className="space-y-1 pt-1">
+            {section.footnotes.map((note) => (
+              <p key={note.slice(0, 60)} className="text-xs leading-5 text-slate-400 italic">
+                {note}
+              </p>
+            ))}
+          </div>
         ) : null}
       </div>
     </article>

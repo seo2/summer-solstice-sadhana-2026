@@ -1,21 +1,54 @@
 "use client";
 
-import { Share, Smartphone, X } from "lucide-react";
+import { MoreVertical, Share, Smartphone, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const DISMISS_KEY = "solstice-install-hint-dismissed";
 
+type Platform = "ios" | "android" | "other";
+
+function detectPlatform(): Platform {
+  const ua = navigator.userAgent;
+  if (/iPad|iPhone|iPod/.test(ua)) return "ios";
+  if (/Android/.test(ua)) return "android";
+  return "other";
+}
+
 export function InstallHint() {
   const [standalone, setStandalone] = useState(false);
   const [dismissed, setDismissed] = useState(true);
+  const [platform, setPlatform] = useState<Platform>("other");
 
   useEffect(() => {
-    const isStandalone = window.matchMedia("(display-mode: standalone)").matches || ("standalone" in window.navigator && Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone));
+    const isStandalone =
+      window.matchMedia("(display-mode: standalone)").matches ||
+      ("standalone" in window.navigator &&
+        Boolean((window.navigator as Navigator & { standalone?: boolean }).standalone));
     setStandalone(isStandalone);
     setDismissed(localStorage.getItem(DISMISS_KEY) === "true");
+    setPlatform(detectPlatform());
   }, []);
 
   if (standalone || dismissed) return null;
+
+  const isIos = platform === "ios";
+  const isAndroid = platform === "android";
+
+  const title = isAndroid ? "Install app for offline access" : "Add to Home Screen for offline access";
+
+  const instruction = isIos ? (
+    <>
+      Tap <Share className="inline h-3.5 w-3.5 align-text-bottom" /> <strong>Share</strong> → <strong>Add to Home Screen</strong>.
+    </>
+  ) : isAndroid ? (
+    <>
+      Tap <MoreVertical className="inline h-3.5 w-3.5 align-text-bottom" /> menu → <strong>Add to Home Screen</strong> or <strong>Install app</strong>.
+    </>
+  ) : (
+    <>
+      Open in your mobile browser and use the share or browser menu to <strong>Add to Home Screen</strong>.
+    </>
+  );
 
   return (
     <div className="install-hint-card sm:hidden">
@@ -24,8 +57,8 @@ export function InstallHint() {
           <Smartphone className="h-5 w-5" />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="text-sm font-black text-[#2f62b6]">Add to Home Screen for offline access</p>
-          <p className="mt-1 text-xs leading-5 text-slate-600">Open once with internet, wait for offline content, then tap <Share className="inline h-3.5 w-3.5" /> Share → Add to Home Screen.</p>
+          <p className="text-sm font-black text-[#2f62b6]">{title}</p>
+          <p className="mt-1 text-xs leading-5 text-slate-600">{instruction}</p>
         </div>
         <button
           type="button"

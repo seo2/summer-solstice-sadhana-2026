@@ -1,29 +1,32 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Heart, Search, Star } from "lucide-react";
+import { Heart, Search } from "lucide-react";
 import { AppLink as Link } from "@/components/app-link";
 import { ActivityCard } from "@/components/activity-card";
 import { useSavedActivities } from "@/lib/db";
 import type { Activity, Category, Venue } from "@/lib/types";
 import { cn, formatDate } from "@/lib/utils";
 
-type Mode = "all" | "favorites" | "agenda";
+const formatDayLabel = (date: string) =>
+  new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric" }).format(new Date(`${date}T12:00:00`));
+
+type Mode = "all" | "favorites";
 
 export function ProgramExplorer({ activities, venues, categories, mode = "all" }: { activities: Activity[]; venues: Venue[]; categories: Category[]; mode?: Mode }) {
-  const { favoriteIds, agendaIds, toggleFavorite, toggleAgenda } = useSavedActivities();
+  const { favoriteIds, toggleFavorite } = useSavedActivities();
   const [query, setQuery] = useState("");
   const [date, setDate] = useState("all");
   const [venue, setVenue] = useState("all");
   const [category, setCategory] = useState("all");
 
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
-  const savedCount = mode === "favorites" ? favoriteIds.size : mode === "agenda" ? agendaIds.size : activities.length;
+  const savedCount = mode === "favorites" ? favoriteIds.size : activities.length;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return activities
-      .filter((item) => (mode === "favorites" ? favoriteIds.has(item.id) : mode === "agenda" ? agendaIds.has(item.id) : true))
+      .filter((item) => (mode === "favorites" ? favoriteIds.has(item.id) : true))
       .filter((item) => (date === "all" ? true : item.date === date))
       .filter((item) => (venue === "all" ? true : item.location === venue))
       .filter((item) => (category === "all" ? true : item.category === category))
@@ -32,20 +35,17 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
         return [item.title, item.description, item.facilitator, item.location, item.category].filter(Boolean).join(" ").toLowerCase().includes(q);
       })
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
-  }, [activities, agendaIds, category, date, favoriteIds, mode, query, venue]);
+  }, [activities, category, date, favoriteIds, mode, query, venue]);
 
   if (mode !== "all" && savedCount === 0) {
-    const isAgenda = mode === "agenda";
-    const Icon = isAgenda ? Star : Heart;
-
     return (
       <section className="empty-saved-card rounded-2xl p-8 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-sky-900/10">
-          <Icon className={cn("h-12 w-12", isAgenda ? "fill-[#2f62b6]/10 text-[#2f62b6]" : "fill-rose-500/10 text-rose-500")} />
+          <Heart className="h-12 w-12 fill-rose-500/10 text-rose-500" />
         </div>
-        <h2 className="mt-5 text-2xl font-black tracking-[-0.03em] text-slate-950">{isAgenda ? "Your agenda is empty" : "No favorites yet"}</h2>
+        <h2 className="mt-5 text-2xl font-black tracking-[-0.03em] text-slate-950">No favorites yet</h2>
         <p className="mx-auto mt-2 max-w-xs text-sm font-semibold leading-6 text-stone-600">
-          Browse the Program and tap {isAgenda ? "★" : "♥"} to add activities here
+          Browse the Program and tap ♥ to save activities here
         </p>
         <Link href="/program" className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#2f62b6] px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-900/15">
           Browse Program
@@ -56,7 +56,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
 
   return (
     <section className="space-y-4">
-      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-[4.75rem]">
+      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-19">
         <div className="filter-glass-card rounded-2xl p-4">
           <label className="flex items-center gap-2 rounded-xl bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
             <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
@@ -92,13 +92,26 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       {filtered.length === 0 ? (
         <div className="card rounded-2xl p-8 text-center">
           <p className="text-lg font-bold text-stone-900">Nothing here yet</p>
-          <p className="mt-2 text-sm text-stone-600">Add activities with the heart or star buttons, or clear the filters.</p>
+          <p className="mt-2 text-sm text-stone-600">Add activities with the heart button, or clear the filters.</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {filtered.map((activity) => (
-            <ActivityCard key={activity.id} activity={activity} isFavorite={favoriteIds.has(activity.id)} isAgenda={agendaIds.has(activity.id)} onToggleFavorite={toggleFavorite} onToggleAgenda={toggleAgenda} />
-          ))}
+          {filtered.flatMap((activity, i) => {
+            const showSeparator = i === 0 || filtered[i - 1].date !== activity.date;
+            const nodes = [];
+            if (showSeparator) {
+              nodes.push(
+                <div key={`sep-${activity.date}`} className="flex items-center gap-3 pt-2 pb-1">
+                  <span className="text-sm font-black text-[#2f62b6]">{formatDayLabel(activity.date)}</span>
+                  <div className="h-px flex-1 bg-sky-900/10" />
+                </div>
+              );
+            }
+            nodes.push(
+              <ActivityCard key={activity.id} activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
+            );
+            return nodes;
+          })}
         </div>
       )}
     </section>

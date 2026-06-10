@@ -1,5 +1,5 @@
 import { AppLink as Link } from "@/components/app-link";
-import { CalendarDays, Heart, Info, Map, Star } from "lucide-react";
+import { CalendarDays, Heart, Info, Map } from "lucide-react";
 import program from "@/data/program.json";
 import { InstallHint } from "@/components/install-hint";
 import type { Activity } from "@/lib/types";
@@ -10,7 +10,6 @@ const todayHighlights = activities.slice(0, 5);
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: `${activities.length} items` },
-  { href: "/agenda", label: "My Agenda", icon: Star, value: "build your day" },
   { href: "/favorites", label: "Favorites", icon: Heart, value: "save practices" },
   { href: "/info", label: "Info", icon: Info, value: "camp guide" },
   { href: "/map", label: "Map", icon: Map, value: "venues" },
@@ -37,7 +36,7 @@ export default function Home() {
 
           <div className="mt-6 grid grid-cols-2 gap-3">
             <Link href="/program" className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-[#2f62b6] shadow-[0_14px_30px_rgba(15,23,42,0.18)] sm:text-base">Open Program</Link>
-            <Link href="/agenda" className="rounded-2xl bg-white/15 px-4 py-3 text-center text-sm font-black text-white shadow-lg ring-1 ring-white/40 backdrop-blur-md sm:text-base">My Agenda</Link>
+            <Link href="/info" className="rounded-2xl bg-white/15 px-4 py-3 text-center text-sm font-black text-white shadow-lg ring-1 ring-white/40 backdrop-blur-md sm:text-base">Info Hub</Link>
           </div>
         </div>
       </section>
