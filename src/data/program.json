@@ -28,10 +28,10 @@
     "startTime": "18:30",
     "endTime": "20:30",
     "sourcePage": 22,
-    "title": "Opening circle   Begin the Solstice together in a spirit of connection, practice, and celebration.",
+    "title": "Opening Circle",
     "category": "Kriya and Meditation",
     "location": "Tantric Shelter",
-    "description": "Through meditation, music, shared stories, and meaningful conversations, we’ll gather as a community and open the week in Chardi Kala — the Elevated Spirit. Show up. Sit close. Connect. Elevate."
+    "description": "Begin the Solstice together in a spirit of connection, practice, and celebration. Through meditation, music, shared stories, and meaningful conversations, we’ll gather as a community and open the week in Chardi Kala — the Elevated Spirit. Show up. Sit close. Connect. Elevate."
   },
   {
     "id": "2026-06-19-2200-lights-out",
@@ -58,9 +58,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 23,
-    "title": "Aquarian Sadhana, Kriya: Siri Hari Khalsa",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Siri Hari Khalsa"
   },
   {
     "id": "2026-06-20-0600-gurdwara",
@@ -102,12 +103,12 @@
     "startTime": "09:00",
     "endTime": "16:00",
     "sourcePage": 23,
-    "title": "Peace Prayer Day, Kulbhir Singh Puri and more   Since its first observance in 1986, the event has continued annually. This gathering brings together people of every faith to unite in prayer and celebration. This is a time where we honor an ancient Indigenous tradition in which communities gathered to pray for inner healing and global peace. Over time",
+    "title": "Peace Prayer Day",
     "category": "Lecture",
     "location": "Tantric Shelter",
-    "facilitator": "this tradition has continued at Ram Das Puri in New Mexico",
-    "country": "USA",
-    "description": ". Each year, people gather and offer a collective prayer—a prayer projected outward as a beam of light, healing, and unity."
+    "facilitator": "Kulbhir Singh Puri and more",
+    "photo": "/images/teachers/Kulbhir-Singh-Puri.jpg",
+    "description": "Since its first observance in 1986, the event has continued annually. This gathering brings together people of every faith to unite in prayer and celebration. This is a time where we honor an ancient Indigenous tradition in which communities gathered to pray for inner healing and global peace. Over time, this tradition has continued at Ram Das Puri in New Mexico, USA.\n\nEach year, people gather and offer a collective prayer—a prayer projected outward as a beam of light, healing, and unity."
   },
   {
     "id": "2026-06-20-1600-sovereign-energy-har-dev-khalsa",
@@ -116,10 +117,12 @@
     "startTime": "16:00",
     "endTime": "17:30",
     "sourcePage": 24,
-    "title": "Sovereign Energy Har Dev Khalsa",
+    "title": "Sovereign Energy",
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
+    "facilitator": "Har Dev Khalsa",
     "country": "USA",
+    "photo": "/images/teachers/Har-Dev-Khalsa.jpg",
     "description": "Yogi 19 years. KRI certified and regularly teaching since 2011. Most spiritual people are still getting held hostage by their own stress and other people’s stress. Har Dev Singh Khalsa spent 15 years in ashrams, on mountaintops, and on meditation mats. Not to become a monk, but to become unbreakable inside a real life. Husband. Father. Business owner. He lives what he teaches. This class is not about relaxation. It is about recalibration. You will experience the cornerstone breathwork and meditation practice to create Sovereign Energy, freeing high-performing householders from being held hostage by their own stress, sharpening their focus, and commanding their energy from the inside out. No performance. No philosophy. Just the practice and what it does to your body in real time. If you are ready to stop surviving your life and start owning it, this seat is for you."
   },
   {
@@ -133,6 +136,7 @@
     "category": "Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Kulbhir Singh Puri",
+    "photo": "/images/teachers/Kulbhir-Singh-Puri.jpg",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
     "description": "Kulbir Singh Puri will take students into a deep exploration of the Mul Mantra. Experience its recitation and beyond, as a foundational map of reality and identity. Through reflection and application, participants will gain a deeper awareness and experiential understanding of the frequency of each word and how it shapes consciousness, perception, and spiritual alignment in individual, group and universal consciousness."
@@ -166,9 +170,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 25,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-20-1930-gong-reset-and-deep-relaxation",
@@ -182,6 +186,7 @@
     "location": "Atma Shelter",
     "facilitator": "Ravi Prem Kaur",
     "country": "Chile",
+    "photo": "/images/teachers/Ravi-Prem-Kaur.jpg",
     "description": "During one hour, allow your body to relax deep, making space for the inner body intelligence to awaken and restore what needs to be restored. The invitation for participants is to come, lie down on your back and allow Mother Earth to hold you, while the waves of healing sound penetrates each cell of your physical body, & impacts the frequency of your mind. This is a great opportunity to rest and “Let go, Let God”."
   },
   {
@@ -191,7 +196,8 @@
     "startTime": "19:30",
     "endTime": "21:00",
     "sourcePage": 25,
-    "title": "Music performance, Ngoni Fola",
+    "title": "Music Performance",
+    "facilitator": "Ngoni Fola",
     "category": "Music",
     "location": "Tantric Shelter"
   },
@@ -220,9 +226,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 26,
-    "title": "Aquarian Sadhana, Kriya: Manou Kaur",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Manou Kaur"
   },
   {
     "id": "2026-06-21-0600-gurdwara",
@@ -265,8 +272,9 @@
     "endTime": "09:30",
     "sourcePage": 26,
     "title": "Karma Yoga Meetings",
-    "category": "Meditation",
-    "location": "Tantric Shelter"
+    "category": "Service",
+    "location": "Tantric Shelter",
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-21-1345-the-secret-to-prosperity",
@@ -279,6 +287,7 @@
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
     "facilitator": "Satwant Singh Khalsa",
+    "photo": "/images/teachers/Satwant-Singh-Khalsa.jpg",
     "country": "USA",
     "description": "A transformational workshop rooted in the teachings of Kundalini Yoga and Sikh Dharma as taught by Yogi Bhajan, this program explores the deeper meaning of prosperity beyond material wealth. Through meditation, mantra, and practical tools, participants will learn how to align with their highest consciousness, clear subconscious blocks, and cultivate a life of purpose, flow, and abundance. Prosperity is approached as a state of inner harmony—where clarity, discipline, and devotion naturally attract success, fulfillment, and grace."
   },
@@ -290,10 +299,11 @@
     "endTime": "15:15",
     "sourcePage": 27,
     "title": "Yogic Science to Break Habits and Addictive Behavior. Presented by SuperHealth™ as taught by Yogi Bhajan",
-    "category": "Meditation",
+    "category": "Workshop",
     "location": "Tantric Shelter",
     "facilitator": "Mukhta Kaur",
     "country": "USA",
+    "photo": "/images/teachers/Mukhta-Kaur.jpg",
     "description": "Workshop  This experiential session explores the patterns around addiction, stress, overwhelm, and emotional imbalance. Through the SuperHealth™ approach, participants are supported to reconnect with self-awareness, healing, and inner resilience through Kundalini Yoga, , and conscious breathwork. All levels and backgrounds are warmly welcome."
   },
   {
@@ -304,10 +314,14 @@
     "endTime": "15:15",
     "sourcePage": 27,
     "title": "2026 SDI Minister Gathering",
-    "category": "Meditation",
+    "category": "Workshop",
     "location": "SDI Academy",
     "facilitator": "SS Dr. Sat Kaur Khalsa & SS Dr. Shanti Shanti Kaur Khalsa",
     "country": "USA",
+    "photos": [
+      "/images/teachers/Sat-Kaur-Khalsa.jpg",
+      "/images/teachers/Shanti-Kaur-Khalsa.jpg"
+    ],
     "description": "Workshop  The Minister Gathering for Summer Solstice 2026 will focus on Guru Gobind Singh and expression of the Radiant Body, which we will explore through group discussion and experiential . Please join us for this year’s Minister Gathering!"
   },
   {
@@ -317,12 +331,13 @@
     "startTime": "13:45",
     "endTime": "15:15",
     "sourcePage": 27,
-    "title": "Men’s Scared Healing Circle",
-    "category": "Meditation",
+    "title": "Men’s Sacred Healing Circle",
+    "category": "Workshop",
     "location": "Prem Shelter",
     "facilitator": "Chief Open Heart",
     "country": "USA",
-    "description": "Workshop  Yogi Bhajan said that if you do daily Sadhana and Winter and Summer Solstices, your life will work out. So how do I create a daily practice? How do I find the motivation to wake up and do daily yoga and ? I know I should do it, but everything else just seems so much more important. I will start tomorrow. No matter what the excuse, something inside us knows the truth. “That for me to live my destiny, it is time to make a daily practice”. This class is exactly about how to create a daily practice that works."
+    "photo": "/images/teachers/Chief-Open-Heart.jpg",
+    "description": "Yogi Bhajan said that if you do daily Sadhana and Winter and Summer Solstices, your life will work out. So how do I create a daily practice? How do I find the motivation to wake up and do daily yoga and meditation? I know I should do it, but everything else just seems so much more important. I will start tomorrow. No matter what the excuse, something inside us knows the truth. “That for me to live my destiny, it is time to make a daily practice”. This class is exactly about how to create a daily practice that works."
   },
   {
     "id": "2026-06-21-1530-beyond-the-conditioned-mind-the-power-of-surrender",
@@ -332,9 +347,10 @@
     "endTime": "17:30",
     "sourcePage": 28,
     "title": "Beyond the Conditioned Mind: The Power of Surrender",
-    "category": "Meditation",
+    "category": "Workshop",
     "location": "Atma Shelter",
     "facilitator": "S.S. Rupinder Kaur Khalsa",
+    "photo": "/images/teachers/Rupinder-Kaur-Khalsa.jpg",
     "country": "Canada",
     "language": "ENGLISH / SPANISH",
     "description": "Workshop   Yogi Bhajan said that if you do daily Sadhana and Winter and Summer Solstices, your life will work out. So how do I create a daily practice? How do I find the motivation to wake up and do daily yoga and ? I know I should do it, but everything else just seems so much more important. I will start tomorrow. No matter what the excuse, something inside us knows the truth. “That for me to live my destiny, it is time to make a daily practice”. This class is exactly about how to create a daily practice that works."
@@ -350,6 +366,10 @@
     "category": "Workshop",
     "location": "Tantric Shelter",
     "facilitator": "Karuna and Sergio",
+    "photos": [
+      "/images/teachers/karuna.jpg",
+      "/images/teachers/sergio.jpg"
+    ],
     "country": "USA",
     "description": "The title is a Yogi Bhajan quote. Dissolve the subtle habit of outsourcing your power, and instead cultivate a grounded trust in your own intuition, clarity, and knowing where the wisdom is immediate, embodied, and already present. This is a remembrance that you are not separate from the light, you are it."
   },
@@ -396,9 +416,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 29,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-21-1900-concert",
@@ -411,6 +431,7 @@
     "category": "Music",
     "location": "Tantric Shelter",
     "facilitator": "Daniel Katsuk",
+    "photo": "/images/teachers/Daniel-Katsuk.jpg",
     "country": "USA",
     "description": "Fusion of traditional Kundalini Kirtan and KatsüK’s tribal folk psychedelic reggae side with uplifting and empowering lyrics."
   },
@@ -426,6 +447,10 @@
     "location": "Atma Shelter",
     "facilitator": "Sat Jot",
     "country": "USA",
+    "photos": [
+      "/images/teachers/sat-jot-1.jpg",
+      "/images/teachers/sat-jot-2.jpg"
+    ],
     "description": "We’ll receive the blessings of protection & prosperity as we learn the effects of the mudras, and immerse ourselves in the naad, chanting, meditating & dancing to the Aap Sahai Hoa mantra w/ live music. We’ll conclude by bathing extensively in the sacred sound of the gong for deep relaxation, healing and cellular repair."
   },
   {
@@ -453,9 +478,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 31,
-    "title": "Aquarian Sadhana, Kriya: Satwant Singh, : Japa Kaur",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Satwant Singh & Japa Kaur"
   },
   {
     "id": "2026-06-22-0600-gurdwara",
@@ -497,10 +523,10 @@
     "startTime": "08:45",
     "endTime": "09:30",
     "sourcePage": 31,
-    "title": "Karma Yoga Meetings   An hour to gather and serve together.",
-    "category": "Meditation",
+    "title": "Karma Yoga Meetings",
+    "category": "Service",
     "location": "Tantric Shelter",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-22-1000-understanding-the-science-and-research-on-yoga",
@@ -510,9 +536,13 @@
     "endTime": "12:00",
     "sourcePage": 31,
     "title": "Understanding the Science and Research on Yoga",
-    "category": "Workshop",
+    "category": "Lecture",
     "location": "Atma Shelter",
     "facilitator": "Dr. Alan & Dr. Sat Bir Singh",
+    "photos": [
+      "/images/teachers/Alan.jpg",
+      "/images/teachers/Sat-Bir-Singh.jpg"
+    ],
     "country": "USA",
     "description": "Lecture  In easy-to-understand language, this  will review the science of how yoga works on the body, mind and spirit with a special focus on Kundalini Yoga. We will review both the traditional historical yogic concepts and mechanisms and the modern scientific clinical trials research evidence."
   },
@@ -527,6 +557,7 @@
     "category": "Kriya and Meditation",
     "location": "Tantric Shelter",
     "facilitator": "MSS Kirtan Singh Khalsa",
+    "photo": "/images/teachers/Kirtan-Singh-Khalsa.png",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
     "description": "Everything that comes to us in our lives comes through what we attract through our radiant body and our aura. Experience the art and science of attraction and the pathway to continuous victory."
@@ -542,6 +573,7 @@
     "category": "Kriya and Meditation",
     "location": "SDI Academy",
     "facilitator": "Gurutej Singh",
+    "photo": "/images/teachers/Gurutej-Singh.jpg",
     "country": "USA",
     "description": "This course provides a “new take” for students wanting to familiarize themselves with this Bani— it’s designed for beginners! The foundation of all that we do is in Japji Sahib. There is a reason why the Aquarian Sadhana begins with Japji, for it is in Japji Sahib that Guru Nanak not only explained the entire cosmos, but he also gave us the formula to apply in order to achieve union with the source of all. Kundalini Yoga, is more than 2600 years old. It is a form of Raja Yoga and was only taught by word of mouth, nothing was ever written down. In the 13th century, the Bhakti movement gathered momentum, and it was from that consciousness that Sikh Dharma emerged, brought to light by Guru Nanak. So, it was in that energy and consciousness that the sacred science of kundalini yoga nested. Neither Kundalini Yoga, nor Sikh Dharma itself, are a religion. For it is not about believing or adhering to a prescribed dogmatic approach, but rather it is about being and living. Join us to find out more."
   },
@@ -557,6 +589,10 @@
     "location": "Prem Shelter",
     "facilitator": "GuruSurya Kaur & Olena Devi Kaur",
     "country": "USA",
+    "photos": [
+      "/images/teachers/GuruSurya-Kaur.jpg",
+      "/images/teachers/Olena-Devi-Kaur.jpg"
+    ],
     "description": "What is a Women’s Circle? A sacred space for women to gather in authenticity, softness, truth, and remembrance. Join us as we come together to honor the divine feminine through movement, meditation, reflection, ritual, and heartfelt connection. This co- created circle invites women to slow down, release the pressure to perform, and reconnect to their intuition, inner wisdom, and natural radiance. Together, we will explore what it means to trust ourselves as women - to listen deeply, to be witnessed in community, and to cultivate a deeper relationship with our feminine essence. Inspired by Kundalini Yoga teachings and feminine consciousness, this workshop is an invitation into healing, soulful connection, self-expression, and inner transformation. Come exactly as you are. Bring a journal. We will eat lunch together afterwards so also bring your plate."
   },
   {
@@ -582,6 +618,7 @@
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
     "facilitator": "Bweela Steptoe",
+    "photo": "/images/teachers/Bweela-Steptoe.jpg",
     "country": "USA",
     "description": "A fun Kundalini Yoga experience where youth learn to tap into their inner superpower. Through movement, breath, and meditation, we build clarity, intuition, and focus while strengthening the aura and balancing the nervous system."
   },
@@ -598,7 +635,8 @@
     "facilitator": "Gurubachan Singh",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
-    "description": ",    BREATHE for Inner Balance. Learn how to find your equilibrium in your every day life. 3 Simple techniques for you to be YOU."
+    "photo": "/images/teachers/Gurubachan-Singh.jpg",
+    "description": "Learn how to find your equilibrium in your every day life. 3 Simple techniques for you to be YOU."
   },
   {
     "id": "2026-06-22-1345-chanting-the-name-of-the-divine-3-hour-japa-ss-siri-chand-singh-khalsa",
@@ -607,11 +645,12 @@
     "startTime": "13:45",
     "endTime": "17:00",
     "sourcePage": 34,
-    "title": "Chanting the Name of the Divine: 3-Hour Japa, SS Siri Chand Singh Khalsa",
+    "title": "Chanting the Name of the Divine: 3-Hour Japa",
     "category": "Kriya and Meditation",
     "location": "SDI Academy",
-    "facilitator": "SDI Board",
+    "facilitator": "SS Siri Chand Singh Khalsa, SDI Board",
     "country": "USA",
+    "photo": "/images/teachers/Siri-Chand-Singh-Khalsa.jpg",
     "description": "His experiential offering will provide a wonderful opportunity to practice Japa for 3 hours! “Japa” means reciting and repeating the name of the Divine with great humility. We will dive deep into the sound current of “Guru Guru Wahe Guru Guru Ram Das Guru.” It is known as the Miracle Mantra, as it attunes you to the infinite blessings of Guru Ram Das. It is practiced 5 times in one breath to open your heart and awaken you to the infinite possibilities that are present right now. It brings balance to the 5 tattvas (elements) within us, and attunes us at every level of existence to our inner sacredness. It is usually practiced for 108 rounds of 5 mantras per breath. In this class we will chant it in its complete form, of 11 cycles of 108 rounds (1188 rounds of 5 chants in one breath, which takes just under 4 hours). This gives the full depth experience of the practice."
   },
   {
@@ -621,13 +660,14 @@
     "startTime": "15:30",
     "endTime": "17:30",
     "sourcePage": 35,
-    "title": "Sat Nam Rasayan Courageous Expansion: Entering the Fluid Field of Perception. A Preparatory Class for",
-    "category": "White Tantric Yoga",
+    "title": "Sat Nam Rasayan Courageous Expansion: Entering the Fluid Field of Perception. A Preparatory Class for White Tantric Yoga",
+    "category": "Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Siri Simran Kaur",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
-    "description": "Meditation   At its heart, Sat Nam Rasayan develops the meditative mind — the capacity to heal yourself and others through deep, direct, unwavering presence. It is subtle. It is profound. And it is remarkably effective. In a time of overwhelm and relentless mental pressure, this practice offers something rare. A way to step out of reactivity and return to clarity."
+    "photo": "/images/teachers/Siri-Simran-Kaur.jpg",
+    "description": "At its heart, Sat Nam Rasayan develops the meditative mind — the capacity to heal yourself and others through deep, direct, unwavering presence. It is subtle. It is profound. And it is remarkably effective. In a time of overwhelm and relentless mental pressure, this practice offers something rare. A way to step out of reactivity and return to clarity."
   },
   {
     "id": "2026-06-22-1530-calm-clear-steady",
@@ -640,6 +680,7 @@
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
     "facilitator": "Raj Karam and Rajmantra Singh",
+    "photo": "/images/teachers/Raj-Karam-and-Rajmantra-Singh.jpg",
     "country": "USA",
     "description": "Cultivate inner stability and balance your nervous system, creating a deep, resilient inner container. Nurture steadiness, clarity, and the inner capacity to move through life fully grounded, present, and able to meet whatever comes with calm and focus."
   },
@@ -685,9 +726,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 35,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-22-1900-conscious-music",
@@ -697,11 +738,12 @@
     "endTime": "20:30",
     "sourcePage": 36,
     "title": "Conscious music",
-    "category": "Mantras",
+    "category": "Music",
     "location": "Tantric Shelter",
     "facilitator": "Karina Skye",
     "country": "USA",
-    "description": "Conscious music: Gurbani Kirtan, Kundalini ."
+    "photo": "/images/teachers/Karina-Skye.jpg",
+    "description": "Conscious music: Gurbani Kirtan, Kundalini Mantras."
   },
   {
     "id": "2026-06-22-1900-gong",
@@ -714,6 +756,10 @@
     "category": "Music",
     "location": "Atma Shelter",
     "facilitator": "Rajmantra Singh and Raj Karam",
+    "photos": [
+      "/images/teachers/Rajmantra-Singh.jpg",
+      "/images/teachers/Raj-Karam.jpg"
+    ],
     "country": "USA",
     "description": "A one-hour gong immersion designed to invite deep rest, renewal, and inner spaciousness. Through layered waves of vibration and resonance, the gong creates a meditative soundscape that can help quiet the mind, relax the nervous system, and restore a sense of balance and connection. Participants are invited to simply lie back, receive, and allow the sound current to carry them into a deeply restorative experience."
   },
@@ -742,9 +788,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 37,
-    "title": "Aquarian Sadhana, Kriya: Karina Skye",
+    "title": "Aquarian Sadhana",
     "category": "Sadhana",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Karina Skye"
   },
   {
     "id": "2026-06-23-0550-gurdwara",
@@ -775,13 +822,14 @@
     "startTime": "08:00",
     "endTime": "17:30",
     "sourcePage": 37,
-    "title": "®",
-    "category": "White Tantric Yoga",
+    "title": "White Tantric Yoga®",
+    "category": "Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Siri Simran Kaur",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
-    "description": "Meditation   Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi-realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life."
+    "description": "Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi-realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life.",
+    "photo": "/images/teachers/Siri-Simran-Kaur.jpg"
   },
   {
     "id": "2026-06-23-1700-rehras",
@@ -812,9 +860,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 38,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-23-1900-yogi-tea-cafe",
@@ -823,12 +871,12 @@
     "startTime": "19:00",
     "endTime": "20:30",
     "sourcePage": 38,
-    "title": "Yogi Tea Cafe",
+    "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
     "location": "Dining Hall",
-    "facilitator": "Open mic (featured artist Adi Shakti Kaur",
+    "facilitator": "Adi Shakti Kaur",
     "country": "USA",
-    "description": ")  The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent. All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
+    "description": "The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent. All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
   },
   {
     "id": "2026-06-23-1900-gong",
@@ -841,7 +889,8 @@
     "category": "Music",
     "location": "Atma Shelter",
     "facilitator": "Dr. Haridass Kaur",
-    "country": "USA"
+    "country": "USA",
+    "photo": "/images/teachers/Haridass-Kaur.jpg"
   },
   {
     "id": "2026-06-23-2200-lights-out",
@@ -868,9 +917,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 39,
-    "title": "Aquarian Sadhana, Kriya: Priya Kaur",
+    "title": "Aquarian Sadhana",
     "category": "Sadhana",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Priya Kaur"
   },
   {
     "id": "2026-06-24-0550-gurdwara",
@@ -901,13 +951,14 @@
     "startTime": "08:00",
     "endTime": "17:30",
     "sourcePage": 39,
-    "title": "®",
-    "category": "White Tantric Yoga",
+    "title": "White Tantric Yoga®",
+    "category": "Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Angad Kaur",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
-    "description": "Meditation   Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi-realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life."
+    "description": "Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi-realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life.",
+    "photo": "/images/teachers/Angad-Kaur.jpg"
   },
   {
     "id": "2026-06-24-1700-rehras",
@@ -938,9 +989,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 40,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-24-1900-yogi-tea-cafe-open-mic-the-yogi-tea-cafe-open-mic-is-a-fun-lively-and-",
@@ -949,10 +1000,10 @@
     "startTime": "19:00",
     "endTime": "20:30",
     "sourcePage": 40,
-    "title": "Yogi Tea Cafe, Open mic  The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent.",
+    "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
     "location": "Dining Hall",
-    "description": "All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
+    "description": "The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent. All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
   },
   {
     "id": "2026-06-24-1900-gong",
@@ -966,7 +1017,11 @@
     "location": "Atma Shelter",
     "facilitator": "Rajmantra Singh and Raj Karam",
     "country": "USA",
-    "description": "A one-hour gong immersion designed to invite deep rest, renewal, and inner spaciousness. Through layered waves of vibration and resonance, the gong creates a meditative soundscape that can help quiet the mind, relax the nervous system, and restore a sense of balance and connection. Participants are invited to simply lie back, receive, and allow the sound current to carry them into a deeply restorative experience."
+    "description": "A one-hour gong immersion designed to invite deep rest, renewal, and inner spaciousness. Through layered waves of vibration and resonance, the gong creates a meditative soundscape that can help quiet the mind, relax the nervous system, and restore a sense of balance and connection. Participants are invited to simply lie back, receive, and allow the sound current to carry them into a deeply restorative experience.",
+    "photos": [
+      "/images/teachers/Rajmantra-Singh.jpg",
+      "/images/teachers/Raj-Karam.jpg"
+    ]
   },
   {
     "id": "2026-06-24-2200-lights-out",
@@ -993,9 +1048,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 41,
-    "title": "Aquarian Sadhana, Kriya: Guru Surya Kaur  : Adi Shakti Kaur",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Guru Surya Kaur & Adi Shakti Kaur"
   },
   {
     "id": "2026-06-25-0550-gurdwara",
@@ -1026,13 +1082,14 @@
     "startTime": "08:00",
     "endTime": "17:30",
     "sourcePage": 41,
-    "title": "®",
-    "category": "White Tantric Yoga",
+    "title": "White Tantric Yoga®",
+    "category": "Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Siri Simran Kaur",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
-    "description": "Meditation   Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi- realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life."
+    "description": "Our minds release 1000 thoughts per wink of an eye. Some of these thoughts get lost in the unconscious, and some get stuck in the subconscious and affect the conscious mind. These thoughts become feelings, emotions, desires, multi-realities or fantasies. Instead of mastering our mind, often our mind and thoughts direct us, which can cause impulsive decisions, poor communication and self-imposed stress. White Tantric Yoga® enables you to break through these subconscious blocks, so you can have a more enjoyable life. In the shortest time, you can experience release from a lot of the burden you carry in your mind. When you see and act on each moment with clarity, you can gain a deeper understanding of yourself and your life can change. Your mind, body, and soul can act together as one. This is the path to personal freedom and awareness, and will bring more success to every area of your life.",
+    "photo": "/images/teachers/Siri-Simran-Kaur.jpg"
   },
   {
     "id": "2026-06-25-1700-rehras",
@@ -1063,9 +1120,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 42,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-25-1900-yogi-tea-cafe-open-mic-the-yogi-tea-cafe-open-mic-is-a-fun-lively-and-",
@@ -1074,10 +1131,10 @@
     "startTime": "19:00",
     "endTime": "20:30",
     "sourcePage": 42,
-    "title": "Yogi Tea Cafe, Open mic  The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent.",
+    "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
     "location": "Dining Hall",
-    "description": "All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
+    "description": "The Yogi Tea Cafe Open mic is a fun, lively and casual venue for participants to share their musical and poetic talent. All are welcome to sign up on site to share songs, mantra and spoken word. Grab a cup of Yogi Tea and enjoy the show!"
   },
   {
     "id": "2026-06-25-1900-khalsa-gong-bath",
@@ -1090,6 +1147,7 @@
     "category": "Music",
     "location": "Atma Shelter",
     "facilitator": "Surajdev Singh Khalsa",
+    "photo": "/images/teachers/Surajdev-Singh-Khalsa.jpg",
     "country": "USA",
     "description": "Enter the infinite ocean of the Gong and surrender to the power of the cosmic sound current. Led by Gong Master Surajdev Singh Khalsa, whose mastery has been refined through more than 15 years of dedicated practice, this immersive sound experience blends resonance, silence, and elemental power to awaken deep states of relaxation and transformation. The Gong’s vibrations penetrate every layer of being, supporting the renewal of the nervous and glandular systems while opening the door to profound peace, vitality, and expanded awareness. A journey beyond the mind. Unforgettable, rejuvenating, and deeply healing."
   },
@@ -1118,9 +1176,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 43,
-    "title": "Aquarian Sadhana, Kriya: Dr. Haridass Kaur, : Hari Bhajan Kaur",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Dr. Haridass Kaur, Mantras: Hari Bhajan Kaur"
   },
   {
     "id": "2026-06-26-0600-gurdwara",
@@ -1163,8 +1222,9 @@
     "endTime": "09:30",
     "sourcePage": 43,
     "title": "Karma Yoga Meetings",
-    "category": "Meditation",
-    "location": "Tantric Shelter"
+    "category": "Service",
+    "location": "Tantric Shelter",
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-26-1000-yoga-and-bhangra-breaking-through-blocks",
@@ -1177,6 +1237,7 @@
     "category": "Dance Yoga",
     "location": "Atma Shelter",
     "facilitator": "Noor Singh Khalsa",
+    "photo": "/images/teachers/Noor-Singh-Khalsa.jpg",
     "country": "USA",
     "description": "This class is a dynamic, physically assertive and exhilarating blend of ‘yogasthenics’ and Bhangra dance to facilitate the clearing of blocks, both physical and emotional. It is one of a series of PT classes taught at KWTC in June of 1993 to increase strength, resilience, and wellbeing. Also, it is a lot of fun. Come prepared to dance!"
   },
@@ -1191,6 +1252,7 @@
     "category": "Kriya and Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Jugat Guru Singh Khalsa",
+    "photo": "/images/teachers/Jugat-Guru-Singh-Khalsa.jpg",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
     "description": "Kundalini Yoga and Meditation to THRIVE"
@@ -1207,6 +1269,7 @@
     "location": "SDI Academy",
     "facilitator": "Gurutej Singh",
     "country": "USA",
+    "photo": "/images/teachers/Gurutej-Singh.jpg",
     "description": "This course provides a “new take” for students wanting to familiarize themselves with this Bani— it’s designed for beginners! The foundation of all that we do is in Japji Sahib. There is a reason why the Aquarian Sadhana begins with Japji, for it is in Japji Sahib that Guru Nanak not only explained the entire cosmos, but he also gave us the formula to apply in order to achieve union with the source of all. Kundalini Yoga, is more than 2600 years old. It is a form of Raja Yoga and was only taught by word of mouth, nothing was ever written down. In the 13th century, the Bhakti movement gathered momentum, and it was from that consciousness that Sikh Dharma emerged, brought to light by Guru Nanak. So, it was in that energy and consciousness that the sacred science of kundalini yoga nested. Neither Kundalini Yoga, nor Sikh Dharma itself, are a religion. For it is not about believing or adhering to a prescribed dogmatic approach, but rather it is about being and living. Join us to find out more."
   },
   {
@@ -1220,6 +1283,7 @@
     "category": "Kriya and Meditation",
     "location": "Prem Shelter",
     "facilitator": "Shakta Kaur",
+    "photo": "/images/teachers/Shakta-Kaur.png",
     "country": "USA",
     "description": "White Tantric is a profound catalyst for transformation and accelerated evolution. How you integrate the energy afterward will determine how fully you receive its gifts. The way you relate to what unfolds — and the state you choose to stay in — will directly shape the success and expansion that follows."
   },
@@ -1230,10 +1294,11 @@
     "startTime": "12:00",
     "endTime": "12:30",
     "sourcePage": 45,
-    "title": "Closing Circle, All Sangat   Before we return home, we gather one last time.",
+    "title": "Closing Circle, All Sangat",
     "category": "Dance Yoga",
     "location": "Atma Shelter",
-    "description": "Join us for a simple closing circle to reflect on the week, hear messages of joy shared by the community, and honor the connections created during Solstice. A quiet and meaningful ending to our time together."
+    "photo": "/images/teachers/All-Sangat.jpg",
+    "description": "Before we return home, we gather one last time.\n\nJoin us for a simple closing circle to reflect on the week, hear messages of joy shared by the community, and honor the connections created during Solstice.\n\nA quiet and meaningful ending to our time together."
   },
   {
     "id": "2026-06-26-1345-the-spirit-of-keeping-up",
@@ -1246,6 +1311,7 @@
     "category": "Kriya and Meditation",
     "location": "Tantric Shelter",
     "facilitator": "Siri Marka Singh Khalsa",
+    "photo": "/images/teachers/Siri-Marka-Singh-Khalsa.jpg",
     "country": "USA",
     "language": "ENGLISH / SPANISH",
     "description": "For many years Yogi Bhajan taught us that the best mantra for the Aquarian age is “Keep Up”. In this class you will learn the techniques that will give you the foundation from which you can excel forward through your commitment. If you don’t keep up with yourself… life will move without you.Step in, tune up, and rise to meet your own excellence."
@@ -1261,6 +1327,7 @@
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
     "facilitator": "Simran Shakti Kaur",
+    "photo": "/images/teachers/Simran-Shakti-Kaur.jpg",
     "country": "Uruguay",
     "description": "How long has it been since you felt truly “at home” within yourself? We often look outside for satisfaction and calm, but true peace comes from understanding our energy centers and releasing the blocks we’ve held onto for years. I invite you to join this class, where we will explore our emotions to reconnect with our vital force. What we will explore in this class: Body Awareness: Learn to recognize where you hold physical tension and what those emotions are trying to tell you. Emotional Processing: Instead of letting emotions paralyze you, you will learn practical tools to move through them and recover your energy. Mental Clarity: Work on releasing the subconscious “noise” and old patterns that get in the way of your peace. Finding Your Center: Practice staying steady under outside pressure and returning to your own balance. Renewed Vitality: Using Kundalini Yoga breathing and kriyas, we will work to unblock stagnant energy so you can feel more present. In this class, we will dive into our roots to address fear. We won’t try to fight it; instead, we will work to understand it and move through it to reclaim your personal power. Through pranayama, a specific Kundalini Yoga kriya, and meditation, we will focus on transforming insecurity into the strength to move forward."
   },
@@ -1275,6 +1342,7 @@
     "category": "Kriya and Meditation",
     "location": "SDI Academy",
     "facilitator": "SS Satkirin Kaur Khalsa",
+    "photo": "/images/teachers/Satkirin-Kaur-Khalsa.jpg",
     "country": "USA",
     "description": "Satkirin Kaur will guide you through a series of Kundalini Kriya’s and Shabads as a daily prescription for happiness, with special focus on rhythm, vocal patterns, breath and word meaning. We will study how “Sahib Parnaam Kriya” and the Narayan Shabd create functional brain change, give personal guidance and enhance your intuition. Establish a new personal relationship with your inner self. Give yourself a new formula to preserve balance and enhance your ability to handle the Information overload we now face."
   },
@@ -1289,6 +1357,7 @@
     "category": "Kriya and Meditation",
     "location": "Atma Shelter",
     "facilitator": "Karina Skye",
+    "photo": "/images/teachers/Karina-Skye.jpg",
     "country": "USA",
     "description": "Karina Skye will explore the main aspects of The Divine and Sacred Sound Current and help us understand what is Naad, Naam and Shabad Guru as we practice a few Kundalini Yoga meditations with LIVE MUSIC focusing on restoring the nervous system, clearing emotions from the past, and reconnecting to our life purpose and The Divine Source."
   },
@@ -1303,6 +1372,7 @@
     "category": "Kriya and Meditation",
     "location": "SDI Academy",
     "facilitator": "MSS Hari Dharam Kaur Khalsa",
+    "photo": "/images/teachers/Hari-Dharam-Kaur-Khalsa.jpg",
     "country": "USA",
     "description": "In this class, we will share teachings from the time of the Gurus, exploring our Sikh spiritual path and how we can apply it in our lives each day. This brings us to connect with our own “inner Guru” with inspiration and radiance."
   },
@@ -1335,9 +1405,9 @@
     "startTime": "18:30",
     "endTime": "19:30",
     "sourcePage": 47,
-    "title": "Karma Yoga Action An hour to gather and serve together.",
+    "title": "Karma Yoga Action",
     "category": "Service",
-    "description": "Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
   },
   {
     "id": "2026-06-26-1900-rensabhai-kirtan",
@@ -1375,9 +1445,10 @@
     "startTime": "03:40",
     "endTime": "06:00",
     "sourcePage": 48,
-    "title": "Aquarian Sadhana, Kriya: Dyal Gobinde, : Guru Shabad Singh",
+    "title": "Aquarian Sadhana",
     "category": "Mantras",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Kriya: Dyal Gobinde, Mantras: Guru Shabad Singh"
   },
   {
     "id": "2026-06-27-0600-gurdwara",

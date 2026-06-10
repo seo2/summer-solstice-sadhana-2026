@@ -11,6 +11,8 @@ export type Activity = {
   country?: string;
   language?: string;
   description?: string;
+  photo?: string;
+  photos?: string[];
   sourcePage?: number;
 };
 

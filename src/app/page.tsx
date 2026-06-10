@@ -1,39 +1,48 @@
 import { AppLink as Link } from "@/components/app-link";
 import { CalendarDays, Heart, Info, Map } from "lucide-react";
-import program from "@/data/program.json";
 import { InstallHint } from "@/components/install-hint";
-import type { Activity } from "@/lib/types";
-
-const activities = program as Activity[];
 
 const navItems = [
-  { href: "/program", label: "Program", icon: CalendarDays, value: `${activities.length} items` },
-  { href: "/favorites", label: "Favorites", icon: Heart, value: "save practices" },
-  { href: "/info", label: "Info", icon: Info, value: "camp guide" },
-  { href: "/map", label: "Map", icon: Map, value: "venues" },
+  { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
+  { href: "/favorites", label: "Favorites", icon: Heart, value: "Saved sessions" },
+  { href: "/info", label: "Info", icon: Info, value: "Camp guide" },
+  { href: "/map", label: "Map", icon: Map, value: "Venues & map" },
 ];
 
 export default function Home() {
   return (
     <div className="space-y-4">
-      <section className="premium-pass-hero relative -mx-1 overflow-hidden rounded-2xl bg-[#2f62b6] px-5 pb-5 pt-7 text-white shadow-[0_28px_80px_rgba(47,98,182,0.30)] sm:mx-0 sm:px-7 sm:pt-8">
-        <div className="solstice-hero-cover absolute inset-0 opacity-35" />
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-300/75 via-white/50 to-[#2f62b6]/90" />
-        <div className="absolute -right-14 -top-12 h-52 w-52 rounded-full bg-white/45 blur-3xl" />
-        <div className="absolute -bottom-20 left-8 h-44 w-44 rounded-full bg-[#f39200]/25 blur-3xl" />
-        <div className="absolute inset-x-6 top-5 h-px bg-white/35" />
+      <section className="relative -mx-1 overflow-hidden rounded-2xl bg-[#1d3f94] px-6 pb-7 pt-8 shadow-[0_24px_64px_rgba(18,51,130,0.30)] sm:mx-0 sm:px-8">
+        {/* Decorative blurs */}
+        <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-300/15 blur-3xl" />
+        <div className="absolute -bottom-20 left-0 h-60 w-60 rounded-full bg-[#f39200]/12 blur-3xl" />
+        <div className="premium-pass-hero absolute inset-0 pointer-events-none" />
 
-        <div className="relative flex min-h-[280px] flex-col justify-between">
-          <div>
-            <p className="solstice-kicker text-xs font-black uppercase text-white drop-shadow-[0_2px_8px_rgba(255,255,255,0.8)] sm:text-sm">June 19–27, 2026</p>
-            <h1 className="solstice-title mt-3 max-w-[9ch] text-5xl font-black uppercase leading-[0.86] text-white sm:text-6xl">Summer Solstice</h1>
-            <p className="mt-1 text-4xl font-black uppercase leading-none tracking-tight text-[#2f62b6] drop-shadow-[0_2px_12px_rgba(255,255,255,0.95)] sm:text-5xl">Sadhana</p>
-            <p className="mt-4 max-w-[18rem] text-base font-semibold leading-6 text-[#1d4f9d] drop-shadow-[0_1px_10px_rgba(255,255,255,0.95)] sm:text-lg">Chardi Kala: A Celebration of Joy</p>
+        <div className="relative space-y-6">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3.5 py-1.5">
+            <span className="text-[11px] font-black uppercase tracking-[0.2em] text-[#f39200]">3HO</span>
+            <span className="h-3 w-px bg-white/25" />
+            <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">June 19–27, 2026</span>
           </div>
 
-          <div className="mt-6 grid grid-cols-2 gap-3">
-            <Link href="/program" className="rounded-2xl bg-white px-4 py-3 text-center text-sm font-black text-[#2f62b6] shadow-[0_14px_30px_rgba(15,23,42,0.18)] sm:text-base">Open Program</Link>
-            <Link href="/info" className="rounded-2xl bg-white/15 px-4 py-3 text-center text-sm font-black text-white shadow-lg ring-1 ring-white/40 backdrop-blur-md sm:text-base">Info Hub</Link>
+          {/* Title */}
+          <div>
+            <h1 className="solstice-title text-[3.75rem] font-black uppercase leading-[0.87] tracking-tight text-white sm:text-7xl">
+              Summer<br />Solstice
+            </h1>
+            <p className="mt-2 text-[2rem] font-black uppercase tracking-wider text-[#f39200] sm:text-5xl">
+              Sadhana
+            </p>
+            <p className="mt-4 text-lg font-semibold text-white/70">
+              Chardi Kala · A Celebration of Joy
+            </p>
+          </div>
+
+          {/* CTAs */}
+          <div className="grid grid-cols-2 gap-3">
+            <Link href="/program" className="rounded-2xl bg-white px-4 py-3.5 text-center text-sm font-black text-[#1d3f94] shadow-[0_8px_20px_rgba(0,0,0,0.15)]">Open Program</Link>
+            <Link href="/info" className="rounded-2xl border border-white/25 bg-white/12 px-4 py-3.5 text-center text-sm font-black text-white">Info Hub</Link>
           </div>
         </div>
       </section>
@@ -54,7 +63,6 @@ export default function Home() {
           );
         })}
       </section>
-
     </div>
   );
 }
