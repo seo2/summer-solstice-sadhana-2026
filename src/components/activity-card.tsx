@@ -1,7 +1,7 @@
 import { AppLink as Link } from "@/components/app-link";
 import { Heart, MapPin } from "lucide-react";
 import type { Activity } from "@/lib/types";
-import { formatDate, timeRange } from "@/lib/utils";
+import { timeRange } from "@/lib/utils";
 
 const ROUTINE_CATEGORIES = new Set(["Meal", "Logistics"]);
 const ROUTINE_TITLE = /^rise up/i;
@@ -34,7 +34,7 @@ export function ActivityCard({ activity, isFavorite, onToggleFavorite }: Props) 
     <article className="activity-list-card relative overflow-hidden rounded-2xl p-4">
       <div className="flex items-start justify-between gap-3">
         <Link href={`/program/${activity.id}`} className="min-w-0 flex-1 pr-1">
-          <p className="text-sm font-bold leading-tight text-[#f39200]">{formatDate(activity.date)} · {timeRange(activity.startTime, activity.endTime)}</p>
+          <p className="text-sm font-bold leading-tight text-[#f39200]">{timeRange(activity.startTime, activity.endTime)}</p>
           <h3 className="mt-2 line-clamp-2 text-[18px] font-black leading-snug text-slate-900">{activity.title}</h3>
         </Link>
         <div className="relative z-10 flex shrink-0">

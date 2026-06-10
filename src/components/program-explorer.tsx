@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Heart, Search } from "lucide-react";
 import { AppLink as Link } from "@/components/app-link";
 import { ActivityCard } from "@/components/activity-card";
@@ -19,6 +19,16 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
   const [date, setDate] = useState("all");
   const [venue, setVenue] = useState("all");
   const [category, setCategory] = useState("all");
+  const filterRef = useRef<HTMLDivElement>(null);
+  const [filterHeight, setFilterHeight] = useState(0);
+
+  useEffect(() => {
+    const el = filterRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(() => setFilterHeight(el.offsetHeight));
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
   const savedCount = mode === "favorites" ? favoriteIds.size : activities.length;
@@ -37,6 +47,19 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
   }, [activities, category, date, favoriteIds, mode, query, venue]);
 
+  const byDate = useMemo(() => {
+    const groups: { date: string; items: Activity[] }[] = [];
+    for (const activity of filtered) {
+      const last = groups[groups.length - 1];
+      if (last?.date === activity.date) {
+        last.items.push(activity);
+      } else {
+        groups.push({ date: activity.date, items: [activity] });
+      }
+    }
+    return groups;
+  }, [filtered]);
+
   if (mode !== "all" && savedCount === 0) {
     return (
       <section className="empty-saved-card rounded-2xl p-8 text-center">
@@ -54,9 +77,11 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
     );
   }
 
+  const dayHeaderTop = `calc(4.35rem + ${filterHeight}px)`;
+
   return (
     <section className="space-y-4">
-      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-19">
+      <div ref={filterRef} className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-19">
         <div className="filter-glass-card rounded-2xl p-4">
           <label className="flex items-center gap-2 rounded-xl bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
             <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
@@ -85,7 +110,6 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
             </select>
           </div>
-          <p className="mt-3 px-1 text-sm font-semibold text-stone-500">{mode === "all" ? `${filtered.length} activities` : `${filtered.length} ${filtered.length === 1 ? "activity" : "activities"} saved`}</p>
         </div>
       </div>
 
@@ -95,23 +119,25 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
           <p className="mt-2 text-sm text-stone-600">Add activities with the heart button, or clear the filters.</p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {filtered.flatMap((activity, i) => {
-            const showSeparator = i === 0 || filtered[i - 1].date !== activity.date;
-            const nodes = [];
-            if (showSeparator) {
-              nodes.push(
-                <div key={`sep-${activity.date}`} className="flex items-center gap-3 pt-2 pb-1">
-                  <span className="text-sm font-black text-[#2f62b6]">{formatDayLabel(activity.date)}</span>
+        <div className="space-y-2">
+          {byDate.map(({ date: d, items }) => (
+            <section key={d}>
+              <div
+                className="sticky z-20 -mx-1 bg-white/90 px-1 py-2 backdrop-blur-sm"
+                style={{ top: dayHeaderTop }}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-black text-[#2f62b6]">{formatDayLabel(d)}</span>
                   <div className="h-px flex-1 bg-sky-900/10" />
                 </div>
-              );
-            }
-            nodes.push(
-              <ActivityCard key={activity.id} activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
-            );
-            return nodes;
-          })}
+              </div>
+              <div className="space-y-3 pt-2">
+                {items.map((activity) => (
+                  <ActivityCard key={activity.id} activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
+                ))}
+              </div>
+            </section>
+          ))}
         </div>
       )}
     </section>

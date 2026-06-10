@@ -15,7 +15,7 @@ export default function ProgramPage() {
       <section className="pt-1">
         <p className="solstice-kicker text-xs font-black uppercase">Daily Schedule</p>
         <h1 className="mt-1 text-4xl font-black tracking-tight text-[#2f62b6]">Program</h1>
-        <p className="mt-1 text-sm font-semibold text-stone-600">{dateRange} · {activities.length} activities</p>
+        <p className="mt-1 text-sm font-semibold text-stone-600">{dateRange}</p>
       </section>
       <ProgramExplorer activities={activities} venues={venues as Venue[]} categories={categories as Category[]} />
     </div>
