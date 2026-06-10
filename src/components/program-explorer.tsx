@@ -39,7 +39,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
     const Icon = isAgenda ? Star : Heart;
 
     return (
-      <section className="empty-saved-card rounded-[2rem] p-8 text-center">
+      <section className="empty-saved-card rounded-2xl p-8 text-center">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-sm ring-1 ring-sky-900/10">
           <Icon className={cn("h-12 w-12", isAgenda ? "fill-[#2f62b6]/10 text-[#2f62b6]" : "fill-rose-500/10 text-rose-500")} />
         </div>
@@ -47,7 +47,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
         <p className="mx-auto mt-2 max-w-xs text-sm font-semibold leading-6 text-stone-600">
           Browse the Program and tap {isAgenda ? "★" : "♥"} to add activities here
         </p>
-        <Link href="/program" className="mt-6 inline-flex items-center justify-center rounded-[1.25rem] bg-[#2f62b6] px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-900/15">
+        <Link href="/program" className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#2f62b6] px-5 py-3 text-sm font-black text-white shadow-lg shadow-blue-900/15">
           Browse Program
         </Link>
       </section>
@@ -56,9 +56,9 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
 
   return (
     <section className="space-y-4">
-      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-[1.9rem] bg-white/55 p-1 backdrop-blur-xl sm:top-[4.75rem]">
-        <div className="filter-glass-card rounded-[1.75rem] p-4">
-          <label className="flex items-center gap-2 rounded-[1.25rem] bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
+      <div className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-[4.75rem]">
+        <div className="filter-glass-card rounded-2xl p-4">
+          <label className="flex items-center gap-2 rounded-xl bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
             <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
             <input
               value={query}
@@ -90,7 +90,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       </div>
 
       {filtered.length === 0 ? (
-        <div className="card rounded-3xl p-8 text-center">
+        <div className="card rounded-2xl p-8 text-center">
           <p className="text-lg font-bold text-stone-900">Nothing here yet</p>
           <p className="mt-2 text-sm text-stone-600">Add activities with the heart or star buttons, or clear the filters.</p>
         </div>

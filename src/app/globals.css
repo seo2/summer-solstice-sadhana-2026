@@ -101,7 +101,7 @@ select {
 .filter-select {
   min-width: 0;
   border: 1px solid rgba(71, 85, 105, 0.18);
-  border-radius: 1.25rem;
+  border-radius: 0.75rem;
   background: #ffffff;
   padding: 0.85rem 0.9rem;
   color: #1e293b;
@@ -191,7 +191,7 @@ select {
 
 .install-hint-card {
   border: 1px solid rgba(57, 169, 239, 0.22);
-  border-radius: 1.5rem;
+  border-radius: 1rem;
   background:
     radial-gradient(circle at 95% 0%, rgba(255, 255, 255, 0.85), transparent 7rem),
     linear-gradient(135deg, rgba(224, 246, 255, 0.96), rgba(239, 249, 255, 0.9));

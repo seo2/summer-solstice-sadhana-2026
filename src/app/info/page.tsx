@@ -164,13 +164,15 @@ function cleanText(value: string) {
     .trim();
 }
 
+const keepTitleIds = new Set(["page-8", "page-16", "page-21", "page-50", "page-51", "page-52"]);
+
 function normalizeLines(page: InfoPage) {
   return page.content
     .replace(/\u00ad/g, "")
     .split(/\n+/g)
     .map(cleanText)
     .filter(Boolean)
-    .filter((line) => (page.id === "page-16" || page.id === "page-50" || (line !== page.title && line !== pageTitles[page.id])) && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
+    .filter((line) => (keepTitleIds.has(page.id) || (line !== page.title && line !== pageTitles[page.id])) && line !== "Stuff You Need to Know" && line !== "Daily Activites" && line !== "Daily Activities");
 }
 
 function createSection(title?: string): InfoSection {
@@ -192,9 +194,17 @@ function sectionsFor(page: InfoPage) {
   const sections: InfoSection[] = [];
   let current = createSection();
   const paragraphBuffer: string[] = [];
+  const quoteBuffer: string[] = [];
+
+  const flushQuote = () => {
+    if (!quoteBuffer.length) return;
+    current.quotes.push(cleanText(quoteBuffer.join(" ")));
+    quoteBuffer.length = 0;
+  };
 
   const commitSection = () => {
     pushParagraph(current, paragraphBuffer);
+    flushQuote();
     if (current.title || current.paragraphs.length || current.bullets.length || current.numbered.length || current.definitions.length || current.quotes.length) {
       sections.push(current);
     }
@@ -209,12 +219,14 @@ function sectionsFor(page: InfoPage) {
 
     if (/^[∙•—-]\s*/.test(line)) {
       pushParagraph(current, paragraphBuffer);
+      flushQuote();
       current.bullets.push(cleanText(line.replace(/^[∙•—-]\s*/, "")));
       continue;
     }
 
     if (/^\d+\.\s*/.test(line)) {
       pushParagraph(current, paragraphBuffer);
+      flushQuote();
       current.numbered.push(cleanText(line.replace(/^\d+\.\s*/, "")));
       continue;
     }
@@ -222,13 +234,31 @@ function sectionsFor(page: InfoPage) {
     const definitionMatch = line.match(/^([^:]{3,36}):\s+(.+)$/);
     if (definitionMatch && definitionLabels.has(definitionMatch[1])) {
       pushParagraph(current, paragraphBuffer);
+      flushQuote();
       current.definitions.push({ label: definitionMatch[1], value: cleanText(definitionMatch[2]) });
       continue;
     }
 
-    if (/^[“\"]/.test(line) || /Yogi Bhajan/.test(line)) {
+    if (/^[“\"]/.test(line)) {
       pushParagraph(current, paragraphBuffer);
-      current.quotes.push(line);
+      flushQuote();
+      quoteBuffer.push(line);
+      // Single-line quote: opens AND closes on the same line
+      if (/["\u201c\u201d]/.test(line.slice(1))) flushQuote();
+      continue;
+    }
+
+    // Attribution closes the open quote buffer; otherwise becomes its own quote entry
+    if (/Yogi Bhajan/.test(line)) {
+      pushParagraph(current, paragraphBuffer);
+      quoteBuffer.push(line);
+      flushQuote();
+      continue;
+    }
+
+    // Continuation of an open multi-line quote
+    if (quoteBuffer.length > 0) {
+      quoteBuffer.push(line);
       continue;
     }
 
@@ -243,7 +273,7 @@ function SectionCard({ section }: { section: InfoSection }) {
   const hasStructuredLists = section.bullets.length || section.numbered.length || section.definitions.length;
 
   return (
-    <article className="overflow-hidden rounded-[1.75rem] border border-sky-900/10 bg-white shadow-sm">
+    <article className="overflow-hidden rounded-xl border border-sky-900/10 bg-white shadow-sm">
       {section.title ? (
         <div className="bg-gradient-to-r from-sky-50 to-orange-50 px-4 py-3">
           <h3 className="text-lg font-black leading-tight text-[#2f62b6]">{section.title}</h3>
@@ -252,13 +282,13 @@ function SectionCard({ section }: { section: InfoSection }) {
 
       <div className="space-y-4 p-4">
         {section.quotes.map((quote) => (
-          <blockquote key={quote.slice(0, 90)} className="rounded-2xl border-l-4 border-[#f39200] bg-orange-50 px-4 py-3 text-base font-semibold leading-7 text-slate-800">
+          <blockquote key={quote.slice(0, 90)} className="rounded-xl border-l-4 border-[#f39200] bg-orange-50 px-4 py-3 text-base font-semibold leading-7 text-slate-800">
             {quote}
           </blockquote>
         ))}
 
         {section.paragraphs.map((paragraph, paragraphIndex) => (
-          <p key={paragraph.slice(0, 90)} className={`${paragraphIndex === 0 && !section.title && !hasStructuredLists ? "rounded-2xl bg-sky-50 p-4 font-semibold text-[#2f62b6]" : "text-slate-700"} text-sm leading-7`}>
+          <p key={paragraph.slice(0, 90)} className={`${paragraphIndex === 0 && !section.title && !hasStructuredLists ? "rounded-xl bg-sky-50 p-4 font-semibold text-[#2f62b6]" : "text-slate-700"} text-sm leading-7`}>
             {paragraph}
           </p>
         ))}
@@ -266,7 +296,7 @@ function SectionCard({ section }: { section: InfoSection }) {
         {section.definitions.length ? (
           <dl className="grid gap-3">
             {section.definitions.map((definition) => (
-              <div key={definition.label} className="rounded-2xl bg-slate-50 p-3 ring-1 ring-slate-900/5">
+              <div key={definition.label} className="rounded-xl bg-slate-50 p-3 ring-1 ring-slate-900/5">
                 <dt className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{definition.label}</dt>
                 <dd className="mt-1 text-sm leading-6 text-slate-700">{definition.value}</dd>
               </div>
@@ -277,7 +307,7 @@ function SectionCard({ section }: { section: InfoSection }) {
         {section.numbered.length ? (
           <ol className="space-y-3">
             {section.numbered.map((item, itemIndex) => (
-              <li key={item.slice(0, 90)} className="flex gap-3 rounded-2xl bg-indigo-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-indigo-900/5">
+              <li key={item.slice(0, 90)} className="flex gap-3 rounded-xl bg-indigo-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-indigo-900/5">
                 <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-xs font-black text-white">{itemIndex + 1}</span>
                 <span>{item}</span>
               </li>
@@ -288,7 +318,7 @@ function SectionCard({ section }: { section: InfoSection }) {
         {section.bullets.length ? (
           <ul className="space-y-2">
             {section.bullets.map((item) => (
-              <li key={item.slice(0, 90)} className="flex gap-3 rounded-2xl bg-emerald-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-emerald-900/5">
+              <li key={item.slice(0, 90)} className="flex gap-3 rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-emerald-900/5">
                 <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600" />
                 <span>{item}</span>
               </li>
@@ -303,7 +333,7 @@ function SectionCard({ section }: { section: InfoSection }) {
 export default function InfoPage() {
   return (
     <div className="space-y-5">
-      <section className="relative overflow-hidden rounded-[2rem] bg-[#2f62b6] p-5 text-white shadow-xl">
+      <section className="relative overflow-hidden rounded-xl bg-[#2f62b6] p-5 text-white shadow-xl">
         <div className="absolute -right-12 -top-14 h-36 w-36 rounded-full bg-white/20 blur-3xl" />
         <div className="absolute -bottom-16 left-8 h-40 w-40 rounded-full bg-[#f39200]/25 blur-3xl" />
         <div className="relative">
@@ -319,7 +349,7 @@ export default function InfoPage() {
         {infoGroups.map((group) => {
           const Icon = group.icon;
           return (
-            <Link key={group.id} href={`#${group.id}`} className={`rounded-3xl p-4 shadow-sm ring-1 ${group.accent}`}>
+            <Link key={group.id} href={`#${group.id}`} className={`rounded-xl p-4 shadow-sm ring-1 ${group.accent}`}>
               <Icon className="h-6 w-6" />
               <p className="mt-3 text-sm font-black leading-tight">{group.title}</p>
               <p className="mt-1 text-xs font-semibold opacity-75">{group.pages.length} {group.pages.length === 1 ? "item" : "items"}</p>
@@ -336,7 +366,7 @@ export default function InfoPage() {
           return (
             <section key={group.id} id={group.id} className="scroll-mt-20 space-y-3">
               <div className="flex items-start gap-3 px-1">
-                <div className={`rounded-2xl p-3 ring-1 ${group.accent}`}>
+                <div className={`rounded-xl p-3 ring-1 ${group.accent}`}>
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
@@ -346,11 +376,11 @@ export default function InfoPage() {
               </div>
 
               <div className="space-y-3">
-                {groupPages.map((page, index) => {
+                {groupPages.map((page) => {
                   const isFeatured = page.id === "code-of-conduct" || page.id === "page-17";
                   const sections = sectionsFor(page);
                   return (
-                    <details key={page.id} open={index === 0 && group.id === "rules"} className={`card group rounded-[1.75rem] p-4 ${isFeatured ? "ring-2 ring-[#f39200]/20" : ""}`}>
+                    <details key={page.id} className={`card group rounded-xl p-4 ${isFeatured ? "ring-2 ring-[#f39200]/20" : ""}`}>
                       <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                         <span>
                           <span className="block text-lg font-black leading-snug text-slate-950">{pageTitles[page.id] ?? page.title}</span>
@@ -376,9 +406,6 @@ export default function InfoPage() {
         })}
       </section>
 
-      <p className="rounded-3xl bg-sky-50 p-4 text-sm font-semibold leading-6 text-slate-700 ring-1 ring-sky-900/10">
-        Open sections while online — PWA caches them for offline reading.
-      </p>
     </div>
   );
 }

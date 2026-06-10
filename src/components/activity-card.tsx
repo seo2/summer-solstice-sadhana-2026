@@ -13,7 +13,7 @@ type Props = {
 
 export function ActivityCard({ activity, isFavorite, isAgenda, onToggleFavorite, onToggleAgenda }: Props) {
   return (
-    <article className="activity-list-card relative overflow-hidden rounded-[1.75rem] p-4">
+    <article className="activity-list-card relative overflow-hidden rounded-2xl p-4">
       <div className="flex items-start justify-between gap-3">
         <Link href={`/program/${activity.id}`} className="min-w-0 flex-1 pr-1">
           <p className="text-sm font-bold leading-tight text-[#f39200]">{formatDate(activity.date)} · {timeRange(activity.startTime, activity.endTime)}</p>

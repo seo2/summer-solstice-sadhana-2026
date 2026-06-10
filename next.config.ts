@@ -41,6 +41,9 @@ const withPWA = withPWAInit({
 const nextConfig: NextConfig = {
   output: "export",
   images: { unoptimized: true },
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
 };
 
 export default withPWA(nextConfig);

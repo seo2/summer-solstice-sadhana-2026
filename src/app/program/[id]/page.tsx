@@ -1,4 +1,5 @@
 import { AppLink as Link } from "@/components/app-link";
+import { ActivityActions } from "@/components/activity-actions";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin } from "lucide-react";
 import program from "@/data/program.json";
@@ -27,7 +28,7 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
   return (
     <article className="space-y-4 pt-1">
       <Link href="/program" className="inline-flex items-center gap-1 text-sm font-black text-[#2f62b6]"><ArrowLeft className="h-4 w-4" /> Program</Link>
-      <div className="activity-detail-card rounded-[2rem] p-5 sm:p-8">
+      <div className="activity-detail-card rounded-2xl p-5 sm:p-8">
         <p className="text-xs font-black uppercase tracking-[0.24em] text-[#f39200]">{formatDetailDate(activity.date)}</p>
         <h1 className="mt-3 text-3xl font-black leading-[0.98] tracking-[-0.045em] text-slate-950 sm:text-4xl">{activity.title}</h1>
         <p className="mt-5 text-xl font-black text-[#2f62b6]">{timeRange(activity.startTime, activity.endTime)}</p>
@@ -38,9 +39,7 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
         </div>
         {activity.facilitator && <p className="mt-7 text-base font-bold text-stone-800">Facilitator: {activity.facilitator}{activity.country ? ` · ${activity.country}` : ""}</p>}
         {activity.description && <p className="mt-7 whitespace-pre-wrap text-base leading-8 text-stone-700">{activity.description}</p>}
-      </div>
-      <div className="rounded-[1.75rem] bg-sky-50/92 p-4 text-sm font-semibold leading-6 text-slate-700 ring-1 ring-[#2f62b6]/20">
-        Use the heart and star buttons from the Program list to save this activity locally.
+        <ActivityActions activityId={activity.id} />
       </div>
     </article>
   );

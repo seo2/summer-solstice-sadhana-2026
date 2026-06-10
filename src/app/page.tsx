@@ -19,7 +19,7 @@ const navItems = [
 export default function Home() {
   return (
     <div className="space-y-4">
-      <section className="premium-pass-hero relative -mx-1 overflow-hidden rounded-[2rem] bg-[#2f62b6] px-5 pb-5 pt-7 text-white shadow-[0_28px_80px_rgba(47,98,182,0.30)] sm:mx-0 sm:px-7 sm:pt-8">
+      <section className="premium-pass-hero relative -mx-1 overflow-hidden rounded-2xl bg-[#2f62b6] px-5 pb-5 pt-7 text-white shadow-[0_28px_80px_rgba(47,98,182,0.30)] sm:mx-0 sm:px-7 sm:pt-8">
         <div className="solstice-hero-cover absolute inset-0 opacity-35" />
         <div className="absolute inset-0 bg-gradient-to-b from-sky-300/75 via-white/50 to-[#2f62b6]/90" />
         <div className="absolute -right-14 -top-12 h-52 w-52 rounded-full bg-white/45 blur-3xl" />
@@ -48,8 +48,8 @@ export default function Home() {
         {navItems.map((item) => {
           const Icon = item.icon;
           return (
-            <Link key={item.href} href={item.href} className="quick-tile group rounded-[1.7rem] p-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-sky-50 text-[#2f62b6] shadow-sm ring-1 ring-sky-100 transition group-hover:scale-105">
+            <Link key={item.href} href={item.href} className="quick-tile group rounded-2xl p-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-sky-50 text-[#2f62b6] shadow-sm ring-1 ring-sky-100 transition group-hover:scale-105">
                 <Icon className="h-6 w-6" />
               </div>
               <p className="mt-3 text-lg font-black text-slate-950">{item.label}</p>
@@ -66,7 +66,7 @@ export default function Home() {
         </div>
         <div className="space-y-2.5">
           {todayHighlights.map((item) => (
-            <Link key={item.id} href={`/program/${item.id}`} className="activity-strip block rounded-[1.4rem] px-4 py-3">
+            <Link key={item.id} href={`/program/${item.id}`} className="activity-strip block rounded-xl px-4 py-3">
               <p className="text-xs font-black uppercase tracking-[0.08em] text-[#f39200]">{formatDate(item.date)} · {timeRange(item.startTime, item.endTime)}</p>
               <p className="mt-1 text-base font-black leading-snug text-slate-900">{item.title}</p>
             </Link>
