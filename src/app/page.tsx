@@ -3,10 +3,8 @@ import { CalendarDays, Heart, Info, Map } from "lucide-react";
 import program from "@/data/program.json";
 import { InstallHint } from "@/components/install-hint";
 import type { Activity } from "@/lib/types";
-import { formatDate, timeRange } from "@/lib/utils";
 
 const activities = program as Activity[];
-const todayHighlights = activities.slice(0, 5);
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: `${activities.length} items` },
@@ -27,11 +25,10 @@ export default function Home() {
 
         <div className="relative flex min-h-[280px] flex-col justify-between">
           <div>
-            <p className="solstice-kicker text-xs font-black uppercase text-[#f39200] drop-shadow-[0_2px_8px_rgba(255,255,255,0.8)] sm:text-sm">June 19–27, 2026</p>
+            <p className="solstice-kicker text-xs font-black uppercase text-white drop-shadow-[0_2px_8px_rgba(255,255,255,0.8)] sm:text-sm">June 19–27, 2026</p>
             <h1 className="solstice-title mt-3 max-w-[9ch] text-5xl font-black uppercase leading-[0.86] text-white sm:text-6xl">Summer Solstice</h1>
             <p className="mt-1 text-4xl font-black uppercase leading-none tracking-tight text-[#2f62b6] drop-shadow-[0_2px_12px_rgba(255,255,255,0.95)] sm:text-5xl">Sadhana</p>
             <p className="mt-4 max-w-[18rem] text-base font-semibold leading-6 text-[#1d4f9d] drop-shadow-[0_1px_10px_rgba(255,255,255,0.95)] sm:text-lg">Chardi Kala: A Celebration of Joy</p>
-            <div className="sun-pill mt-5 inline-flex rounded-2xl px-5 py-3 text-lg font-black uppercase tracking-[0.14em] text-white shadow-2xl sm:text-xl">June 19–27</div>
           </div>
 
           <div className="mt-6 grid grid-cols-2 gap-3">
@@ -58,20 +55,6 @@ export default function Home() {
         })}
       </section>
 
-      <section className="space-y-3 pt-1">
-        <div className="flex items-end justify-between gap-3">
-          <h2 className="text-2xl font-black tracking-tight text-[#2f62b6]">First activities</h2>
-          <Link href="/program" className="text-sm font-black text-[#f39200]">See all</Link>
-        </div>
-        <div className="space-y-2.5">
-          {todayHighlights.map((item) => (
-            <Link key={item.id} href={`/program/${item.id}`} className="activity-strip block rounded-xl px-4 py-3">
-              <p className="text-xs font-black uppercase tracking-[0.08em] text-[#f39200]">{formatDate(item.date)} · {timeRange(item.startTime, item.endTime)}</p>
-              <p className="mt-1 text-base font-black leading-snug text-slate-900">{item.title}</p>
-            </Link>
-          ))}
-        </div>
-      </section>
     </div>
   );
 }
