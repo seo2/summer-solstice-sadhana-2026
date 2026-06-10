@@ -2,17 +2,17 @@
 
 import program from "@/data/program.json";
 import type { Activity } from "@/lib/types";
-import { CheckCircle, DownloadCloud, X } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { CheckCircle, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v25";
-const STORAGE_KEY = "solstice-full-offline-v25-complete";
-const DISMISSED_KEY = "solstice-full-offline-v25-dismissed";
+const CACHE_NAME = "solstice-full-offline-v26";
+const STORAGE_KEY = "solstice-full-offline-v26-complete";
+const DISMISSED_KEY = "solstice-full-offline-v26-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
 const staticRoutes = ["/", "/program", "/agenda", "/favorites", "/info", "/map", "/manifest.webmanifest"];
-const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/images/camp-map.png", "/icons/icon-192.svg", "/icons/icon-512.svg"];
+const staticAssets = ["/images/solstice-cover-top.jpg", "/images/solstice-cover.jpg", "/images/camp-map.png", "/images/icon.png", "/icons/icon-192.png", "/icons/icon-512.png"];
 
 async function waitForServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
@@ -23,7 +23,7 @@ async function waitForServiceWorker() {
     ]);
     if (registration?.waiting) registration.waiting.postMessage({ type: "SKIP_WAITING" });
   } catch {
-    // The Cache API still works without a ready service worker, so do not block the warmup.
+    // Cache API still works without a ready service worker.
   }
 }
 
@@ -91,7 +91,7 @@ async function warmOfflineCache(urls: string[], onProgress: (completed: number, 
       try {
         await warmUrl(cache, url);
       } catch {
-        // Keep going. A single failed route should not prevent the rest of the app from becoming available offline.
+        // Keep going — a single failed route should not block the rest.
       } finally {
         completed += 1;
         onProgress(completed, urls.length);
@@ -102,10 +102,70 @@ async function warmOfflineCache(urls: string[], onProgress: (completed: number, 
   await Promise.all(Array.from({ length: Math.min(CONCURRENCY, urls.length) }, () => worker()));
 }
 
+function SplashScreen({
+  percent,
+  completed,
+  total,
+  fading,
+}: {
+  percent: number;
+  completed: number;
+  total: number;
+  fading: boolean;
+}) {
+  const done = percent >= 100;
+  return (
+    <div
+      className={`fixed inset-0 z-100 flex flex-col items-center justify-center bg-white transition-opacity duration-700 ${fading ? "pointer-events-none opacity-0" : "opacity-100"}`}
+    >
+      {/* Logo + branding */}
+      <div className="flex flex-col items-center text-center">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/icon.png"
+          alt="3HO"
+          width={96}
+          height={96}
+          className="mb-5 h-24 w-24 object-contain"
+        />
+        <p className="text-xs font-bold uppercase tracking-[0.45em] text-[#f39200]">3HO</p>
+        <h1 className="mt-1.5 text-3xl font-black tracking-tight text-[#2f62b6]">Summer Solstice</h1>
+        <p className="mt-1 text-lg font-semibold text-stone-500">Sadhana 2026</p>
+      </div>
+
+      {/* Progress */}
+      <div className="mt-12 w-64">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-[11px] text-stone-400">
+            {done ? "Ready for offline use!" : "Preparing offline content…"}
+          </span>
+          <span className="text-[11px] font-black text-[#2f62b6]">{percent}%</span>
+        </div>
+        <div className="h-1.5 overflow-hidden rounded-full bg-stone-100">
+          <div
+            className="h-full rounded-full bg-[#f39200] transition-all duration-200"
+            style={{ width: `${percent}%` }}
+          />
+        </div>
+        <p className="mt-2 text-center text-[11px] text-stone-300">
+          {completed} / {total} files
+        </p>
+      </div>
+
+      {/* Bottom tagline */}
+      <p className="absolute bottom-10 text-[11px] text-stone-300">Ram Das Puri · New Mexico</p>
+    </div>
+  );
+}
+
 export function OfflinePreloader() {
   const [status, setStatus] = useState<"idle" | "warming" | "complete" | "unsupported">("idle");
   const [dismissed, setDismissed] = useState(false);
   const [progress, setProgress] = useState({ completed: 0, total: 0 });
+  const [splashFading, setSplashFading] = useState(false);
+  const [splashDone, setSplashDone] = useState(false);
+  // True if this page session triggered a cache warm (i.e. first install or cache cleared)
+  const hadSplash = useRef(false);
 
   const urls = useMemo(() => {
     const detailRoutes = (program as Activity[]).map((activity) => `/program/${activity.id}`);
@@ -125,6 +185,7 @@ export function OfflinePreloader() {
       return;
     }
 
+    hadSplash.current = true;
     let cancelled = false;
     setStatus("warming");
     setProgress({ completed: 0, total: urls.length });
@@ -135,6 +196,9 @@ export function OfflinePreloader() {
       if (cancelled) return;
       localStorage.setItem(STORAGE_KEY, "true");
       setStatus("complete");
+      // Hold 100% briefly so the user sees completion, then fade out
+      setTimeout(() => setSplashFading(true), 900);
+      setTimeout(() => setSplashDone(true), 1700);
     });
 
     return () => {
@@ -142,11 +206,25 @@ export function OfflinePreloader() {
     };
   }, [urls]);
 
+  // Show splash while warming or during its fade-out
+  if (hadSplash.current && !splashDone) {
+    const percent = progress.total ? Math.round((progress.completed / progress.total) * 100) : 0;
+    return (
+      <SplashScreen
+        percent={status === "complete" ? 100 : percent}
+        completed={progress.completed}
+        total={progress.total}
+        fading={splashFading}
+      />
+    );
+  }
+
   if (status === "unsupported" || status === "idle") return null;
 
-  if (status === "complete") {
+  // "Offline ready" banner — shown on subsequent visits if not yet dismissed.
+  // Skipped if this session already showed the splash (the splash communicates completion).
+  if (status === "complete" && !hadSplash.current) {
     if (dismissed) return null;
-
     return (
       <div className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] z-40 mx-auto flex max-w-3xl items-center gap-2 rounded-2xl bg-emerald-600 px-4 py-3 text-sm font-bold text-white shadow-2xl">
         <CheckCircle className="h-5 w-5 shrink-0" />
@@ -166,21 +244,5 @@ export function OfflinePreloader() {
     );
   }
 
-  const percent = progress.total ? Math.round((progress.completed / progress.total) * 100) : 0;
-
-  return (
-    <div className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] z-40 mx-auto max-w-3xl rounded-2xl bg-[#2f62b6] p-4 text-white shadow-2xl">
-      <div className="flex items-center gap-3">
-        <DownloadCloud className="h-5 w-5 shrink-0" />
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-black">Preparing offline access</p>
-          <p className="text-xs text-sky-100">Keep this page open once while connected: {progress.completed}/{progress.total} files</p>
-        </div>
-        <span className="text-sm font-black">{percent}%</span>
-      </div>
-      <div className="mt-3 h-2 overflow-hidden rounded-full bg-white/20">
-        <div className="h-full rounded-full bg-[#f39200] transition-all" style={{ width: `${percent}%` }} />
-      </div>
-    </div>
-  );
+  return null;
 }

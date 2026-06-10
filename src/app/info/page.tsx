@@ -239,7 +239,7 @@ function sectionsFor(page: InfoPage) {
       continue;
     }
 
-    if (/^[“\"]/.test(line)) {
+    if (/^[\u201c\"]/.test(line)) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
       quoteBuffer.push(line);
