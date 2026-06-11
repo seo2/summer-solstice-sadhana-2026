@@ -1,35 +1,39 @@
 "use client";
 
-import { List, Minus, Plus, X } from "lucide-react";
+import { List, Maximize2, Minus, Plus, RotateCcw, X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 
 const MAP_WIDTH = 1266;
 const MAP_HEIGHT = 1204;
-const MIN_ZOOM = 0.5;
+const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.25;
 
 const mapLegend = [
-  { number: 1, label: "SSS Cabin", color: "#e8a323" },
-  { number: 2, label: "Hospitality", color: "#88aa50" },
-  { number: 3, label: "Admin", color: "#f3b6db" },
-  { number: 4, label: "Showers\nFlush Toilets\nFamily Showers", color: "#55c4e6" },
-  { number: 5, label: "Tantric Shelter", color: "#d97843" },
-  { number: 6, label: "Atma Shelter", color: "#df824f" },
-  { number: 7, label: "Prem Shelter", color: "#dc7840" },
-  { number: 8, label: "SDI Academy", color: "#e47f45" },
-  { number: 9, label: "Kids Camp", color: "#f2dc27" },
-  { number: 11, label: "First Aid", color: "#e5272f" },
-  { number: 12, label: "Dining / Bazaar\nRegistration", color: "#9c84c5" },
-  { number: 13, label: "Kitchen", color: "#c8beb9" },
-  { number: 14, label: "Adobe Cabins", color: "#ffffff" },
+  { number: 1, label: "SSS Cabin", shortLabel: "SSS Cabin", color: "#e8a323", point: { x: 434, y: 424 } },
+  { number: 2, label: "Hospitality", shortLabel: "Hospitality", color: "#88aa50", point: { x: 574, y: 397 } },
+  { number: 3, label: "Admin", shortLabel: "Admin", color: "#f3b6db", point: { x: 601, y: 460 } },
+  { number: 4, label: "Showers\nFlush Toilets\nFamily Showers", shortLabel: "Showers", color: "#55c4e6", point: { x: 631, y: 372 } },
+  { number: 5, label: "Tantric Shelter", shortLabel: "Tantric", color: "#d97843", point: { x: 914, y: 444 } },
+  { number: 6, label: "Atma Shelter", shortLabel: "Atma", color: "#df824f", point: { x: 884, y: 705 } },
+  { number: 7, label: "Prem Shelter", shortLabel: "Prem", color: "#dc7840", point: { x: 854, y: 546 } },
+  { number: 8, label: "SDI Academy", shortLabel: "SDI", color: "#e47f45", point: { x: 772, y: 770 } },
+  { number: 9, label: "Kids Camp", shortLabel: "Kids Camp", color: "#f2dc27", point: { x: 710, y: 918 } },
+  { number: 10, label: "First Aid", shortLabel: "First Aid", color: "#e5272f", point: { x: 544, y: 711 } },
+  { number: 11, label: "Dining / Bazaar\nRegistration", shortLabel: "Dining", color: "#9c84c5", point: { x: 681, y: 614 } },
+  { number: 12, label: "Kitchen", shortLabel: "Kitchen", color: "#c8beb9", point: { x: 556, y: 565 } },
+  { number: 13, label: "Adobe Cabins", shortLabel: "Cabins", color: "#ffffff", point: { x: 315, y: 1003 } },
 ];
 
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
+const featuredVenues = [11, 10, 2, 5, 4]
+  .map((number) => mapLegend.find((item) => item.number === number))
+  .filter((item): item is (typeof mapLegend)[number] => Boolean(item));
 
 export function MapViewer() {
   const [zoom, setZoom] = useState(1);
   const [showLegend, setShowLegend] = useState(false);
+  const [selectedVenue, setSelectedVenue] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef(1);
 
@@ -54,14 +58,71 @@ export function MapViewer() {
     setZoom(z);
   };
 
-  // Center the map on mount
+  const scaledWidth = Math.round(MAP_WIDTH * zoom);
+  const scaledHeight = Math.round(MAP_HEIGHT * zoom);
+  const selectedItem = mapLegend.find((item) => item.number === selectedVenue);
+
+  const getFitZoom = () => {
+    const el = containerRef.current;
+    if (!el) return 1;
+    const fitWidth = (el.clientWidth - 16) / MAP_WIDTH;
+    const fitHeight = (el.clientHeight - 16) / MAP_HEIGHT;
+    return clamp(Math.min(fitWidth, fitHeight), MIN_ZOOM, MAX_ZOOM);
+  };
+
+  const setZoomAndScroll = (nextZoom: number, left: number, top: number, behavior: ScrollBehavior = "smooth") => {
+    const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
+    const el = containerRef.current;
+    if (!el) {
+      applyZoom(z);
+      return;
+    }
+
+    if (Math.abs(z - zoomRef.current) > 0.001) {
+      pendingScrollRef.current = { left, top };
+      applyZoom(z);
+      return;
+    }
+
+    el.scrollTo({
+      left: clamp(left, 0, Math.max(0, el.scrollWidth - el.clientWidth)),
+      top: clamp(top, 0, Math.max(0, el.scrollHeight - el.clientHeight)),
+      behavior,
+    });
+  };
+
+  const centerMap = (nextZoom = zoomRef.current, behavior: ScrollBehavior = "smooth") => {
+    const el = containerRef.current;
+    if (!el) return;
+    const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
+    setZoomAndScroll(z, (MAP_WIDTH * z - el.clientWidth) / 2, (MAP_HEIGHT * z - el.clientHeight) / 2, behavior);
+  };
+
+  const fitMap = (behavior: ScrollBehavior = "smooth") => {
+    const fitZoom = getFitZoom();
+    centerMap(fitZoom, behavior);
+  };
+
+  const focusVenue = (item: (typeof mapLegend)[number]) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const targetZoom = Math.max(zoomRef.current, 1);
+    setSelectedVenue(item.number);
+    setZoomAndScroll(
+      targetZoom,
+      item.point.x * targetZoom - el.clientWidth / 2,
+      item.point.y * targetZoom - el.clientHeight / 2,
+    );
+  };
+
+  // Open in an overview state so the user sees the whole camp before zooming into details.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
     requestAnimationFrame(() => {
-      el.scrollLeft = (el.scrollWidth - el.clientWidth) / 2;
-      el.scrollTop = (el.scrollHeight - el.clientHeight) / 2;
+      fitMap("auto");
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // After every zoom state update: apply pending pinch scroll or preserve button-zoom center.
@@ -145,53 +206,117 @@ export function MapViewer() {
 
   return (
     <>
-      <div className="card rounded-2xl p-2">
-        <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-2 pt-1">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-stone-500">Pinch or scroll to explore</p>
-          <div className="flex items-center gap-2">
+      <div className="card overflow-hidden rounded-2xl p-0">
+        <div className="border-b border-sky-900/10 bg-linear-to-r from-sky-50 via-white to-orange-50 px-3 py-3 sm:px-4">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#f39200]">Ram Das Puri</p>
+              <h2 className="mt-0.5 text-lg font-black leading-tight text-slate-950">Camp orientation</h2>
+            </div>
+            <div className="inline-flex h-10 min-w-16 items-center justify-center rounded-full bg-white px-3 text-sm font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-900/10">
+              {Math.round(zoom * 100)}%
+            </div>
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => fitMap()}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
+            >
+              <Maximize2 className="h-3.5 w-3.5" />
+              Overview
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setSelectedVenue(null);
+                centerMap(1);
+              }}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
+            >
+              <RotateCcw className="h-3.5 w-3.5" />
+              Reset
+            </button>
             <button
               type="button"
               onClick={() => setShowLegend(true)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-2 text-xs font-black text-stone-600 shadow-sm ring-1 ring-sky-900/10"
+              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
             >
               <List className="h-3.5 w-3.5" />
-              Legend
+              All venues
             </button>
-            <div className="flex items-center gap-2 rounded-full bg-white p-1 shadow-sm ring-1 ring-sky-900/10">
+            <div className="ml-auto flex min-h-11 items-center gap-1 rounded-full bg-white p-1 shadow-sm ring-1 ring-sky-900/10">
               <button
                 type="button"
                 onClick={() => applyZoom(zoom - ZOOM_STEP)}
                 disabled={zoom <= MIN_ZOOM}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] disabled:opacity-40"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] transition active:scale-95 disabled:opacity-40"
                 aria-label="Zoom out map"
               >
                 <Minus className="h-4 w-4" />
               </button>
-              <span className="min-w-12 text-center text-xs font-black text-stone-600">{Math.round(zoom * 100)}%</span>
               <button
                 type="button"
                 onClick={() => applyZoom(zoom + ZOOM_STEP)}
                 disabled={zoom >= MAX_ZOOM}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2f62b6] text-white disabled:opacity-40"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2f62b6] text-white transition active:scale-95 disabled:opacity-40"
                 aria-label="Zoom in map"
               >
                 <Plus className="h-4 w-4" />
               </button>
             </div>
           </div>
+          <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
+            {featuredVenues.map((item) => (
+              <button
+                key={item.number}
+                type="button"
+                onClick={() => focusVenue(item)}
+                aria-pressed={selectedVenue === item.number}
+                className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 py-2 text-xs font-black shadow-sm ring-1 transition active:scale-95 ${
+                  selectedVenue === item.number
+                    ? "bg-[#2f62b6] text-white ring-[#2f62b6]"
+                    : "bg-white text-slate-700 ring-sky-900/10"
+                }`}
+              >
+                <span
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-slate-950/30 text-[11px] font-black text-slate-950"
+                  style={{ backgroundColor: item.color }}
+                >
+                  {item.number}
+                </span>
+                {item.shortLabel}
+              </button>
+            ))}
+          </div>
         </div>
         <div
           ref={containerRef}
-          className="app-map-scroll max-h-[70vh] overflow-auto rounded-xl bg-white overscroll-contain"
+          className="app-map-scroll relative h-[58vh] min-h-[22rem] max-h-[44rem] overflow-auto bg-[#f3ead8] overscroll-contain"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/camp-map.png"
-            alt="Camp map for Summer Solstice 2026"
-            width={Math.round(MAP_WIDTH * zoom)}
-            height={Math.round(MAP_HEIGHT * zoom)}
-            className="max-w-none rounded-xl"
-          />
+          <div className="relative" style={{ width: scaledWidth, height: scaledHeight }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/camp-map.png"
+              alt="Camp map for Summer Solstice 2026"
+              width={scaledWidth}
+              height={scaledHeight}
+              className="absolute inset-0 max-w-none"
+            />
+            {selectedItem ? (
+              <div
+                className="pointer-events-none absolute flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-sky-200/25 ring-4 ring-[#2f62b6]/30"
+                style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
+              >
+                <span
+                  className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-950 text-sm font-black text-slate-950 shadow-lg"
+                  style={{ backgroundColor: selectedItem.color }}
+                >
+                  {selectedItem.number}
+                </span>
+              </div>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -202,31 +327,46 @@ export function MapViewer() {
           onClick={() => setShowLegend(false)}
         >
           <div
-            className="card w-full max-w-lg rounded-t-2xl p-5 pb-[calc(env(safe-area-inset-bottom)+2rem)]"
+            className="card flex max-h-[82vh] w-full max-w-lg flex-col overflow-hidden rounded-t-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-black text-stone-950">Map Legend</h2>
+            <div className="flex items-center justify-between border-b border-sky-900/10 p-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#f39200]">Legend</p>
+                <h2 className="mt-0.5 text-xl font-black text-stone-950">Map venues</h2>
+              </div>
               <button
                 type="button"
                 onClick={() => setShowLegend(false)}
-                className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-stone-100 text-stone-500"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-stone-100 text-stone-500 transition active:scale-95"
                 aria-label="Close legend"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
-            <div className="grid grid-cols-2 gap-x-3 gap-y-3">
+            <div className="grid gap-2 overflow-y-auto p-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] sm:grid-cols-2">
               {mapLegend.map((item) => (
-                <div key={item.number} className="flex items-start gap-2">
+                <button
+                  key={item.number}
+                  type="button"
+                  onClick={() => {
+                    focusVenue(item);
+                    setShowLegend(false);
+                  }}
+                  className={`flex min-h-14 items-start gap-3 rounded-xl px-3 py-2.5 text-left transition active:scale-[0.99] ${
+                    selectedVenue === item.number
+                      ? "bg-sky-50 ring-2 ring-[#2f62b6]"
+                      : "bg-white/86 ring-1 ring-sky-900/10"
+                  }`}
+                >
                   <span
                     className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 border-stone-950 text-sm font-black text-stone-950 shadow-sm"
                     style={{ backgroundColor: item.color }}
                   >
                     {item.number}
                   </span>
-                  <span className="whitespace-pre-line pt-0.5 text-sm font-medium leading-tight text-stone-700">{item.label}</span>
-                </div>
+                  <span className="whitespace-pre-line pt-0.5 text-sm font-black leading-tight text-stone-700">{item.label}</span>
+                </button>
               ))}
             </div>
           </div>
