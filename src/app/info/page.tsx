@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { AppLink as Link } from "@/components/app-link";
 import { BookOpen, CalendarDays, ChevronDown, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
@@ -12,23 +13,31 @@ type InfoGroup = {
   pages: string[];
 };
 
+type ContentItem =
+  | { k: "p"; text: string }
+  | { k: "b"; text: string }
+  | { k: "n"; text: string; num: number }
+  | { k: "d"; label: string; value: string }
+  | { k: "q"; text: string }
+  | { k: "fn"; text: string };
+
 type InfoSection = {
   title?: string;
-  paragraphs: string[];
-  bullets: string[];
-  numbered: string[];
-  definitions: { label: string; value: string }[];
-  quotes: string[];
-  footnotes: string[];
+  items: ContentItem[];
 };
 
 const pageTitles: Record<string, string> = {
   "page-welcome": "Welcome",
   "page-sikh-dharma": "Sikh Dharma",
   "page-gurdwara-detailed": "Gurdwara",
-  "page-solstice-diet": "The Solstice Diet",
+  "page-solstice-diet": "The Solstice Diet, Food of the Yogis",
   "page-kundalini-yoga": "Kundalini Yoga",
   "page-karma-yoga": "Karma Yoga",
+  "page-aquarian-sadhana-mantras": "Aquarian Sadhana Mantras",
+  "page-wty-intro": "White Tantric Yoga®",
+  "page-wty-mantras": "WTY Mantras",
+  "page-wty-organizer": "Organizer & Head Monitor Guidelines",
+  "page-wty-monitor": "Monitor Guidelines",
   "page-terms": "Terms Heard Around Camp",
   "page-bringing-home": "Bringing Solstice Home",
   "page-eco-3ho": "Eco-3HO",
@@ -71,7 +80,7 @@ const sectionHeadings = new Set([
   "Photography and Videography at Solstice",
   "Personal photography and video are allowed at Solstice, with the following rules:",
   "Bazaar",
-  "Bazaar Hours (may be changed at 3HO’s discretion):",
+  "Bazaar Hours (may be changed at 3HO's discretion):",
   "Lost and Found",
   "Leaving Camp",
   "Security at Solstice",
@@ -98,7 +107,6 @@ const sectionHeadings = new Set([
   "Kirtan Darbar",
   "Sehaj Path",
   // Solstice Diet
-  "Food of the Yogis",
   "Solstice Hot Sauce",
   "Yogi Tea",
   "Golden Milk",
@@ -125,6 +133,25 @@ const sectionHeadings = new Set([
   "Sikh Vows",
   "Singh",
   "Wahe Guru Ji Ka Khalsa, Wahe Guru Ji Ki Fateh!",
+  // White Tantric Yoga
+  "Course #110",
+  "Course #111",
+  "Course #112",
+  "Before WTY",
+  "During WTY",
+  "Before WTY Begins",
+  "Once WTY Begins",
+  "For the First 5 Minutes of Each Meditation",
+  "Breaks",
+  "Policies and Energetics",
+  // Aquarian Sadhana Mantras
+  "Morning Call (7 minutes)",
+  "Waah Yantee, Kar Yantee (7 minutes)",
+  "The Mul Mantra (7 minutes)",
+  "Sat Siri, Siri Akal (7 minutes)",
+  "Rakhe Rakhan Har (7 minutes)",
+  "Wahe Guru Wahe Jio (22 minutes)",
+  "Guru Ram Das Chant (5 minutes)",
   // Eco-3HO
   "Waste Management and You!",
   "Pack It In, Pack It Out",
@@ -210,7 +237,15 @@ const infoGroups: InfoGroup[] = [
     description: "Sikh Dharma, Gurdwara, Kundalini Yoga and Karma Yoga — the spiritual practices of Solstice.",
     icon: Flame,
     accent: "bg-violet-50 text-violet-700 ring-violet-900/10",
-    pages: ["page-sikh-dharma", "page-gurdwara-detailed", "page-kundalini-yoga", "page-karma-yoga"],
+    pages: ["page-sikh-dharma", "page-gurdwara-detailed", "page-kundalini-yoga", "page-karma-yoga", "page-aquarian-sadhana-mantras"],
+  },
+  {
+    id: "wty",
+    title: "White Tantric Yoga®",
+    description: "Participant guidelines, mantras for courses #110–#112, and monitor & organizer reference.",
+    icon: Info,
+    accent: "bg-sky-50 text-sky-700 ring-sky-900/10",
+    pages: ["page-wty-intro", "page-wty-mantras", "page-wty-organizer", "page-wty-monitor"],
   },
   {
     id: "practice",
@@ -242,7 +277,7 @@ const pagesById = new Map((infoPages as InfoPage[]).map((page) => [page.id, page
 
 function cleanText(value: string) {
   return value
-    .replace(/\u00ad/g, "")
+    .replace(/­/g, "")
     .replace(/\s{2,}/g, " ")
     .replace(/\s+([,.;:!?])/g, "$1")
     .replace(/\byour self\b/g, "yourself")
@@ -268,7 +303,7 @@ const keepTitleIds = new Set(["page-8", "page-16", "page-21", "page-50", "page-5
 
 function normalizeLines(page: InfoPage) {
   return page.content
-    .replace(/\u00ad/g, "")
+    .replace(/­/g, "")
     .split(/\n+/g)
     .map(cleanText)
     .filter(Boolean)
@@ -276,12 +311,12 @@ function normalizeLines(page: InfoPage) {
 }
 
 function createSection(title?: string): InfoSection {
-  return { title, paragraphs: [], bullets: [], numbered: [], definitions: [], quotes: [], footnotes: [] };
+  return { title, items: [] };
 }
 
 function pushParagraph(section: InfoSection, buffer: string[]) {
   if (!buffer.length) return;
-  section.paragraphs.push(cleanText(buffer.join(" ")));
+  section.items.push({ k: "p", text: cleanText(buffer.join(" ")) });
   buffer.length = 0;
 }
 
@@ -299,13 +334,13 @@ function sectionsFor(page: InfoPage) {
 
   const flushQuote = () => {
     if (!quoteBuffer.length) return;
-    current.quotes.push(cleanText(quoteBuffer.join(" ")));
+    current.items.push({ k: "q", text: cleanText(quoteBuffer.join(" ")) });
     quoteBuffer.length = 0;
   };
 
   const flushFootnote = () => {
     if (!footnoteBuffer.length) return;
-    current.footnotes.push(cleanText(footnoteBuffer.join(" ")));
+    current.items.push({ k: "fn", text: cleanText(footnoteBuffer.join(" ")) });
     footnoteBuffer.length = 0;
   };
 
@@ -313,7 +348,7 @@ function sectionsFor(page: InfoPage) {
     pushParagraph(current, paragraphBuffer);
     flushQuote();
     flushFootnote();
-    if (current.title || current.paragraphs.length || current.bullets.length || current.numbered.length || current.definitions.length || current.quotes.length || current.footnotes.length) {
+    if (current.title || current.items.length > 0) {
       sections.push(current);
     }
   };
@@ -329,14 +364,16 @@ function sectionsFor(page: InfoPage) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
       flushFootnote();
-      current.bullets.push(cleanText(line.replace(/^[∙•—-]\s*/, "")));
+      current.items.push({ k: "b", text: cleanText(line.replace(/^[∙•—-]\s*/, "")) });
       continue;
     }
 
     if (/^\d+\.\s*/.test(line)) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
-      current.numbered.push(cleanText(line.replace(/^\d+\.\s*/, "")));
+      const numMatch = line.match(/^(\d+)\./);
+      const num = numMatch ? parseInt(numMatch[1]) : 1;
+      current.items.push({ k: "n", text: cleanText(line.replace(/^\d+\.\s*/, "")), num });
       continue;
     }
 
@@ -344,16 +381,16 @@ function sectionsFor(page: InfoPage) {
     if (definitionMatch && definitionLabels.has(definitionMatch[1])) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
-      current.definitions.push({ label: definitionMatch[1], value: cleanText(definitionMatch[2]) });
+      current.items.push({ k: "d", label: definitionMatch[1], value: cleanText(definitionMatch[2]) });
       continue;
     }
 
-    if (/^[\u201c\"]/.test(line)) {
+    if (/^[“\"]/.test(line)) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
       quoteBuffer.push(line);
       // Single-line quote: opens AND closes on the same line
-      if (/["\u201c\u201d]/.test(line.slice(1))) flushQuote();
+      if (/["“”]/.test(line.slice(1))) flushQuote();
       continue;
     }
 
@@ -377,7 +414,7 @@ function sectionsFor(page: InfoPage) {
       continue;
     }
 
-    // Asterisk-prefixed footnote notes (e.g. "* note" or "**note") — render after bullets
+    // Asterisk-prefixed footnote notes
     if (/^\*{1,2}/.test(line)) {
       pushParagraph(current, paragraphBuffer);
       flushQuote();
@@ -400,7 +437,20 @@ function sectionsFor(page: InfoPage) {
 }
 
 function SectionCard({ section }: { section: InfoSection }) {
-  const hasStructuredLists = section.bullets.length || section.numbered.length || section.definitions.length;
+  const hasStructuredLists = section.items.some(
+    (item) => item.k === "b" || item.k === "n" || item.k === "d"
+  );
+
+  // Group consecutive same-type items to render proper list wrappers
+  const groups: ContentItem[][] = [];
+  for (const item of section.items) {
+    const last = groups[groups.length - 1];
+    if (last && last[0].k === item.k) {
+      last.push(item);
+    } else {
+      groups.push([item]);
+    }
+  }
 
   return (
     <article className="overflow-hidden rounded-xl border border-sky-900/10 bg-white shadow-sm">
@@ -411,60 +461,89 @@ function SectionCard({ section }: { section: InfoSection }) {
       ) : null}
 
       <div className="space-y-4 p-4">
-        {section.quotes.map((quote) => (
-          <blockquote key={quote.slice(0, 90)} className="rounded-xl border-l-4 border-[#f39200] bg-orange-50 px-4 py-3 text-base font-semibold leading-7 text-slate-800">
-            {quote}
-          </blockquote>
-        ))}
+        {groups.map((group, gi) => {
+          const k = group[0].k;
 
-        {section.paragraphs.map((paragraph, paragraphIndex) => (
-          <p key={paragraph.slice(0, 90)} className={`${paragraphIndex === 0 && !section.title && !hasStructuredLists ? "rounded-xl bg-sky-50 p-4 font-semibold text-[#2f62b6]" : "text-slate-700"} text-sm leading-7`}>
-            {paragraph}
-          </p>
-        ))}
+          if (k === "q") {
+            return (
+              <Fragment key={gi}>
+                {(group as Array<{ k: "q"; text: string }>).map((item) => (
+                  <blockquote key={item.text.slice(0, 90)} className="rounded-xl border-l-4 border-[#f39200] bg-orange-50 px-4 py-3 text-base font-semibold leading-7 text-slate-800">
+                    {item.text}
+                  </blockquote>
+                ))}
+              </Fragment>
+            );
+          }
 
-        {section.definitions.length ? (
-          <dl className="grid gap-3">
-            {section.definitions.map((definition) => (
-              <div key={definition.label} className="rounded-xl bg-slate-50 p-3 ring-1 ring-slate-900/5">
-                <dt className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{definition.label}</dt>
-                <dd className="mt-1 text-sm leading-6 text-slate-700">{definition.value}</dd>
+          if (k === "p") {
+            return (
+              <Fragment key={gi}>
+                {(group as Array<{ k: "p"; text: string }>).map((item, ii) => {
+                  const isFirst = gi === 0 && ii === 0 && !section.title && !hasStructuredLists;
+                  return (
+                    <p key={item.text.slice(0, 90)} className={`${isFirst ? "rounded-xl bg-sky-50 p-4 font-semibold text-[#2f62b6]" : "text-slate-700"} text-sm leading-7`}>
+                      {item.text}
+                    </p>
+                  );
+                })}
+              </Fragment>
+            );
+          }
+
+          if (k === "d") {
+            return (
+              <dl key={gi} className="grid gap-3">
+                {(group as Array<{ k: "d"; label: string; value: string }>).map((item) => (
+                  <div key={item.label} className="rounded-xl bg-slate-50 p-3 ring-1 ring-slate-900/5">
+                    <dt className="text-xs font-black uppercase tracking-[0.16em] text-slate-500">{item.label}</dt>
+                    <dd className="mt-1 text-sm leading-6 text-slate-700">{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            );
+          }
+
+          if (k === "n") {
+            return (
+              <ol key={gi} className="space-y-3">
+                {(group as Array<{ k: "n"; text: string; num: number }>).map((item) => (
+                  <li key={item.text.slice(0, 90)} className="flex gap-3 rounded-xl bg-indigo-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-indigo-900/5">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-xs font-black text-white">{item.num}</span>
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ol>
+            );
+          }
+
+          if (k === "b") {
+            return (
+              <ul key={gi} className="space-y-2">
+                {(group as Array<{ k: "b"; text: string }>).map((item) => (
+                  <li key={item.text.slice(0, 90)} className="flex gap-3 rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-emerald-900/5">
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600" />
+                    <span>{item.text}</span>
+                  </li>
+                ))}
+              </ul>
+            );
+          }
+
+          if (k === "fn") {
+            return (
+              <div key={gi} className="space-y-1 pt-1">
+                {(group as Array<{ k: "fn"; text: string }>).map((item) => (
+                  <p key={item.text.slice(0, 60)} className="text-xs leading-5 text-slate-400 italic">
+                    {item.text}
+                  </p>
+                ))}
               </div>
-            ))}
-          </dl>
-        ) : null}
+            );
+          }
 
-        {section.numbered.length ? (
-          <ol className="space-y-3">
-            {section.numbered.map((item, itemIndex) => (
-              <li key={item.slice(0, 90)} className="flex gap-3 rounded-xl bg-indigo-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-indigo-900/5">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-indigo-600 text-xs font-black text-white">{itemIndex + 1}</span>
-                <span>{item}</span>
-              </li>
-            ))}
-          </ol>
-        ) : null}
-
-        {section.bullets.length ? (
-          <ul className="space-y-2">
-            {section.bullets.map((item) => (
-              <li key={item.slice(0, 90)} className="flex gap-3 rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-slate-700 ring-1 ring-emerald-900/5">
-                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-emerald-600" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        ) : null}
-
-        {section.footnotes.length ? (
-          <div className="space-y-1 pt-1">
-            {section.footnotes.map((note) => (
-              <p key={note.slice(0, 60)} className="text-xs leading-5 text-slate-400 italic">
-                {note}
-              </p>
-            ))}
-          </div>
-        ) : null}
+          return null;
+        })}
       </div>
     </article>
   );
