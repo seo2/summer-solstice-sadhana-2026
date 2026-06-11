@@ -21,7 +21,7 @@ const mapLegend = [
   { number: 9, label: "Kids Camp", shortLabel: "Kids Camp", color: "#f2dc27", point: { x: 710, y: 918 } },
   { number: 10, label: "First Aid", shortLabel: "First Aid", color: "#e5272f", point: { x: 544, y: 711 } },
   { number: 11, label: "Dining / Bazaar\nRegistration", shortLabel: "Dining", color: "#9c84c5", point: { x: 681, y: 614 } },
-  { number: 12, label: "Kitchen", shortLabel: "Kitchen", color: "#c8beb9", point: { x: 556, y: 565 } },
+  { number: 12, label: "Kitchen", shortLabel: "Kitchen", color: "#c8beb9", point: { x: 556, y: 532 } },
   { number: 13, label: "Adobe Cabins", shortLabel: "Cabins", color: "#ffffff", point: { x: 315, y: 1003 } },
 ];
 
