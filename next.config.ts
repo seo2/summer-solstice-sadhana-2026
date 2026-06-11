@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v31";
+const OFFLINE_CACHE = "solstice-full-offline-v34";
 
 const withPWA = withPWAInit({
   dest: "public",
@@ -27,6 +27,7 @@ const withPWA = withPWAInit({
           request.destination === "script" ||
           request.destination === "style" ||
           request.destination === "image" ||
+          url.pathname.endsWith(".txt") ||
           url.pathname === "/manifest.webmanifest",
         handler: "CacheFirst",
         options: {

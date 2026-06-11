@@ -245,26 +245,6 @@ export function MapViewer() {
               <List className="h-3.5 w-3.5" />
               All venues
             </button>
-            <div className="ml-auto flex min-h-11 items-center gap-1 rounded-full bg-white p-1 shadow-sm ring-1 ring-sky-900/10">
-              <button
-                type="button"
-                onClick={() => applyZoom(zoom - ZOOM_STEP)}
-                disabled={zoom <= MIN_ZOOM}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] transition active:scale-95 disabled:opacity-40"
-                aria-label="Zoom out map"
-              >
-                <Minus className="h-4 w-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => applyZoom(zoom + ZOOM_STEP)}
-                disabled={zoom >= MAX_ZOOM}
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2f62b6] text-white transition active:scale-95 disabled:opacity-40"
-                aria-label="Zoom in map"
-              >
-                <Plus className="h-4 w-4" />
-              </button>
-            </div>
           </div>
           <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
             {featuredVenues.map((item) => (
@@ -290,32 +270,100 @@ export function MapViewer() {
             ))}
           </div>
         </div>
-        <div
-          ref={containerRef}
-          className="app-map-scroll relative h-[58vh] min-h-[22rem] max-h-[44rem] overflow-auto bg-[#f3ead8] overscroll-contain"
-        >
-          <div className="relative" style={{ width: scaledWidth, height: scaledHeight }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/camp-map.png"
-              alt="Camp map for Summer Solstice 2026"
-              width={scaledWidth}
-              height={scaledHeight}
-              className="absolute inset-0 max-w-none"
-            />
-            {selectedItem ? (
-              <div
-                className="pointer-events-none absolute flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-sky-200/25 ring-4 ring-[#2f62b6]/30"
-                style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
-              >
-                <span
-                  className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-950 text-sm font-black text-slate-950 shadow-lg"
-                  style={{ backgroundColor: selectedItem.color }}
+        <div className="relative">
+          <div
+            ref={containerRef}
+            className="app-map-scroll relative h-[58vh] min-h-[22rem] max-h-[44rem] overflow-auto bg-[#f3ead8] overscroll-contain"
+          >
+            <div
+              className="relative"
+              style={{ width: scaledWidth, height: scaledHeight }}
+              onClick={() => setSelectedVenue(null)}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/camp-map.png"
+                alt="Camp map for Summer Solstice 2026"
+                width={scaledWidth}
+                height={scaledHeight}
+                className="absolute inset-0 max-w-none"
+              />
+              {mapLegend.map((item) => (
+                <button
+                  key={item.number}
+                  type="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setSelectedVenue(item.number);
+                  }}
+                  aria-label={`Show ${item.label.replace(/\n/g, ", ")} on map`}
+                  aria-describedby={selectedVenue === item.number ? `map-tooltip-${item.number}` : undefined}
+                  className={`absolute z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full transition active:scale-95 focus-visible:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f62b6] ${
+                    selectedVenue === item.number ? "bg-white/15 ring-2 ring-[#2f62b6]/45" : "bg-transparent"
+                  }`}
+                  style={{ left: item.point.x * zoom, top: item.point.y * zoom }}
                 >
-                  {selectedItem.number}
-                </span>
-              </div>
-            ) : null}
+                  <span className="sr-only">{item.shortLabel}</span>
+                </button>
+              ))}
+              {selectedItem ? (
+                <div
+                  className="pointer-events-none absolute z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-sky-200/25 ring-4 ring-[#2f62b6]/30"
+                  style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
+                >
+                  <span
+                    className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-950 text-sm font-black text-slate-950 shadow-lg"
+                    style={{ backgroundColor: selectedItem.color }}
+                  >
+                    {selectedItem.number}
+                  </span>
+                </div>
+              ) : null}
+              {selectedItem ? (
+                <div
+                  id={`map-tooltip-${selectedItem.number}`}
+                  role="tooltip"
+                  className="pointer-events-none absolute z-30 w-52 -translate-x-1/2 -translate-y-[calc(100%+1rem)] rounded-xl bg-white px-3 py-2 text-left shadow-xl ring-1 ring-sky-900/10"
+                  style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
+                >
+                  <span className="absolute left-1/2 top-full h-3 w-3 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-white ring-1 ring-sky-900/10" />
+                  <span className="relative flex items-start gap-2">
+                    <span
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-950/30 text-xs font-black text-slate-950"
+                      style={{ backgroundColor: selectedItem.color }}
+                    >
+                      {selectedItem.number}
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block text-sm font-black leading-tight text-slate-950">{selectedItem.shortLabel}</span>
+                      <span className="mt-0.5 block whitespace-pre-line text-xs font-semibold leading-snug text-slate-600">
+                        {selectedItem.label}
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className="absolute bottom-3 right-3 z-20 flex min-h-11 items-center gap-1 rounded-full bg-white/95 p-1 shadow-lg ring-1 ring-sky-900/10 backdrop-blur">
+            <button
+              type="button"
+              onClick={() => applyZoom(zoom - ZOOM_STEP)}
+              disabled={zoom <= MIN_ZOOM}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] transition active:scale-95 disabled:opacity-40"
+              aria-label="Zoom out map"
+            >
+              <Minus className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => applyZoom(zoom + ZOOM_STEP)}
+              disabled={zoom >= MAX_ZOOM}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[#2f62b6] text-white transition active:scale-95 disabled:opacity-40"
+              aria-label="Zoom in map"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>

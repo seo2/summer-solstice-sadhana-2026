@@ -130,6 +130,30 @@ select {
   user-select: none;
 }
 
+.route-transition-shell {
+  min-height: 100%;
+  opacity: 0;
+  transform: translate3d(0, 0.45rem, 0);
+  transition:
+    opacity 160ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.route-transition-shell-entered {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-transition-shell {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+}
+
 .day-filter-button {
   flex: 0 0 auto;
   min-width: max-content;

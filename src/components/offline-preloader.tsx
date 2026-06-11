@@ -5,13 +5,14 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v31";
-const STORAGE_KEY = "solstice-full-offline-v31-complete";
-const DISMISSED_KEY = "solstice-full-offline-v31-dismissed";
+const CACHE_NAME = "solstice-full-offline-v34";
+const STORAGE_KEY = "solstice-full-offline-v34-complete";
+const DISMISSED_KEY = "solstice-full-offline-v34-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
-const staticRoutes = ["/", "/program", "/favorites", "/info", "/map", "/womens-renewal", "/manifest.webmanifest"];
+const staticPageRoutes = ["/", "/program", "/favorites", "/info", "/map", "/womens-renewal"];
+const staticRoutes = [...staticPageRoutes, "/manifest.webmanifest"];
 const staticAssets = [
   "/images/solstice-cover-top.jpg",
   "/images/solstice-cover.jpg",
@@ -27,6 +28,11 @@ const staticAssets = [
   "/icons/icon-512.png",
   "/womens-renewal-2026.ics",
 ];
+
+function routePayloadUrl(route: string) {
+  if (route === "/") return "/index.txt";
+  return `${route.replace(/\/$/, "")}.txt`;
+}
 
 async function waitForServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
@@ -187,7 +193,9 @@ export function OfflinePreloader() {
 
   const urls = useMemo(() => {
     const detailRoutes = (program as Activity[]).map((activity) => `/program/${activity.id}`);
-    return Array.from(new Set([...staticRoutes, ...detailRoutes, ...staticAssets]));
+    const pageRoutes = [...staticPageRoutes, ...detailRoutes];
+    const routePayloads = process.env.NODE_ENV === "production" ? pageRoutes.map(routePayloadUrl) : [];
+    return Array.from(new Set([...staticRoutes, ...detailRoutes, ...routePayloads, ...staticAssets]));
   }, []);
 
   useEffect(() => {
