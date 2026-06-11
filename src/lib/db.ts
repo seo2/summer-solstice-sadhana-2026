@@ -8,14 +8,38 @@ type SavedActivity = {
   createdAt: string;
 };
 
+export type ContactMessageStatus = "queued" | "sending" | "sent" | "failed";
+
+export type ContactMessage = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  category: string;
+  message: string;
+  status: ContactMessageStatus;
+  attempts: number;
+  createdAt: string;
+  updatedAt: string;
+  lastAttemptAt?: string;
+  sentAt?: string;
+  error?: string;
+};
+
 class SolsticeDatabase extends Dexie {
   favorites!: Table<SavedActivity, string>;
+  contactMessages!: Table<ContactMessage, string>;
 
   constructor() {
     super("summer-solstice-sadhana-2026");
     this.version(1).stores({
       favorites: "activityId, createdAt",
       agenda: "activityId, createdAt",
+    });
+    this.version(2).stores({
+      favorites: "activityId, createdAt",
+      agenda: "activityId, createdAt",
+      contactMessages: "id, status, createdAt, updatedAt",
     });
   }
 }
@@ -40,4 +64,8 @@ export function useSavedActivities() {
     favoriteIds,
     toggleFavorite: (activityId: string) => toggle(db.favorites, activityId),
   };
+}
+
+export function useContactMessages() {
+  return useLiveQuery(() => db.contactMessages.orderBy("createdAt").reverse().toArray(), [], []);
 }

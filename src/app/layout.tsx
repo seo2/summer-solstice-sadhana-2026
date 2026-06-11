@@ -6,6 +6,7 @@ import { BottomNav } from "@/components/bottom-nav";
 import { WomensRenewalReminder } from "@/components/womens-renewal-reminder";
 import { NavigationWarmup } from "@/components/navigation-warmup";
 import { RouteTransitionShell } from "@/components/route-transition-shell";
+import { ContactOutboxSync } from "@/components/contact-outbox-sync";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <RouteTransitionShell>{children}</RouteTransitionShell>
           </main>
           <NavigationWarmup />
+          <ContactOutboxSync />
           <OfflinePreloader />
           <WomensRenewalReminder />
           <BottomNav />

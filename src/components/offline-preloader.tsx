@@ -5,13 +5,13 @@ import type { Activity } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v34";
-const STORAGE_KEY = "solstice-full-offline-v34-complete";
-const DISMISSED_KEY = "solstice-full-offline-v34-dismissed";
+const CACHE_NAME = "solstice-full-offline-v35";
+const STORAGE_KEY = "solstice-full-offline-v35-complete";
+const DISMISSED_KEY = "solstice-full-offline-v35-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
-const staticPageRoutes = ["/", "/program", "/favorites", "/info", "/map", "/womens-renewal"];
+const staticPageRoutes = ["/", "/program", "/favorites", "/info", "/map", "/contact", "/womens-renewal"];
 const staticRoutes = [...staticPageRoutes, "/manifest.webmanifest"];
 const staticAssets = [
   "/images/solstice-cover-top.jpg",

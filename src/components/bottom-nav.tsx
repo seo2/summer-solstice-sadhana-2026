@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import { AppLink as Link } from "@/components/app-link";
-import { CalendarDays, Heart, Home, Info, Map } from "lucide-react";
+import { CalendarDays, Heart, Home, Info, Map, MessageCircle } from "lucide-react";
 
 const navItems = [
   { href: "/", label: "Home", icon: Home },
@@ -10,6 +10,7 @@ const navItems = [
   { href: "/favorites", label: "Favorites", icon: Heart },
   { href: "/info", label: "Info", icon: Info },
   { href: "/map", label: "Map", icon: Map },
+  { href: "/contact", label: "Contact", icon: MessageCircle },
 ];
 
 export function BottomNav() {
@@ -22,7 +23,7 @@ export function BottomNav() {
 
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-3xl border-t border-sky-900/10 bg-white/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
-      <div className="grid grid-cols-5 gap-1">
+      <div className="grid grid-cols-6 gap-1">
         {navItems.map((item) => {
           const Icon = item.icon;
           const active = isActive(item.href);
