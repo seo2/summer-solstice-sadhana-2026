@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AppLink as Link } from "@/components/app-link";
 import { OfflinePreloader } from "@/components/offline-preloader";
 import { BottomNav } from "@/components/bottom-nav";
+import { WomensRenewalReminder } from "@/components/womens-renewal-reminder";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -44,6 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </header>
           <main className="safe-bottom flex-1 px-4 pb-5 pt-3">{children}</main>
           <OfflinePreloader />
+          <WomensRenewalReminder />
           <BottomNav />
         </div>
       </body>

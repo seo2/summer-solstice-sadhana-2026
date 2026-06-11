@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v27";
+const OFFLINE_CACHE = "solstice-full-offline-v30";
 
 const withPWA = withPWAInit({
   dest: "public",
@@ -40,6 +40,7 @@ const withPWA = withPWAInit({
 
 const nextConfig: NextConfig = {
   output: "export",
+  outputFileTracingRoot: process.cwd(),
   images: { unoptimized: true },
   experimental: {
     optimizePackageImports: ["lucide-react"],

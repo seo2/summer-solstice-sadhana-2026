@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//3HO//Summer Solstice Sadhana 2026 PWA//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:womens-renewal-2026@3ho.org
+DTSTAMP:20260611T000000Z
+DTSTART;VALUE=DATE:20260629
+DTEND;VALUE=DATE:20260702
+SUMMARY:A Woman's Renewal Experience
+LOCATION:Hacienda Guru Ram Das Ashram\, Espanola\, NM
+DESCRIPTION:Post-Summer Solstice women's experience with Kundalini Yoga\, meditation\, Sadhana\, Breathwalk\, gong baths\, kirtan and meals. Registration: https://www.3ho.org/3ho-solstice-events/a-womans-renewal-experience/
+URL:https://www.3ho.org/3ho-solstice-events/a-womans-renewal-experience/
+END:VEVENT
+END:VCALENDAR

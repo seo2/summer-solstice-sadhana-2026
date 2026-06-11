@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ssol-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026", "--", "-p", "3011"],
+      "port": 3011
+    }
+  ]
+}
