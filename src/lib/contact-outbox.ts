@@ -3,7 +3,7 @@
 import { db, type ContactMessage } from "@/lib/db";
 
 export const CONTACT_ENDPOINT = process.env.NEXT_PUBLIC_CONTACT_ENDPOINT?.trim() ?? "";
-export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ?? "";
+export const CONTACT_EMAIL = process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "developer@3ho.org";
 
 export const CONTACT_CATEGORIES = [
   "General support",

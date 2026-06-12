@@ -56,11 +56,67 @@ The build uses `output: "export"`, so the static web build is generated in `out/
 - The service worker is generated during production build by `@ducanh2912/next-pwa`.
 - First load requires internet. After that, the app shell and JSON data are cached for offline use.
 - Favorites and My Agenda are stored locally in IndexedDB on the device.
+- Contact messages are stored locally in IndexedDB first, then retried when the app is online.
 
 For installability:
 
 - Android Chrome: browser menu → Install app / Add to Home screen.
 - iPhone Safari: Share button → Add to Home Screen.
+
+## Contact form sending
+
+The app is a static export, so it cannot send email by itself. The contact form always saves messages locally first, then sends them to `NEXT_PUBLIC_CONTACT_ENDPOINT` when online.
+
+Recommended production setup: install `wordpress/3ho-solstice-contact-endpoint.php` on the 3HO WordPress site. It exposes:
+
+```bash
+https://www.3ho.org/wp-json/3ho-solstice/v1/contact
+```
+
+The endpoint uses WordPress `wp_mail()`, so it sends through the mail configuration already used by 3ho.org.
+
+Do not deploy a build that points to this endpoint until the plugin is installed and the route responds successfully in WordPress.
+
+Current testing recipient:
+
+```bash
+developer@3ho.org
+```
+
+Production recipient:
+
+```bash
+registration@3ho.org
+```
+
+Public app variables:
+
+```bash
+NEXT_PUBLIC_CONTACT_ENDPOINT="https://www.3ho.org/wp-json/3ho-solstice/v1/contact"
+NEXT_PUBLIC_CONTACT_EMAIL="developer@3ho.org"
+```
+
+`NEXT_PUBLIC_CONTACT_EMAIL` is only the fallback email draft target shown in the app. The automatic send target is configured on WordPress.
+
+The WordPress plugin defaults to `developer@3ho.org`. To switch the automatic recipient without editing the plugin, define this in WordPress:
+
+```php
+define('THREEHO_SOLSTICE_CONTACT_TO_EMAIL', 'developer@3ho.org');
+```
+
+For production:
+
+```php
+define('THREEHO_SOLSTICE_CONTACT_TO_EMAIL', 'registration@3ho.org');
+```
+
+For production, change the PWA fallback too:
+
+```bash
+NEXT_PUBLIC_CONTACT_EMAIL="registration@3ho.org"
+```
+
+Because `NEXT_PUBLIC_*` variables are embedded at build time, update the Vercel env vars before creating the deployment that should use the WordPress endpoint.
 
 ## Capacitor next steps
 
@@ -93,6 +149,8 @@ For future local notifications:
 - Confirm activities spanning page breaks have complete descriptions.
 - Replace placeholder map with the official extracted map image/vector if needed.
 
-## No backend
+## Backend dependency
 
-This version has no login and no backend dependency. All content is static JSON and all user state is local to the device.
+This version has no login. All core content is static JSON and most user state is local to the device.
+
+The only optional backend dependency is the contact endpoint. Without it, contact messages remain saved locally and can be opened as email drafts. With it, queued messages are sent automatically when the app is online.
