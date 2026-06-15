@@ -19,7 +19,7 @@
     "sourcePage": 22,
     "title": "Dinner",
     "category": "Meal",
-    "location": "Dining Hall"
+    "location": "Tantric Shelter"
   },
   {
     "id": "2026-06-19-1830-opening-circle-begin-the-solstice-together-in-a-spirit-of-connection-p",
@@ -61,7 +61,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Siri Hari Khalsa"
+    "description": "Kriya: Siri Hari Khalsa, Mantras: Japa Kaur"
   },
   {
     "id": "2026-06-20-0600-gurdwara",
@@ -100,8 +100,8 @@
     "id": "2026-06-20-0900-peace-prayer-day-kulbhir-singh-puri-and-more-since-its-first-observanc",
     "date": "2026-06-20",
     "day": "Saturday",
-    "startTime": "09:00",
-    "endTime": "16:00",
+    "startTime": "08:30",
+    "endTime": "19:30",
     "sourcePage": 23,
     "title": "Peace Prayer Day",
     "category": "Lecture",
@@ -229,7 +229,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Manou Kaur"
+    "description": "Kriya: Manou Kaur, Mantras: Haridass Kaur"
   },
   {
     "id": "2026-06-21-0600-gurdwara",
@@ -271,10 +271,10 @@
     "startTime": "08:45",
     "endTime": "09:30",
     "sourcePage": 26,
-    "title": "Karma Yoga Meetings",
+    "title": "Community Gathering",
     "category": "Service",
     "location": "Tantric Shelter",
-    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "Gather with your service team to align for the day, share updates, support one another, and strengthen the spirit of seva and community."
   },
   {
     "id": "2026-06-21-1345-the-secret-to-prosperity",
@@ -427,13 +427,9 @@
     "startTime": "19:00",
     "endTime": "20:30",
     "sourcePage": 30,
-    "title": "Concert",
+    "title": "Evening Music",
     "category": "Music",
-    "location": "Tantric Shelter",
-    "facilitator": "Daniel Katsuk",
-    "photo": "/images/teachers/Daniel-Katsuk.jpg",
-    "country": "USA",
-    "description": "Fusion of traditional Kundalini Kirtan and KatsüK’s tribal folk psychedelic reggae side with uplifting and empowering lyrics."
+    "location": "Tantric Shelter"
   },
   {
     "id": "2026-06-21-1900-gong",
@@ -445,7 +441,7 @@
     "title": "Gong",
     "category": "Music",
     "location": "Atma Shelter",
-    "facilitator": "Sat Jot",
+    "facilitator": "Sat Jot and Khushbir Singh",
     "country": "USA",
     "photos": [
       "/images/teachers/sat-jot-1.jpg",
@@ -481,7 +477,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Satwant Singh & Japa Kaur"
+    "description": "Kriya: Satwant Singh, Mantras: Satkirin Kaur"
   },
   {
     "id": "2026-06-22-0600-gurdwara",
@@ -526,7 +522,7 @@
     "title": "Karma Yoga Meetings",
     "category": "Service",
     "location": "Tantric Shelter",
-    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "Gather with your service team to align for the day, share updates, support one another, and strengthen the spirit of seva and community."
   },
   {
     "id": "2026-06-22-1000-understanding-the-science-and-research-on-yoga",
@@ -1224,7 +1220,7 @@
     "title": "Karma Yoga Meetings",
     "category": "Service",
     "location": "Tantric Shelter",
-    "description": "An hour to gather and serve together. Energy in motion can heal the world, and energy in service heals the self. This hour is to come together, clean the spaces, check the property, chop some veggies, and ultimately find Joy in the action of Karma Yoga."
+    "description": "Gather with your service team to align for the day, share updates, support one another, and strengthen the spirit of seva and community."
   },
   {
     "id": "2026-06-26-1000-yoga-and-bhangra-breaking-through-blocks",
@@ -1418,7 +1414,8 @@
     "sourcePage": 48,
     "title": "Rensabhai Kirtan",
     "category": "Music",
-    "location": "Tantric Shelter"
+    "location": "Tantric Shelter",
+    "description": "Continuous non-stop Kirtan throughout the night till Amrit-Vela (the early hours of the next day)."
   },
   {
     "id": "2026-06-26-2200-lights-out",
@@ -1448,7 +1445,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Dyal Gobinde, Mantras: Guru Shabad Singh"
+    "description": "Kriya: Dyal Gobinde, Mantras: Charansev Kaur"
   },
   {
     "id": "2026-06-27-0600-gurdwara",

@@ -11,15 +11,15 @@ const ZOOM_STEP = 0.25;
 
 const mapLegend = [
   { number: 1, label: "SSS Cabin", shortLabel: "SSS Cabin", color: "#e8a323", point: { x: 434, y: 424 } },
-  { number: 2, label: "Hospitality", shortLabel: "Hospitality", color: "#88aa50", point: { x: 574, y: 397 } },
-  { number: 3, label: "Admin", shortLabel: "Admin", color: "#f3b6db", point: { x: 601, y: 460 } },
+  { number: 2, label: "Cool Room", shortLabel: "Cool Room", color: "#88aa50", point: { x: 574, y: 397 } },
+  { number: 3, label: "Admin / Security", shortLabel: "Admin / Security", color: "#f3b6db", point: { x: 601, y: 460 } },
   { number: 4, label: "Showers\nFlush Toilets\nFamily Showers", shortLabel: "Showers", color: "#55c4e6", point: { x: 631, y: 372 } },
   { number: 5, label: "Tantric Shelter", shortLabel: "Tantric", color: "#d97843", point: { x: 914, y: 444 } },
   { number: 6, label: "Atma Shelter", shortLabel: "Atma", color: "#df824f", point: { x: 884, y: 705 } },
   { number: 7, label: "Prem Shelter", shortLabel: "Prem", color: "#dc7840", point: { x: 854, y: 546 } },
   { number: 8, label: "SDI Academy", shortLabel: "SDI", color: "#e47f45", point: { x: 772, y: 770 } },
   { number: 9, label: "Kids Camp", shortLabel: "Kids Camp", color: "#f2dc27", point: { x: 710, y: 918 } },
-  { number: 10, label: "First Aid", shortLabel: "First Aid", color: "#e5272f", point: { x: 544, y: 711 } },
+  { number: 10, label: "First Aid / Hospitality", shortLabel: "First Aid / Hospitality", color: "#e5272f", point: { x: 544, y: 711 } },
   { number: 11, label: "Dining / Bazaar\nRegistration", shortLabel: "Dining", color: "#9c84c5", point: { x: 681, y: 614 } },
   { number: 12, label: "Kitchen", shortLabel: "Kitchen", color: "#c8beb9", point: { x: 556, y: 532 } },
   { number: 13, label: "Adobe Cabins", shortLabel: "Cabins", color: "#ffffff", point: { x: 315, y: 1003 } },
