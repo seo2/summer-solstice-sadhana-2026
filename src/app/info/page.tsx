@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { AppLink as Link } from "@/components/app-link";
-import { BookOpen, CalendarDays, ChevronDown, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Users } from "lucide-react";
+import { BookOpen, CalendarDays, ChevronDown, ChevronRight, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Smartphone, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
 import type { InfoPage } from "@/lib/types";
 
@@ -563,6 +563,20 @@ export default function InfoPage() {
           </p>
         </div>
       </section>
+
+      <Link
+        href="/install"
+        className="flex items-center gap-3 rounded-xl border border-[#f39200]/25 bg-white p-4 shadow-sm"
+      >
+        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sky-50 text-[#2f62b6] ring-1 ring-sky-100">
+          <Smartphone className="h-6 w-6" />
+        </div>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-black text-slate-950">Add app to Home Screen</p>
+          <p className="mt-0.5 text-xs font-semibold leading-5 text-slate-500">Step-by-step for iOS &amp; Android</p>
+        </div>
+        <ChevronRight className="h-5 w-5 shrink-0 text-[#2f62b6]" />
+      </Link>
 
       <section aria-label="Info categories" className="grid grid-cols-2 gap-3">
         {infoGroups.map((group) => {

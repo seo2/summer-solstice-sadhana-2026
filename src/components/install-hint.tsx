@@ -1,7 +1,8 @@
 "use client";
 
-import { MoreVertical, Share, Smartphone, X } from "lucide-react";
+import { ChevronRight, MoreVertical, Share, Smartphone, X } from "lucide-react";
 import { useEffect, useState } from "react";
+import { AppLink as Link } from "@/components/app-link";
 
 const DISMISS_KEY = "solstice-install-hint-dismissed";
 
@@ -53,13 +54,19 @@ export function InstallHint() {
   return (
     <div className="install-hint-card sm:hidden">
       <div className="flex items-start gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/70 text-[#2f62b6] shadow-sm ring-1 ring-sky-200/70">
-          <Smartphone className="h-5 w-5" />
-        </div>
-        <div className="min-w-0 flex-1">
-          <p className="text-sm font-black text-[#2f62b6]">{title}</p>
-          <p className="mt-1 text-xs leading-5 text-slate-600">{instruction}</p>
-        </div>
+        <Link href="/install" className="flex min-w-0 flex-1 items-start gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white/70 text-[#2f62b6] shadow-sm ring-1 ring-sky-200/70">
+            <Smartphone className="h-5 w-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-black text-[#2f62b6]">{title}</p>
+            <p className="mt-1 text-xs leading-5 text-slate-600">{instruction}</p>
+            <p className="mt-1.5 inline-flex items-center gap-1 text-xs font-black text-[#2f62b6]">
+              See step-by-step guide
+              <ChevronRight className="h-3.5 w-3.5" />
+            </p>
+          </div>
+        </Link>
         <button
           type="button"
           aria-label="Dismiss install hint"
