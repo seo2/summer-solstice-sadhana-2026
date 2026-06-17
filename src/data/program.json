@@ -277,6 +277,17 @@
     "description": "Gather with your service team to align for the day, share updates, support one another, and strengthen the spirit of seva and community."
   },
   {
+    "id": "2026-06-21-1000-sunday-gurdwara",
+    "date": "2026-06-21",
+    "day": "Sunday",
+    "startTime": "10:00",
+    "endTime": "13:00",
+    "sourcePage": 26,
+    "title": "Sunday Gurdwara",
+    "category": "Community",
+    "location": "Tantric Shelter"
+  },
+  {
     "id": "2026-06-21-1345-the-secret-to-prosperity",
     "date": "2026-06-21",
     "day": "Sunday",
