@@ -229,7 +229,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Manou Kaur, Mantras: Haridass Kaur"
+    "description": "Kriya: Manou Kaur, Mantras: Dr. Haridass Kaur"
   },
   {
     "id": "2026-06-21-0600-gurdwara",
@@ -799,7 +799,7 @@
     "title": "Aquarian Sadhana",
     "category": "Sadhana",
     "location": "Tantric Shelter",
-    "description": "Kriya: Karina Skye"
+    "description": "Kriya: Karina Skye, Mantras: Karina Skye"
   },
   {
     "id": "2026-06-23-0550-gurdwara",
@@ -876,8 +876,8 @@
     "id": "2026-06-23-1900-yogi-tea-cafe",
     "date": "2026-06-23",
     "day": "Tuesday",
-    "startTime": "19:00",
-    "endTime": "20:30",
+    "startTime": "19:30",
+    "endTime": "21:00",
     "sourcePage": 38,
     "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
@@ -928,7 +928,7 @@
     "title": "Aquarian Sadhana",
     "category": "Sadhana",
     "location": "Tantric Shelter",
-    "description": "Kriya: Priya Kaur"
+    "description": "Kriya: Priya Kaur, Mantras: Har Dev Singh"
   },
   {
     "id": "2026-06-24-0550-gurdwara",
@@ -1005,8 +1005,8 @@
     "id": "2026-06-24-1900-yogi-tea-cafe-open-mic-the-yogi-tea-cafe-open-mic-is-a-fun-lively-and-",
     "date": "2026-06-24",
     "day": "Wednesday",
-    "startTime": "19:00",
-    "endTime": "20:30",
+    "startTime": "19:30",
+    "endTime": "21:00",
     "sourcePage": 40,
     "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
@@ -1059,7 +1059,7 @@
     "title": "Aquarian Sadhana",
     "category": "Mantras",
     "location": "Tantric Shelter",
-    "description": "Kriya: Guru Surya Kaur & Adi Shakti Kaur"
+    "description": "Kriya: Guru Surya Kaur, Mantras: Adi Shakti Kaur"
   },
   {
     "id": "2026-06-25-0550-gurdwara",
@@ -1136,8 +1136,8 @@
     "id": "2026-06-25-1900-yogi-tea-cafe-open-mic-the-yogi-tea-cafe-open-mic-is-a-fun-lively-and-",
     "date": "2026-06-25",
     "day": "Thursday",
-    "startTime": "19:00",
-    "endTime": "20:30",
+    "startTime": "19:30",
+    "endTime": "21:00",
     "sourcePage": 42,
     "title": "Yogi Tea Cafe, Open mic",
     "category": "Music",
