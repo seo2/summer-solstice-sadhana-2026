@@ -42,7 +42,14 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
       .filter((item) => (category === "all" ? true : item.category === category))
       .filter((item) => {
         if (!q) return true;
-        return [item.title, item.description, item.facilitator, item.location, item.category].filter(Boolean).join(" ").toLowerCase().includes(q);
+        return [
+          item.title,
+          item.description,
+          item.facilitator,
+          item.location,
+          item.category,
+          ...(item.tags ?? []),
+        ].filter(Boolean).join(" ").toLowerCase().includes(q);
       })
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
   }, [activities, category, date, favoriteIds, mode, query, venue]);

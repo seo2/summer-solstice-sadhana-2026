@@ -6,6 +6,7 @@ export type Activity = {
   endTime?: string;
   title: string;
   category?: string;
+  tags?: string[];
   location?: string;
   facilitator?: string;
   country?: string;

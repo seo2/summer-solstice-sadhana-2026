@@ -34,6 +34,9 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
         <p className="mt-5 text-xl font-black text-[#f39200]">{timeRange(activity.startTime, activity.endTime)}</p>
         <div className="mt-5 flex flex-wrap gap-2 text-sm font-bold">
           {activity.category && <span className="badge rounded-full px-3 py-1.5">{activity.category}</span>}
+          {activity.tags?.map((tag) => (
+            <span key={tag} className="rounded-full bg-rose-50 px-3 py-1.5 text-rose-800 ring-1 ring-rose-200/80">{tag}</span>
+          ))}
           {activity.location && <span className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1.5 text-[#2f62b6] ring-1 ring-sky-200/80"><MapPin className="mr-1 h-4 w-4" />{activity.location}</span>}
           {activity.language && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-sky-800 ring-1 ring-sky-200/80">{activity.language}</span>}
         </div>

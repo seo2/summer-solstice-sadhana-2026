@@ -14,7 +14,6 @@ Extracción automática desde `01_SSOL_booklet_2026.pdf`. Revisar manualmente an
 
 - Page 22 / 2026-06-19 22:00 — revisar: Lights out
 - Page 23 / 2026-06-20 03:00 — revisar: Rise up sweet family dear!
-- Page 23 / 2026-06-20 09:00 — revisar: Peace Prayer Day, Kulbhir Singh Puri and more   Since its first observance in 1986, the event has continued annually. This gathering brings 
 - Page 25 / 2026-06-20 18:30 — revisar: Karma Yoga Action An hour to gather and serve together.
 - Page 25 / 2026-06-20 22:00 — revisar: Lights out
 - Page 26 / 2026-06-21 03:00 — revisar: Rise up sweet family dear!

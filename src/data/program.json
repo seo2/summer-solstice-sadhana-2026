@@ -86,29 +86,87 @@
     "location": "Dining Hall"
   },
   {
-    "id": "2026-06-20-0830-all-camp-meditation",
+    "id": "2026-06-20-0815-all-camp-meditation",
     "date": "2026-06-20",
     "day": "Saturday",
-    "startTime": "08:30",
-    "endTime": "08:45",
+    "startTime": "08:15",
     "sourcePage": 23,
-    "title": "All Camp  Meditation",
+    "title": "All-Camp Meditation",
     "category": "Meditation",
+    "tags": [
+      "Peace Prayer Day"
+    ],
     "location": "Tantric Shelter"
   },
   {
-    "id": "2026-06-20-0900-peace-prayer-day-kulbhir-singh-puri-and-more-since-its-first-observanc",
+    "id": "2026-06-20-0830-healing-peace-walk-intro-prayer",
     "date": "2026-06-20",
     "day": "Saturday",
     "startTime": "08:30",
-    "endTime": "19:30",
     "sourcePage": 23,
-    "title": "Peace Prayer Day",
-    "category": "Lecture",
-    "location": "Tantric Shelter",
-    "facilitator": "Kulbhir Singh Puri and more",
-    "photo": "/images/teachers/Kulbhir-Singh-Puri.jpg",
-    "description": "Since its first observance in 1986, the event has continued annually. This gathering brings together people of every faith to unite in prayer and celebration. This is a time where we honor an ancient Indigenous tradition in which communities gathered to pray for inner healing and global peace. Over time, this tradition has continued at Ram Das Puri in New Mexico, USA.\n\nEach year, people gather and offer a collective prayer—a prayer projected outward as a beam of light, healing, and unity."
+    "title": "Healing Peace Walk Intro & Prayer",
+    "category": "Community",
+    "tags": [
+      "Peace Prayer Day"
+    ]
+  },
+  {
+    "id": "2026-06-20-0850-procession-to-the-site",
+    "date": "2026-06-20",
+    "day": "Saturday",
+    "startTime": "08:50",
+    "sourcePage": 23,
+    "title": "Procession to the Site",
+    "category": "Community",
+    "tags": [
+      "Peace Prayer Day"
+    ]
+  },
+  {
+    "id": "2026-06-20-0930-alley-of-blessings",
+    "date": "2026-06-20",
+    "day": "Saturday",
+    "startTime": "09:30",
+    "sourcePage": 23,
+    "title": "Alley of Blessings",
+    "category": "Community",
+    "tags": [
+      "Peace Prayer Day"
+    ]
+  },
+  {
+    "id": "2026-06-20-1000-healing-walk-mantra-chanting",
+    "date": "2026-06-20",
+    "day": "Saturday",
+    "startTime": "10:00",
+    "sourcePage": 23,
+    "title": "Healing Walk & Mantra Chanting",
+    "category": "Mantras",
+    "tags": [
+      "Peace Prayer Day"
+    ]
+  },
+  {
+    "id": "2026-06-20-1115-lunch",
+    "date": "2026-06-20",
+    "day": "Saturday",
+    "startTime": "11:15",
+    "sourcePage": 23,
+    "title": "Lunch",
+    "category": "Meal",
+    "location": "Dining Hall"
+  },
+  {
+    "id": "2026-06-20-1145-peace-prayer-day-celebration",
+    "date": "2026-06-20",
+    "day": "Saturday",
+    "startTime": "11:45",
+    "sourcePage": 23,
+    "title": "Peace Prayer Day Celebration",
+    "category": "Community",
+    "tags": [
+      "Peace Prayer Day"
+    ]
   },
   {
     "id": "2026-06-20-1600-sovereign-energy-har-dev-khalsa",

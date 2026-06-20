@@ -59,6 +59,9 @@ export function ActivityCard({ activity, isFavorite, onToggleFavorite }: Props) 
         {/* Tags row */}
         <div className="flex flex-wrap gap-2 text-xs font-bold">
           {activity.category && <span className="rounded-full bg-amber-50 px-3 py-1.5 text-amber-800 ring-1 ring-amber-200/80">{activity.category}</span>}
+          {activity.tags?.map((tag) => (
+            <span key={tag} className="rounded-full bg-rose-50 px-3 py-1.5 text-rose-800 ring-1 ring-rose-200/80">{tag}</span>
+          ))}
           {activity.location && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-[#2f62b6] ring-1 ring-sky-200/80"><MapPin className="mr-1 inline h-3.5 w-3.5" />{activity.location}</span>}
           {activity.language && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-sky-800 ring-1 ring-sky-200/80">{activity.language}</span>}
         </div>
