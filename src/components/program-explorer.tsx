@@ -33,6 +33,18 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
   const savedCount = mode === "favorites" ? favoriteIds.size : activities.length;
 
+  // On the main program view, default to the current day if it falls within the
+  // event so attendees land on today's schedule without scrolling. Runs once on
+  // mount (client only) to avoid static-export hydration mismatches.
+  const appliedDefaultDay = useRef(false);
+  useEffect(() => {
+    if (appliedDefaultDay.current || mode !== "all") return;
+    const now = new Date();
+    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+    if (dates.includes(todayStr)) setDate(todayStr);
+    appliedDefaultDay.current = true;
+  }, [dates, mode]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return activities
