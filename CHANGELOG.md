@@ -15,6 +15,8 @@ Note the cache bump in an entry whenever one happened.
 - `CHANGELOG.md` (this file).
 - Planning docs: `docs/ROADMAP.md`, `docs/BACKEND.md`, `docs/NATIVE.md`,
   `docs/LOCAL-NETWORK.md`, `docs/FEATURES.md`.
+- `docs/PROJECT-MEMORY.md` — living context & decision log (current state, decisions,
+  working agreement, next steps); linked from `docs/INDEX.md`.
 - Git workflow (branch per change set → push → merge), changelog discipline, and
   documentation discipline sections in `CLAUDE.md`.
 

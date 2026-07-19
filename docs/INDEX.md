@@ -8,6 +8,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | Doc | What it covers |
 |---|---|
 | [../README.md](../README.md) | Project front door: what the app is, stack, quick start, links |
+| [PROJECT-MEMORY.md](PROJECT-MEMORY.md) | Living context & decision log: current state, decisions made, how we work, next up |
 | [../PRODUCT.md](../PRODUCT.md) | Product intent: users, purpose, brand, principles, accessibility |
 | [../DESIGN.md](../DESIGN.md) | Visual system captured from the current codebase |
 
