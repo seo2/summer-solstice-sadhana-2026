@@ -23,7 +23,9 @@ owner, but scope inside a phase can shift. Nothing here changes the core princip
 Goal: introduce a backend without breaking the offline experience, and stand up
 identity so later social features have something to attach to.
 
-- **Backend service** (separate from the static app — see [BACKEND.md](BACKEND.md)).
+- **Backend service on WordPress + MySQL** for the MVP — custom REST endpoints on the
+  existing 3ho.org WordPress, kept swappable via a versioned REST bundle. Rationale and
+  limits in [BACKEND.md](BACKEND.md).
 - **User registration & login** (email + password / magic link to start).
 - **User profile** (name, photo, preferences, home time zone).
 - **Push notifications** groundwork (device token registration; see [NATIVE.md](NATIVE.md)).

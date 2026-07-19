@@ -36,8 +36,8 @@ npx cap open android   # Android Studio
 
 - Device registers a push token on login (or first launch) and sends it to the backend
   `device` table.
-- Server sends via APNs / FCM (through the backend platform, e.g. Supabase edge function
-  or FCM directly).
+- Server sends via APNs / FCM. For the MVP this is the WordPress backend calling APNs/FCM
+  over HTTP from PHP (see [BACKEND.md](BACKEND.md)); FCM directly is also possible.
 - **Offline caveat:** APNs/FCM require internet. At camp, push must fall back to the
   **local-network delivery** path (in-app realtime over LAN + locally scheduled
   notifications). See [LOCAL-NETWORK.md](LOCAL-NETWORK.md).

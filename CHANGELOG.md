@@ -21,6 +21,10 @@ Note the cache bump in an entry whenever one happened.
 ### Changed
 
 - `README.md` rewritten as a clear front door with a link to the docs index.
+- Backend direction set to **WordPress + MySQL for the MVP** (custom REST on the existing
+  3ho.org WordPress, kept swappable via a versioned REST bundle). Rewrote `docs/BACKEND.md`
+  accordingly; updated `docs/ROADMAP.md` and `docs/NATIVE.md` to match. Supabase and others
+  are now listed as future alternatives to reassess after the MVP.
 
 <!--
 Template for future entries — keep newest on top.
