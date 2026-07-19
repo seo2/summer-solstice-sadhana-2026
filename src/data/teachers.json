@@ -1,0 +1,356 @@
+[
+  {
+    "id": "adi-shakti-kaur",
+    "name": "Adi Shakti Kaur",
+    "facilitatorNames": [
+      "Adi Shakti Kaur"
+    ],
+    "bio": "",
+    "country": "USA"
+  },
+  {
+    "id": "dr-alan-dr-sat-bir-singh",
+    "name": "Dr. Alan & Dr. Sat Bir Singh",
+    "facilitatorNames": [
+      "Dr. Alan & Dr. Sat Bir Singh"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/Alan.jpg",
+      "/images/teachers/Sat-Bir-Singh.jpg"
+    ]
+  },
+  {
+    "id": "angad-kaur",
+    "name": "Angad Kaur",
+    "facilitatorNames": [
+      "Angad Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Angad-Kaur.jpg"
+  },
+  {
+    "id": "bweela-steptoe",
+    "name": "Bweela Steptoe",
+    "facilitatorNames": [
+      "Bweela Steptoe"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Bweela-Steptoe.jpg"
+  },
+  {
+    "id": "chief-open-heart",
+    "name": "Chief Open Heart",
+    "facilitatorNames": [
+      "Chief Open Heart"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Chief-Open-Heart.jpg"
+  },
+  {
+    "id": "gurubachan-singh",
+    "name": "Gurubachan Singh",
+    "facilitatorNames": [
+      "Gurubachan Singh"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Gurubachan-Singh.jpg"
+  },
+  {
+    "id": "gurusurya-kaur-olena-devi-kaur",
+    "name": "GuruSurya Kaur & Olena Devi Kaur",
+    "facilitatorNames": [
+      "GuruSurya Kaur & Olena Devi Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/GuruSurya-Kaur.jpg",
+      "/images/teachers/Olena-Devi-Kaur.jpg"
+    ]
+  },
+  {
+    "id": "gurutej-singh",
+    "name": "Gurutej Singh",
+    "facilitatorNames": [
+      "Gurutej Singh"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Gurutej-Singh.jpg"
+  },
+  {
+    "id": "har-dev-khalsa",
+    "name": "Har Dev Khalsa",
+    "facilitatorNames": [
+      "Har Dev Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Har-Dev-Khalsa.jpg"
+  },
+  {
+    "id": "dr-haridass-kaur",
+    "name": "Dr. Haridass Kaur",
+    "facilitatorNames": [
+      "Dr. Haridass Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Haridass-Kaur.jpg"
+  },
+  {
+    "id": "japa-kaur",
+    "name": "Japa Kaur",
+    "facilitatorNames": [
+      "Japa Kaur"
+    ],
+    "bio": ""
+  },
+  {
+    "id": "jugat-guru-singh-khalsa",
+    "name": "Jugat Guru Singh Khalsa",
+    "facilitatorNames": [
+      "Jugat Guru Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Jugat-Guru-Singh-Khalsa.jpg"
+  },
+  {
+    "id": "karina-skye",
+    "name": "Karina Skye",
+    "facilitatorNames": [
+      "Karina Skye"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Karina-Skye.jpg"
+  },
+  {
+    "id": "karuna-sergio",
+    "name": "Karuna and Sergio",
+    "facilitatorNames": [
+      "Karuna and Sergio"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/karuna.jpg",
+      "/images/teachers/sergio.jpg"
+    ]
+  },
+  {
+    "id": "kulbhir-singh-puri",
+    "name": "Kulbhir Singh Puri",
+    "facilitatorNames": [
+      "Kulbhir Singh Puri"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Kulbhir-Singh-Puri.jpg"
+  },
+  {
+    "id": "mss-hari-dharam-kaur-khalsa",
+    "name": "MSS Hari Dharam Kaur Khalsa",
+    "facilitatorNames": [
+      "MSS Hari Dharam Kaur Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Hari-Dharam-Kaur-Khalsa.jpg"
+  },
+  {
+    "id": "mss-kirtan-singh-khalsa",
+    "name": "MSS Kirtan Singh Khalsa",
+    "facilitatorNames": [
+      "MSS Kirtan Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Kirtan-Singh-Khalsa.png"
+  },
+  {
+    "id": "mukhta-kaur",
+    "name": "Mukhta Kaur",
+    "facilitatorNames": [
+      "Mukhta Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Mukhta-Kaur.jpg"
+  },
+  {
+    "id": "ngoni-fola",
+    "name": "Ngoni Fola",
+    "facilitatorNames": [
+      "Ngoni Fola"
+    ],
+    "bio": ""
+  },
+  {
+    "id": "noor-singh-khalsa",
+    "name": "Noor Singh Khalsa",
+    "facilitatorNames": [
+      "Noor Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Noor-Singh-Khalsa.jpg"
+  },
+  {
+    "id": "rai-singh",
+    "name": "Rai Singh",
+    "facilitatorNames": [
+      "Rai Singh"
+    ],
+    "bio": "",
+    "country": "Chile",
+    "photo": "/images/teachers/rai-singh.jpg"
+  },
+  {
+    "id": "rajmantra-singh-raj-karam",
+    "name": "Rajmantra Singh & Raj Karam",
+    "facilitatorNames": [
+      "Raj Karam and Rajmantra Singh",
+      "Rajmantra Singh and Raj Karam"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/Rajmantra-Singh.jpg",
+      "/images/teachers/Raj-Karam.jpg"
+    ]
+  },
+  {
+    "id": "ravi-prem-kaur",
+    "name": "Ravi Prem Kaur",
+    "facilitatorNames": [
+      "Ravi Prem Kaur"
+    ],
+    "bio": "",
+    "country": "Chile",
+    "photo": "/images/teachers/Ravi-Prem-Kaur.jpg"
+  },
+  {
+    "id": "s-s-rupinder-kaur-khalsa",
+    "name": "S.S. Rupinder Kaur Khalsa",
+    "facilitatorNames": [
+      "S.S. Rupinder Kaur Khalsa"
+    ],
+    "bio": "",
+    "country": "Canada",
+    "photo": "/images/teachers/Rupinder-Kaur-Khalsa.jpg"
+  },
+  {
+    "id": "sat-jot-khushbir-singh",
+    "name": "Sat Jot and Khushbir Singh",
+    "facilitatorNames": [
+      "Sat Jot and Khushbir Singh"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/sat-jot-1.jpg",
+      "/images/teachers/sat-jot-2.jpg"
+    ]
+  },
+  {
+    "id": "ss-dr-sat-kaur-khalsa-ss-dr-shanti-shanti-kaur-khalsa",
+    "name": "SS Dr. Sat Kaur Khalsa & SS Dr. Shanti Shanti Kaur Khalsa",
+    "facilitatorNames": [
+      "SS Dr. Sat Kaur Khalsa & SS Dr. Shanti Shanti Kaur Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photos": [
+      "/images/teachers/Sat-Kaur-Khalsa.jpg",
+      "/images/teachers/Shanti-Kaur-Khalsa.jpg"
+    ]
+  },
+  {
+    "id": "ss-satkirin-kaur-khalsa",
+    "name": "SS Satkirin Kaur Khalsa",
+    "facilitatorNames": [
+      "SS Satkirin Kaur Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Satkirin-Kaur-Khalsa.jpg"
+  },
+  {
+    "id": "satwant-singh-khalsa",
+    "name": "Satwant Singh Khalsa",
+    "facilitatorNames": [
+      "Satwant Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Satwant-Singh-Khalsa.jpg"
+  },
+  {
+    "id": "shakta-kaur",
+    "name": "Shakta Kaur",
+    "facilitatorNames": [
+      "Shakta Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Shakta-Kaur.png"
+  },
+  {
+    "id": "simran-shakti-kaur",
+    "name": "Simran Shakti Kaur",
+    "facilitatorNames": [
+      "Simran Shakti Kaur"
+    ],
+    "bio": "",
+    "country": "Uruguay",
+    "photo": "/images/teachers/Simran-Shakti-Kaur.jpg"
+  },
+  {
+    "id": "ss-siri-chand-singh-khalsa-sdi-board",
+    "name": "SS Siri Chand Singh Khalsa, SDI Board",
+    "facilitatorNames": [
+      "SS Siri Chand Singh Khalsa, SDI Board"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Siri-Chand-Singh-Khalsa.jpg"
+  },
+  {
+    "id": "siri-marka-singh-khalsa",
+    "name": "Siri Marka Singh Khalsa",
+    "facilitatorNames": [
+      "Siri Marka Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Siri-Marka-Singh-Khalsa.jpg"
+  },
+  {
+    "id": "siri-simran-kaur",
+    "name": "Siri Simran Kaur",
+    "facilitatorNames": [
+      "Siri Simran Kaur"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Siri-Simran-Kaur.jpg"
+  },
+  {
+    "id": "surajdev-singh-khalsa",
+    "name": "Surajdev Singh Khalsa",
+    "facilitatorNames": [
+      "Surajdev Singh Khalsa"
+    ],
+    "bio": "",
+    "country": "USA",
+    "photo": "/images/teachers/Surajdev-Singh-Khalsa.jpg"
+  }
+]

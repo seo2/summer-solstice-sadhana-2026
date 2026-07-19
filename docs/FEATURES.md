@@ -43,7 +43,7 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   notification). See [NATIVE.md](NATIVE.md).
 - Depends on: native shell + a synced agenda snapshot.
 
-### Teacher / presenter info — 📋 Phase 3 (can start static, pre-backend)
+### Teacher / presenter info — ✅ step 1 shipped (static) · backend step 📋 Phase 3
 
 - Bios, photos, country, and the sessions each teacher leads (linked to program items,
   accessible from program detail). Spec: [TEACHERS.md](TEACHERS.md).

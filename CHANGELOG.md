@@ -11,6 +11,14 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Teachers section** (static-first, per `docs/TEACHERS.md`): `/teachers` directory
+  (34 teachers with photo/initials avatars, duo support, session counts) and
+  `/teachers/[id]` full profiles (sessions grouped by day, linked to program detail;
+  "About" appears once a bio exists in `src/data/teachers.json`). Teacher quick-view
+  modal opens from the facilitator photo/name on program cards and detail pages.
+  Entry points: Home quick tile + "Teachers" link on the Program header. New routes
+  registered in the offline preloader; cache → v44.
+
 - `docs/MESSAGING.md` — messaging/alerts design: unified channel model (DM, group,
   official announcements, work-group channels, alerts feed), REST API sketch, and the
   **polling-first, socket-ready** decision (realtime companion later).

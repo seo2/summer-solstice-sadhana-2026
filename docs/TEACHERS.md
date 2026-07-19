@@ -2,7 +2,12 @@
 
 Spec for teacher (presenter) profiles, accessible from the program.
 
-> Status: planning. A visual prototype already exists in `design/` (teachers prototype).
+> Status: **step 1 (static-first) shipped** — `/teachers` directory, `/teachers/[id]`
+> profiles, and the quick-view modal from program cards/detail are live (cache v44).
+> Linkage is by facilitator name (`facilitatorNames` in `teachers.json`) instead of
+> `teacherIds` on program items, keeping `program.json` untouched; the backend bundle
+> will ship explicit ids. Bios are empty — "About" renders once filled in
+> `src/data/teachers.json`. Visual reference: `design/teachers-prototype.html`.
 
 ## Goal
 

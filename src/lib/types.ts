@@ -17,6 +17,16 @@ export type Activity = {
   sourcePage?: number;
 };
 
+export type Teacher = {
+  id: string;
+  name: string;
+  facilitatorNames: string[];
+  bio: string;
+  country?: string;
+  photo?: string;
+  photos?: string[];
+};
+
 export type Venue = {
   id: string;
   name: string;

@@ -1,8 +1,10 @@
 import { AppLink as Link } from "@/components/app-link";
 import { ActivityActions } from "@/components/activity-actions";
+import { TeacherQuickView } from "@/components/teacher-quick-view";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin } from "lucide-react";
 import program from "@/data/program.json";
+import { sessionSummariesForTeacher, teacherForActivity } from "@/lib/teachers";
 import type { Activity } from "@/lib/types";
 import { timeRange } from "@/lib/utils";
 
@@ -25,6 +27,9 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
   const activity = activities.find((item) => item.id === id);
   if (!activity) notFound();
 
+  const teacher = teacherForActivity(activity);
+  const teacherSessions = teacher ? sessionSummariesForTeacher(teacher) : [];
+
   return (
     <article className="space-y-4 pt-1">
       <Link href="/program" className="inline-flex items-center gap-1 text-sm font-black text-[#2f62b6]"><ArrowLeft className="h-4 w-4" /> Program</Link>
@@ -40,28 +45,53 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
           {activity.location && <span className="inline-flex items-center rounded-full bg-sky-50 px-3 py-1.5 text-[#2f62b6] ring-1 ring-sky-200/80"><MapPin className="mr-1 h-4 w-4" />{activity.location}</span>}
           {activity.language && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-sky-800 ring-1 ring-sky-200/80">{activity.language}</span>}
         </div>
-        {(activity.facilitator || activity.description) && (
-          <div className="mt-7 flex items-start gap-4">
-            {activity.photos && activity.photos.length > 0 ? (
-              <div className="flex shrink-0 gap-1.5">
-                {activity.photos.map((src, i) => (
-                  <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-14 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
-                ))}
+        {(activity.facilitator || activity.description) && (() => {
+          const photoImgs = activity.photos && activity.photos.length > 0 ? (
+            <span className="flex shrink-0 gap-1.5">
+              {activity.photos.map((src, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-14 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
+              ))}
+            </span>
+          ) : activity.photo ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
+          ) : null;
+
+          return (
+            <div className="mt-7 flex items-start gap-4">
+              {photoImgs && (teacher ? (
+                <TeacherQuickView teacher={teacher} sessions={teacherSessions} className="shrink-0 transition-transform duration-150 active:scale-[0.98]">
+                  {photoImgs}
+                </TeacherQuickView>
+              ) : (
+                photoImgs
+              ))}
+              <div className="min-w-0 flex-1">
+                {activity.facilitator && (
+                  <div className="mb-3">
+                    <p className="text-xs font-black uppercase tracking-widest text-stone-400">Facilitator</p>
+                    <p className="mt-0.5 text-base font-bold text-stone-800">
+                      {teacher ? (
+                        <TeacherQuickView
+                          teacher={teacher}
+                          sessions={teacherSessions}
+                          className="font-bold text-[#2f62b6] underline decoration-sky-200/80 underline-offset-2"
+                        >
+                          {activity.facilitator}
+                        </TeacherQuickView>
+                      ) : (
+                        activity.facilitator
+                      )}
+                      {activity.country ? ` · ${activity.country}` : ""}
+                    </p>
+                  </div>
+                )}
+                {activity.description && <p className="whitespace-pre-wrap text-sm leading-6 text-stone-700">{activity.description}</p>}
               </div>
-            ) : activity.photo ? (
-              <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
-            ) : null}
-            <div className="min-w-0 flex-1">
-              {activity.facilitator && (
-                <div className="mb-3">
-                  <p className="text-xs font-black uppercase tracking-widest text-stone-400">Facilitator</p>
-                  <p className="mt-0.5 text-base font-bold text-stone-800">{activity.facilitator}{activity.country ? ` · ${activity.country}` : ""}</p>
-                </div>
-              )}
-              {activity.description && <p className="whitespace-pre-wrap text-sm leading-6 text-stone-700">{activity.description}</p>}
             </div>
-          </div>
-        )}
+          );
+        })()}
         <ActivityActions activityId={activity.id} />
       </div>
     </article>

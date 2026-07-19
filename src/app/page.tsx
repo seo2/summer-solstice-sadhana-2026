@@ -1,10 +1,11 @@
 import { AppLink as Link } from "@/components/app-link";
 import { WOMENS_RENEWAL_PATH } from "@/lib/womens-renewal";
-import { ArrowRight, CalendarDays, Heart, Info, Map, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircle, Sparkles } from "lucide-react";
 import { InstallHint } from "@/components/install-hint";
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
+  { href: "/teachers", label: "Teachers", icon: GraduationCap, value: "Bios & sessions" },
   { href: "/favorites", label: "Favorites", icon: Heart, value: "Saved sessions" },
   { href: "/info", label: "Info", icon: Info, value: "Camp guide" },
   { href: "/map", label: "Map", icon: Map, value: "Venues & map" },

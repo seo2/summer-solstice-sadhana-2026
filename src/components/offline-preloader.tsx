@@ -1,17 +1,18 @@
 "use client";
 
 import program from "@/data/program.json";
-import type { Activity } from "@/lib/types";
+import teachers from "@/data/teachers.json";
+import type { Activity, Teacher } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v43";
-const STORAGE_KEY = "solstice-full-offline-v43-complete";
-const DISMISSED_KEY = "solstice-full-offline-v43-dismissed";
+const CACHE_NAME = "solstice-full-offline-v44";
+const STORAGE_KEY = "solstice-full-offline-v44-complete";
+const DISMISSED_KEY = "solstice-full-offline-v44-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
-const staticPageRoutes = ["/", "/program", "/favorites", "/info", "/map", "/contact", "/womens-renewal", "/install"];
+const staticPageRoutes = ["/", "/program", "/teachers", "/favorites", "/info", "/map", "/contact", "/womens-renewal", "/install"];
 const staticRoutes = [...staticPageRoutes, "/manifest.webmanifest"];
 const staticAssets = [
   "/images/solstice-cover-top.jpg",
@@ -192,7 +193,10 @@ export function OfflinePreloader() {
   }, []);
 
   const urls = useMemo(() => {
-    const detailRoutes = (program as Activity[]).map((activity) => `/program/${activity.id}`);
+    const detailRoutes = [
+      ...(program as Activity[]).map((activity) => `/program/${activity.id}`),
+      ...(teachers as Teacher[]).map((teacher) => `/teachers/${teacher.id}`),
+    ];
     const pageRoutes = [...staticPageRoutes, ...detailRoutes];
     const routePayloads = process.env.NODE_ENV === "production" ? pageRoutes.map(routePayloadUrl) : [];
     return Array.from(new Set([...staticRoutes, ...detailRoutes, ...routePayloads, ...staticAssets]));

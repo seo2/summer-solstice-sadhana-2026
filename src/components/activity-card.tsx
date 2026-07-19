@@ -1,5 +1,7 @@
 import { AppLink as Link } from "@/components/app-link";
 import { Heart, MapPin } from "lucide-react";
+import { TeacherQuickView } from "@/components/teacher-quick-view";
+import { sessionSummariesForTeacher, teacherForActivity } from "@/lib/teachers";
 import type { Activity } from "@/lib/types";
 import { timeRange } from "@/lib/utils";
 
@@ -65,26 +67,60 @@ export function ActivityCard({ activity, isFavorite, onToggleFavorite }: Props) 
           {activity.location && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-[#2f62b6] ring-1 ring-sky-200/80"><MapPin className="mr-1 inline h-3.5 w-3.5" />{activity.location}</span>}
           {activity.language && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-sky-800 ring-1 ring-sky-200/80">{activity.language}</span>}
         </div>
+      </Link>
 
-        {/* Photo + facilitator + description */}
-        {(activity.facilitator || activity.description) && (
+      {/* Photo + facilitator + description */}
+      {(activity.facilitator || activity.description) && (() => {
+        const teacher = teacherForActivity(activity);
+        const sessions = teacher ? sessionSummariesForTeacher(teacher) : [];
+        const photoImgs = activity.photos && activity.photos.length > 0 ? (
+          <span className="flex shrink-0 gap-1.5">
+            {activity.photos.map((src, i) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-12 rounded-lg object-contain shadow-sm ring-1 ring-sky-900/10" />
+            ))}
+          </span>
+        ) : activity.photo ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-sm ring-1 ring-sky-900/10" />
+        ) : null;
+
+        return (
           <div className="mt-3 flex items-start gap-3">
-            {activity.photos && activity.photos.length > 0 ? (
-              <div className="flex shrink-0 gap-1.5">
-                {activity.photos.map((src, i) => (
-                  <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-12 rounded-lg object-contain shadow-sm ring-1 ring-sky-900/10" />
-                ))}
-              </div>
-            ) : activity.photo ? (
-              <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-sm ring-1 ring-sky-900/10" />
-            ) : null}
+            {photoImgs && (teacher ? (
+              <TeacherQuickView teacher={teacher} sessions={sessions} className="relative z-10 shrink-0 transition-transform duration-150 active:scale-[0.98]">
+                {photoImgs}
+              </TeacherQuickView>
+            ) : (
+              photoImgs
+            ))}
             <div className="min-w-0">
-              {activity.facilitator && <p className="text-sm font-semibold text-slate-700">With {activity.facilitator}{activity.country ? ` · ${activity.country}` : ""}</p>}
-              {activity.description && <p className="mt-1 line-clamp-3 text-sm leading-6 text-slate-600">{activity.description}</p>}
+              {activity.facilitator && (
+                <p className="text-sm font-semibold text-slate-700">
+                  With{" "}
+                  {teacher ? (
+                    <TeacherQuickView
+                      teacher={teacher}
+                      sessions={sessions}
+                      className="relative z-10 font-bold text-[#2f62b6] underline decoration-sky-200/80 underline-offset-2"
+                    >
+                      {activity.facilitator}
+                    </TeacherQuickView>
+                  ) : (
+                    activity.facilitator
+                  )}
+                  {activity.country ? ` · ${activity.country}` : ""}
+                </p>
+              )}
+              {activity.description && (
+                <Link href={`/program/${activity.id}`} className="block">
+                  <p className="mt-1 line-clamp-3 text-sm leading-6 text-slate-600">{activity.description}</p>
+                </Link>
+              )}
             </div>
           </div>
-        )}
-      </Link>
+        );
+      })()}
     </article>
   );
 }
