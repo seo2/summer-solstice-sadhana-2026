@@ -63,7 +63,6 @@ export default function SyncLabPage() {
 
   async function useInApp() {
     if (!bundle?.event) return;
-    await saveBundle(base.trim().replace(/\/$/, ""), bundle as unknown as SyncedBundle);
     await setActiveEvent(bundle.event.slug);
   }
 
@@ -106,7 +105,12 @@ export default function SyncLabPage() {
         setUnchangedNote(`Server says unchanged at version ${data.version} (${ms}ms, ETag ${etag}) — incremental sync works.`);
       } else {
         setBundle(data);
-        setStatus(`OK in ${ms}ms · version ${data.version} · ETag ${etag} · program ${data.program?.length ?? 0} · teachers ${data.teachers?.length ?? 0} · venues ${data.venues?.length ?? 0} · categories ${data.categories?.length ?? 0}`);
+        // Every fetched bundle is stored locally right away, so it shows up
+        // in Home → "Your events" without needing to activate it first.
+        if (data.event) {
+          await saveBundle(cleanBase, data as unknown as SyncedBundle);
+        }
+        setStatus(`OK in ${ms}ms · version ${data.version} · ETag ${etag} · program ${data.program?.length ?? 0} · teachers ${data.teachers?.length ?? 0} · venues ${data.venues?.length ?? 0} · categories ${data.categories?.length ?? 0} · saved locally`);
       }
     } catch (error) {
       setStatus(`Fetch failed: ${error instanceof Error ? error.message : String(error)}. Check that WordPress is reachable and the plugin is active (CORS allows localhost dev servers).`);

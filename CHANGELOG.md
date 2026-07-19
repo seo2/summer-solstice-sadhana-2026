@@ -11,6 +11,9 @@ Note the cache bump in an entry whenever one happened.
 
 ### Fixed
 
+- Sync Lab now saves every successfully fetched bundle to the local event store
+  right away, so it appears in Home → "Your events" without needing to activate it
+  first ("Use this event in the app" now only switches the active event). Cache → v51.
 - Teacher quick-view modal was clipped inside the activity card (the card's
   `backdrop-filter` made it the containing block for `position: fixed`) — now rendered
   via a React portal on `document.body`, overlaying the whole page. It also gained a
