@@ -196,13 +196,62 @@ If replacing or adding images:
 - For small content edits, search exact text and nearby variants before editing.
 - After changes, search generated `out/` for distinctive phrases to confirm the rendered result.
 
-## Git and process expectations
+## Git workflow (branch per change set)
 
-- Inspect `git status --short` before broad edits if you need to understand current dirty files.
-- Do not overwrite unrelated user changes.
-- Use focused patches.
-- Do not claim success without running real validation or reporting why it could not run.
-- If starting a dev server for visual/browser verification, use a tracked background process and stop it afterwards.
+Every change set gets its own branch, then push and merge on completion. Do not commit
+work-in-progress directly to `main`.
+
+Standard flow for a change set:
+
+```bash
+# 1. Branch from an up-to-date main
+git switch main && git pull --ff-only
+git switch -c <type>/<short-topic>        # e.g. feat/user-profile, docs/roadmap, fix/map-zoom
+
+# 2. Do the work, then stage ONLY the files for this change set
+git add <specific files>                   # never `git add -A` blindly — preserve unrelated dirty files
+git commit -m "<concise message>"
+
+# 3. Push and merge when the change set is complete and validated
+git push -u origin <branch>
+git switch main
+git merge --ff-only <branch>               # or open a PR if review is wanted
+git push origin main
+git branch -d <branch>
+git push origin --delete <branch>
+```
+
+Rules:
+
+- Branch names use a `type/topic` prefix: `feat/`, `fix/`, `docs/`, `chore/`, `refactor/`.
+- One coherent change set per branch. Keep patches focused.
+- Inspect `git status --short` before broad edits. **Do not overwrite unrelated user changes** —
+  stage files explicitly, never sweep pre-existing dirty files into a commit.
+- Merge to `main` only after validation passes (typecheck, lint, build — see checklist below).
+- Push and merge at the end of a completed change set. If the user wants review first, push the
+  branch and open a PR instead of merging.
+- End commit messages with the required co-author trailer.
+
+## Changelog discipline
+
+Keep `CHANGELOG.md` at the repo root current. It follows the "Keep a Changelog" format.
+
+- Every user-visible or structural change adds a bullet under `## [Unreleased]` in the correct
+  group (`Added`, `Changed`, `Fixed`, `Removed`).
+- Note the offline cache version bump in the entry when one happened (e.g. "cache → v44").
+- When a set of changes ships, move the `Unreleased` bullets into a dated version section.
+
+## Documentation discipline
+
+Document decisions and plans in Markdown, not only in code.
+
+- `README.md` is the front door: what the app is, stack, quick start, and a link to the docs index.
+- `docs/INDEX.md` is the master index of every Markdown doc — **keep it updated** whenever a doc is
+  added, renamed, or removed.
+- Planning/architecture docs live under `docs/` (e.g. `ROADMAP.md`, `BACKEND.md`, `NATIVE.md`,
+  `LOCAL-NETWORK.md`, `FEATURES.md`). Non-trivial features get a doc before or alongside the code.
+- Prose docs are in English (consistent with the repo); `TODO_CONTENT_REVIEW.md` and event content
+  may be Spanish. UI copy remains English unless asked otherwise.
 
 ## Recommended completion checklist
 
@@ -216,3 +265,5 @@ Before reporting a task complete:
 6. Exported `out/` output contains the intended text/classes/assets.
 7. Browser verification was done for interactive map/app behavior when relevant.
 8. Any dev server started for verification has been stopped.
+9. `CHANGELOG.md` updated and relevant docs (`docs/INDEX.md`, feature docs) reflect the change.
+10. Work is on a `type/topic` branch; pushed and merged (or a PR opened) per the git workflow above.

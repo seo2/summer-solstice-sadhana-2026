@@ -1,6 +1,32 @@
 # 3HO Summer Solstice Sadhana 2026 PWA
 
-Offline-first mobile web app for the Summer Solstice Sadhana 2026 festival program.
+Offline-first mobile web app (PWA) for the 3HO Summer Solstice Sadhana 2026 festival at
+Ram Das Puri, near Española, New Mexico (June 19–27, 2026).
+
+It replaces the printed booklet with a searchable program, local favorites and a personal
+agenda, an offline info hub, and a zoomable camp map — all working on the device once
+installed, with no signal required. Today it has no backend and no login; everything is
+static content plus local device state.
+
+The app is evolving toward a backend-connected, multi-event native app that stays useful on
+a camp with poor connectivity. See the roadmap and planning docs below.
+
+## Documentation
+
+Start at the **[docs index](docs/INDEX.md)** for the full map of docs. Key entries:
+
+- [PRODUCT.md](PRODUCT.md) — who it's for, purpose, brand, principles.
+- [DESIGN.md](DESIGN.md) — the visual system.
+- [docs/ROADMAP.md](docs/ROADMAP.md) — phased plan (backend → native → multi-event → commerce).
+- [docs/BACKEND.md](docs/BACKEND.md) · [docs/NATIVE.md](docs/NATIVE.md) · [docs/LOCAL-NETWORK.md](docs/LOCAL-NETWORK.md) · [docs/FEATURES.md](docs/FEATURES.md) — architecture & feature plans.
+- [CHANGELOG.md](CHANGELOG.md) — notable changes.
+- [CLAUDE.md](CLAUDE.md) — contributor/agent guidance and the git workflow.
+
+## Contributing workflow
+
+Every change set goes on its own `type/topic` branch, then push and merge on completion;
+update `CHANGELOG.md` and any relevant docs with each change. Full rules are in
+[CLAUDE.md](CLAUDE.md) (git workflow, changelog, and documentation discipline).
 
 ## Stack
 
