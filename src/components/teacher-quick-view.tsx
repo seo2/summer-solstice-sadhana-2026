@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { createPortal } from "react-dom";
 import { AppLink as Link } from "@/components/app-link";
 import { TeacherAvatar } from "@/components/teacher-avatar";
 import { ArrowRight, MapPin, X } from "lucide-react";
@@ -9,6 +10,7 @@ import type { TeacherSession } from "@/lib/teachers";
 import { timeRange } from "@/lib/utils";
 
 const PREVIEW_COUNT = 3;
+const CLOSE_MS = 170;
 
 type Props = {
   teacher: Teacher;
@@ -20,8 +22,22 @@ type Props = {
 
 export function TeacherQuickView({ teacher, sessions, className, ariaLabel, children }: Props) {
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
+  const closeTimer = useRef<number | null>(null);
 
-  const close = useCallback(() => setOpen(false), []);
+  const close = useCallback(() => {
+    setClosing(true);
+    closeTimer.current = window.setTimeout(() => {
+      setOpen(false);
+      setClosing(false);
+    }, CLOSE_MS);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (closeTimer.current !== null) window.clearTimeout(closeTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -44,16 +60,19 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
     <>
       <button
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          setClosing(false);
+          setOpen(true);
+        }}
         aria-label={ariaLabel ?? `About ${teacher.name}`}
         className={className}
       >
         {children}
       </button>
 
-      {open && (
+      {open && createPortal(
         <div
-          className="fixed inset-0 z-[60] flex items-end justify-center bg-slate-900/35 backdrop-blur-sm sm:items-center sm:p-6"
+          className={`teacher-overlay ${closing ? "teacher-overlay-closing" : ""} fixed inset-0 z-[60] flex items-end justify-center bg-slate-900/35 backdrop-blur-sm sm:items-center sm:p-6`}
           onClick={(event) => {
             if (event.target === event.currentTarget) close();
           }}
@@ -62,7 +81,7 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
             role="dialog"
             aria-modal="true"
             aria-label={teacher.name}
-            className="activity-detail-card relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-t-2xl p-6 pb-7 sm:rounded-2xl"
+            className="teacher-modal-card activity-detail-card relative max-h-[92vh] w-full max-w-xl overflow-y-auto rounded-t-2xl p-6 pb-7 sm:rounded-2xl"
           >
             <div className="mx-auto mb-4 h-1.5 w-10 rounded-full bg-stone-200 sm:hidden" />
             <button
@@ -74,7 +93,7 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
               <X className="h-4 w-4" />
             </button>
 
-            <div className="flex items-center gap-4">
+            <div className="teacher-modal-item flex items-center gap-4" style={{ animationDelay: "40ms" }}>
               <TeacherAvatar teacher={teacher} size="md" />
               <div className="min-w-0">
                 <p className="text-2xl font-black leading-tight tracking-[-0.03em] text-slate-950">{teacher.name}</p>
@@ -83,17 +102,21 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
             </div>
 
             {categories.length > 0 && (
-              <div className="mt-4 flex flex-wrap gap-2 text-xs font-bold">
+              <div className="teacher-modal-item mt-4 flex flex-wrap gap-2 text-xs font-bold" style={{ animationDelay: "90ms" }}>
                 {categories.map((category) => (
                   <span key={category} className="rounded-full bg-amber-50 px-3 py-1.5 text-amber-800 ring-1 ring-amber-200/80">{category}</span>
                 ))}
               </div>
             )}
 
-            <p className="mb-2 mt-5 text-xs font-black uppercase tracking-[0.14em] text-stone-400">Sessions</p>
+            <p className="teacher-modal-item mb-2 mt-5 text-xs font-black uppercase tracking-[0.14em] text-stone-400" style={{ animationDelay: "120ms" }}>Sessions</p>
             <div className="space-y-2.5">
-              {preview.map((session) => (
-                <div key={`${session.id}-${session.date}-${session.startTime}`} className="rounded-xl border border-[rgba(47,98,182,0.10)] bg-white/90 p-3.5 shadow-[0_18px_48px_rgba(47,98,182,0.08)]">
+              {preview.map((session, index) => (
+                <div
+                  key={`${session.id}-${session.date}-${session.startTime}`}
+                  className="teacher-modal-item rounded-xl border border-[rgba(47,98,182,0.10)] bg-white/90 p-3.5 shadow-[0_18px_48px_rgba(47,98,182,0.08)]"
+                  style={{ animationDelay: `${150 + index * 45}ms` }}
+                >
                   <p className="text-sm font-bold leading-tight text-[#f39200]">{timeRange(session.startTime, session.endTime)}</p>
                   <h4 className="mt-1 text-base font-black leading-snug text-slate-900">{session.title}</h4>
                   {session.location && (
@@ -105,19 +128,23 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
               ))}
             </div>
             {extraCount > 0 && (
-              <p className="mt-2 text-center text-xs font-semibold text-stone-400">+ {extraCount} more in the full profile</p>
+              <p className="teacher-modal-item mt-2 text-center text-xs font-semibold text-stone-400" style={{ animationDelay: `${150 + preview.length * 45}ms` }}>
+                + {extraCount} more in the full profile
+              </p>
             )}
 
             <Link
               href={`/teachers/${teacher.id}`}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-5 py-3.5 text-sm font-black text-white shadow-[0_12px_26px_rgba(47,98,182,0.24)]"
+              className="teacher-modal-item mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-5 py-3.5 text-sm font-black text-white shadow-[0_12px_26px_rgba(47,98,182,0.24)]"
+              style={{ animationDelay: `${190 + preview.length * 45}ms` }}
               onClick={close}
             >
               Show full profile
               <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

@@ -9,6 +9,14 @@ Note the cache bump in an entry whenever one happened.
 
 ## [Unreleased]
 
+### Fixed
+
+- Teacher quick-view modal was clipped inside the activity card (the card's
+  `backdrop-filter` made it the containing block for `position: fixed`) — now rendered
+  via a React portal on `document.body`, overlaying the whole page. It also gained a
+  fluid open/close transition (slide-up + fade with staggered inner elements),
+  honoring `prefers-reduced-motion`. Cache → v46.
+
 ### Added
 
 - First teacher bio seeded in `src/data/teachers.json` (Har Dev Khalsa, from the
