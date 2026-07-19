@@ -55,6 +55,10 @@ Note the cache bump in an entry whenever one happened.
 
 ### Changed
 
+- Auth decision resolved in `docs/BACKEND.md`: **custom opaque bearer tokens** on
+  WordPress users (no JWT plugin, no Application Passwords). Phase 1 backend skeleton
+  (`3ho-solstice-app` plugin: auth/sync/devices + multi-event `ssa_*` tables + seed
+  CLI) implemented in the separate 3ho.org repository.
 - `README.md` rewritten as a clear front door with a link to the docs index.
 - Backend direction set to **WordPress + MySQL for the MVP** (custom REST on the existing
   3ho.org WordPress, kept swappable via a versioned REST bundle). Rewrote `docs/BACKEND.md`

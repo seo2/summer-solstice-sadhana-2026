@@ -70,8 +70,11 @@ for reading the program, map, or info.
 
 - **Custom plugin** (extending the pattern of `3ho-solstice-contact-endpoint.php`) that
   registers REST routes under a namespace such as `wp-json/3ho-solstice/v1/*`.
-- **Auth**: WordPress users + a token scheme for the app — JWT (e.g. "JWT Authentication
-  for WP REST API") or Application Passwords. Registration/login/reset via REST. **(decision pending)**
+- **Auth**: WordPress users + **custom opaque bearer tokens** (64-hex, SHA-256 hashed
+  at rest in `{prefix}ssa_token`, 30-day expiry, revocable, `auth/refresh` rotation).
+  Chosen over a JWT plugin (no third-party dependency) and Application Passwords
+  (no expiry/refresh). **Decided 2026-07-19; implemented in the `3ho-solstice-app`
+  plugin in the 3ho.org repo.**
 - **Data**: custom MySQL tables for `event`, `program_item`, `teacher`, `menu_day`,
   `work_group`, `message`, etc. (see model below). Use CPTs only where wp-admin editing
   is the main benefit and relational needs are light.
@@ -139,12 +142,16 @@ matching the contract.
 
 ## Open decisions
 
-- Auth token scheme on WordPress (JWT plugin vs Application Passwords vs custom).
 - Custom tables vs CPTs per entity (relational needs vs wp-admin editing convenience).
 - Hosting/scale of the WordPress site under app traffic; caching strategy for the bundle.
 
 Resolved:
 
+- ~~Auth token scheme~~ → **custom opaque bearer tokens** (see "Implementation shape"
+  above). First implementation shipped as the `3ho-solstice-app` plugin
+  (`wp-content/plugins/3ho-solstice-app/` in the 3ho.org repo): `auth/*`, `sync`
+  (versioned bundle + agenda push), `devices`, multi-event `{prefix}ssa_*` tables,
+  `wp ssa seed` CLI.
 - ~~Whether messaging launches polling-only or waits for a realtime companion~~ →
   **polling-first, socket-ready** ([MESSAGING.md](MESSAGING.md)).
 - ~~Payments provider for Phase 5~~ → no in-app payments for now: the app **links out to
