@@ -19,6 +19,12 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Sync Lab** (`/sync-lab`, unlinked internal test bench): fetches the versioned
+  content bundle from a WordPress backend running the `3ho-solstice-app` plugin
+  (configurable base URL + event slug, persisted locally), reports version/ETag/
+  timing/counts, renders teachers and program from the live bundle with the app's
+  design, and verifies the `since`/unchanged incremental path. Groundwork for the
+  real sync client. Cache → v48.
 - **Program advanced filters** (per `design/program-style-guide.html` §03): expandable
   "Advanced filters" panel under the search/day strip/selects with multi-select
   category chips, time-of-day presets (Morning/Midday/Afternoon/Evening), a custom
