@@ -6,9 +6,9 @@ import type { Activity, Teacher } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const CACHE_NAME = "solstice-full-offline-v44";
-const STORAGE_KEY = "solstice-full-offline-v44-complete";
-const DISMISSED_KEY = "solstice-full-offline-v44-dismissed";
+const CACHE_NAME = "solstice-full-offline-v45";
+const STORAGE_KEY = "solstice-full-offline-v45-complete";
+const DISMISSED_KEY = "solstice-full-offline-v45-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 

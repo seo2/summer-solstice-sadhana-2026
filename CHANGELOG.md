@@ -11,6 +11,11 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- First teacher bio seeded in `src/data/teachers.json` (Har Dev Khalsa, from the
+  `design/` prototype) — verifies the profile "About" section renders when a bio
+  exists and stays hidden when empty. Remaining bios pending from the production
+  team. Cache → v45.
+
 - **Teachers section** (static-first, per `docs/TEACHERS.md`): `/teachers` directory
   (34 teachers with photo/initials avatars, duo support, session counts) and
   `/teachers/[id]` full profiles (sessions grouped by day, linked to program detail;
