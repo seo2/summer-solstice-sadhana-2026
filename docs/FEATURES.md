@@ -43,6 +43,18 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   notification). See [NATIVE.md](NATIVE.md).
 - Depends on: native shell + a synced agenda snapshot.
 
+### Program advanced filters — 🔜 next (frontend only)
+
+- Redesign of the Program filter system per the prototype in
+  `design/program-style-guide.html` (section 03 "Filter panel"): an expandable
+  **Advanced filters** panel below the existing search/day strip/selects, with
+  **multi-select category chips**, **time-of-day presets** (Morning / Midday /
+  Afternoon / Evening), a **custom hour range** (dual slider), an active-filter
+  count badge on the toggle, and Clear/Apply actions.
+- Pure client-side change in `src/components/program-explorer.tsx`; no backend
+  dependency. Follow `design/PROGRAM-DESIGN-SYSTEM.md` tokens.
+- Depends on: nothing (can ship any time; bump offline cache).
+
 ### Teacher / presenter info — ✅ step 1 shipped (static) · backend step 📋 Phase 3
 
 - Bios, photos, country, and the sessions each teacher leads (linked to program items,
