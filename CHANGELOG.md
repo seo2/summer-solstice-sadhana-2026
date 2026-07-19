@@ -19,6 +19,15 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Synced event views**: a synced event (fetched in Sync Lab → "Use this event in the
+  app") now renders in the full app experience — Program with all filters, Favorites,
+  and Teachers — swapping the built-in content client-side from the local event store
+  (new Dexie DB `solstice-event-store`; works offline once synced). Synced activities
+  open a full **detail sheet** (no static pages exist for them) with favorite toggle;
+  synced teachers' quick view shows all sessions plus the bio inline. An amber
+  **"Viewing event" banner** on Home/Program/Favorites/Teachers names the active event
+  and switches back to Summer Solstice 2026. Built-in content and offline flow are
+  untouched when no synced event is active. Cache → v49.
 - **Sync Lab** (`/sync-lab`, unlinked internal test bench): fetches the versioned
   content bundle from a WordPress backend running the `3ho-solstice-app` plugin
   (configurable base URL + event slug, persisted locally), reports version/ETag/

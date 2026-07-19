@@ -10,7 +10,8 @@
 import { useEffect, useState } from "react";
 import { AppLink as Link } from "@/components/app-link";
 import { TeacherAvatar } from "@/components/teacher-avatar";
-import { ArrowLeft, MapPin, RefreshCw } from "lucide-react";
+import { ArrowLeft, CalendarCheck, MapPin, RefreshCw, Undo2 } from "lucide-react";
+import { saveBundle, setActiveEvent, useActiveSyncedEvent, type SyncedBundle } from "@/lib/event-store";
 import type { Teacher } from "@/lib/types";
 import { timeRange } from "@/lib/utils";
 
@@ -58,6 +59,13 @@ export default function SyncLabPage() {
   const [status, setStatus] = useState<string>("");
   const [busy, setBusy] = useState(false);
   const [unchangedNote, setUnchangedNote] = useState("");
+  const activeSynced = useActiveSyncedEvent();
+
+  async function useInApp() {
+    if (!bundle?.event) return;
+    await saveBundle(base.trim().replace(/\/$/, ""), bundle as unknown as SyncedBundle);
+    await setActiveEvent(bundle.event.slug);
+  }
 
   useEffect(() => {
     setBase(localStorage.getItem(BASE_KEY) ?? "");
@@ -176,6 +184,36 @@ export default function SyncLabPage() {
             {bundle.event.location ? ` · ${bundle.event.location}` : ""}
             {bundle.event.timezone ? ` · ${bundle.event.timezone}` : ""}
           </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {activeSynced?.slug === bundle.event.slug ? (
+              <>
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3.5 py-2 text-xs font-black text-emerald-700 ring-1 ring-emerald-200/80">
+                  <CalendarCheck className="h-3.5 w-3.5" />
+                  Active in the app
+                </span>
+                <Link href="/program" className="rounded-full bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-4 py-2 text-xs font-black text-white shadow-[0_8px_18px_rgba(47,98,182,0.24)]">
+                  Open Program
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setActiveEvent(null)}
+                  className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-200/80"
+                >
+                  <Undo2 className="h-3.5 w-3.5" />
+                  Back to Summer Solstice
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                onClick={useInApp}
+                className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-4 py-2 text-xs font-black text-white shadow-[0_8px_18px_rgba(47,98,182,0.24)]"
+              >
+                <CalendarCheck className="h-3.5 w-3.5" />
+                Use this event in the app
+              </button>
+            )}
+          </div>
         </section>
       )}
 

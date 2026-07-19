@@ -1,6 +1,7 @@
 import { AppLink as Link } from "@/components/app-link";
 import { GraduationCap } from "lucide-react";
-import { ProgramExplorer } from "@/components/program-explorer";
+import { ActiveEventBanner } from "@/components/active-event-banner";
+import { ProgramView } from "@/components/program-view";
 import program from "@/data/program.json";
 import venues from "@/data/venues.json";
 import categories from "@/data/categories.json";
@@ -14,6 +15,7 @@ const dateRange = `${formatDate(sortedDates[0])} – ${formatDate(sortedDates[so
 export default function ProgramPage() {
   return (
     <div className="space-y-4">
+      <ActiveEventBanner />
       <section className="flex items-start justify-between gap-3 pt-1">
         <div>
           <p className="solstice-kicker text-xs font-black uppercase text-[#f39200]">Daily Schedule</p>
@@ -28,7 +30,7 @@ export default function ProgramPage() {
           Teachers
         </Link>
       </section>
-      <ProgramExplorer activities={activities} venues={venues as Venue[]} categories={categories as Category[]} />
+      <ProgramView activities={activities} venues={venues as Venue[]} categories={categories as Category[]} />
     </div>
   );
 }

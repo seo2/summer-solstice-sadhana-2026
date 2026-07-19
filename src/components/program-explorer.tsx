@@ -45,7 +45,17 @@ function FilterChip({ label, selected, onToggle }: { label: string; selected: bo
   );
 }
 
-export function ProgramExplorer({ activities, venues, categories, mode = "all" }: { activities: Activity[]; venues: Venue[]; categories: Category[]; mode?: Mode }) {
+type ProgramExplorerProps = {
+  activities: Activity[];
+  venues: Venue[];
+  categories: Category[];
+  mode?: Mode;
+  onOpenDetail?: (activity: Activity) => void;
+  resolveTeacher?: (activity: Activity) => import("@/components/activity-card").TeacherResolution;
+  teacherProfileLinks?: boolean;
+};
+
+export function ProgramExplorer({ activities, venues, categories, mode = "all", onOpenDetail, resolveTeacher, teacherProfileLinks }: ProgramExplorerProps) {
   const { favoriteIds, toggleFavorite } = useSavedActivities();
   const [query, setQuery] = useState("");
   const [date, setDate] = useState("all");
@@ -372,7 +382,14 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               <div className="space-y-3 pt-2">
                 {items.map((activity) => (
                   <div key={activity.id} data-activity-id={activity.id}>
-                    <ActivityCard activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
+                    <ActivityCard
+                      activity={activity}
+                      isFavorite={favoriteIds.has(activity.id)}
+                      onToggleFavorite={toggleFavorite}
+                      onOpenDetail={onOpenDetail}
+                      resolveTeacher={resolveTeacher}
+                      teacherProfileLinks={teacherProfileLinks}
+                    />
                   </div>
                 ))}
               </div>

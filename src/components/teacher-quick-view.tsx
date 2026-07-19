@@ -17,10 +17,12 @@ type Props = {
   sessions: TeacherSession[];
   className?: string;
   ariaLabel?: string;
+  /** Hide the /teachers/[id] link (synced events have no static profile pages). */
+  showProfileLink?: boolean;
   children: ReactNode;
 };
 
-export function TeacherQuickView({ teacher, sessions, className, ariaLabel, children }: Props) {
+export function TeacherQuickView({ teacher, sessions, className, ariaLabel, showProfileLink = true, children }: Props) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const closeTimer = useRef<number | null>(null);
@@ -53,7 +55,8 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
   }, [open, close]);
 
   const categories = Array.from(new Set(sessions.map((session) => session.category).filter(Boolean))) as string[];
-  const preview = sessions.slice(0, PREVIEW_COUNT);
+  // Without a full-profile page (synced events) the modal shows every session.
+  const preview = showProfileLink ? sessions.slice(0, PREVIEW_COUNT) : sessions;
   const extraCount = sessions.length - preview.length;
 
   return (
@@ -133,15 +136,24 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, chil
               </p>
             )}
 
-            <Link
-              href={`/teachers/${teacher.id}`}
-              className="teacher-modal-item mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-5 py-3.5 text-sm font-black text-white shadow-[0_12px_26px_rgba(47,98,182,0.24)]"
-              style={{ animationDelay: `${190 + preview.length * 45}ms` }}
-              onClick={close}
-            >
-              Show full profile
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+            {showProfileLink ? (
+              <Link
+                href={`/teachers/${teacher.id}`}
+                className="teacher-modal-item mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-br from-[#2f62b6] to-[#39a9ef] px-5 py-3.5 text-sm font-black text-white shadow-[0_12px_26px_rgba(47,98,182,0.24)]"
+                style={{ animationDelay: `${190 + preview.length * 45}ms` }}
+                onClick={close}
+              >
+                Show full profile
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            ) : (
+              teacher.bio && (
+                <div className="teacher-modal-item mt-5" style={{ animationDelay: `${190 + preview.length * 45}ms` }}>
+                  <p className="mb-2 text-xs font-black uppercase tracking-[0.14em] text-stone-400">About</p>
+                  <p className="whitespace-pre-wrap text-sm leading-6 text-stone-700">{teacher.bio}</p>
+                </div>
+              )
+            )}
           </div>
         </div>,
         document.body,

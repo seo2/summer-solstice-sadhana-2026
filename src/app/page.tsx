@@ -2,6 +2,7 @@ import { AppLink as Link } from "@/components/app-link";
 import { WOMENS_RENEWAL_PATH } from "@/lib/womens-renewal";
 import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircle, Sparkles } from "lucide-react";
 import { InstallHint } from "@/components/install-hint";
+import { ActiveEventBanner } from "@/components/active-event-banner";
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
@@ -15,6 +16,7 @@ const navItems = [
 export default function Home() {
   return (
     <div className="space-y-4">
+      <ActiveEventBanner />
       <section className="relative -mx-1 overflow-hidden rounded-2xl bg-[#1d3f94] px-6 pb-7 pt-8 shadow-[0_24px_64px_rgba(18,51,130,0.30)] sm:mx-0 sm:px-8">
         {/* Decorative blurs */}
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-300/15 blur-3xl" />
