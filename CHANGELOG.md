@@ -19,6 +19,11 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **"Your events" switcher on Home**: once at least one synced event exists locally,
+  Home shows a card listing the built-in Summer Solstice 2026 and every synced event
+  (name, dates, location) with one-tap activation, a check on the active one, and
+  per-event removal. Hidden entirely for regular attendees with no synced events.
+  Cache → v50.
 - **Synced event views**: a synced event (fetched in Sync Lab → "Use this event in the
   app") now renders in the full app experience — Program with all filters, Favorites,
   and Teachers — swapping the built-in content client-side from the local event store

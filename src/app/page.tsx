@@ -3,6 +3,7 @@ import { WOMENS_RENEWAL_PATH } from "@/lib/womens-renewal";
 import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircle, Sparkles } from "lucide-react";
 import { InstallHint } from "@/components/install-hint";
 import { ActiveEventBanner } from "@/components/active-event-banner";
+import { EventSwitcher } from "@/components/event-switcher";
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
@@ -53,6 +54,8 @@ export default function Home() {
       </section>
 
       <InstallHint />
+
+      <EventSwitcher />
 
       <section className="overflow-hidden rounded-2xl border border-[#f39200]/25 bg-white shadow-[0_18px_48px_rgba(47,98,182,0.11)]">
         <div className="grid min-h-44 grid-cols-[minmax(0,1fr)_7.25rem] sm:grid-cols-[minmax(0,1fr)_13rem]">

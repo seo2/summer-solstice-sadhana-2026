@@ -77,6 +77,19 @@ export async function setActiveEvent(slug: string | null) {
   }
 }
 
+/** All locally stored synced events, most recently saved first. */
+export function useSyncedEvents(): SyncedEventRecord[] {
+  return useLiveQuery(() => eventDb.syncedEvents.orderBy("savedAt").reverse().toArray(), [], []);
+}
+
+export async function removeSyncedEvent(slug: string) {
+  const setting = await eventDb.settings.get(ACTIVE_EVENT_KEY);
+  if (setting?.value === slug) {
+    await eventDb.settings.delete(ACTIVE_EVENT_KEY);
+  }
+  await eventDb.syncedEvents.delete(slug);
+}
+
 /**
  * The active synced event record, or null when the built-in event is active.
  * `undefined` while loading (callers should render the built-in content and
