@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Teachers · Prototype — Summer Solstice Sadhana 2026</title>
+<style>
+  /* =========================================================================
+     TEACHERS — INTERACTIVE PROTOTYPE
+     Reuses the Program graphic system (see design/program-style-guide.html).
+     Plain CSS + vanilla JS. Open with file:// — teacher photos load from
+     ../public/images/teachers/ (with an initials fallback if missing).
+     ========================================================================= */
+
+  :root {
+    /* Brand */
+    --solstice-blue:   #2f62b6;
+    --solstice-sky:    #39a9ef;
+    --solstice-orange: #f39200;
+    --solstice-gold:   #ffd66b;
+
+    /* Neutrals */
+    --ink-950:#020617; --ink-900:#0f172a; --ink-700:#334155; --ink-600:#475569; --ink-400:#94a3b8;
+    --stone-700:#44403c; --stone-600:#57534e; --stone-500:#78716c; --stone-400:#a8a29e;
+    --stone-300:#d6d3d1; --stone-200:#e7e5e4; --stone-50:#fafaf9; --rose-500:#f43f5e;
+
+    /* Chips (50-tint + 200/80 ring) */
+    --amber-50:#fffbeb; --amber-800:#92400e; --amber-ring:rgba(253,230,138,.8);
+    --rose-50:#fff1f2;  --rose-800:#9f1239;  --rose-ring:rgba(254,205,211,.8);
+    --sky-50:#f0f9ff;   --sky-800:#075985;   --sky-ring:rgba(186,230,253,.8);
+
+    --border-blue:rgba(47,98,182,.12);
+    --border-blue-soft:rgba(47,98,182,.10);
+    --ring-sky-900:rgba(12,74,110,.10);
+
+    --shadow-card:0 18px 48px rgba(47,98,182,.08);
+    --shadow-strong:0 24px 70px rgba(47,98,182,.10);
+    --shadow-pill:0 8px 22px rgba(15,23,42,.04);
+    --shadow-fab:0 10px 24px rgba(15,23,42,.08);
+
+    --r-2xl:1rem; --r-xl:.75rem; --r-full:9999px;
+    --font-sans:"Geist",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  * { box-sizing:border-box; }
+
+  body {
+    margin:0; font-family:var(--font-sans); color:var(--ink-700);
+    -webkit-font-smoothing:antialiased; min-height:100vh;
+    background:
+      radial-gradient(circle at 18% -8%, rgba(57,169,239,.30), transparent 22rem),
+      radial-gradient(circle at 88% 12%, rgba(255,214,107,.32), transparent 18rem),
+      linear-gradient(180deg,#f8fcff 0%,#ffffff 42%,#fff8ea 100%);
+    background-attachment:fixed;
+  }
+  .wrap { max-width:48rem; margin:0 auto; padding:2rem 1rem 5rem; }
+
+  /* ---- Doc header + section scaffolding (from the style guide) ---- */
+  .doc-kicker { font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.24em; color:var(--solstice-orange); margin:0 0 .35rem; }
+  .doc-title { margin:0; font-size:2rem; font-weight:900; letter-spacing:-.04em; color:var(--ink-950); }
+  .doc-sub { margin:.6rem 0 0; font-size:.95rem; line-height:1.6; color:var(--stone-600); max-width:42rem; }
+  .section { margin-top:2.75rem; }
+  .section > h2 { font-size:1.05rem; font-weight:900; letter-spacing:-.02em; color:var(--ink-900); margin:0 0 .25rem; display:flex; align-items:baseline; gap:.6rem; }
+  .section > h2 .num { font-size:.72rem; font-weight:900; color:var(--solstice-blue); background:var(--sky-50); border:1px solid var(--sky-ring); border-radius:var(--r-full); padding:.1rem .55rem; }
+  .section > .hint { margin:.1rem 0 1.1rem; font-size:.84rem; color:var(--stone-500); line-height:1.5; }
+
+  /* ---- Typography helpers ---- */
+  .t-kicker { font-size:.75rem; font-weight:900; text-transform:uppercase; letter-spacing:.24em; color:var(--solstice-blue); }
+  .t-time { font-size:.875rem; font-weight:700; line-height:1.15; color:var(--solstice-orange); margin:0; }
+  .t-card-title { font-size:1rem; font-weight:900; line-height:1.3; color:var(--ink-900); margin:.35rem 0 0; }
+  .t-dayhead { font-size:.875rem; font-weight:900; color:var(--solstice-blue); }
+  .t-label { font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.1em; color:var(--stone-400); margin:0; }
+  .t-desc { font-size:.875rem; font-weight:400; line-height:1.6; color:var(--ink-600); }
+
+  /* =========================================================================
+     AVATAR (photo with initials fallback)
+     ========================================================================= */
+  .avatar { position:relative; display:inline-flex; flex:0 0 auto; border-radius:var(--r-full); overflow:hidden; background:var(--bg,linear-gradient(135deg,#2f62b6,#39a9ef)); box-shadow:0 6px 18px rgba(47,98,182,.18), inset 0 0 0 2px rgba(255,255,255,.65); }
+  .avatar img { position:relative; z-index:2; width:100%; height:100%; object-fit:cover; display:block; }
+  .avatar .initials { position:absolute; inset:0; z-index:1; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; letter-spacing:-.02em; }
+  /* pair: two overlapping avatars */
+  .avatar-pair { display:inline-flex; flex:0 0 auto; }
+  .avatar-pair .avatar:nth-child(2) { margin-left:-1.1rem; }
+
+  /* =========================================================================
+     TEACHER CARD (grid tile) — reuses the Program glass/border/shadow
+     ========================================================================= */
+  .teacher-grid { display:grid; gap:.85rem; grid-template-columns:repeat(2,1fr); }
+  @media (min-width:600px) { .teacher-grid { grid-template-columns:repeat(3,1fr); } }
+
+  .teacher-card {
+    position:relative; overflow:hidden; border-radius:var(--r-2xl); padding:1.1rem; cursor:pointer;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:.65rem;
+    border:1px solid var(--border-blue-soft); font-family:inherit;
+    background:
+      radial-gradient(circle at 96% 0%, rgba(255,237,213,.78), transparent 8rem),
+      linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.82));
+    box-shadow:var(--shadow-card); backdrop-filter:blur(18px);
+    transition:transform 160ms ease, box-shadow 160ms ease;
+  }
+  .teacher-card:hover { transform:translateY(-2px); box-shadow:0 22px 55px rgba(47,98,182,.14); }
+  .teacher-card:active { transform:scale(.99); }
+  .teacher-card .avatar, .teacher-card .avatar-pair .avatar { width:5rem; height:5rem; }
+  .teacher-card .avatar .initials { font-size:1.4rem; }
+  .tc-name { font-size:.95rem; font-weight:900; line-height:1.2; color:var(--ink-900); letter-spacing:-.01em; }
+  .tc-meta { font-size:.75rem; font-weight:700; color:var(--stone-500); }
+  .tc-count { display:inline-flex; align-items:center; gap:.3rem; font-size:.72rem; font-weight:800; color:var(--solstice-blue); background:var(--sky-50); border:1px solid var(--sky-ring); border-radius:var(--r-full); padding:.25rem .6rem; }
+
+  /* =========================================================================
+     CHIPS (category taxonomy — from the Program)
+     ========================================================================= */
+  .chips { display:flex; flex-wrap:wrap; gap:.5rem; }
+  .chip-tag { display:inline-flex; align-items:center; gap:.25rem; border-radius:var(--r-full); padding:.375rem .75rem; font-size:.75rem; font-weight:700; line-height:1; white-space:nowrap; }
+  .chip-tag svg { width:.875rem; height:.875rem; }
+  .chip-category { background:var(--amber-50); color:var(--amber-800); box-shadow:0 0 0 1px var(--amber-ring); }
+  .chip-topic { background:var(--rose-50); color:var(--rose-800); box-shadow:0 0 0 1px var(--rose-ring); }
+  .chip-location { background:var(--sky-50); color:var(--solstice-blue); box-shadow:0 0 0 1px var(--sky-ring); }
+
+  /* =========================================================================
+     SESSION CARD (activity-list-card, compact) — used in modal & profile
+     ========================================================================= */
+  .session-card {
+    position:relative; overflow:hidden; border-radius:var(--r-xl); padding:.85rem 1rem; text-align:left;
+    border:1px solid var(--border-blue-soft);
+    background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.82));
+    box-shadow:var(--shadow-card);
+  }
+  .session-card + .session-card { margin-top:.6rem; }
+
+  /* Day header with divider (from the Program) */
+  .day-header { display:flex; align-items:center; gap:.75rem; padding:.5rem .1rem .35rem; margin-top:.4rem; }
+  .day-header .rule { height:1px; flex:1; background:var(--ring-sky-900); }
+
+  /* Facilitator link inside a program item (the interlink trigger) */
+  .facil-link { border:0; background:none; padding:0; font:inherit; cursor:pointer; color:var(--solstice-blue); font-weight:700; text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--sky-ring); }
+  .facil-link:hover { text-decoration-color:var(--solstice-blue); }
+
+  /* Teacher photo thumbnail inside a program item (matches the Program examples) */
+  .alc-body { display:flex; align-items:center; gap:.8rem; }
+  .alc-photo { position:relative; width:3.4rem; height:4.1rem; flex:0 0 auto; border:0; padding:0; cursor:pointer; border-radius:var(--r-xl); overflow:hidden; background:var(--pbg,linear-gradient(135deg,#2f62b6,#39a9ef)); box-shadow:0 4px 14px rgba(47,98,182,.16), inset 0 0 0 1px var(--ring-sky-900); transition:transform 160ms ease; }
+  .alc-photo:hover { transform:translateY(-1px); }
+  .alc-photo:active { transform:scale(.98); }
+  .alc-photo img { position:relative; z-index:2; width:100%; height:100%; object-fit:cover; display:block; }
+  .alc-photo .initials { position:absolute; inset:0; z-index:1; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:900; font-size:1rem; }
+
+  /* Favorite buttons (from the Program) */
+  .alc-top { display:flex; align-items:flex-start; justify-content:space-between; gap:.75rem; }
+  .fav-btn { display:inline-flex; height:2.5rem; width:2.5rem; flex:0 0 auto; align-items:center; justify-content:center; border-radius:var(--r-full); border:0; cursor:pointer; box-shadow:var(--shadow-fab); transition:background 140ms ease, color 140ms ease; }
+  .fav-btn svg { width:1.25rem; height:1.25rem; }
+  .fav-idle { background:#fff; color:var(--ink-600); box-shadow:var(--shadow-fab), 0 0 0 1px var(--ring-sky-900); }
+  .fav-active { background:var(--rose-500); color:#fff; box-shadow:var(--shadow-fab), 0 0 0 1px rgba(251,113,133,.4); }
+  .fav-detail { display:flex; width:100%; align-items:center; justify-content:center; gap:.5rem; margin-top:1.5rem; border-radius:var(--r-xl); border:0; cursor:pointer; font-family:inherit; font-size:.875rem; font-weight:900; padding:.85rem 1rem; box-shadow:0 1px 2px rgba(0,0,0,.05), 0 0 0 1px var(--ring-sky-900); }
+  .fav-detail.fav-active { box-shadow:0 1px 2px rgba(0,0,0,.05), 0 0 0 1px rgba(251,113,133,.4); }
+  .fav-detail svg { width:1.15rem; height:1.15rem; }
+  .line-clamp-3 { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  /* Program mock cards (from the style guide) */
+  .activity-list-card { position:relative; overflow:hidden; border-radius:var(--r-2xl); padding:1rem; border:1px solid var(--border-blue-soft);
+    background:radial-gradient(circle at 96% 0%, rgba(255,237,213,.78), transparent 8rem), linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.82));
+    box-shadow:var(--shadow-card); backdrop-filter:blur(18px); }
+  .activity-detail-card { border-radius:var(--r-2xl); padding:1.5rem; border:1px solid var(--border-blue);
+    background:radial-gradient(circle at 100% 0%, rgba(255,214,107,.20), transparent 10rem), radial-gradient(circle at 0% 100%, rgba(57,169,239,.12), transparent 11rem), linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.86));
+    box-shadow:var(--shadow-strong); backdrop-filter:blur(20px); }
+  .badge { display:inline-flex; align-items:center; border-radius:var(--r-full); padding:.375rem .75rem; font-size:.875rem; font-weight:700; border:1px solid rgba(243,146,0,.26); background:rgba(255,246,225,.92); color:#9a5a00; }
+
+  /* =========================================================================
+     MODAL (quick view)
+     ========================================================================= */
+  .overlay { position:fixed; inset:0; z-index:60; display:none; align-items:flex-end; justify-content:center; padding:0; background:rgba(15,23,42,.34); backdrop-filter:blur(6px); }
+  .overlay.open { display:flex; }
+  @media (min-width:600px) { .overlay { align-items:center; padding:1.5rem; } }
+
+  .teacher-modal {
+    position:relative; width:100%; max-width:34rem; max-height:92vh; overflow-y:auto;
+    border-radius:1.25rem 1.25rem 0 0; padding:1.5rem 1.35rem 1.75rem;
+    border:1px solid var(--border-blue);
+    background:radial-gradient(circle at 100% 0%, rgba(255,214,107,.22), transparent 11rem), radial-gradient(circle at 0% 100%, rgba(57,169,239,.14), transparent 12rem), linear-gradient(180deg,#fff,#fbfdff);
+    box-shadow:var(--shadow-strong);
+    transform:translateY(14px); opacity:0; transition:transform 220ms cubic-bezier(.22,1,.36,1), opacity 180ms ease;
+  }
+  @media (min-width:600px) { .teacher-modal { border-radius:1.25rem; } }
+  .overlay.open .teacher-modal { transform:none; opacity:1; }
+
+  .modal-grip { width:2.5rem; height:.3rem; border-radius:var(--r-full); background:var(--stone-200); margin:0 auto .9rem; }
+  @media (min-width:600px) { .modal-grip { display:none; } }
+  .modal-close { position:absolute; top:.9rem; right:.9rem; z-index:3; width:2.25rem; height:2.25rem; display:inline-flex; align-items:center; justify-content:center; border-radius:var(--r-full); border:0; cursor:pointer; background:#fff; color:var(--ink-600); box-shadow:var(--shadow-fab), 0 0 0 1px var(--ring-sky-900); }
+  .modal-close svg { width:1.15rem; height:1.15rem; }
+
+  .modal-head { display:flex; align-items:center; gap:1rem; }
+  .modal-head .avatar, .modal-head .avatar-pair .avatar { width:4.75rem; height:4.75rem; }
+  .modal-head .avatar .initials { font-size:1.35rem; }
+  .modal-name { font-size:1.4rem; font-weight:900; letter-spacing:-.03em; color:var(--ink-950); line-height:1.05; }
+  .modal-role { margin:.3rem 0 0; font-size:.85rem; font-weight:700; color:var(--stone-500); }
+  .modal-section-label { margin:1.4rem 0 .6rem; font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.14em; color:var(--stone-400); }
+
+  .btn-primary { display:inline-flex; width:100%; align-items:center; justify-content:center; gap:.4rem; margin-top:1.4rem; border:0; cursor:pointer; font-family:inherit; border-radius:var(--r-xl); background:linear-gradient(135deg,var(--solstice-blue),var(--solstice-sky)); padding:.85rem 1.25rem; font-size:.9rem; font-weight:900; color:#fff; box-shadow:0 12px 26px rgba(47,98,182,.24); }
+  .btn-primary svg { width:1rem; height:1rem; }
+  .more-note { margin:.6rem 0 0; text-align:center; font-size:.72rem; color:var(--stone-400); }
+
+  /* =========================================================================
+     FULL PROFILE VIEW (simulates /teachers/[id])
+     ========================================================================= */
+  .profile-view { position:fixed; inset:0; z-index:70; display:none; overflow-y:auto;
+    background:radial-gradient(circle at 18% -8%, rgba(57,169,239,.30), transparent 22rem), radial-gradient(circle at 88% 12%, rgba(255,214,107,.32), transparent 18rem), linear-gradient(180deg,#f8fcff 0%,#ffffff 42%,#fff8ea 100%); }
+  .profile-view.open { display:block; }
+  .profile-inner { max-width:48rem; margin:0 auto; padding:1.25rem 1rem 4rem; }
+  .back-link { display:inline-flex; align-items:center; gap:.3rem; font-size:.875rem; font-weight:900; color:var(--solstice-blue); text-decoration:none; border:0; background:none; cursor:pointer; font-family:inherit; padding:.4rem 0; }
+  .back-link svg { width:1rem; height:1rem; }
+  .profile-hero { display:flex; align-items:center; gap:1.15rem; margin-top:.5rem; }
+  .profile-hero .avatar, .profile-hero .avatar-pair .avatar { width:6rem; height:6rem; }
+  .profile-hero .avatar .initials { font-size:1.7rem; }
+  .profile-name { font-size:1.9rem; font-weight:900; letter-spacing:-.04em; line-height:1; color:var(--ink-950); }
+  .profile-meta { margin:.5rem 0 0; font-size:.85rem; font-weight:700; color:var(--stone-500); }
+  .profile-bio { margin-top:1.4rem; }
+  .bio-empty { border:1px dashed var(--sky-ring); border-radius:var(--r-xl); background:rgba(240,249,255,.5); padding:1rem; font-size:.82rem; color:var(--stone-500); }
+
+  .no-scrollbar::-webkit-scrollbar { display:none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="doc-kicker">3HO · Summer Solstice Sadhana 2026</p>
+    <h1 class="doc-title">Teachers — Prototype</h1>
+    <p class="doc-sub">
+      Interactive prototype of the <strong>Teachers</strong> section, built on the same graphic system as the
+      Program. Tap a card to open the <strong>quick-view modal</strong>, then <strong>Show full profile</strong> for the
+      full internal view. The Program demo at the bottom shows the <strong>facilitator link opening the same modal</strong>
+      from a program card and from a program item's interior. Photos load from <code>../public/images/teachers/</code>;
+      missing ones fall back to initials.
+    </p>
+  </header>
+
+  <!-- 1. TEACHERS GRID -->
+  <section class="section">
+    <h2><span class="num">01</span> Teachers grid (cards)</h2>
+    <p class="hint">Each card = avatar + name + country + how many sessions they lead. Tap to open the modal.</p>
+    <div id="teacher-grid" class="teacher-grid"></div>
+  </section>
+
+  <!-- 2. PROGRAM INTERLINK DEMO -->
+  <section class="section">
+    <h2><span class="num">02</span> Interlink from the Program</h2>
+    <p class="hint">The teacher's photo and name both open the same teacher modal — from a program list card and from a program item's interior (detail). The photo uses the same thumbnail treatment as the Program examples.</p>
+
+    <p class="modal-section-label" style="margin-top:1rem">A · Program list card</p>
+    <article class="activity-list-card">
+      <div class="alc-top">
+        <div style="min-width:0">
+          <p class="t-time">4:00 PM – 5:30 PM</p>
+          <h3 class="t-card-title" style="font-size:1.05rem">Sovereign Energy</h3>
+        </div>
+        <button class="fav-btn fav-idle" aria-label="Toggle favorite" onclick="toggleFav(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        </button>
+      </div>
+      <div class="chips" style="margin-top:.7rem">
+        <span class="chip-tag chip-category">Kriya and Meditation</span>
+        <span class="chip-tag chip-location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          Atma Shelter
+        </span>
+      </div>
+      <div class="alc-body" style="margin-top:.85rem; align-items:flex-start">
+        <button class="alc-photo" style="--pbg:linear-gradient(135deg,#2f62b6,#39a9ef)" onclick="openTeacher('har-dev-khalsa')" aria-label="Open Har Dev Khalsa">
+          <img src="../public/images/teachers/Har-Dev-Khalsa.jpg" alt="Har Dev Khalsa" onerror="this.remove()">
+          <span class="initials">HK</span>
+        </button>
+        <div style="min-width:0">
+          <p class="t-desc" style="margin:0; font-weight:600; color:var(--ink-700)">With <button class="facil-link" onclick="openTeacher('har-dev-khalsa')">Har Dev Khalsa</button> · USA</p>
+          <p class="t-desc line-clamp-3" style="margin:.35rem 0 0">KRI-certified and teaching since 2011. This class is not about relaxation — it is about recalibration: the cornerstone breathwork and meditation practice to create Sovereign Energy, sharpening your focus and commanding your energy from the inside out.</p>
+        </div>
+      </div>
+    </article>
+
+    <p class="modal-section-label">B · Program item interior (detail)</p>
+    <div class="activity-detail-card">
+      <p class="t-kicker">Tuesday, June 23</p>
+      <h1 style="margin:.6rem 0 0; font-size:1.8rem; font-weight:900; letter-spacing:-.045em; line-height:1; color:var(--ink-950)">White Tantric Yoga®</h1>
+      <p style="margin:1rem 0 0; font-size:1.25rem; font-weight:900; color:var(--solstice-orange)">8:00 AM – 5:30 PM</p>
+      <div class="chips" style="margin-top:1rem">
+        <span class="badge">Meditation</span>
+        <span class="chip-tag chip-location" style="font-size:.875rem; padding:.375rem .75rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          Tantric Shelter
+        </span>
+      </div>
+      <div class="alc-body" style="margin-top:1.5rem; align-items:flex-start">
+        <button class="alc-photo" style="width:4rem; height:4.9rem; --pbg:linear-gradient(135deg,#f39200,#ffd66b)" onclick="openTeacher('siri-simran-kaur')" aria-label="Open Siri Simran Kaur">
+          <img src="../public/images/teachers/Siri-Simran-Kaur.jpg" alt="Siri Simran Kaur" onerror="this.remove()">
+          <span class="initials">SK</span>
+        </button>
+        <div style="min-width:0">
+          <p class="t-label">Facilitator</p>
+          <p style="margin:.2rem 0 0; font-size:1rem; font-weight:700; color:var(--stone-700)">
+            <button class="facil-link" onclick="openTeacher('siri-simran-kaur')" style="font-size:1rem">Siri Simran Kaur</button> · USA
+          </p>
+          <p class="t-desc" style="margin:.75rem 0 0; color:var(--stone-700)">Our minds release a thousand thoughts per wink of an eye — some get stuck in the subconscious and shape our feelings, emotions and impulses. White Tantric Yoga® helps break through those subconscious blocks so you can act on each moment with clarity and, in the shortest time, release much of the burden you carry in your mind.</p>
+        </div>
+      </div>
+      <button class="fav-detail fav-idle" onclick="toggleFav(this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        <span class="fav-label">Favorite</span>
+      </button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== MODAL ===================== -->
+<div id="overlay" class="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="teacher-modal no-scrollbar" role="dialog" aria-modal="true" aria-labelledby="modal-name">
+    <div class="modal-grip"></div>
+    <button class="modal-close" aria-label="Close" onclick="closeModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    </button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ===================== FULL PROFILE VIEW ===================== -->
+<div id="profile" class="profile-view">
+  <div class="profile-inner">
+    <button class="back-link" onclick="closeProfile()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Teachers
+    </button>
+    <div id="profile-body"></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   DATA — real sample from src/data/program.json + public/images/teachers/
+   Maps to the future src/data/teachers.json model:
+   { id, name, country, photo|photos, role?, bio?, sessions:[{title,date,start,end,loc,cat}] }
+   ========================================================================= */
+const IMG = "../public/images/teachers/";
+const TEACHERS = [
+  { id:"siri-simran-kaur", name:"Siri Simran Kaur", country:"USA", photo:IMG+"Siri-Simran-Kaur.jpg",
+    role:"Sat Nam Rasayan · White Tantric Yoga®", bio:"",
+    sessions:[
+      {title:"Sat Nam Rasayan Courageous Expansion: A Preparatory Class for White Tantric Yoga", date:"2026-06-22", start:"15:30", end:"17:30", loc:"Tantric Shelter", cat:"Meditation"},
+      {title:"White Tantric Yoga®", date:"2026-06-23", start:"08:00", end:"17:30", loc:"Tantric Shelter", cat:"Meditation"},
+      {title:"White Tantric Yoga®", date:"2026-06-25", start:"08:00", end:"17:30", loc:"Tantric Shelter", cat:"Meditation"},
+    ]},
+  { id:"gurutej-singh", name:"Gurutej Singh", country:"USA", photo:IMG+"Gurutej-Singh.jpg",
+    role:"Japji Sahib · Kundalini Yoga", bio:"",
+    sessions:[
+      {title:"Japji Sahib, Sikhi & Kundalini Yoga – Part 1", date:"2026-06-22", start:"10:00", end:"12:00", loc:"SDI Academy", cat:"Kriya and Meditation"},
+      {title:"Japji Sahib, Sikhi & Kundalini Yoga – Part 2", date:"2026-06-26", start:"10:00", end:"12:00", loc:"SDI Academy", cat:"Kriya and Meditation"},
+    ]},
+  { id:"har-dev-khalsa", name:"Har Dev Khalsa", country:"USA", photo:IMG+"Har-Dev-Khalsa.jpg",
+    role:"Breathwork & Meditation",
+    bio:"KRI-certified teacher, sharing Kundalini Yoga since 2011. His work centers on breathwork and meditation for high-performing householders — turning everyday stress into sovereign, self-commanded energy.",
+    sessions:[
+      {title:"Sovereign Energy", date:"2026-06-20", start:"16:00", end:"17:30", loc:"Atma Shelter", cat:"Kriya and Meditation"},
+    ]},
+  { id:"karina-skye", name:"Karina Skye", country:"USA", photo:IMG+"Karina-Skye.jpg",
+    role:"Sacred Sound · NAAD", bio:"",
+    sessions:[
+      {title:"Conscious Music", date:"2026-06-22", start:"19:00", end:"20:30", loc:"Tantric Shelter", cat:"Music"},
+      {title:"NAAD Science: Restoring the Nervous System through Sacred Sound", date:"2026-06-26", start:"15:30", end:"17:30", loc:"Atma Shelter", cat:"Kriya and Meditation"},
+    ]},
+  { id:"ravi-prem-kaur", name:"Ravi Prem Kaur", country:"Chile", photo:IMG+"Ravi-Prem-Kaur.jpg",
+    role:"Gong & Deep Relaxation", bio:"",
+    sessions:[
+      {title:"Gong Reset and Deep Relaxation", date:"2026-06-20", start:"19:30", end:"20:30", loc:"Atma Shelter", cat:"Music"},
+    ]},
+  { id:"rajmantra-raj-karam", name:"Rajmantra Singh & Raj Karam", country:"USA",
+    photos:[IMG+"Rajmantra-Singh.jpg", IMG+"Raj-Karam.jpg"], role:"Gong · Sound Journey", bio:"",
+    sessions:[
+      {title:"Gong", date:"2026-06-22", start:"19:00", end:"20:30", loc:"Atma Shelter", cat:"Music"},
+      {title:"Gong", date:"2026-06-24", start:"19:00", end:"20:30", loc:"Atma Shelter", cat:"Music"},
+    ]},
+  { id:"simran-shakti-kaur", name:"Simran Shakti Kaur", country:"Uruguay", photo:IMG+"Simran-Shakti-Kaur.jpg",
+    role:"Chakra Healing", bio:"",
+    sessions:[
+      {title:"Unlocking Inner Strength: Healing the First Chakra", date:"2026-06-26", start:"13:45", end:"15:15", loc:"Atma Shelter", cat:"Kriya and Meditation"},
+    ]},
+  { id:"shakta-kaur", name:"Shakta Kaur", country:"USA", photo:null,   /* no photo → initials fallback */
+    role:"WTY Coordinator", bio:"",
+    sessions:[
+      {title:"WTY Monitors Lunch", date:"2026-06-22", start:"12:30", end:"13:45", loc:"Dining Hall", cat:null},
+      {title:"WTY First Timers Dinner", date:"2026-06-22", start:"17:30", end:"18:30", loc:"Dining Hall", cat:"Meal"},
+      {title:"Tantric Integration Circle", date:"2026-06-26", start:"10:00", end:"12:00", loc:"Prem Shelter", cat:"Kriya and Meditation"},
+    ]},
+];
+const BY_ID = Object.fromEntries(TEACHERS.map(t => [t.id, t]));
+
+/* ---- helpers ---- */
+const AV_GRADIENTS = [
+  "linear-gradient(135deg,#2f62b6,#39a9ef)",
+  "linear-gradient(135deg,#f39200,#ffd66b)",
+  "linear-gradient(135deg,#39a9ef,#7bd0a0)",
+  "linear-gradient(135deg,#9a5a00,#f39200)",
+  "linear-gradient(135deg,#2f62b6,#6f8fd6)",
+];
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function initialsOf(name){
+  const parts = name.replace(/&/g,' ').split(/\s+/).filter(Boolean);
+  return ((parts[0]?.[0]||"") + (parts.length>1 ? parts[parts.length-1][0] : "")).toUpperCase();
+}
+function avatarHTML(t){
+  const grad = AV_GRADIENTS[(Math.abs([...t.id].reduce((a,c)=>a+c.charCodeAt(0),0)))%AV_GRADIENTS.length];
+  const one = (src, name, seedGrad) => `
+    <span class="avatar" style="--bg:${seedGrad}">
+      ${src ? `<img src="${esc(src)}" alt="${esc(name)}" onerror="this.remove()">` : ``}
+      <span class="initials">${esc(initialsOf(name))}</span>
+    </span>`;
+  if (t.photos && t.photos.length > 1) {
+    const names = t.name.split(/\s*&\s*|\s+and\s+/);
+    return `<span class="avatar-pair">${one(t.photos[0], names[0]||t.name, AV_GRADIENTS[0])}${one(t.photos[1], names[1]||t.name, AV_GRADIENTS[1])}</span>`;
+  }
+  return one(t.photo || (t.photos && t.photos[0]) || null, t.name, grad);
+}
+const fmtTime = (t) => { const [h,m]=t.split(":").map(Number); const d=new Date(2026,5,19,h,m); return new Intl.DateTimeFormat("en-US",{hour:"numeric",minute:"2-digit"}).format(d); };
+const timeRange = (s,e) => fmtTime(s) + (e ? " – " + fmtTime(e) : "");
+const fmtDayLong = (date) => new Intl.DateTimeFormat("en-US",{weekday:"long",month:"long",day:"numeric"}).format(new Date(date+"T12:00:00"));
+function catChip(cat){
+  if (!cat) return "";
+  return `<span class="chip-tag chip-category" style="margin-top:.55rem">${esc(cat)}</span>`;
+}
+function sessionCardHTML(s){
+  return `<div class="session-card">
+    <p class="t-time">${esc(timeRange(s.start,s.end))}</p>
+    <h4 class="t-card-title">${esc(s.title)}</h4>
+    <div class="chips" style="margin-top:.55rem">
+      ${s.cat ? `<span class="chip-tag chip-category">${esc(s.cat)}</span>` : ``}
+      ${s.loc ? `<span class="chip-tag chip-location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>${esc(s.loc)}</span>` : ``}
+    </div>
+  </div>`;
+}
+function uniqueCats(t){ return [...new Set(t.sessions.map(s=>s.cat).filter(Boolean))]; }
+
+/* ---- favorite toggle (prototype) ---- */
+function toggleFav(btn){
+  const on = btn.classList.toggle("fav-active");
+  btn.classList.toggle("fav-idle", !on);
+  const svg = btn.querySelector("svg");
+  if (svg) svg.setAttribute("fill", on ? "currentColor" : "none");
+  const lbl = btn.querySelector(".fav-label");
+  if (lbl) lbl.textContent = on ? "Saved" : "Favorite";
+}
+
+/* ---- render grid ---- */
+function renderGrid(){
+  document.getElementById("teacher-grid").innerHTML = TEACHERS.map(t => `
+    <button class="teacher-card" onclick="openTeacher('${t.id}')">
+      ${avatarHTML(t)}
+      <div>
+        <div class="tc-name">${esc(t.name)}</div>
+        <div class="tc-meta">${esc(t.country||"")}</div>
+      </div>
+      <span class="tc-count">${t.sessions.length} ${t.sessions.length===1?"session":"sessions"}</span>
+    </button>`).join("");
+}
+
+/* ---- modal ---- */
+function openTeacher(id){
+  const t = BY_ID[id]; if(!t) return;
+  const cats = uniqueCats(t);
+  const preview = t.sessions.slice(0,3).map(sessionCardHTML).join("");
+  const extra = t.sessions.length > 3 ? `<p class="more-note">+ ${t.sessions.length-3} more in the full profile</p>` : "";
+  document.getElementById("modal-body").innerHTML = `
+    <div class="modal-head">
+      ${avatarHTML(t)}
+      <div>
+        <div class="modal-name" id="modal-name">${esc(t.name)}</div>
+        <p class="modal-role">${esc([t.role, t.country].filter(Boolean).join(" · "))}</p>
+      </div>
+    </div>
+    ${cats.length ? `<div class="chips" style="margin-top:1.1rem">${cats.map(c=>`<span class="chip-tag chip-category">${esc(c)}</span>`).join("")}</div>` : ``}
+    <p class="modal-section-label">Sessions</p>
+    ${preview}${extra}
+    <button class="btn-primary" onclick="openFullProfile('${t.id}')">
+      Show full profile
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </button>`;
+  const ov = document.getElementById("overlay");
+  ov.classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+function closeModal(){
+  document.getElementById("overlay").classList.remove("open");
+  if(!document.getElementById("profile").classList.contains("open")) document.body.style.overflow = "";
+}
+
+/* ---- full profile ---- */
+function groupByDay(sessions){
+  const sorted = [...sessions].sort((a,b)=> (a.date+a.start).localeCompare(b.date+b.start));
+  const groups = [];
+  for(const s of sorted){
+    const last = groups[groups.length-1];
+    if(last && last.date===s.date) last.items.push(s);
+    else groups.push({date:s.date, items:[s]});
+  }
+  return groups;
+}
+function openFullProfile(id){
+  const t = BY_ID[id]; if(!t) return;
+  const groups = groupByDay(t.sessions);
+  const list = groups.map(g => `
+    <div class="day-header"><span class="t-dayhead">${esc(fmtDayLong(g.date))}</span><div class="rule"></div></div>
+    ${g.items.map(sessionCardHTML).join("")}`).join("");
+  document.getElementById("profile-body").innerHTML = `
+    <div class="profile-hero">
+      ${avatarHTML(t)}
+      <div>
+        <div class="profile-name">${esc(t.name)}</div>
+        <p class="profile-meta">${esc([t.role, t.country].filter(Boolean).join(" · "))}</p>
+      </div>
+    </div>
+    <div class="profile-bio">
+      <p class="t-label" style="margin-bottom:.5rem">About</p>
+      ${t.bio ? `<p class="t-desc" style="color:var(--stone-700)">${esc(t.bio)}</p>`
+              : `<div class="bio-empty">Bio coming soon — this maps to the empty <code>bio</code> field in <code>teachers.json</code>, to be filled per teacher.</div>`}
+    </div>
+    <p class="t-label" style="margin:1.8rem 0 .3rem">Sessions at Solstice</p>
+    ${list}`;
+  closeModal();
+  const p = document.getElementById("profile");
+  p.classList.add("open");
+  p.scrollTop = 0;
+  document.body.style.overflow = "hidden";
+}
+function closeProfile(){
+  document.getElementById("profile").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (e) => {
+  if(e.key !== "Escape") return;
+  if(document.getElementById("overlay").classList.contains("open")) closeModal();
+  else if(document.getElementById("profile").classList.contains("open")) closeProfile();
+});
+
+renderGrid();
+</script>
+</body>
+</html>

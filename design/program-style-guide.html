@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Program · Graphic Guide — Summer Solstice Sadhana 2026</title>
+<style>
+  /* =========================================================================
+     PROGRAM — GRAPHIC SYSTEM (portable reference)
+     Extracted from src/app/globals.css + program-explorer.tsx + activity-card.tsx
+     Plain CSS, no Tailwind. Copy these tokens and classes into any site.
+     ========================================================================= */
+
+  :root {
+    /* Brand */
+    --solstice-blue:   #2f62b6;   /* primary blue: titles, active state, links, primary button */
+    --solstice-sky:    #39a9ef;   /* sky blue: gradient partner, theme-color */
+    --solstice-orange: #f39200;   /* accent: times, kickers, badges */
+    --solstice-gold:   #ffd66b;   /* decorative gradient partner */
+
+    /* Neutrals (Tailwind slate/stone ramp) */
+    --ink-950:  #020617;  /* slate-950  strong titles */
+    --ink-900:  #0f172a;  /* slate-900  card titles */
+    --ink-700:  #334155;  /* slate-700  facilitator */
+    --ink-600:  #475569;  /* slate-600  description */
+    --ink-400:  #94a3b8;  /* slate-400  placeholder */
+    --stone-700:#44403c;
+    --stone-600:#57534e;
+    --stone-500:#78716c;  /* routine: title */
+    --stone-400:#a8a29e;  /* routine: time/metadata */
+    --stone-300:#d6d3d1;  /* routine: dot */
+    --stone-200:#e7e5e4;  /* routine: ring */
+    --stone-50: #fafaf9;  /* routine: fill */
+    --rose-500: #f43f5e;  /* active favorite */
+
+    /* Chips (50-tint + 200/80 ring) */
+    --amber-50: #fffbeb;  --amber-800:#92400e;  --amber-ring:rgba(253,230,138,.8);
+    --rose-50:  #fff1f2;  --rose-800: #9f1239;  --rose-ring: rgba(254,205,211,.8);
+    --sky-50:   #f0f9ff;  --sky-800:  #075985;  --sky-ring:  rgba(186,230,253,.8);
+
+    /* Base lines / rings */
+    --border-blue:  rgba(47, 98, 182, .12);   /* card border */
+    --border-blue-soft: rgba(47, 98, 182, .10);
+    --ring-sky-900: rgba(12, 74, 110, .10);   /* sky-900/10: dividers and soft rings */
+
+    /* Shadows (always blue-tinted, large and soft) */
+    --shadow-card:   0 18px 48px rgba(47, 98, 182, .08);
+    --shadow-strong: 0 24px 70px rgba(47, 98, 182, .10);
+    --shadow-pill:   0 8px 22px rgba(15, 23, 42, .04);
+    --shadow-pill-active: 0 12px 26px rgba(47, 98, 182, .24);
+    --shadow-fab:    0 10px 24px rgba(15, 23, 42, .08);
+
+    /* Radii */
+    --r-2xl: 1rem;      /* 16px  cards */
+    --r-xl:  .75rem;    /* 12px  inputs / photos */
+    --r-full: 9999px;   /* pills / chips / favorite button */
+
+    /* Typography */
+    --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    color: var(--ink-700);
+    -webkit-font-smoothing: antialiased;
+    /* App page background (reference) */
+    background:
+      radial-gradient(circle at 18% -8%, rgba(57, 169, 239, .30), transparent 22rem),
+      radial-gradient(circle at 88% 12%, rgba(255, 214, 107, .32), transparent 18rem),
+      linear-gradient(180deg, #f8fcff 0%, #ffffff 42%, #fff8ea 100%);
+    min-height: 100vh;
+  }
+
+  .wrap { max-width: 48rem; margin: 0 auto; padding: 2rem 1rem 5rem; }
+
+  /* ---- Document header ---- */
+  .doc-head { margin-bottom: 2.5rem; }
+  .doc-kicker {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .24em; color: var(--solstice-orange); margin: 0 0 .35rem;
+  }
+  .doc-title {
+    margin: 0; font-size: 2rem; font-weight: 900; letter-spacing: -.04em;
+    color: var(--ink-950);
+  }
+  .doc-sub { margin: .6rem 0 0; font-size: .95rem; line-height: 1.6; color: var(--stone-600); max-width: 40rem; }
+
+  /* ---- Guide section structure ---- */
+  .section { margin-top: 2.75rem; }
+  .section > h2 {
+    font-size: 1.05rem; font-weight: 900; letter-spacing: -.02em; color: var(--ink-900);
+    margin: 0 0 .25rem; display: flex; align-items: baseline; gap: .6rem;
+  }
+  .section > h2 .num {
+    font-size: .72rem; font-weight: 900; color: var(--solstice-blue);
+    background: var(--sky-50); border: 1px solid var(--sky-ring);
+    border-radius: var(--r-full); padding: .1rem .55rem;
+  }
+  .section > .hint { margin: .1rem 0 1.1rem; font-size: .84rem; color: var(--stone-500); line-height: 1.5; }
+
+  /* =========================================================================
+     COLOR TOKENS
+     ========================================================================= */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: .75rem; }
+  .swatch {
+    border: 1px solid var(--border-blue); border-radius: var(--r-xl); overflow: hidden;
+    background: #fff; box-shadow: var(--shadow-pill);
+  }
+  .swatch .chip { height: 4.25rem; }
+  .swatch .meta { padding: .55rem .65rem .65rem; }
+  .swatch .name { font-size: .78rem; font-weight: 800; color: var(--ink-900); }
+  .swatch .hex  { font-size: .72rem; font-weight: 700; color: var(--stone-500); font-variant-numeric: tabular-nums; }
+  .swatch .role { display:block; margin-top:.2rem; font-size:.68rem; color: var(--stone-500); line-height:1.35; }
+
+  /* =========================================================================
+     TYPOGRAPHY
+     ========================================================================= */
+  .type-row {
+    display: flex; align-items: baseline; gap: 1rem; flex-wrap: wrap;
+    padding: .8rem 0; border-bottom: 1px solid var(--ring-sky-900);
+  }
+  .type-row:last-child { border-bottom: 0; }
+  .type-spec { font-size: .72rem; font-weight: 700; color: var(--stone-500); min-width: 12rem; font-variant-numeric: tabular-nums; }
+
+  .t-kicker  { font-size:.75rem; font-weight:900; text-transform:uppercase; letter-spacing:.24em; color:var(--solstice-blue); }
+  .t-detail-title { font-size: clamp(1.9rem, 6vw, 2.25rem); font-weight:900; letter-spacing:-.045em; line-height:.98; color:var(--ink-950); }
+  .t-card-title { font-size:18px; font-weight:900; line-height:1.35; color:var(--ink-900); }
+  .t-time      { font-size:.875rem; font-weight:700; line-height:1.15; color:var(--solstice-orange); }
+  .t-time-lg   { font-size:1.25rem; font-weight:900; color:var(--solstice-orange); }
+  .t-dayhead   { font-size:.875rem; font-weight:900; color:var(--solstice-blue); }
+  .t-facil     { font-size:.875rem; font-weight:600; color:var(--ink-700); }
+  .t-desc      { font-size:.875rem; font-weight:400; line-height:1.6; color:var(--ink-600); }
+  .t-label     { font-size:.72rem; font-weight:900; text-transform:uppercase; letter-spacing:.1em; color:var(--stone-400); }
+
+  /* =========================================================================
+     PROGRAM COMPONENTS
+     ========================================================================= */
+
+  /* Filter panel (glass card) */
+  .filter-glass-card {
+    border: 1px solid var(--border-blue);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(57, 169, 239, .16), transparent 9rem),
+      rgba(255, 255, 255, .86);
+    box-shadow: 0 18px 48px rgba(47, 98, 182, .10);
+    backdrop-filter: blur(20px);
+    border-radius: var(--r-2xl);
+    padding: 1rem;
+  }
+  .search {
+    display: flex; align-items: center; gap: .5rem;
+    border-radius: var(--r-xl); background: #fff; padding: .75rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05); border: 1px solid var(--ring-sky-900);
+  }
+  .search svg { width: 1.25rem; height: 1.25rem; color: var(--solstice-blue); flex: 0 0 auto; }
+  .search input {
+    border: 0; outline: 0; background: transparent; width: 100%;
+    font-family: inherit; font-size: 1rem; font-weight: 600; color: var(--ink-900);
+  }
+  .search input::placeholder { color: var(--ink-400); font-weight: 600; }
+
+  /* Day strip */
+  .day-strip { display: flex; gap: .5rem; margin-top: .75rem; overflow-x: auto; padding-bottom: .25rem; }
+  .day-strip::-webkit-scrollbar { display: none; }
+  .day-filter-button {
+    flex: 0 0 auto; min-width: max-content; cursor: pointer;
+    border: 1px solid var(--border-blue); border-radius: var(--r-full);
+    background: rgba(255, 255, 255, .94); padding: .72rem 1rem;
+    color: var(--solstice-blue); font-family: inherit; font-size: .875rem; font-weight: 900;
+    box-shadow: var(--shadow-pill);
+    transition: background 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+  .day-filter-button:active { transform: scale(.98); }
+  .day-filter-button-active {
+    border-color: rgba(47, 98, 182, .92);
+    background: linear-gradient(135deg, var(--solstice-blue), var(--solstice-sky));
+    color: #fff; box-shadow: var(--shadow-pill-active);
+  }
+
+  /* Filter selects */
+  .select-row { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin-top: .75rem; }
+  .filter-select {
+    min-width: 0; border: 1px solid rgba(71, 85, 105, .18); border-radius: var(--r-xl);
+    background: #fff; padding: .85rem .9rem; color: #1e293b; font-family: inherit;
+    font-size: .875rem; font-weight: 700; outline: none; box-shadow: var(--shadow-pill);
+  }
+
+  /* Advanced filters — expandable on demand */
+  .adv-toggle {
+    display: flex; align-items: center; gap: .5rem; width: 100%; margin-top: .75rem; cursor: pointer;
+    border: 1px solid var(--border-blue); border-radius: var(--r-xl); background: rgba(255, 255, 255, .7);
+    padding: .72rem .85rem; color: var(--solstice-blue); font-family: inherit; font-size: .875rem; font-weight: 900;
+    box-shadow: var(--shadow-pill); transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+  .adv-toggle:active { transform: scale(.99); }
+  .adv-toggle .lead { display: inline-flex; align-items: center; gap: .5rem; }
+  .adv-toggle .lead > svg { width: 1.1rem; height: 1.1rem; }
+  .adv-toggle .count {
+    margin-left: auto; display: inline-flex; align-items: center; justify-content: center;
+    min-width: 1.35rem; height: 1.35rem; padding: 0 .4rem; border-radius: var(--r-full);
+    background: linear-gradient(135deg, #2f62b6, #39a9ef); color: #fff; font-size: .72rem; font-weight: 900;
+  }
+  .adv-toggle .chev { margin-left: .5rem; width: 1.05rem; height: 1.05rem; transition: transform 240ms ease; }
+  .adv-toggle[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .adv-toggle[aria-expanded="true"] { background: #fff; }
+
+  .adv-panel { overflow: hidden; max-height: 0; opacity: 0; transition: max-height 300ms cubic-bezier(.22,1,.36,1), opacity 220ms ease, margin-top 220ms ease; }
+  .adv-panel.open { max-height: 48rem; opacity: 1; margin-top: .75rem; }
+  .adv-inner { border: 1px solid var(--border-blue); border-radius: var(--r-xl); background: rgba(255, 255, 255, .6); padding: 1rem; box-shadow: var(--shadow-pill); }
+  .adv-group + .adv-group { margin-top: 1.15rem; }
+  .adv-group-label { display: block; margin-bottom: .6rem; font-size: .72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .12em; color: var(--stone-400); }
+
+  .chip-select { display: flex; flex-wrap: wrap; gap: .5rem; }
+  .cat-chip {
+    display: inline-flex; align-items: center; gap: .35rem; cursor: pointer; font-family: inherit;
+    border-radius: var(--r-full); padding: .45rem .8rem; font-size: .8rem; font-weight: 800; line-height: 1;
+    background: #fff; color: var(--ink-700); border: 1px solid var(--ring-sky-900); box-shadow: var(--shadow-pill);
+    transition: background 140ms ease, color 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
+  }
+  .cat-chip .tick { width: .85rem; height: .85rem; margin-left: -.15rem; opacity: 0; transform: scale(.55); transition: opacity 140ms ease, transform 140ms ease, width 140ms ease, margin 140ms ease; }
+  .cat-chip.sel { background: linear-gradient(135deg, #2f62b6, #39a9ef); color: #fff; border-color: rgba(47, 98, 182, .9); box-shadow: 0 10px 22px rgba(47, 98, 182, .22); }
+  .cat-chip.sel .tick { opacity: 1; transform: none; }
+
+  /* Dual hour-range slider */
+  .range-labels { display: flex; justify-content: space-between; margin-bottom: .4rem; font-size: .8rem; font-weight: 900; color: var(--solstice-blue); font-variant-numeric: tabular-nums; }
+  .range { position: relative; height: 2.4rem; }
+  .range-track { position: absolute; top: 50%; left: .25rem; right: .25rem; height: .4rem; transform: translateY(-50%); background: var(--ring-sky-900); border-radius: var(--r-full); }
+  .range-fill { position: absolute; height: 100%; background: linear-gradient(90deg, #2f62b6, #39a9ef); border-radius: var(--r-full); }
+  .range input[type=range] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; background: none; pointer-events: none; -webkit-appearance: none; appearance: none; }
+  .range input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; pointer-events: auto; height: 1.5rem; width: 1.5rem; border-radius: 50%; background: #fff; border: 3px solid var(--solstice-blue); box-shadow: 0 4px 12px rgba(47, 98, 182, .3); cursor: pointer; }
+  .range input[type=range]::-moz-range-thumb { pointer-events: auto; height: 1.4rem; width: 1.4rem; border-radius: 50%; background: #fff; border: 3px solid var(--solstice-blue); box-shadow: 0 4px 12px rgba(47, 98, 182, .3); cursor: pointer; }
+  .range input[type=range]::-moz-range-track { background: none; }
+
+  .adv-footer { display: flex; gap: .6rem; margin-top: 1.2rem; }
+  .adv-clear { flex: 0 0 auto; cursor: pointer; font-family: inherit; border-radius: var(--r-xl); border: 1px solid var(--border-blue); background: #fff; color: var(--stone-600); font-weight: 800; font-size: .85rem; padding: .7rem 1rem; }
+  .adv-apply { flex: 1; cursor: pointer; font-family: inherit; border: 0; border-radius: var(--r-xl); background: linear-gradient(135deg, var(--solstice-blue), var(--solstice-sky)); color: #fff; font-weight: 900; font-size: .9rem; padding: .7rem 1rem; box-shadow: 0 12px 26px rgba(47, 98, 182, .24); }
+
+  /* Day header with divider */
+  .day-header { display: flex; align-items: center; gap: .75rem; padding: .5rem .25rem; }
+  .day-header .rule { height: 1px; flex: 1; background: var(--ring-sky-900); }
+
+  /* Activity card (list) */
+  .activity-list-card {
+    position: relative; overflow: hidden; border-radius: var(--r-2xl); padding: 1rem;
+    border: 1px solid var(--border-blue-soft);
+    background:
+      radial-gradient(circle at 96% 0%, rgba(255, 237, 213, .78), transparent 8rem),
+      linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(255, 255, 255, .82));
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(18px);
+  }
+  .alc-top { display: flex; align-items: flex-start; justify-content: space-between; gap: .75rem; }
+  .alc-top h3 { margin: .5rem 0 0; }
+  .alc-title-link { text-decoration: none; display: block; min-width: 0; flex: 1; }
+  .chips { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+  .alc-body { display: flex; align-items: flex-start; gap: .75rem; margin-top: .75rem; }
+  .alc-photo {
+    width: 4rem; flex: 0 0 auto; border-radius: var(--r-xl); object-fit: contain;
+    box-shadow: 0 1px 2px rgba(0,0,0,.05); border: 1px solid var(--ring-sky-900); background:#fff;
+  }
+
+  /* Tag chips (color taxonomy) */
+  .chip-tag {
+    display: inline-flex; align-items: center; gap: .25rem;
+    border-radius: var(--r-full); padding: .375rem .75rem;
+    font-size: .75rem; font-weight: 700; line-height: 1; white-space: nowrap;
+  }
+  .chip-tag svg { width: .875rem; height: .875rem; }
+  .chip-category { background: var(--amber-50); color: var(--amber-800); box-shadow: 0 0 0 1px var(--amber-ring); }
+  .chip-topic    { background: var(--rose-50);  color: var(--rose-800);  box-shadow: 0 0 0 1px var(--rose-ring); }
+  .chip-location { background: var(--sky-50);   color: var(--solstice-blue); box-shadow: 0 0 0 1px var(--sky-ring); }
+  .chip-language { background: var(--sky-50);   color: var(--sky-800);   box-shadow: 0 0 0 1px var(--sky-ring); }
+
+  /* Favorite button (circular) */
+  .fav-btn {
+    display: inline-flex; height: 2.5rem; width: 2.5rem; align-items: center;
+    justify-content: center; border-radius: var(--r-full); box-shadow: var(--shadow-fab);
+    border: 0; cursor: pointer; flex: 0 0 auto;
+  }
+  .fav-btn svg { width: 1.25rem; height: 1.25rem; }
+  .fav-idle   { background: #fff; color: var(--ink-600); box-shadow: var(--shadow-fab), 0 0 0 1px var(--ring-sky-900); }
+  .fav-active { background: var(--rose-500); color: #fff; box-shadow: var(--shadow-fab), 0 0 0 1px rgba(251,113,133,.4); }
+
+  /* Compact routine card (Meal / Logistics / "Rise up") */
+  .routine-card {
+    display: flex; align-items: center; gap: .75rem; border-radius: var(--r-xl);
+    background: var(--stone-50); padding: .75rem 1rem; box-shadow: 0 0 0 1px var(--stone-200);
+  }
+  .routine-dot { height: .5rem; width: .5rem; flex: 0 0 auto; border-radius: var(--r-full); background: var(--stone-300); }
+  .routine-time { margin: 0; font-size: .75rem; font-weight: 600; color: var(--stone-400); }
+  .routine-title { margin: .1rem 0 0; font-size: .875rem; font-weight: 700; line-height: 1.3; color: var(--stone-500); }
+  .routine-loc { display: inline-flex; align-items: center; gap: .25rem; font-size: .75rem; font-weight: 600; color: var(--stone-400); flex: 0 0 auto; }
+  .routine-loc svg { width: .75rem; height: .75rem; }
+
+  /* Detail card */
+  .activity-detail-card {
+    border-radius: var(--r-2xl); padding: 1.5rem;
+    border: 1px solid var(--border-blue);
+    background:
+      radial-gradient(circle at 100% 0%, rgba(255, 214, 107, .20), transparent 10rem),
+      radial-gradient(circle at 0% 100%, rgba(57, 169, 239, .12), transparent 11rem),
+      linear-gradient(180deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .86));
+    box-shadow: var(--shadow-strong);
+    backdrop-filter: blur(20px);
+  }
+  .badge {
+    display: inline-flex; align-items: center; border-radius: var(--r-full); padding: .375rem .75rem;
+    font-size: .875rem; font-weight: 700;
+    border: 1px solid rgba(243, 146, 0, .26); background: rgba(255, 246, 225, .92); color: #9a5a00;
+  }
+  .back-link { display: inline-flex; align-items: center; gap: .25rem; font-size: .875rem; font-weight: 900; color: var(--solstice-blue); text-decoration: none; }
+  .back-link svg { width: 1rem; height: 1rem; }
+
+  /* Empty state */
+  .empty-saved-card {
+    border-radius: var(--r-2xl); padding: 2rem; text-align: center;
+    border: 1px solid var(--border-blue);
+    background:
+      radial-gradient(circle at 50% 0%, rgba(255, 214, 107, .22), transparent 10rem),
+      radial-gradient(circle at 100% 100%, rgba(57, 169, 239, .16), transparent 10rem),
+      rgba(255, 255, 255, .9);
+    box-shadow: var(--shadow-strong);
+    backdrop-filter: blur(20px);
+  }
+  .empty-ico { margin: 0 auto; display: flex; height: 4rem; width: 4rem; align-items: center; justify-content: center; border-radius: var(--r-full); background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 0 0 1px var(--ring-sky-900); }
+  .empty-ico svg { height: 3rem; width: 3rem; color: var(--rose-500); }
+  .empty-title { margin: 1.25rem 0 0; font-size: 1.5rem; font-weight: 900; letter-spacing: -.03em; color: var(--ink-950); }
+  .empty-text { margin: .5rem auto 0; max-width: 18rem; font-size: .875rem; font-weight: 600; line-height: 1.6; color: var(--stone-600); }
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; margin-top: 1.5rem;
+    border-radius: var(--r-xl); background: var(--solstice-blue); padding: .75rem 1.25rem;
+    font-size: .875rem; font-weight: 900; color: #fff; text-decoration: none;
+    box-shadow: 0 10px 25px rgba(47, 98, 182, .15);
+  }
+
+  /* Utility for side-by-side demos */
+  .demo-2 { display: grid; gap: 1rem; grid-template-columns: 1fr 1fr; align-items: start; }
+  @media (max-width: 560px) { .demo-2, .select-row { grid-template-columns: 1fr; } }
+  .demo-label { font-size: .72rem; font-weight: 800; color: var(--stone-500); margin: 0 0 .4rem; text-transform: uppercase; letter-spacing: .08em; }
+  .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="doc-head">
+    <p class="doc-kicker">3HO · Summer Solstice Sadhana 2026</p>
+    <h1 class="doc-title">Program — Graphic Guide</h1>
+    <p class="doc-sub">
+      Every visual rule of the app's <strong>Program</strong>, reproduced in plain, portable CSS
+      (no Tailwind, no Geist via next/font). Copy the <code>:root</code> tokens and the component classes
+      to apply the same language to the program on the website. Values match
+      <code>src/app/globals.css</code>, <code>activity-card.tsx</code> and <code>program/[id]/page.tsx</code> 1:1.
+    </p>
+  </header>
+
+  <!-- 1. COLOR -->
+  <section class="section">
+    <h2><span class="num">01</span> Color tokens</h2>
+    <p class="hint">Brand + key neutrals. Chips and rings use Tailwind 50-tints with a 200/80 ring.</p>
+    <div class="swatches">
+      <div class="swatch"><div class="chip" style="background:#2f62b6"></div><div class="meta"><div class="name">solstice-blue</div><div class="hex">#2f62b6</div><span class="role">Titles, active state, links, primary</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#39a9ef"></div><div class="meta"><div class="name">solstice-sky</div><div class="hex">#39a9ef</div><span class="role">Gradient partner, theme-color</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#f39200"></div><div class="meta"><div class="name">solstice-orange</div><div class="hex">#f39200</div><span class="role">Times, kickers, badges</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#ffd66b"></div><div class="meta"><div class="name">solstice-gold</div><div class="hex">#ffd66b</div><span class="role">Decorative glow</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#f43f5e"></div><div class="meta"><div class="name">rose-500</div><div class="hex">#f43f5e</div><span class="role">Active favorite</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#0f172a"></div><div class="meta"><div class="name">slate-900</div><div class="hex">#0f172a</div><span class="role">Card title</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#475569"></div><div class="meta"><div class="name">slate-600</div><div class="hex">#475569</div><span class="role">Description</span></div></div>
+      <div class="swatch"><div class="chip" style="background:#78716c"></div><div class="meta"><div class="name">stone-500</div><div class="hex">#78716c</div><span class="role">Routine / muted text</span></div></div>
+    </div>
+  </section>
+
+  <!-- 2. TYPOGRAPHY -->
+  <section class="section">
+    <h2><span class="num">02</span> Typography</h2>
+    <p class="hint">Geist Sans with a system fallback. Weights in use: 600 (semibold), 700 (bold), 900 (black). Black is the default weight for titles, buttons and pills.</p>
+    <div class="type-row"><span class="type-spec">Kicker · 12px / 900 / +.24em / UPPER</span><span class="t-kicker">Friday, June 19</span></div>
+    <div class="type-row"><span class="type-spec">Detail title · 36–40px / 900 / -.045em</span><span class="t-detail-title">White Tantric Yoga®</span></div>
+    <div class="type-row"><span class="type-spec">Card title · 18px / 900</span><span class="t-card-title">Morning Sadhana at the dome</span></div>
+    <div class="type-row"><span class="type-spec">Time (list) · 14px / 700 / orange</span><span class="t-time">6:00 AM – 8:00 AM</span></div>
+    <div class="type-row"><span class="type-spec">Time (detail) · 20px / 900 / orange</span><span class="t-time-lg">6:00 AM – 8:00 AM</span></div>
+    <div class="type-row"><span class="type-spec">Day header · 14px / 900 / blue</span><span class="t-dayhead">Friday, June 19</span></div>
+    <div class="type-row"><span class="type-spec">Facilitator · 14px / 600</span><span class="t-facil">With Guru Singh · USA</span></div>
+    <div class="type-row"><span class="type-spec">Description · 14px / 400 / 1.6</span><span class="t-desc">A grounding start to the day at Ram Das Puri.</span></div>
+    <div class="type-row"><span class="type-spec">Meta label · 12px / 900 / UPPER</span><span class="t-label">Facilitator</span></div>
+  </section>
+
+  <!-- 3. FILTER PANEL -->
+  <section class="section">
+    <h2><span class="num">03</span> Filter panel</h2>
+    <p class="hint">Glass card pinned to the top: search, horizontally scrolling day strip, and two selects. The active day uses the blue→sky gradient. The <strong>Advanced filters</strong> button below is a new element — tap it to expand a panel for multi-select categories, time-of-day presets and a custom hour range.</p>
+    <div class="filter-glass-card">
+      <label class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" placeholder="Search title, teacher, place..." />
+      </label>
+      <div class="day-strip">
+        <button class="day-filter-button day-filter-button-active">All days</button>
+        <button class="day-filter-button">Fri, Jun 19</button>
+        <button class="day-filter-button">Sat, Jun 20</button>
+        <button class="day-filter-button">Sun, Jun 21</button>
+        <button class="day-filter-button">Mon, Jun 22</button>
+      </div>
+      <div class="select-row">
+        <select class="filter-select"><option>Venue</option></select>
+        <select class="filter-select"><option>Category</option></select>
+      </div>
+
+      <!-- Advanced filters: expandable on demand -->
+      <button class="adv-toggle" id="advToggle" aria-expanded="false" aria-controls="advPanel" onclick="toggleAdvanced()">
+        <span class="lead">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="1" x2="7" y1="14" y2="14"/><line x1="9" x2="15" y1="8" y2="8"/><line x1="17" x2="23" y1="16" y2="16"/></svg>
+          Advanced filters
+        </span>
+        <span class="count" id="advCount" hidden>0</span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+
+      <div class="adv-panel" id="advPanel">
+        <div class="adv-inner">
+          <div class="adv-group">
+            <span class="adv-group-label">Categories · pick several</span>
+            <div class="chip-select" id="catChips">
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Kriya and Meditation</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Meditation</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>White Tantric Yoga</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Music</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Mantras</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Workshop</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Gurdwara</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Sadhana</button>
+            </div>
+          </div>
+
+          <div class="adv-group">
+            <span class="adv-group-label">Time of day</span>
+            <div class="chip-select" id="todChips">
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Morning</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Midday</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Afternoon</button>
+              <button type="button" class="cat-chip" onclick="toggleChip(this)"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Evening</button>
+            </div>
+          </div>
+
+          <div class="adv-group">
+            <span class="adv-group-label">Custom hour range</span>
+            <div class="range-labels"><span id="rFromLbl">6:00 AM</span><span id="rToLbl">9:00 PM</span></div>
+            <div class="range">
+              <div class="range-track"><div class="range-fill" id="rFill"></div></div>
+              <input type="range" id="rFrom" min="300" max="1350" step="15" value="360" aria-label="From hour" oninput="updateRange()" />
+              <input type="range" id="rTo" min="300" max="1350" step="15" value="1260" aria-label="To hour" oninput="updateRange()" />
+            </div>
+          </div>
+
+          <div class="adv-footer">
+            <button type="button" class="adv-clear" onclick="clearAdvanced()">Clear</button>
+            <button type="button" class="adv-apply" onclick="toggleAdvanced()">Apply<span id="applyN"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. DAY HEADER -->
+  <section class="section">
+    <h2><span class="num">04</span> Day header</h2>
+    <p class="hint">Separates the date groups. Bold blue label + thin <code>sky-900/10</code> rule filling the rest of the line. It is sticky below the filter panel.</p>
+    <div class="day-header">
+      <span class="t-dayhead">Saturday, June 20</span>
+      <div class="rule"></div>
+    </div>
+  </section>
+
+  <!-- 5. ACTIVITY CARD -->
+  <section class="section">
+    <h2><span class="num">05</span> Activity card (list)</h2>
+    <p class="hint">Core of the program. Peach radial glow at the top-right, white glass, blue shadow. Row 1: time + favorite. Then chips, and photo + facilitator + description.</p>
+    <article class="activity-list-card">
+      <div class="alc-top">
+        <a class="alc-title-link" href="#">
+          <p class="t-time">6:00 AM – 8:00 AM</p>
+          <h3 class="t-card-title line-clamp-2">Sadhana &amp; Gurdwara at the Main Dome</h3>
+        </a>
+        <button class="fav-btn fav-idle" aria-label="Toggle favorite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        </button>
+      </div>
+      <div class="chips">
+        <span class="chip-tag chip-category">Sadhana</span>
+        <span class="chip-tag chip-topic">Meditation</span>
+        <span class="chip-tag chip-location">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          Main Dome
+        </span>
+        <span class="chip-tag chip-language">English</span>
+      </div>
+      <div class="alc-body">
+        <img class="alc-photo" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='80'><rect width='64' height='80' rx='12' fill='%23e0f0ff'/><circle cx='32' cy='30' r='13' fill='%2339a9ef'/><rect x='12' y='50' width='40' height='22' rx='11' fill='%232f62b6'/></svg>" />
+        <div style="min-width:0">
+          <p class="t-facil">With Guru Singh · USA</p>
+          <p class="t-desc line-clamp-3" style="margin:.25rem 0 0">Begin the day in stillness with group Sadhana and Gurdwara at Ram Das Puri, guided chanting and meditation to greet the solstice sun.</p>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 6. ROUTINE CARD -->
+  <section class="section">
+    <h2><span class="num">06</span> Compact routine card</h2>
+    <p class="hint">For meals, logistics and "Rise up": muted (stone) tone so it doesn't compete with the main activities. Dot + time + title + place in a single row.</p>
+    <div class="routine-card">
+      <span class="routine-dot"></span>
+      <div style="min-width:0;flex:1">
+        <p class="routine-time">7:30 AM – 8:30 AM</p>
+        <p class="routine-title">Breakfast</p>
+      </div>
+      <span class="routine-loc">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+        Langar Tent
+      </span>
+    </div>
+  </section>
+
+  <!-- 7. CHIPS -->
+  <section class="section">
+    <h2><span class="num">07</span> Tag chips (color taxonomy)</h2>
+    <p class="hint"><code>rounded-full</code> pill, 12px / 700, 50-tint fill with a 200/80 ring. Color encodes the data type — keep it consistent.</p>
+    <div class="chips">
+      <span class="chip-tag chip-category">Category (amber)</span>
+      <span class="chip-tag chip-topic">Tag / topic (rose)</span>
+      <span class="chip-tag chip-location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+        Place (sky · blue)
+      </span>
+      <span class="chip-tag chip-language">Language (sky)</span>
+    </div>
+  </section>
+
+  <!-- 8. FAVORITE -->
+  <section class="section">
+    <h2><span class="num">08</span> Favorite button</h2>
+    <p class="hint">Circular 40px button. Idle: white with an outlined heart. Active: rose-500 fill with a solid white heart.</p>
+    <div style="display:flex;gap:1.5rem;align-items:center">
+      <div style="text-align:center">
+        <button class="fav-btn fav-idle" aria-label="Add favorite">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        </button>
+        <p class="demo-label" style="margin-top:.5rem">Idle</p>
+      </div>
+      <div style="text-align:center">
+        <button class="fav-btn fav-active" aria-label="Remove favorite">
+          <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+        </button>
+        <p class="demo-label" style="margin-top:.5rem">Active</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. DETAIL CARD -->
+  <section class="section">
+    <h2><span class="num">09</span> Detail card</h2>
+    <p class="hint">Activity page. Gold (top-right) and sky (bottom-left) glows, larger padding, big title and a tag hierarchy. The category uses the orange <code>badge</code>.</p>
+    <a class="back-link" href="#" style="margin-bottom:.75rem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+      Program
+    </a>
+    <div class="activity-detail-card">
+      <p class="t-kicker">Saturday, June 20</p>
+      <h1 class="t-detail-title" style="margin:.75rem 0 0">White Tantric Yoga®</h1>
+      <p class="t-time-lg" style="margin:1.25rem 0 0">9:00 AM – 3:00 PM</p>
+      <div class="chips" style="margin-top:1.25rem">
+        <span class="badge">Workshop</span>
+        <span class="chip-tag chip-topic" style="font-size:.875rem;padding:.375rem .75rem">Kundalini</span>
+        <span class="chip-tag chip-location" style="font-size:.875rem;padding:.375rem .75rem">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          Main Dome
+        </span>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:1rem;margin-top:1.75rem">
+        <img class="alc-photo" style="width:4rem" alt="" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='80'><rect width='64' height='80' rx='12' fill='%23fff2d6'/><circle cx='32' cy='30' r='13' fill='%23f39200'/><rect x='12' y='50' width='40' height='22' rx='11' fill='%232f62b6'/></svg>" />
+        <div style="min-width:0;flex:1">
+          <div style="margin-bottom:.75rem">
+            <p class="t-label">Facilitator</p>
+            <p style="margin:.15rem 0 0;font-size:1rem;font-weight:700;color:var(--stone-700)">Certified WTY Facilitator</p>
+          </div>
+          <p class="t-desc" style="color:var(--stone-700)">A full-day meditative practice done in pairs, holding kriyas in stillness. Bring water, a shawl and a cushion.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. EMPTY STATE -->
+  <section class="section">
+    <h2><span class="num">10</span> Empty state (favorites)</h2>
+    <p class="hint">Same glass language with gold + sky glows, heart inside a ring, black title and a blue primary call to action.</p>
+    <div class="empty-saved-card">
+      <div class="empty-ico">
+        <svg viewBox="0 0 24 24" fill="rgba(244,63,94,.1)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/></svg>
+      </div>
+      <h2 class="empty-title">No favorites yet</h2>
+      <p class="empty-text">Browse the Program and tap ♥ to save activities here</p>
+      <a class="btn-primary" href="#">Browse Program</a>
+    </div>
+  </section>
+
+  <!-- 11. EFFECTS -->
+  <section class="section">
+    <h2><span class="num">11</span> Base effects</h2>
+    <p class="hint">The cross-cutting rules that make everything look like one family.</p>
+    <div class="demo-2">
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Glass</p>
+        <p class="t-desc" style="color:var(--stone-600)">Translucent white 0.82–0.96 + <code>backdrop-filter: blur(18–20px)</code> + 1px blue border at 10–12%.</p>
+      </div>
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Shadow</p>
+        <p class="t-desc" style="color:var(--stone-600)">Always blue-tinted and large: <code>0 18px 48px rgba(47,98,182,.08)</code>; on strong cards <code>0 24px 70px …/.10</code>.</p>
+      </div>
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Radii</p>
+        <p class="t-desc" style="color:var(--stone-600)"><code>rounded-2xl</code> = 16px (cards), <code>rounded-xl</code> = 12px (inputs/photos), <code>rounded-full</code> (pills/chips/favorite).</p>
+      </div>
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Radial glows</p>
+        <p class="t-desc" style="color:var(--stone-600)">Peach/gold in the top-right corner, sky in the bottom-left. Decorative, low opacity, inside the card.</p>
+      </div>
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Motion</p>
+        <p class="t-desc" style="color:var(--stone-600)">Minimal: 160ms transitions on pills and <code>:active { transform: scale(.98) }</code>. No keyframes.</p>
+      </div>
+      <div class="filter-glass-card" style="padding:1.25rem">
+        <p class="demo-label">Rhythm</p>
+        <p class="t-desc" style="color:var(--stone-600)">Container <code>max-width: 48rem</code>, 1rem side padding. Between cards of the same day: 0.75rem. Inner padding 1rem (list) / 1.5rem (detail).</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  /* Advanced filters — expand/collapse, multi-select chips, dual hour range.
+     Prototype logic only; in the app this state would drive the activity query. */
+  const RANGE_MIN = 300, RANGE_MAX = 1350;              // 5:00 AM .. 10:30 PM (minutes)
+  const DEFAULT_FROM = 360, DEFAULT_TO = 1260;          // 6:00 AM .. 9:00 PM
+  const MIN_GAP = 60;                                   // keep at least 1h between thumbs
+
+  function toggleAdvanced() {
+    const panel = document.getElementById("advPanel");
+    const toggle = document.getElementById("advToggle");
+    const open = panel.classList.toggle("open");
+    toggle.setAttribute("aria-expanded", String(open));
+  }
+
+  function toggleChip(el) {
+    el.classList.toggle("sel");
+    updateCount();
+  }
+
+  function fmtMinutes(m) {
+    const h = Math.floor(m / 60), min = m % 60;
+    const d = new Date(2026, 5, 19, h, min);
+    return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(d);
+  }
+
+  function updateRange() {
+    const fromEl = document.getElementById("rFrom");
+    const toEl = document.getElementById("rTo");
+    let from = Number(fromEl.value), to = Number(toEl.value);
+    if (from > to - MIN_GAP) {
+      // push the thumb that is being dragged past the other back to a legal spot
+      if (document.activeElement === fromEl) { from = to - MIN_GAP; fromEl.value = from; }
+      else { to = from + MIN_GAP; toEl.value = to; }
+    }
+    const span = RANGE_MAX - RANGE_MIN;
+    const left = ((from - RANGE_MIN) / span) * 100;
+    const right = ((to - RANGE_MIN) / span) * 100;
+    const fill = document.getElementById("rFill");
+    fill.style.left = left + "%";
+    fill.style.width = (right - left) + "%";
+    document.getElementById("rFromLbl").textContent = fmtMinutes(from);
+    document.getElementById("rToLbl").textContent = fmtMinutes(to);
+    updateCount();
+  }
+
+  function rangeActive() {
+    return Number(document.getElementById("rFrom").value) !== DEFAULT_FROM ||
+           Number(document.getElementById("rTo").value) !== DEFAULT_TO;
+  }
+
+  function updateCount() {
+    const chips = document.querySelectorAll("#catChips .cat-chip.sel, #todChips .cat-chip.sel").length;
+    const n = chips + (rangeActive() ? 1 : 0);
+    const badge = document.getElementById("advCount");
+    badge.textContent = n;
+    badge.hidden = n === 0;
+    document.getElementById("applyN").textContent = n ? ` · ${n}` : "";
+  }
+
+  function clearAdvanced() {
+    document.querySelectorAll(".cat-chip.sel").forEach((c) => c.classList.remove("sel"));
+    document.getElementById("rFrom").value = DEFAULT_FROM;
+    document.getElementById("rTo").value = DEFAULT_TO;
+    updateRange();
+  }
+
+  updateRange();  // initialise the fill + labels
+</script>
+</body>
+</html>

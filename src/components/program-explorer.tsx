@@ -20,6 +20,8 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
   const [venue, setVenue] = useState("all");
   const [category, setCategory] = useState("all");
   const filterRef = useRef<HTMLDivElement>(null);
+  const dayStripRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const [filterHeight, setFilterHeight] = useState(0);
 
   useEffect(() => {
@@ -33,17 +35,20 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
   const savedCount = mode === "favorites" ? favoriteIds.size : activities.length;
 
+  const todayStr = useMemo(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  }, []);
+
   // On the main program view, default to the current day if it falls within the
   // event so attendees land on today's schedule without scrolling. Runs once on
   // mount (client only) to avoid static-export hydration mismatches.
   const appliedDefaultDay = useRef(false);
   useEffect(() => {
     if (appliedDefaultDay.current || mode !== "all") return;
-    const now = new Date();
-    const todayStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
     if (dates.includes(todayStr)) setDate(todayStr);
     appliedDefaultDay.current = true;
-  }, [dates, mode]);
+  }, [dates, mode, todayStr]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -79,6 +84,40 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
     return groups;
   }, [filtered]);
 
+  // After today's filter is applied, bring the active day chip into view (so it
+  // reads first) and jump the list to the activity nearest the current time.
+  const didAutoScroll = useRef(false);
+  useEffect(() => {
+    if (didAutoScroll.current || mode !== "all") return;
+    if (date !== todayStr || !dates.includes(todayStr)) return;
+    didAutoScroll.current = true;
+
+    const frame = requestAnimationFrame(() => {
+      const strip = dayStripRef.current;
+      const chip = strip?.querySelector<HTMLElement>(`[data-day="${todayStr}"]`);
+      if (strip && chip) {
+        const stripRect = strip.getBoundingClientRect();
+        const chipRect = chip.getBoundingClientRect();
+        strip.scrollBy({ left: chipRect.left - stripRect.left - 8, behavior: "smooth" });
+      }
+
+      const now = new Date();
+      const nowMinutes = now.getHours() * 60 + now.getMinutes();
+      const toMinutes = (t: string) => {
+        const [h, m] = t.split(":").map(Number);
+        return h * 60 + (m || 0);
+      };
+      const todays = filtered.filter((item) => item.date === todayStr);
+      if (todays.length === 0) return;
+      const upcoming = todays.find((item) => toMinutes(item.startTime) >= nowMinutes);
+      const target = upcoming ?? todays[todays.length - 1];
+      const card = listRef.current?.querySelector<HTMLElement>(`[data-activity-id="${CSS.escape(target.id)}"]`);
+      card?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+
+    return () => cancelAnimationFrame(frame);
+  }, [date, dates, filtered, mode, todayStr]);
+
   if (mode !== "all" && savedCount === 0) {
     return (
       <section className="empty-saved-card rounded-2xl p-8 text-center">
@@ -111,10 +150,10 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               className="w-full bg-transparent text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
             />
           </label>
-          <div className="no-scrollbar -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" aria-label="Filter by day">
+          <div ref={dayStripRef} className="no-scrollbar -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" aria-label="Filter by day">
             <button type="button" onClick={() => setDate("all")} className={cn("day-filter-button", date === "all" && "day-filter-button-active")}>All days</button>
             {dates.map((item) => (
-              <button key={item} type="button" onClick={() => setDate(item)} className={cn("day-filter-button", date === item && "day-filter-button-active")}>
+              <button key={item} type="button" data-day={item} onClick={() => setDate(item)} className={cn("day-filter-button", date === item && "day-filter-button-active")}>
                 {formatDate(item)}
               </button>
             ))}
@@ -138,7 +177,7 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
           <p className="mt-2 text-sm text-stone-600">Add activities with the heart button, or clear the filters.</p>
         </div>
       ) : (
-        <div className="space-y-2">
+        <div ref={listRef} className="space-y-2">
           {byDate.map(({ date: d, items }) => (
             <section key={d}>
               <div
@@ -152,7 +191,9 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               </div>
               <div className="space-y-3 pt-2">
                 {items.map((activity) => (
-                  <ActivityCard key={activity.id} activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
+                  <div key={activity.id} data-activity-id={activity.id}>
+                    <ActivityCard activity={activity} isFavorite={favoriteIds.has(activity.id)} onToggleFavorite={toggleFavorite} />
+                  </div>
                 ))}
               </div>
             </section>
