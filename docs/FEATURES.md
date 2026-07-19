@@ -43,10 +43,12 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   notification). See [NATIVE.md](NATIVE.md).
 - Depends on: native shell + a synced agenda snapshot.
 
-### Teacher / presenter info — 📋 Phase 3
+### Teacher / presenter info — 📋 Phase 3 (can start static, pre-backend)
 
-- Bios, photos, country, and the sessions each teacher leads (linked to program items).
-- Depends on: backend content model (`teacher` table).
+- Bios, photos, country, and the sessions each teacher leads (linked to program items,
+  accessible from program detail). Spec: [TEACHERS.md](TEACHERS.md).
+- Static-first via `teachers.json`; migrates to the backend bundle unchanged.
+- Depends on: nothing for step 1; backend content model (`teacher`) for step 2.
 
 ### Daily menus + nutrition / yogi diet — 📋 Phase 3
 
@@ -54,17 +56,15 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 - Content-driven; can seed statically first, then move to backend.
 - Depends on: content model (`menu_day`), optional editing workflow.
 
-### Messaging — 📋 Phase 3
+### Messaging, alerts & notifications — 📋 Phase 3
 
-- Direct messages and/or announcement channels.
-- Realtime when connected (cloud or camp LAN); store-and-forward across gaps.
-- Depends on: backend realtime, identity, local-network relay.
-
-### Work-group communication — 📋 Phase 3
-
-- Channels for the seva / work groups an attendee belongs to.
-- Membership-scoped; builds on messaging + profile.
-- Depends on: `work_group` + `work_group_member` model.
+- Unified channel model: **direct (1:1)**, **group chats**, **official announcements**
+  (staff → everyone), **work-group (seva team) channels**, and an **alarms/alerts feed**.
+- **Polling-first on WordPress, socket-ready API**; realtime companion (Node/Mercure)
+  later — cloud and/or camp edge server. Design: [MESSAGING.md](MESSAGING.md).
+- Store-and-forward offline (Dexie outbox); rollout order: official + alerts →
+  work-group channels → DMs/groups.
+- Depends on: backend + identity (Phase 1); push for alert delivery ([NATIVE.md](NATIVE.md)).
 
 ### Multi-event — 📋 Phase 4 (design early)
 
@@ -72,15 +72,12 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 - Event switcher; follow/register for multiple events.
 - Depends on: multi-event data model baked in from Phase 1 ([BACKEND.md](BACKEND.md)).
 
-### Store: merchandising — 💤 Phase 5
+### Store: merch & tickets — 💤 Phase 5
 
-- Catalog, cart, checkout for merch.
-- Depends on: payments provider (to be chosen), backend `order` model.
-
-### Store: ticket sales — 💤 Phase 5
-
-- Event registration + payment; QR entry tied to existing check-in flow.
-- Depends on: payments, identity, event registration.
+- **Decision: link-out first** — the app links/embeds the existing ticket-sales website
+  (and a web merch store, e.g. WooCommerce); no in-app checkout to start.
+- In-app commerce (catalog, cart, payments, `order` model) only if link-out proves
+  insufficient; payments provider decided then.
 
 ## Dependency summary
 

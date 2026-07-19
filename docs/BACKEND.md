@@ -38,8 +38,9 @@ the guardrails and limits below, and reassess at the realtime/edge-sync stages.
 ## Known limits of WordPress (plan around them)
 
 - **No realtime / WebSockets.** Messaging and work-group channels (Phase 3) start as
-  **polling** against REST, or gain a small companion realtime service later. Fine for
-  announcements; revisit for live chat.
+  **polling** against REST with a **socket-ready, transport-agnostic API**; a small
+  companion realtime service (Node/Mercure) can be added later without client changes.
+  Decided — full design in [MESSAGING.md](MESSAGING.md).
 - **Edge server at camp.** A full WordPress + MySQL stack can run on a mini-PC, but it is
   heavier to replicate/sync than a purpose-built sync service. Keep this in mind for the
   local-network work ([LOCAL-NETWORK.md](LOCAL-NETWORK.md)); a lightweight relay may be
@@ -114,7 +115,8 @@ Notes:
 - **Sync**: pull event bundle (program/categories/venues/info/teachers/menus) with an
   ETag or `updated_since` cursor; push local changes (agenda, outbox, profile).
 - **Content**: read-only event content endpoints (also delivered as a cacheable bundle).
-- **Messaging / groups**: channels list, message history, send (poll for new).
+- **Messaging / groups**: channels list, message history, send, combined `/updates`
+  poll (see [MESSAGING.md](MESSAGING.md)).
 - **Devices**: register/unregister push token.
 
 ## Sync strategy
@@ -140,5 +142,10 @@ matching the contract.
 - Auth token scheme on WordPress (JWT plugin vs Application Passwords vs custom).
 - Custom tables vs CPTs per entity (relational needs vs wp-admin editing convenience).
 - Hosting/scale of the WordPress site under app traffic; caching strategy for the bundle.
-- Whether messaging launches polling-only or waits for a realtime companion.
-- Payments provider for Phase 5.
+
+Resolved:
+
+- ~~Whether messaging launches polling-only or waits for a realtime companion~~ →
+  **polling-first, socket-ready** ([MESSAGING.md](MESSAGING.md)).
+- ~~Payments provider for Phase 5~~ → no in-app payments for now: the app **links out to
+  the existing ticket-sales website** (see [ROADMAP.md](ROADMAP.md) Phase 5).

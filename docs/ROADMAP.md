@@ -45,10 +45,13 @@ Goal: ship real App Store / Play Store apps from the existing web build via Capa
 
 Goal: turn the guide into a companion that connects people and daily life at camp.
 
-- **Teacher / presenter info** (bios, photos, sessions they lead).
-- **Daily menus + nutrition** info and general **yogi diet** guidance.
-- **Messaging** (direct and/or announcements).
-- **Work-group communication** — channels for the seva/work groups a user belongs to.
+- **Teacher / presenter info** (bios, photos, sessions they lead) — accessible from the
+  program; can start static before the backend. Spec in [TEACHERS.md](TEACHERS.md).
+- **Daily menus + nutrition** info and general **yogi diet** guidance (second instance).
+- **Messaging** — direct (1:1), group chats, **official announcements**, **work-group
+  (seva team) channels**, and an **alarms/notifications** feed. Polling-first on
+  WordPress, socket-ready API; realtime companion later. Design in
+  [MESSAGING.md](MESSAGING.md).
 - Per-feature scope in [FEATURES.md](FEATURES.md).
 
 ## Phase 4 — Multi-event
@@ -62,11 +65,15 @@ Goal: the app serves more than one event over time (future solstices, other 3HO 
 
 ## Phase 5 — Commerce (second instance)
 
-Goal: sell merchandise and event tickets in-app. Explicitly a later stage.
+Goal: merchandise and event tickets. Explicitly a later stage.
 
-- **Merchandising store** (catalog, cart, checkout).
-- **Ticket sales** (event registration + payment, QR entry linking to existing check-in).
-- Payment provider, tax, and fulfilment decisions to be scoped when this phase starts.
+- **Decision (2026-07): start by linking out** — the app links/embeds the existing
+  ticket-sales website rather than building in-app checkout. Zero payment infrastructure
+  in the app and the simplest path through App Store / Play Store review.
+- **Merchandising store**: same link-out approach first (e.g. WooCommerce on 3ho.org);
+  native in-app commerce only if/when the link-out flow proves insufficient.
+- Payment provider, tax, and fulfilment decisions deferred until in-app commerce is
+  actually pursued.
 
 ## Cross-cutting track — Campsite local network (high priority R&D)
 

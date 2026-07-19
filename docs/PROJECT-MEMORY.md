@@ -16,6 +16,16 @@ and how we agreed to work. Complements `CLAUDE.md` (rules for agents) and the pl
 
 ## Decisions made (most recent first)
 
+- **Messaging = polling-first, socket-ready (2026-07-19).** Unified channel model (DM,
+  group, official announcements, work-group channels, alerts feed) served by REST on
+  WordPress; the API is transport-agnostic so a realtime companion (Node/Mercure — also a
+  fit for the camp edge server) can be added later without client changes. Hosted pub/sub
+  rejected for the MVP (cost + hard internet dependency). See `docs/MESSAGING.md`.
+- **Commerce = link out (2026-07-19).** Phase 5 starts by linking/embedding the existing
+  ticket-sales website (and web merch store); no in-app checkout or payments initially —
+  simplest App Store/Play review path.
+- **Teachers can ship static-first (2026-07-19).** `teachers.json` + program links now;
+  same shape later served by the backend bundle. See `docs/TEACHERS.md`.
 - **Backend for the MVP = WordPress + MySQL.** Custom REST endpoints on the existing
   3ho.org WordPress (we already run WordPress and the app already calls
   `wp-json/3ho-solstice/v1/contact`). Chosen for existing infra/skills, built-in
@@ -33,7 +43,7 @@ and how we agreed to work. Complements `CLAUDE.md` (rules for agents) and the pl
 
 - `README.md` (front door) · `docs/INDEX.md` (master index) · `PRODUCT.md` · `DESIGN.md`
 - `docs/ROADMAP.md`, `docs/BACKEND.md`, `docs/NATIVE.md`, `docs/LOCAL-NETWORK.md`,
-  `docs/FEATURES.md`
+  `docs/FEATURES.md`, `docs/MESSAGING.md`, `docs/TEACHERS.md`
 - `CHANGELOG.md` (Keep a Changelog) · `CLAUDE.md` / `AGENTS.md` (agent guidance + Next 15
   warning)
 - Note: there is also an in-repo `design/` folder (system, style guide, teachers prototype)

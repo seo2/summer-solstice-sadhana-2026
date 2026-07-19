@@ -11,6 +11,12 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- `docs/MESSAGING.md` — messaging/alerts design: unified channel model (DM, group,
+  official announcements, work-group channels, alerts feed), REST API sketch, and the
+  **polling-first, socket-ready** decision (realtime companion later).
+- `docs/TEACHERS.md` — teacher/presenter info spec: data model, program linking,
+  static-first rollout then backend bundle.
+
 - Project documentation set and navigation index (`docs/INDEX.md`).
 - `CHANGELOG.md` (this file).
 - Planning docs: `docs/ROADMAP.md`, `docs/BACKEND.md`, `docs/NATIVE.md`,
@@ -27,6 +33,10 @@ Note the cache bump in an entry whenever one happened.
   3ho.org WordPress, kept swappable via a versioned REST bundle). Rewrote `docs/BACKEND.md`
   accordingly; updated `docs/ROADMAP.md` and `docs/NATIVE.md` to match. Supabase and others
   are now listed as future alternatives to reassess after the MVP.
+- v2 scope decisions recorded across `docs/ROADMAP.md`, `docs/BACKEND.md`,
+  `docs/FEATURES.md`: messaging = polling-first/socket-ready; commerce (Phase 5) =
+  **link out to the existing ticket-sales website** first, no in-app payments; teachers
+  can ship static-first before the backend.
 
 <!--
 Template for future entries — keep newest on top.
