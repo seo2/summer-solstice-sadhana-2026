@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Heart, Search } from "lucide-react";
+import { Check, ChevronDown, Heart, Search, SlidersHorizontal } from "lucide-react";
 import { AppLink as Link } from "@/components/app-link";
 import { ActivityCard } from "@/components/activity-card";
 import { useSavedActivities } from "@/lib/db";
@@ -13,12 +13,49 @@ const formatDayLabel = (date: string) =>
 
 type Mode = "all" | "favorites";
 
+// Advanced filters — hour range covers the real program span (Sadhana starts 3:00 AM).
+const RANGE_MIN = 180; // 3:00 AM, in minutes
+const RANGE_MAX = 1350; // 10:30 PM
+const RANGE_STEP = 15;
+const MIN_GAP = 60; // keep at least 1h between the two thumbs
+
+const TIME_OF_DAY = [
+  { id: "morning", label: "Morning", from: 0, to: 719 },
+  { id: "midday", label: "Midday", from: 720, to: 899 },
+  { id: "afternoon", label: "Afternoon", from: 900, to: 1079 },
+  { id: "evening", label: "Evening", from: 1080, to: 1439 },
+] as const;
+
+const toMinutesOfDay = (time: string) => {
+  const [h, m] = time.split(":").map(Number);
+  return h * 60 + (m || 0);
+};
+
+const formatMinutes = (minutes: number) => {
+  const d = new Date(2026, 5, 19, Math.floor(minutes / 60), minutes % 60);
+  return new Intl.DateTimeFormat("en-US", { hour: "numeric", minute: "2-digit" }).format(d);
+};
+
+function FilterChip({ label, selected, onToggle }: { label: string; selected: boolean; onToggle: () => void }) {
+  return (
+    <button type="button" aria-pressed={selected} onClick={onToggle} className={cn("cat-chip", selected && "cat-chip-selected")}>
+      <Check className="cat-chip-tick" strokeWidth={3} />
+      {label}
+    </button>
+  );
+}
+
 export function ProgramExplorer({ activities, venues, categories, mode = "all" }: { activities: Activity[]; venues: Venue[]; categories: Category[]; mode?: Mode }) {
   const { favoriteIds, toggleFavorite } = useSavedActivities();
   const [query, setQuery] = useState("");
   const [date, setDate] = useState("all");
   const [venue, setVenue] = useState("all");
   const [category, setCategory] = useState("all");
+  const [advOpen, setAdvOpen] = useState(false);
+  const [advCategories, setAdvCategories] = useState<Set<string>>(new Set());
+  const [timesOfDay, setTimesOfDay] = useState<Set<string>>(new Set());
+  const [hourFrom, setHourFrom] = useState(RANGE_MIN);
+  const [hourTo, setHourTo] = useState(RANGE_MAX);
   const filterRef = useRef<HTMLDivElement>(null);
   const dayStripRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -50,13 +87,30 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
     appliedDefaultDay.current = true;
   }, [dates, mode, todayStr]);
 
+  const rangeActive = hourFrom !== RANGE_MIN || hourTo !== RANGE_MAX;
+  const advCount = advCategories.size + timesOfDay.size + (rangeActive ? 1 : 0);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     return activities
       .filter((item) => (mode === "favorites" ? favoriteIds.has(item.id) : true))
       .filter((item) => (date === "all" ? true : item.date === date))
       .filter((item) => (venue === "all" ? true : item.location === venue))
-      .filter((item) => (category === "all" ? true : item.category === category))
+      .filter((item) =>
+        advCategories.size > 0
+          ? item.category !== undefined && advCategories.has(item.category)
+          : category === "all" || item.category === category,
+      )
+      .filter((item) => {
+        if (timesOfDay.size === 0) return true;
+        const start = toMinutesOfDay(item.startTime);
+        return TIME_OF_DAY.some((slot) => timesOfDay.has(slot.id) && start >= slot.from && start <= slot.to);
+      })
+      .filter((item) => {
+        if (!rangeActive) return true;
+        const start = toMinutesOfDay(item.startTime);
+        return start >= hourFrom && start <= hourTo;
+      })
       .filter((item) => {
         if (!q) return true;
         return [
@@ -69,7 +123,35 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
         ].filter(Boolean).join(" ").toLowerCase().includes(q);
       })
       .sort((a, b) => `${a.date}${a.startTime}`.localeCompare(`${b.date}${b.startTime}`));
-  }, [activities, category, date, favoriteIds, mode, query, venue]);
+  }, [activities, advCategories, category, date, favoriteIds, hourFrom, hourTo, mode, query, rangeActive, timesOfDay, venue]);
+
+  const toggleAdvCategory = (name: string) => {
+    setAdvCategories((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+    // The quick single-category select and the multi-select chips drive the same
+    // dimension — selecting chips resets the select so they never conflict.
+    setCategory("all");
+  };
+
+  const toggleTimeOfDay = (id: string) => {
+    setTimesOfDay((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const clearAdvanced = () => {
+    setAdvCategories(new Set());
+    setTimesOfDay(new Set());
+    setHourFrom(RANGE_MIN);
+    setHourTo(RANGE_MAX);
+  };
 
   const byDate = useMemo(() => {
     const groups: { date: string; items: Activity[] }[] = [];
@@ -163,10 +245,108 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all" }
               <option value="all">Venue</option>
               {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
             </select>
-            <select value={category} onChange={(event) => setCategory(event.target.value)} className="filter-select">
+            <select
+              value={category}
+              onChange={(event) => {
+                setCategory(event.target.value);
+                setAdvCategories(new Set());
+              }}
+              className="filter-select"
+            >
               <option value="all">Category</option>
               {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
             </select>
+          </div>
+
+          <button
+            type="button"
+            className="adv-toggle"
+            aria-expanded={advOpen}
+            aria-controls="advanced-filters-panel"
+            onClick={() => setAdvOpen((prev) => !prev)}
+          >
+            <span className="inline-flex items-center gap-2">
+              <SlidersHorizontal className="h-[1.1rem] w-[1.1rem]" />
+              Advanced filters
+            </span>
+            {advCount > 0 && <span className="adv-count">{advCount}</span>}
+            <ChevronDown className={cn("adv-chev h-[1.05rem] w-[1.05rem]", advCount === 0 && "ml-auto")} strokeWidth={2.4} />
+          </button>
+
+          <div id="advanced-filters-panel" className={cn("adv-panel", advOpen && "adv-panel-open")} aria-hidden={!advOpen}>
+            <div className="adv-inner">
+              <div className="adv-group">
+                <span className="adv-group-label">Categories · pick several</span>
+                <div className="chip-select">
+                  {categories.map((item) => (
+                    <FilterChip
+                      key={item.id}
+                      label={item.name}
+                      selected={advCategories.has(item.name)}
+                      onToggle={() => toggleAdvCategory(item.name)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="adv-group">
+                <span className="adv-group-label">Time of day</span>
+                <div className="chip-select">
+                  {TIME_OF_DAY.map((slot) => (
+                    <FilterChip
+                      key={slot.id}
+                      label={slot.label}
+                      selected={timesOfDay.has(slot.id)}
+                      onToggle={() => toggleTimeOfDay(slot.id)}
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="adv-group">
+                <span className="adv-group-label">Custom hour range</span>
+                <div className="hour-range-labels">
+                  <span>{formatMinutes(hourFrom)}</span>
+                  <span>{formatMinutes(hourTo)}</span>
+                </div>
+                <div className="hour-range">
+                  <div className="hour-range-track">
+                    <div
+                      className="hour-range-fill"
+                      style={{
+                        left: `${((hourFrom - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
+                        width: `${((hourTo - hourFrom) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
+                      }}
+                    />
+                  </div>
+                  <input
+                    type="range"
+                    min={RANGE_MIN}
+                    max={RANGE_MAX}
+                    step={RANGE_STEP}
+                    value={hourFrom}
+                    aria-label="From hour"
+                    onChange={(event) => setHourFrom(Math.min(Number(event.target.value), hourTo - MIN_GAP))}
+                  />
+                  <input
+                    type="range"
+                    min={RANGE_MIN}
+                    max={RANGE_MAX}
+                    step={RANGE_STEP}
+                    value={hourTo}
+                    aria-label="To hour"
+                    onChange={(event) => setHourTo(Math.max(Number(event.target.value), hourFrom + MIN_GAP))}
+                  />
+                </div>
+              </div>
+
+              <div className="adv-footer">
+                <button type="button" className="adv-clear" onClick={clearAdvanced}>Clear</button>
+                <button type="button" className="adv-apply" onClick={() => setAdvOpen(false)}>
+                  Apply{advCount > 0 ? ` · ${advCount}` : ""}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

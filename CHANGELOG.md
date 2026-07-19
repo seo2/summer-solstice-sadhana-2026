@@ -19,6 +19,12 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Program advanced filters** (per `design/program-style-guide.html` §03): expandable
+  "Advanced filters" panel under the search/day strip/selects with multi-select
+  category chips, time-of-day presets (Morning/Midday/Afternoon/Evening), a custom
+  hour range dual slider (3:00 AM–10:30 PM, 15-min steps, 1h minimum gap), an
+  active-filter count badge, and Clear/Apply. The quick Category select and the
+  multi-select chips drive the same dimension without conflicting. Cache → v47.
 - First teacher bio seeded in `src/data/teachers.json` (Har Dev Khalsa, from the
   `design/` prototype) — verifies the profile "About" section renders when a bio
   exists and stays hidden when empty. Remaining bios pending from the production

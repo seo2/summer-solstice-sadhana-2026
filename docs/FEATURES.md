@@ -43,7 +43,7 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   notification). See [NATIVE.md](NATIVE.md).
 - Depends on: native shell + a synced agenda snapshot.
 
-### Program advanced filters — 🔜 next (frontend only)
+### Program advanced filters — ✅ shipped (cache v47)
 
 - Redesign of the Program filter system per the prototype in
   `design/program-style-guide.html` (section 03 "Filter panel"): an expandable
