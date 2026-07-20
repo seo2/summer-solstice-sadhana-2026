@@ -22,6 +22,13 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Push notifications groundwork (app side)**: `@capacitor/push-notifications`
+  added; a native-only PushAgent registers the device token with the backend
+  `devices` endpoint after sign-in and unregisters on sign-out; iOS AppDelegate
+  forwards APNs callbacks. Brand asset sources added under `assets/` (icon/splash)
+  for `npx @capacitor/assets generate`; final 1024px icon art pending before store
+  submission. Server-side sending (APNs/FCM) ships with the messaging phase.
+  Cache → v57.
 - **Native platforms (Phase 2 start)**: `ios/` and `android/` Capacitor projects
   scaffolded, committed and synced with the static build. App id corrected to
   `org.threeho.summersolstice2026` (Android forbids digit-leading package segments —

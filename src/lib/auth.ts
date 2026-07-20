@@ -128,6 +128,14 @@ export async function login(email: string, password: string): Promise<AuthSessio
 export async function logout(): Promise<void> {
   const session = await getSession();
 
+  // Best-effort: stop push delivery to this device for the account.
+  try {
+    const { disablePush } = await import("@/lib/push");
+    await disablePush();
+  } catch {
+    // Native push not available — nothing to unregister.
+  }
+
   if (session) {
     try {
       await postJson("auth/logout", {}, session.token);

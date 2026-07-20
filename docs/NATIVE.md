@@ -9,7 +9,17 @@ Plan for shipping real native apps from the existing web build using Capacitor.
 > digit, hence "threeho"). **Local notifications are wired**: a native-only
 > ReminderAgent schedules a reminder 15 minutes before each favorited session
 > (built-in + active synced event), rescheduling on every favorites change.
-> Pending: run/QA in Xcode & Android Studio, icons/splash, push, widget.
+> **Push groundwork wired** (app side): `@capacitor/push-notifications` installed,
+> a native-only PushAgent requests permission and registers the device token with
+> the backend `devices` endpoint once signed in (unregisters on sign-out); the iOS
+> AppDelegate forwards APNs registration callbacks. Brand asset sources live in
+> `assets/` (icon 1024 upscaled from 512 + splash on brand blue) — regenerate
+> native icons/splash with `npx @capacitor/assets generate`, and replace
+> `assets/icon.png` with a true 1024px export before store submission.
+>
+> Pending ops (no code): APNs key + Push capability in Xcode; Firebase project +
+> `google-services.json` for Android FCM; server-side sending ships with the
+> messaging phase. Pending: run/QA in Xcode & Android Studio, widget.
 
 ## Approach
 
