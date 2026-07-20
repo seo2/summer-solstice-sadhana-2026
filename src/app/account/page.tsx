@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AppLink as Link } from "@/components/app-link";
 import { ArrowLeft, CloudUpload, LogOut, RefreshCw, UserRound } from "lucide-react";
 import { login, logout, register, useAuth } from "@/lib/auth";
+import { getBackendBaseUrl } from "@/lib/backend";
 import { syncFavorites } from "@/lib/favorites-sync";
 import { useSavedActivities } from "@/lib/db";
 
@@ -162,15 +163,16 @@ export default function AccountPage() {
               </label>
             )}
             <label className="block">
-              <span className="text-xs font-black uppercase tracking-widest text-stone-400">Email</span>
+              <span className="text-xs font-black uppercase tracking-widest text-stone-400">{mode === "register" ? "Email" : "Email or username"}</span>
               <input
-                type="email"
+                type={mode === "register" ? "email" : "text"}
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
                 required
-                autoComplete="email"
+                autoComplete={mode === "register" ? "email" : "username"}
                 className="mt-1 w-full rounded-xl bg-white px-3 py-3 text-base font-semibold text-slate-900 shadow-sm ring-1 ring-sky-900/10 outline-none"
               />
+              {mode === "login" && <span className="mt-1 block text-xs font-semibold text-stone-400">Your 3ho.org account works here too.</span>}
             </label>
             <label className="block">
               <span className="text-xs font-black uppercase tracking-widest text-stone-400">Password</span>
@@ -193,6 +195,18 @@ export default function AccountPage() {
               {busy && <RefreshCw className="h-4 w-4 animate-spin" />}
               {mode === "register" ? "Create account" : "Sign in"}
             </button>
+            {mode === "login" && (
+              <p className="text-center">
+                <a
+                  href={`${getBackendBaseUrl()}/wp-login.php?action=lostpassword`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm font-bold text-[#2f62b6] underline decoration-sky-200/80 underline-offset-2"
+                >
+                  Forgot your password?
+                </a>
+              </p>
+            )}
           </form>
         </section>
       )}

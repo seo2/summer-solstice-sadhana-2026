@@ -22,6 +22,10 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Site accounts sign in to the app**: the login form accepts a 3ho.org
+  **username or email** (backend `auth/login` updated accordingly), with a hint
+  making it explicit, plus a "Forgot your password?" link to the site's standard
+  WordPress reset. Cache → v55.
 - **Account entry in the global header** (top right, every screen): a neutral user
   icon when signed out, the user's initials on the brand gradient when signed in —
   both lead to `/account`. Cache → v54.
