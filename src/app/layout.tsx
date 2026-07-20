@@ -9,6 +9,7 @@ import { RouteTransitionShell } from "@/components/route-transition-shell";
 import { ContactOutboxSync } from "@/components/contact-outbox-sync";
 import { FavoritesSyncAgent } from "@/components/favorites-sync-agent";
 import { AccountButton } from "@/components/account-button";
+import { ReminderAgent } from "@/components/reminder-agent";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -55,6 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <NavigationWarmup />
           <ContactOutboxSync />
           <FavoritesSyncAgent />
+          <ReminderAgent />
           <OfflinePreloader />
           <WomensRenewalReminder />
           <BottomNav />

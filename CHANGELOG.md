@@ -22,6 +22,13 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Native platforms (Phase 2 start)**: `ios/` and `android/` Capacitor projects
+  scaffolded, committed and synced with the static build. App id corrected to
+  `org.threeho.summersolstice2026` (Android forbids digit-leading package segments —
+  changed before any store publication). **Agenda reminders wired**: on the native
+  app, a reminder fires 15 minutes before each favorited session (built-in + active
+  synced event), rescheduled automatically as favorites change; no-op in the
+  browser/PWA. ESLint now ignores the native scaffolds. Cache → v56.
 - **Site accounts sign in to the app**: the login form accepts a 3ho.org
   **username or email** (backend `auth/login` updated accordingly), with a hint
   making it explicit, plus a "Forgot your password?" link to the site's standard

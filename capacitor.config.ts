@@ -1,7 +1,9 @@
 import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "org.3ho.summersolstice2026",
+  // Note: Android package segments cannot start with a digit ("3ho"), so the
+  // id uses "threeho". Immutable once published to the stores.
+  appId: "org.threeho.summersolstice2026",
   appName: "Summer Solstice 2026",
   webDir: "out",
   server: {

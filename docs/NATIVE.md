@@ -2,9 +2,14 @@
 
 Plan for shipping real native apps from the existing web build using Capacitor.
 
-> Status: planning. Capacitor is installed and configured in `capacitor.config.ts`,
-> `@capacitor/local-notifications` is a dependency, but no native platform has been
-> added yet.
+> Status: **platforms added** (2026-07-19). `ios/` and `android/` are scaffolded and
+> committed (`npx cap add`, Capacitor 8 with Swift Package Manager on iOS — no
+> CocoaPods needed), `npx cap sync` copies the `out/` build. App id is
+> `org.threeho.summersolstice2026` (Android package segments cannot start with a
+> digit, hence "threeho"). **Local notifications are wired**: a native-only
+> ReminderAgent schedules a reminder 15 minutes before each favorited session
+> (built-in + active synced event), rescheduling on every favorites change.
+> Pending: run/QA in Xcode & Android Studio, icons/splash, push, widget.
 
 ## Approach
 
