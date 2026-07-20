@@ -22,6 +22,10 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Favorites from teacher views**: the sessions listed in the teacher quick-view
+  modal and on the full teacher profile page now include the heart toggle, so
+  activities can be saved as favorites right from a teacher's card — for the
+  built-in event and synced events alike. Cache → v52.
 - **"Your events" switcher on Home**: once at least one synced event exists locally,
   Home shows a card listing the built-in Summer Solstice 2026 and every synced event
   (name, dates, location) with one-tap activation, a check on the active one, and

@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef, useState, type ReactNode } from "react"
 import { createPortal } from "react-dom";
 import { AppLink as Link } from "@/components/app-link";
 import { TeacherAvatar } from "@/components/teacher-avatar";
-import { ArrowRight, MapPin, X } from "lucide-react";
+import { ArrowRight, Heart, MapPin, X } from "lucide-react";
+import { useSavedActivities } from "@/lib/db";
 import type { Teacher } from "@/lib/types";
 import type { TeacherSession } from "@/lib/teachers";
 import { timeRange } from "@/lib/utils";
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export function TeacherQuickView({ teacher, sessions, className, ariaLabel, showProfileLink = true, children }: Props) {
+  const { favoriteIds, toggleFavorite } = useSavedActivities();
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const closeTimer = useRef<number | null>(null);
@@ -114,21 +116,38 @@ export function TeacherQuickView({ teacher, sessions, className, ariaLabel, show
 
             <p className="teacher-modal-item mb-2 mt-5 text-xs font-black uppercase tracking-[0.14em] text-stone-400" style={{ animationDelay: "120ms" }}>Sessions</p>
             <div className="space-y-2.5">
-              {preview.map((session, index) => (
-                <div
-                  key={`${session.id}-${session.date}-${session.startTime}`}
-                  className="teacher-modal-item rounded-xl border border-[rgba(47,98,182,0.10)] bg-white/90 p-3.5 shadow-[0_18px_48px_rgba(47,98,182,0.08)]"
-                  style={{ animationDelay: `${150 + index * 45}ms` }}
-                >
-                  <p className="text-sm font-bold leading-tight text-[#f39200]">{timeRange(session.startTime, session.endTime)}</p>
-                  <h4 className="mt-1 text-base font-black leading-snug text-slate-900">{session.title}</h4>
-                  {session.location && (
-                    <p className="mt-1.5 inline-flex items-center gap-1 text-xs font-bold text-[#2f62b6]">
-                      <MapPin className="h-3.5 w-3.5" />{session.location}
-                    </p>
-                  )}
-                </div>
-              ))}
+              {preview.map((session, index) => {
+                const isFavorite = favoriteIds.has(session.id);
+                return (
+                  <div
+                    key={`${session.id}-${session.date}-${session.startTime}`}
+                    className="teacher-modal-item rounded-xl border border-[rgba(47,98,182,0.10)] bg-white/90 p-3.5 shadow-[0_18px_48px_rgba(47,98,182,0.08)]"
+                    style={{ animationDelay: `${150 + index * 45}ms` }}
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold leading-tight text-[#f39200]">{timeRange(session.startTime, session.endTime)}</p>
+                        <h4 className="mt-1 text-base font-black leading-snug text-slate-900">{session.title}</h4>
+                      </div>
+                      <button
+                        type="button"
+                        aria-label={isFavorite ? `Remove ${session.title} from favorites` : `Add ${session.title} to favorites`}
+                        onClick={() => toggleFavorite(session.id)}
+                        className={`inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full shadow-[0_10px_24px_rgba(15,23,42,0.08)] ring-1 transition-colors duration-150 ${
+                          isFavorite ? "bg-rose-500 text-white ring-rose-400/40" : "bg-white text-slate-600 ring-sky-900/10"
+                        }`}
+                      >
+                        <Heart className="h-4 w-4" fill={isFavorite ? "currentColor" : "none"} />
+                      </button>
+                    </div>
+                    {session.location && (
+                      <p className="mt-1.5 inline-flex items-center gap-1 text-xs font-bold text-[#2f62b6]">
+                        <MapPin className="h-3.5 w-3.5" />{session.location}
+                      </p>
+                    )}
+                  </div>
+                );
+              })}
             </div>
             {extraCount > 0 && (
               <p className="teacher-modal-item mt-2 text-center text-xs font-semibold text-stone-400" style={{ animationDelay: `${150 + preview.length * 45}ms` }}>
