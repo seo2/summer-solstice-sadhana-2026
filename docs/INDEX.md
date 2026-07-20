@@ -29,6 +29,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [NATIVE.md](NATIVE.md) | Capacitor iOS/Android, push, widget, lock-screen "up next" |
 | [LOCAL-NETWORK.md](LOCAL-NETWORK.md) | Campsite local network + edge server for offline updates/notifications |
 | [FEATURES.md](FEATURES.md) | Per-feature specs, status, dependencies, and phase |
+| [ACCOUNTS.md](ACCOUNTS.md) | App accounts: WordPress identity, token storage, favorites sync (merge + tombstones) |
 | [MESSAGING.md](MESSAGING.md) | Messaging design: DM/group/official/work-group channels, alerts; polling-first, socket-ready |
 | [TEACHERS.md](TEACHERS.md) | Teacher/presenter info spec: data model, program linking, static-first rollout |
 

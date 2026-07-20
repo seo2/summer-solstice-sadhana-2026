@@ -7,6 +7,7 @@ import { WomensRenewalReminder } from "@/components/womens-renewal-reminder";
 import { NavigationWarmup } from "@/components/navigation-warmup";
 import { RouteTransitionShell } from "@/components/route-transition-shell";
 import { ContactOutboxSync } from "@/components/contact-outbox-sync";
+import { FavoritesSyncAgent } from "@/components/favorites-sync-agent";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -51,6 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </main>
           <NavigationWarmup />
           <ContactOutboxSync />
+          <FavoritesSyncAgent />
           <OfflinePreloader />
           <WomensRenewalReminder />
           <BottomNav />

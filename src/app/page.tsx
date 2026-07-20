@@ -1,6 +1,6 @@
 import { AppLink as Link } from "@/components/app-link";
 import { WOMENS_RENEWAL_PATH } from "@/lib/womens-renewal";
-import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircle, Sparkles, UserRound } from "lucide-react";
 import { InstallHint } from "@/components/install-hint";
 import { ActiveEventBanner } from "@/components/active-event-banner";
 import { EventSwitcher } from "@/components/event-switcher";
@@ -12,6 +12,7 @@ const navItems = [
   { href: "/info", label: "Info", icon: Info, value: "Camp guide" },
   { href: "/map", label: "Map", icon: Map, value: "Venues & map" },
   { href: "/contact", label: "Contact", icon: MessageCircle, value: "Help & messages" },
+  { href: "/account", label: "Account", icon: UserRound, value: "Sync favorites" },
 ];
 
 export default function Home() {

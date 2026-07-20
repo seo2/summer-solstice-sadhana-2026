@@ -22,6 +22,14 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Accounts** (`/account`, quick tile on Home — closes Phase 1 app-side, see
+  `docs/ACCOUNTS.md`): sign in / create account against the WordPress backend
+  (WordPress users + bearer tokens), profile view, sign out. **Favorites sync
+  cross-device**: server copy merges into local on first sync (never destructive),
+  local changes push with tombstone-tracked deletions (Dexie db v3) and last-write-
+  wins on the server; a background agent debounces pushes while signed in. The app
+  remains fully usable logged out and offline; backend origin is configurable via
+  the shared base-URL override. Cache → v53.
 - **Favorites from teacher views**: the sessions listed in the teacher quick-view
   modal and on the full teacher profile page now include the heart toggle, so
   activities can be saved as favorites right from a teacher's card — for the

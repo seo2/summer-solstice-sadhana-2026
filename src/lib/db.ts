@@ -26,9 +26,15 @@ export type ContactMessage = {
   error?: string;
 };
 
+type FavoriteTombstone = {
+  activityId: string;
+  deletedAt: string;
+};
+
 class SolsticeDatabase extends Dexie {
   favorites!: Table<SavedActivity, string>;
   contactMessages!: Table<ContactMessage, string>;
+  favoriteTombstones!: Table<FavoriteTombstone, string>;
 
   constructor() {
     super("summer-solstice-sadhana-2026");
@@ -41,6 +47,13 @@ class SolsticeDatabase extends Dexie {
       agenda: "activityId, createdAt",
       contactMessages: "id, status, createdAt, updatedAt",
     });
+    // v3: tombstones so favorite deletions can sync to the backend (LWW).
+    this.version(3).stores({
+      favorites: "activityId, createdAt",
+      agenda: "activityId, createdAt",
+      contactMessages: "id, status, createdAt, updatedAt",
+      favoriteTombstones: "activityId, deletedAt",
+    });
   }
 }
 
@@ -50,9 +63,11 @@ async function toggle(table: Table<SavedActivity, string>, activityId: string) {
   const existing = await table.get(activityId);
   if (existing) {
     await table.delete(activityId);
+    await db.favoriteTombstones.put({ activityId, deletedAt: new Date().toISOString() });
     return false;
   }
   await table.put({ activityId, createdAt: new Date().toISOString() });
+  await db.favoriteTombstones.delete(activityId);
   return true;
 }
 
