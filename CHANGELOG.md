@@ -22,6 +22,9 @@ Note the cache bump in an entry whenever one happened.
 
 ### Added
 
+- **Account entry in the global header** (top right, every screen): a neutral user
+  icon when signed out, the user's initials on the brand gradient when signed in —
+  both lead to `/account`. Cache → v54.
 - **Accounts** (`/account`, quick tile on Home — closes Phase 1 app-side, see
   `docs/ACCOUNTS.md`): sign in / create account against the WordPress backend
   (WordPress users + bearer tokens), profile view, sign out. **Favorites sync

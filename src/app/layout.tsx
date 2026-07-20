@@ -8,6 +8,7 @@ import { NavigationWarmup } from "@/components/navigation-warmup";
 import { RouteTransitionShell } from "@/components/route-transition-shell";
 import { ContactOutboxSync } from "@/components/contact-outbox-sync";
 import { FavoritesSyncAgent } from "@/components/favorites-sync-agent";
+import { AccountButton } from "@/components/account-button";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>
                 <p className="text-lg font-bold text-[#2f62b6]">Summer Solstice 2026</p>
               </Link>
+              <AccountButton />
             </div>
           </header>
           <main className="safe-bottom flex-1 px-4 pb-5 pt-3">
