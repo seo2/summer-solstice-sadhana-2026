@@ -57,3 +57,39 @@ for offline preload (small, compressed).
 - Source: event production team provides names/bios/photos (booklet + registration data).
 - Until wp-admin exists, content is edited directly in `teachers.json`
   (review via `TODO_CONTENT_REVIEW.md` if content arrives in Spanish).
+
+## Checkout feed import (Phase 1, shipped)
+
+Teachers and musicians now apply through the checkout platform
+(`/e/{slug}/present/` on register.3ho.org, plugin `3ho-tickets`), where the
+Programming Team accepts proposals and schedules day/time/venue with a
+"publish" flag. The published slice is exposed in this app's own bundle shape:
+
+```
+GET {checkout}/wp-json/wsol/v1/presenter/bundle?event=wsol26
+→ { version, event, program[], teachers[], venues[], categories[] }   (CORS: *)
+```
+
+Import it at build time with:
+
+```bash
+npm run pull-program                # defaults: register.3ho.org, event wsol26
+npm run pull-program -- --base https://checkout.seo2.cl --event wsol26   # staging
+npm run pull-program -- --base https://checkout.test --insecure --dry-run # local
+```
+
+`scripts/pull-program.mjs` merge rules (mixed-source by design — the base
+program still comes from the booklet/3ho.org):
+
+- `program.json`: only entries with id `presenter-*` belong to the feed; they
+  are replaced wholesale on every run (stable ids survive reschedules, so
+  favorites keep working). Everything else is untouched.
+- `teachers.json`: matched by id / `facilitatorNames`; existing entries are
+  enriched (empty bio, missing photo/country), new presenters appended.
+- `venues.json` / `categories.json`: missing entries appended.
+- Photos download to `public/images/teachers/` (existing files are never
+  overwritten) and paths are rewritten local, so offline preload still works.
+
+After importing real content: review the diff, then bump the offline cache
+version in both places (see CLAUDE.md). Phase 2 (planned): point the runtime
+event-sync at the same endpoint for live updates without a redeploy.

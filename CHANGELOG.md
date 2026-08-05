@@ -9,6 +9,19 @@ Note the cache bump in an entry whenever one happened.
 
 ## [Unreleased]
 
+### Added
+
+- `npm run pull-program` (`scripts/pull-program.mjs`): build-time import of the
+  published Teacher & Musician program from the checkout platform
+  (`GET {register.3ho.org}/wp-json/wsol/v1/presenter/bundle?event=wsol26`, CORS `*`).
+  Mixed-source merge: only `presenter-*` program entries belong to the feed (replaced
+  wholesale each run; stable ids so favorites survive reschedules), teachers are
+  enriched/appended by `facilitatorNames` match, missing venues/categories appended,
+  photos downloaded to `public/images/teachers/` and rewritten to local paths.
+  Supports `--base`, `--event`, `--dry-run`, `--insecure` (local checkout.test).
+  Docs in `docs/TEACHERS.md` ("Checkout feed import"). No shipped content changed
+  yet — no cache bump. Phase 2 (runtime sync against the same endpoint) pending.
+
 ### Fixed
 
 - Sync Lab now saves every successfully fetched bundle to the local event store
