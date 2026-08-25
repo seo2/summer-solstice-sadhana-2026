@@ -4,6 +4,34 @@ One card per workstream from [WSOL26-PLAN.md](WSOL26-PLAN.md). For each card bel
 copy the **Title** into the card name, the **Description** block into the card
 description, and add each checklist as a Trello checklist with the listed items.
 
+## Batch import (recommended: the API script)
+
+Trello has no generic built-in CSV importer; the ways to create these cards in batch:
+
+1. **API script (full fidelity, nothing to install)** — creates the list, all cards
+   with descriptions, and every checklist in one run. The card data lives in
+   [`scripts/wsol26-trello-cards.json`](../scripts/wsol26-trello-cards.json) (kept in
+   sync with this doc).
+
+   ```bash
+   # Preview what will be created (no credentials needed):
+   npm run trello-import -- --board X --dry-run
+   ```
+
+   ```bash
+   # Real run — get an API key at https://trello.com/power-ups/admin and a token
+   # from the link next to it; set them as env vars (never commit or share them).
+   # <shortLink> is the code in your board URL: trello.com/b/<shortLink>/…
+   TRELLO_KEY=your_key TRELLO_TOKEN=your_token npm run trello-import -- --board <shortLink>
+   ```
+
+2. **Multi-line paste (native, titles only)** — paste the title block below into
+   "Add a card"; Trello offers to create one card per line. Descriptions and
+   checklists must then be filled by hand from this doc.
+3. **Power-Ups** — third-party importers (e.g. the free "Kanban Importer", Excelefy,
+   Blue Cat) can import CSV/Excel including checklists, if you prefer a UI over the
+   script.
+
 Tip: pasting the nine title lines below into Trello's "Add a card" box (multi-line
 paste) creates the nine cards at once; then fill each one.
 
