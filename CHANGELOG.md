@@ -18,6 +18,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- `docs/WSOL26-PLAN.md` — **notification model added** (owner intent 2026-08-25):
+  N1 future-event news to every installed app (requires **anonymous device
+  registration** — today push tokens register only after sign-in), N2 personal
+  per-event notifications (local session reminders already built; new
+  favorited-session **change alerts** computed on-device by diffing bundle
+  refreshes — no account or per-user server targeting needed), N3 official
+  announcements + urgent alerts during the event. WS3 retitled "Notifications:
+  announcements, alerts & push" with new tasks (anonymous registration,
+  notification preferences toggles, change alerts) and **server-side push delivery
+  promoted P1 → P0**; WS4 compliance notes marketing-push opt-in.
+  `docs/WSOL26-TRELLO.md` Card 3 updated to match (three checklists).
 - `docs/WSOL26-PLAN.md` — every task now carries an explanation: what it is, why
   it matters, and what "done" looks like. Docs only — no cache bump.
 

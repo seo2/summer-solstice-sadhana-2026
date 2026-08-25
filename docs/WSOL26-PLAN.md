@@ -34,6 +34,17 @@ same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) an
 | D4 | WSOL26 dates + venue | ✅ **December 15–21, 2026 · Retreats By The Lake, Lake Wales, FL** (from the live checkout feed; tickets on sale). Content owners per WS7. |
 | D5 | App id before first store publication | ✅ Changed to **`org.threeho.eventapp`** (implemented 2026-08-25: Capacitor `appId`, Android `namespace`/`applicationId`/package/`custom_url_scheme`, iOS `PRODUCT_BUNDLE_IDENTIFIER`). Done before anything reached the stores — the id is immutable on Google Play once published. Apple/Google store records must be created with this id (WS4). |
 
+## Notification model
+
+Product intent (owner, 2026-08-25): once people have the app installed we can reach
+them on three levels, each with different plumbing:
+
+| # | Type | How it works | Where it lands |
+|---|---|---|---|
+| N1 | **Future-event news (re-engagement)** — e.g. "Summer Solstice 2027 registration is open", sent to everyone with the app installed | Real push (APNs/FCM) to **all registered devices**, opt-in. Requires **anonymous device registration** — today the app only registers a push token after sign-in, which would reach almost nobody | WS3 (app + backend) + WS4 (consent/compliance) |
+| N2 | **Personal, per event** — favorites / personalized agenda | (a) **Session reminders** 15 min before each favorited session — already built, local and offline, no server involved. (b) **Change alerts**: when a sync refresh changes a favorited session (time, venue, cancellation), the app notifies — computed **on the device** by diffing the old and new bundle, so it needs no account and no per-user server targeting | (a) shipped · (b) WS3, depends on WS1's UpdateAgent |
+| N3 | **Official announcements & urgent alerts during the event** | Feed + polling while the app is open; **real push for urgent alerts** so they reach closed apps — this promotes server-side push delivery from P1 to **P0** | WS3 + WS5 |
+
 ## Workstreams
 
 Each task carries what it is, why it matters, and what "done" looks like.
@@ -104,11 +115,12 @@ attendee opening "Info" today would read about Ram Das Puri.
       hidden, replaced by a WSOL equivalent, or clearly labeled as belonging to the
       other event. Done when nothing on screen misleads a WSOL26 attendee.
 
-### WS3 — Announcements & alerts in the app (P0 · app; server is live)
+### WS3 — Notifications: announcements, alerts & push (P0 · app + backend)
 
-The server side already works: staff publish official Announcements and urgent Alerts
-from wp-admin, and a cheap polling API exposes them. The app just can't show them yet.
-Design is complete in [MESSAGING.md](MESSAGING.md).
+Implements the notification model above. The announcements/alerts server side already
+works (staff publish from wp-admin; polling API live); what's missing is the app
+surface, real push delivery, and reaching devices that never sign in. Design in
+[MESSAGING.md](MESSAGING.md).
 
 - [ ] **Feed UI** — A screen listing the active event's official Announcements and
       urgent Alerts, newest first, readable offline once fetched. Done when a staff
@@ -117,15 +129,32 @@ Design is complete in [MESSAGING.md](MESSAGING.md).
       endpoint (`GET /updates`) on app start and periodically while open; an unread
       count on the navigation so people notice new posts. Done when new posts surface
       within the polling interval without opening the feed.
+- [ ] **Anonymous device registration (enables N1)** — Today the PushAgent registers
+      the push token only after sign-in and unregisters on sign-out — future-event
+      news would reach almost nobody. Register the device (with its notification
+      preferences and last-active event) once permission is granted, account or not;
+      backend `devices` endpoint accepts account-less registrations. Done when a
+      fresh install with no account is reachable by an "all devices" send.
+- [ ] **Notification preferences** — Simple in-app toggles: "News about future
+      events" (N1) and "Event alerts" (N3), stored with the device registration.
+      Marketing-style pushes must be opt-in/opt-out-able for store policy and basic
+      courtesy. Done when toggling off provably stops that category.
+- [ ] **Favorited-session change alerts (N2b)** — When the UpdateAgent (WS1) applies
+      a refreshed bundle, diff the user's favorited sessions against the previous
+      version and fire a local notification on changes (time, venue, cancellation).
+      Computed on-device: works logged-out, needs no per-user server targeting. Done
+      when rescheduling a favorited session in wp-admin notifies a test device on its
+      next sync.
 - [ ] **Notification permission in context** — Ask for notification permission the
-      first time it's actually useful (e.g. first alert interaction), never as a
-      popup at first launch. Better acceptance rates, and it's what store reviewers
-      expect to see.
-- [ ] **Push delivery server-side (P1)** — Implement real APNs/FCM sending on the
-      existing `threeho_ssa_broadcast_posted` hook so urgent alerts reach phones with
-      the app closed. P1 because with Florida connectivity, foreground polling may
-      already cover the need for v1. Done when a test alert wakes a locked test
-      device.
+      first time it's actually useful (favoriting a session, opening alerts), never
+      as a popup at first launch. Better acceptance rates, and it's what store
+      reviewers expect to see.
+- [ ] **Push delivery server-side (P0 — promoted per N1/N3)** — Real APNs/FCM
+      sending on the existing `threeho_ssa_broadcast_posted` hook, with an audience
+      model: urgent alerts → devices on the event; future-event news → all opted-in
+      devices. Staff send from the existing wp-admin publisher. Done when a test
+      alert wakes a locked test device and an "all devices" news send reaches a
+      logged-out install.
 
 ### WS4 — Store readiness (P0 · ops — longest lead times, start now)
 
@@ -149,8 +178,11 @@ for every record created here.
       both platforms.
 - [ ] **Privacy & review compliance** — Public privacy policy URL, App Store privacy
       labels and Play data-safety form (accounts optional, favorites sync, push
-      tokens), review notes explaining link-out ticket sales (no in-app purchases).
-      Done when both store forms are submitted without red flags.
+      tokens — including anonymous device registration), review notes explaining
+      link-out ticket sales (no in-app purchases). Future-event news pushes (N1) are
+      opt-in with an in-app toggle — both stores treat marketing pushes without
+      consent as a rejection reason. Done when both store forms are submitted without
+      red flags.
 - [ ] **Submission with buffer** — First submissions early November so both apps are
       **live by November 24** (3 weeks pre-event) and attendees install before
       traveling. Done when both apps are downloadable publicly.

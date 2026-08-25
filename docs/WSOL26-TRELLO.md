@@ -10,7 +10,7 @@ paste) creates the seven cards at once; then fill each one.
 ```
 WS1 · Runtime content sync — P0 · App
 WS2 · Per-event Info Hub & venue map — P0 · App/Backend/Content
-WS3 · Announcements & alerts in the app — P0 · App
+WS3 · Notifications: announcements, alerts & push — P0 · App/Backend
 WS4 · Store readiness (Apple & Google) — P0 · Ops
 WS5 · Backend QA & production deploy — P0 · Backend/Ops
 WS6 · Favorites sync for synced events — P1 · App
@@ -66,19 +66,30 @@ Florida arrival/camp-life info and sees the Florida venue map, fully offline.
 
 ## Card 3
 
-**Title:** WS3 · Announcements & alerts in the app — P0 · App
+**Title:** WS3 · Notifications: announcements, alerts & push — P0 · App/Backend
 
 **Description:**
-The server side is live: staff already publish official Announcements and urgent
-Alerts from wp-admin, with a cheap polling API. The app just can't display them yet.
-Design ready in docs/MESSAGING.md. Done when a staff post in wp-admin is readable in
-the app within the polling interval.
+Implements the full notification model: (N1) future-event news pushed to everyone
+with the app installed (needs anonymous device registration — today tokens register
+only after sign-in); (N2) personal notifications for favorites/agenda per event —
+session reminders are already built (local, 15 min before), and change alerts fire
+on-device when a sync changes a favorited session; (N3) official announcements +
+urgent alerts during the event, with real push so alerts reach closed apps. The
+announcements/alerts server side is live; design in docs/MESSAGING.md.
 
-**Checklist — Tasks:**
+**Checklist — In-app feed (N3):**
 - Feed UI: announcements + alerts for the active event, newest first, offline-readable once fetched
 - Background polling agent on GET /updates (app start + periodic) with unread badge on the nav
+
+**Checklist — Push infrastructure (N1 + N3):**
+- Anonymous device registration: register push token once permission is granted, account or not; backend devices endpoint accepts account-less registrations
+- Notification preferences in the app: "News about future events" + "Event alerts" toggles, stored with the registration
+- Server-side push delivery (P0): real APNs/FCM on the broadcast hook, with audience model — event devices (alerts) vs all opted-in devices (future-event news) — sent from the wp-admin publisher
 - Notification permission requested in context (first useful moment), never at first launch
-- (P1) Server-side push delivery: real APNs/FCM sending on the broadcast hook — only if polling proves insufficient
+
+**Checklist — Personal notifications (N2):**
+- Favorited-session change alerts: on each bundle refresh (WS1 UpdateAgent), diff favorited sessions and fire a local notification on time/venue/cancellation changes — works logged-out, no per-user server targeting
+- (Already built, verify in QA) Local reminders 15 min before each favorited session
 
 ---
 
@@ -105,7 +116,8 @@ nothing here depends on app code. All records must use the new app id
 **Checklist — Assets & compliance:**
 - Real 1024 px icon artwork (current one is an upscale) + regenerate icons/splashes with @capacitor/assets
 - Public privacy policy URL
-- App Store privacy labels + Play data-safety form (optional accounts, favorites sync, push tokens)
+- App Store privacy labels + Play data-safety form (optional accounts, favorites sync, push tokens incl. anonymous device registration)
+- Future-event news pushes documented as opt-in (in-app toggle) — marketing pushes without consent are a store-rejection reason
 - Review notes: link-out ticket sales, no in-app purchases
 
 **Checklist — QA & submission:**
