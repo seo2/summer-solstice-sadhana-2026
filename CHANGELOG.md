@@ -10,6 +10,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- `docs/HANDOFF.md` — project handoff for continuing in Claude Code: state of the
+  app and WordPress repos, pending QA gaps, working knowledge (cache rule, base URL,
+  gotchas), first-session checklist.
+- `docs/REQUIREMENTS.md` — stakeholder-ready features & technical requirements for
+  the native iOS/Android version (functional ✅/🔧/📋 status, client/backend stacks,
+  offline mandate, store-readiness ops, delivery summary). Docs only — no cache bump.
+
 ### Changed
 
 - `README.md` rewritten to describe the current state of the app — accounts and

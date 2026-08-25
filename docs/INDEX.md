@@ -32,6 +32,8 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [ACCOUNTS.md](ACCOUNTS.md) | App accounts: WordPress identity, token storage, favorites sync (merge + tombstones) |
 | [MESSAGING.md](MESSAGING.md) | Messaging design: DM/group/official/work-group channels, alerts; polling-first, socket-ready |
 | [TEACHERS.md](TEACHERS.md) | Teacher/presenter info spec: data model, program linking, static-first rollout |
+| [REQUIREMENTS.md](REQUIREMENTS.md) | Features & technical requirements for the native (iOS/Android) version — stakeholder-ready |
+| [HANDOFF.md](HANDOFF.md) | Project handoff: state of both repos, pending QA, working knowledge, first-session checklist |
 
 ## Content
 
