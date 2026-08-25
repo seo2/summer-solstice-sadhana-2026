@@ -12,6 +12,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- `docs/WSOL26-PLAN.md` — next-stage plan for **Winter Solstice 2026 (Florida)**:
+  gating decisions (single app via multi-event vs separate build, store branding,
+  WordPress as single content source), seven workstreams (runtime sync UpdateAgent,
+  per-event Info Hub & venue map gap, announcements/alerts app-side, store ops,
+  backend QA/deploy, multi-event favorites sync, content), suggested Sep–Dec
+  timeline. Camp local network explicitly out of scope (targets summer 2027 at
+  Ram Das Puri, which has no connectivity — the Florida venue has internet).
+  Registered in `docs/INDEX.md`. Docs only — no cache bump.
 - `docs/HANDOFF.md` — project handoff for continuing in Claude Code: state of the
   app and WordPress repos, pending QA gaps, working knowledge (cache rule, base URL,
   gotchas), first-session checklist.
