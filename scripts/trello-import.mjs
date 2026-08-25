@@ -97,8 +97,19 @@ async function main() {
   console.log(`Board: ${board.name} (${board.url})`);
 
   const existing = await api("GET", `/boards/${board.id}/lists`, { fields: "name" });
-  const wanted = listName.trim().toLowerCase();
-  const found = existing.find((l) => l.name.trim().toLowerCase() === wanted);
+  // Match ignoring case, emoji and extra symbols, so --list "To do" finds "To do 👨‍🏭".
+  const normalize = (s) =>
+    s
+      .toLowerCase()
+      .replace(/[^\p{L}\p{N}]+/gu, " ")
+      .trim();
+  const wanted = normalize(listName);
+  const exact = existing.find((l) => l.name.trim().toLowerCase() === listName.trim().toLowerCase());
+  const loose = existing.filter((l) => normalize(l.name) === wanted);
+  if (!exact && loose.length > 1) {
+    fail(`--list "${listName}" matches several lists: ${loose.map((l) => `"${l.name}"`).join(", ")} — use the exact name.`);
+  }
+  const found = exact ?? loose[0];
   const list = found ?? (await api("POST", "/lists", { name: listName, idBoard: board.id, pos: "bottom" }));
   console.log(found ? `List: ${list.name} (existing — cards appended at the bottom)` : `List created: ${list.name}`);
 
