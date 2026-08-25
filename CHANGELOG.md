@@ -18,6 +18,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- `docs/WSOL26-PLAN.md` — **WS9 · Messaging added to the stage** (owner request
+  2026-08-25): work-team (seva) channels where leaders create groups, add members
+  and post daily tasks/announcements/meetings (9a, builds first), user-created
+  groups (9b) and DMs (9c) if the schedule holds, plus the store-required UGC
+  safety set (report/block/moderation/community rules) now reflected in WS4
+  compliance. Messaging 3b/3c removed from out-of-scope (only the realtime socket
+  companion stays out — polling-first stands). Server schema/endpoints groundwork
+  already live (DB v2). `docs/WSOL26-TRELLO.md` gains Card 9.
 - `docs/WSOL26-PLAN.md` — **WS8 · Menus & nutrition added** (owner request
   2026-08-25, pulled forward from the Phase 3 backlog in `docs/FEATURES.md`):
   `menu_day` content model in the sync bundle, Menus UI (today's meals + day

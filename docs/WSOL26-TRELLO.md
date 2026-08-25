@@ -4,8 +4,8 @@ One card per workstream from [WSOL26-PLAN.md](WSOL26-PLAN.md). For each card bel
 copy the **Title** into the card name, the **Description** block into the card
 description, and add each checklist as a Trello checklist with the listed items.
 
-Tip: pasting the eight title lines below into Trello's "Add a card" box (multi-line
-paste) creates the eight cards at once; then fill each one.
+Tip: pasting the nine title lines below into Trello's "Add a card" box (multi-line
+paste) creates the nine cards at once; then fill each one.
 
 ```
 WS1 · Runtime content sync — P0 · App
@@ -16,6 +16,7 @@ WS5 · Backend QA & production deploy — P0 · Backend/Ops
 WS6 · Favorites sync for synced events — P1 · App
 WS7 · WSOL26 content — P0 · Content
 WS8 · Menus & nutrition — P1 · App/Backend/Content
+WS9 · Messaging: work-team channels, groups & DMs — P1 · App/Backend
 ```
 
 ---
@@ -203,3 +204,37 @@ are live. Done when an attendee checks tomorrow's breakfast with no signal.
 - Real WSOL26 menus for Dec 15–21 with dietary notes (kitchen/production team)
 - Guidance texts written and reviewed
 - Verified on device, offline
+
+---
+
+## Card 9
+
+**Title:** WS9 · Messaging: work-team channels, groups & DMs — P1 · App/Backend
+
+**Description:**
+People can message each other, create groups, and work-team (seva) leaders can
+create channels, add members, and post daily tasks, announcements, and meetings.
+Design ready in docs/MESSAGING.md (polling-first); server schema already has
+channel/member/message tables with broadcast endpoints live. Messaging requires
+sign-in; the rest of the app stays account-free. Phased to protect Dec 15: 9a
+(work-team channels) is the critical piece; 9b/9c ship only if the schedule holds,
+else in the first post-event update. If messaging is in the store build, UGC
+moderation (report/block/moderate + community rules) is mandatory for Apple/Google
+review.
+
+**Checklist — 9a · Work-team channels (build first):**
+- Server: channel membership + member-posting endpoints on the existing schema
+- Leader tools: create channel, add/remove members by account
+- App: channel list + conversation view riding the WS3 polling agent
+- Verified: a leader posts the day's tasks and the team reads them on their phones
+
+**Checklist — 9b/9c · Groups & DMs (if schedule holds):**
+- User-created groups with invites and member management (same conversation UI)
+- Direct messages as two-member channels
+- Attendee search with opt-in discoverability (nobody searchable by default)
+
+**Checklist — UGC safety (store-required before submitting with messaging):**
+- Report a message / report a user
+- Block a user
+- Staff moderation view: hide/remove content, suspend accounts
+- Community rules accepted before first use of messaging
