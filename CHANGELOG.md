@@ -18,6 +18,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- `docs/WSOL26-PLAN.md` — **WS8 · Menus & nutrition added** (owner request
+  2026-08-25, pulled forward from the Phase 3 backlog in `docs/FEATURES.md`):
+  `menu_day` content model in the sync bundle, Menus UI (today's meals + day
+  navigation, offline), nutrition/yogi-diet guidance pages, and the WSOL26 menu
+  content task. Removed from the out-of-scope list; October milestone now includes
+  WS8; menus don't gate store submission (content arrives via sync after release).
+  `docs/WSOL26-TRELLO.md` gains Card 8; `docs/FEATURES.md` marks the feature as
+  pulled forward.
 - `docs/WSOL26-PLAN.md` — **notification model added** (owner intent 2026-08-25):
   N1 future-event news to every installed app (requires **anonymous device
   registration** — today push tokens register only after sign-in), N2 personal

@@ -237,12 +237,38 @@ live but **empty**.
       terminology exactly as provided: WTY®, White Tantric Yoga®, Sadhana, Gurdwara.
       Done when no extraction artifacts or wrong labels remain.
 
+### WS8 — Menus & nutrition (P1 · app + backend + content)
+
+Pulled forward from the Phase 3 backlog ([FEATURES.md](FEATURES.md)) at the owner's
+request (2026-08-25): daily food menus plus nutrition / yogi-diet guidance, alongside
+the existing content (event info, program + detail, teachers, contact). Key property:
+menu content arrives through the sync bundle, so it **doesn't gate store submission**
+— menus can land, and change daily, after the apps are already live.
+
+- [ ] **Menu content model in the bundle (`menu_day`)** — Backend: per-event,
+      per-day structured menus (meal → dishes, with dietary notes such as
+      vegan/gluten-free), editable in wp-admin like program items and included in the
+      versioned bundle. Structured rather than free text so the app can show "today's
+      meals" and staff can edit one meal without touching the rest. Done when a menu
+      edited in wp-admin flows to the app through normal sync.
+- [ ] **Menus UI in the app** — A "Menus" surface (Home tile + Info entry): opens on
+      today's meals, with day navigation like the program's day strip; offline once
+      synced; mid-event changes arrive via the UpdateAgent (WS1). Done when an
+      attendee checks tomorrow's breakfast with no signal.
+- [ ] **Nutrition & yogi-diet guidance** — Editorial content explaining the solstice
+      diet and its intent; rides the WS2 per-event info-pages machinery (or shared
+      pages, since the guidance applies to every event). Done when the guidance
+      renders offline with the Info Hub's section-card UI.
+- [ ] **WSOL26 menu content** — The kitchen/production team writes the real menus
+      for December 15–21 plus dietary notes (content task, parallel with WS7). Done
+      when real menus are loaded in WordPress and verified on device.
+
 ## Timeline (event: December 15–21 → apps live by ~November 24)
 
 | When | Milestone |
 |---|---|
 | **September** | Store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
-| **October** | WS1 + WS3 feature-complete · WS2 built · TestFlight and internal Android testing with real WSOL26 content |
+| **October** | WS1 + WS3 feature-complete · WS2 + WS8 built · TestFlight and internal Android testing with real WSOL26 content |
 | **November** | WS6 · store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
 | **December** | Content freeze · event ops Dec 15–21: staff publish announcements & alerts |
 
@@ -253,4 +279,4 @@ live but **empty**.
   backend base URL swappable so the 2027 local server slots in without client changes.
 - Group chats / direct messages (messaging phases 3b/3c).
 - Home-screen widget, lock-screen "up next".
-- Commerce beyond the link-out decision; daily menus / yogi diet content.
+- Commerce beyond the link-out decision.

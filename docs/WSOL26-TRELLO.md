@@ -4,8 +4,8 @@ One card per workstream from [WSOL26-PLAN.md](WSOL26-PLAN.md). For each card bel
 copy the **Title** into the card name, the **Description** block into the card
 description, and add each checklist as a Trello checklist with the listed items.
 
-Tip: pasting the seven title lines below into Trello's "Add a card" box (multi-line
-paste) creates the seven cards at once; then fill each one.
+Tip: pasting the eight title lines below into Trello's "Add a card" box (multi-line
+paste) creates the eight cards at once; then fill each one.
 
 ```
 WS1 · Runtime content sync — P0 · App
@@ -15,6 +15,7 @@ WS4 · Store readiness (Apple & Google) — P0 · Ops
 WS5 · Backend QA & production deploy — P0 · Backend/Ops
 WS6 · Favorites sync for synced events — P1 · App
 WS7 · WSOL26 content — P0 · Content
+WS8 · Menus & nutrition — P1 · App/Backend/Content
 ```
 
 ---
@@ -179,3 +180,26 @@ WTY®, White Tantric Yoga®, Sadhana, Gurdwara.
 - WSOL26 arrival/camp-life info texts (feeds WS2)
 - Florida venue map artwork (feeds WS2)
 - Full on-device read-through before content freeze
+
+---
+
+## Card 8
+
+**Title:** WS8 · Menus & nutrition — P1 · App/Backend/Content
+
+**Description:**
+Daily food menus plus nutrition / yogi-diet guidance, alongside the existing content
+(event info, program + detail, teachers, contact). Pulled forward from the Phase 3
+backlog by owner decision (Aug 25). Menus travel through the sync bundle, so this
+does NOT gate store submission — content can land and change daily after the apps
+are live. Done when an attendee checks tomorrow's breakfast with no signal.
+
+**Checklist — Build:**
+- Backend content model `menu_day`: per-event, per-day structured menus (meal → dishes + dietary notes like vegan/GF), editable in wp-admin, included in the bundle
+- Menus UI: Home tile + Info entry, opens on today's meals, day navigation like the program's day strip, offline once synced
+- Nutrition & yogi-diet guidance pages (rides the WS2 per-event info-pages machinery)
+
+**Checklist — Content:**
+- Real WSOL26 menus for Dec 15–21 with dietary notes (kitchen/production team)
+- Guidance texts written and reviewed
+- Verified on device, offline

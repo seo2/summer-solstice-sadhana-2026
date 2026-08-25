@@ -62,11 +62,13 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 - Static-first via `teachers.json`; migrates to the backend bundle unchanged.
 - Depends on: nothing for step 1; backend content model (`teacher`) for step 2.
 
-### Daily menus + nutrition / yogi diet — 📋 Phase 3
+### Daily menus + nutrition / yogi diet — 📋 pulled forward to the WSOL26 stage
 
 - Per-day meals, nutritional info, and general yogi-diet guidance.
 - Content-driven; can seed statically first, then move to backend.
 - Depends on: content model (`menu_day`), optional editing workflow.
+- Owner decision 2026-08-25: ships with the WSOL26 stage — see
+  [WSOL26-PLAN.md](WSOL26-PLAN.md) WS8 (was Phase 3).
 
 ### Messaging, alerts & notifications — 📋 Phase 3
 
