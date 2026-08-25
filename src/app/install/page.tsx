@@ -13,9 +13,9 @@ import {
 } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Add to Home Screen | 3HO Summer Solstice 2026",
+  title: "Add to Home Screen | 3HO Event App",
   description:
-    "Step-by-step guide to add the Summer Solstice Sadhana 2026 app to your home screen on iPhone (iOS) and Android for fast, offline access.",
+    "Step-by-step guide to add the 3HO Event App to your home screen on iPhone (iOS) and Android for fast, offline access.",
 };
 
 const iosSteps = [
@@ -116,7 +116,7 @@ export default function InstallPage() {
             Add to Home Screen
           </h1>
           <p className="max-w-xl text-sm font-semibold leading-6 text-white/75">
-            Install Summer Solstice Sadhana 2026 on your phone for one-tap access, full-screen view, and content that
+            Install the 3HO Event App on your phone for one-tap access, full-screen view, and content that
             works even without signal at camp.
           </p>
         </div>

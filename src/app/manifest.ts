@@ -4,9 +4,9 @@ export const dynamic = "force-static";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "3HO Summer Solstice Sadhana 2026",
-    short_name: "SSOL26",
-    description: "Offline-first program, favorites and personal agenda for Summer Solstice Sadhana 2026.",
+    name: "3HO Event App",
+    short_name: "3HO Events",
+    description: "Offline-first program, favorites and personal agenda for 3HO events.",
     start_url: "/",
     scope: "/",
     display: "standalone",

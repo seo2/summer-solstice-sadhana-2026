@@ -1,8 +1,11 @@
 # WSOL26 Plan — Winter Solstice 2026 (Florida)
 
-Feature and task list for the next stage: shipping the native iOS/Android app for
-**Winter Solstice 2026 (WSOL26)**. Prepared 2026-08-25 for planning and stakeholder
-review. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) and
+Feature and task list for the next stage: shipping the app for
+**Winter Solstice Sadhana Celebration 2026 (WSOL26) — December 15–21, 2026,
+Retreats By The Lake, Lake Wales, Florida** (dates confirmed from the checkout feed;
+tickets on sale at register.3ho.org). Distribution: native iOS/Android **plus the web
+version (PWA)**, all from the same codebase. Prepared 2026-08-25, decisions resolved
+same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) and
 [HANDOFF.md](HANDOFF.md) (state of both repos).
 
 ## Context & assumptions
@@ -20,14 +23,15 @@ review. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) and
   already works; WSOL26 content is already flowing through the checkout platform
   (`pull-program` defaults to `event=wsol26`).
 
-## Decisions needed first (they gate the scope)
+## Decisions (resolved 2026-08-25 unless noted)
 
-| # | Decision | Recommendation |
+| # | Decision | Resolution |
 |---|---|---|
-| D1 | **How WSOL26 ships in the app**: (a) same app, WSOL26 served through the multi-event machinery, or (b) a separate WSOL26 build | (a) — the machinery exists; one app, one store listing, one codebase |
-| D2 | **App name/branding for the stores** (if D1 = a): the shell is branded "Summer Solstice Sadhana 2026" | Rename to a neutral, durable name (e.g. "3HO Solstice") before first store submission — renaming after launch is costly |
-| D3 | **Content source of truth for WSOL26**: checkout feed direct-to-app vs everything through WordPress | Single source = WordPress DB. Import the checkout feed into WP (Import screen / CLI exist); the app syncs only from the WP bundle |
-| D4 | **Exact WSOL26 dates + content owners** (program, info pages, venue map, teacher bios) | Confirm with the event team — drives the timeline below |
+| D1 | How WSOL26 ships in the app | ✅ **Same app** via the multi-event machinery. The **web version (PWA) continues** alongside the native apps — same static export, deployed to the web as today. |
+| D2 | App name / branding | ✅ Shell renamed to **"3HO Event App"** (implemented 2026-08-25, cache v58: PWA manifest, document title, global header, install page, Capacitor `appName`, iOS `CFBundleDisplayName`, Android `app_name`). In-app content branding stays per-event. |
+| D3 | Content source of truth | ✅ **Everything through WordPress** — the checkout feed imports into WP; the app syncs only the WP bundle. Constraint: the sync design must be **mirror-ready** for the summer-2027 local network (see WS1). |
+| D4 | WSOL26 dates + venue | ✅ **December 15–21, 2026 · Retreats By The Lake, Lake Wales, FL** (from the live checkout feed; tickets on sale). Content owners per WS7. |
+| D5 | **App id before first store publication** (open) | The id is `org.threeho.summersolstice2026` — misleading for a multi-event "3HO Event App" and **immutable on Google Play once published**. Decide now whether to change it (e.g. `org.threeho.eventapp`) while nothing is on the stores; changing it later means shipping a brand-new app. |
 
 ## Workstreams
 
@@ -45,6 +49,20 @@ build or via the internal Sync Lab.
       (automate checkout-feed → WP import if D3 = WordPress).
 - [ ] **Offline photos for synced events**: cache remote teacher photos
       (the preloader currently only warms same-origin `/images/…`).
+
+**Mirror-ready design constraints** (so the summer-2027 local network slots in
+without client changes — per D3 and [LOCAL-NETWORK.md](LOCAL-NETWORK.md)):
+
+- All sync goes through **one configurable backend origin** (already exists via the
+  shared base-URL override) — the camp mirror will serve the **same REST contract**.
+- **Relocatable media URLs** in bundles: photos must not be baked in as absolute
+  `3ho.org` URLs (they'd break on the camp network) — serve relative paths resolved
+  against the active origin, or cache media locally at sync time.
+- Bundle **version counters stay monotonic per event** and reconciliation follows the
+  store-and-forward model, so a mirror can serve stale-but-consistent content and
+  catch up later.
+- Later (2027, not now): local-server discovery and automatic failover
+  local ↔ internet.
 
 ### WS2 — Per-event Info Hub & venue map (P0 · app + backend + content)
 
@@ -100,20 +118,22 @@ needs its own:
 
 ### WS7 — Content (parallel · content team)
 
-- [ ] WSOL26 program & teachers finalized in the checkout platform / WordPress.
+- [ ] WSOL26 program & teachers finalized in the checkout platform / WordPress
+      (the feed is live but its presenter program is still **empty — 0 items** as of
+      2026-08-25).
 - [ ] Teacher bios (33 of 34 still empty — applies to both events).
 - [ ] WSOL26 info-hub texts and Florida venue map artwork.
 - [ ] Content QA on device (terminology exactly as provided: WTY®, White Tantric
       Yoga®, Sadhana, Gurdwara).
 
-## Suggested timeline (assuming WSOL26 in late December — confirm D4)
+## Timeline (event: December 15–21 → apps live by ~November 24)
 
 | When | Milestone |
 |---|---|
-| **September** | D1–D4 decided · store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
+| **September** | D5 decided · store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
 | **October** | WS1 + WS3 feature-complete · WS2 built · TestFlight / internal Android testing with real WSOL26 content |
-| **November** | WS6 · store submissions with review buffer · on-device QA · content complete (WS7) |
-| **December** | Content freeze · apps live ≥3 weeks pre-event · event ops (staff publish announcements/alerts) |
+| **November** | WS6 · store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
+| **December** | Content freeze · event ops Dec 15–21: staff publish announcements & alerts |
 
 ## Out of scope for this stage
 

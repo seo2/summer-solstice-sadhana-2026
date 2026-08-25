@@ -10,6 +10,27 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- **Shell renamed to "3HO Event App"** (decision D2 of the WSOL26 plan): PWA
+  manifest (`name` "3HO Event App", `short_name` "3HO Events"), document
+  title/description, iOS web-app title, global header brand ("3HO / Event App"),
+  install-page copy, Capacitor `appName`, iOS `CFBundleDisplayName`, Android
+  `app_name`/`title_activity_main`. Event content branding (Home, program, map,
+  Women's Renewal, built-in event name) is untouched — the shell is now
+  event-neutral, the events keep their own names. App id unchanged
+  (`org.threeho.summersolstice2026`) — pending decision D5 before first store
+  publication. Cache → v58.
+- `docs/WSOL26-PLAN.md` updated with resolved decisions (2026-08-25): D1 same app
+  + the web/PWA version continues; D2 shell rename implemented; D3 WordPress as
+  single content source with **mirror-ready sync constraints** for the summer-2027
+  camp network (single configurable origin, relocatable media URLs, monotonic
+  bundle versions, discovery/failover deferred); D4 real event data from the live
+  checkout feed — **Winter Solstice Sadhana Celebration 2026, Dec 15–21,
+  Retreats By The Lake, Lake Wales, FL**, tickets on sale, presenter program still
+  empty in the feed; new open decision **D5** (durable app id before first store
+  publication). Timeline anchored to real dates (apps live by ~Nov 24).
+
 ### Added
 
 - `docs/WSOL26-PLAN.md` — next-stage plan for **Winter Solstice 2026 (Florida)**:

@@ -17,12 +17,12 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "3HO Summer Solstice Sadhana 2026",
-  description: "Offline-first PWA program, favorites and personal agenda for Summer Solstice Sadhana 2026.",
+  title: "3HO Event App",
+  description: "Offline-first program, favorites and personal agenda for 3HO events.",
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "SSOL26",
+    title: "3HO Events",
   },
   icons: {
     apple: "/icons/icon-192.png",
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
             <div className="flex items-center justify-between gap-3">
               <Link href="/" className="leading-tight">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>
-                <p className="text-lg font-bold text-[#2f62b6]">Summer Solstice 2026</p>
+                <p className="text-lg font-bold text-[#2f62b6]">Event App</p>
               </Link>
               <AccountButton />
             </div>
