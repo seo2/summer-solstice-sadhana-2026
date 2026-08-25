@@ -11,7 +11,9 @@
  *                  (trello.com/b/<shortLink>/name). Omit it (with credentials
  *                  set) to print your open boards and their short links.
  *   --data <path>  Cards JSON (default: scripts/wsol26-trello-cards.json).
- *   --list <name>  Override the list name from the JSON file.
+ *   --list <name>  Target list. Reuses an existing list with that name on the
+ *                  board (case-insensitive) or creates it at the end. Default
+ *                  comes from the JSON file ("WSOL26").
  *   --dry-run      Print what would be created; no API writes.
  *
  * Credentials (never hardcode, never commit):
@@ -94,8 +96,11 @@ async function main() {
   const board = await api("GET", `/boards/${BOARD}`, { fields: "name,url" });
   console.log(`Board: ${board.name} (${board.url})`);
 
-  const list = await api("POST", "/lists", { name: listName, idBoard: board.id, pos: "bottom" });
-  console.log(`List created: ${list.name}`);
+  const existing = await api("GET", `/boards/${board.id}/lists`, { fields: "name" });
+  const wanted = listName.trim().toLowerCase();
+  const found = existing.find((l) => l.name.trim().toLowerCase() === wanted);
+  const list = found ?? (await api("POST", "/lists", { name: listName, idBoard: board.id, pos: "bottom" }));
+  console.log(found ? `List: ${list.name} (existing — cards appended at the bottom)` : `List created: ${list.name}`);
 
   for (const card of cards) {
     const created = await api("POST", "/cards", {

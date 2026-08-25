@@ -26,6 +26,9 @@ Trello has no generic built-in CSV importer; the ways to create these cards in b
    npm run trello-import
    # Then import into the chosen board:
    npm run trello-import -- --board <shortLink>
+   # Target list: default creates a "WSOL26" list; --list "Name" reuses an
+   # existing list with that name (case-insensitive) or creates it:
+   npm run trello-import -- --board <shortLink> --list "Backlog"
    ```
 
 2. **Multi-line paste (native, titles only)** — paste the title block below into
