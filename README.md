@@ -1,15 +1,40 @@
 # 3HO Summer Solstice Sadhana 2026 PWA
 
-Offline-first mobile web app (PWA) for the 3HO Summer Solstice Sadhana 2026 festival at
-Ram Das Puri, near Española, New Mexico (June 19–27, 2026).
+Offline-first mobile app (PWA + native iOS/Android via Capacitor) for the 3HO Summer
+Solstice Sadhana 2026 festival at Ram Das Puri, near Española, New Mexico
+(June 19–27, 2026).
 
 It replaces the printed booklet with a searchable program, local favorites and a personal
-agenda, an offline info hub, and a zoomable camp map — all working on the device once
-installed, with no signal required. Today it has no backend and no login; everything is
-static content plus local device state.
+agenda, teacher profiles, an offline info hub, and a zoomable camp map — all working on
+the device once installed, with no signal required. **Offline is the product**: every
+feature degrades gracefully with no connectivity, and the app is fully usable logged out.
 
-The app is evolving toward a backend-connected, multi-event native app that stays useful on
-a camp with poor connectivity. See the roadmap and planning docs below.
+The app is evolving into a backend-connected, multi-event native app (see
+[docs/ROADMAP.md](docs/ROADMAP.md)). The backend is WordPress + MySQL on 3ho.org
+(the `3ho-solstice-app` plugin lives in the separate 3ho.org repository).
+
+## What the app does today
+
+- **Program** — 125+ activities with day strip, search, quick category select, and
+  advanced filters (multi-select categories, time-of-day presets, custom hour range).
+  Detail page per activity.
+- **Favorites & My Agenda** — heart toggle on program cards, detail pages, and teacher
+  views; stored locally in IndexedDB (Dexie). On the native app, a reminder fires
+  15 minutes before each favorited session.
+- **Teachers** — directory with photos, full profiles (sessions by day, bio when
+  available), and a quick-view modal from program cards.
+- **Info Hub** — offline reference content generated from the booklet.
+- **Camp map** — app-style pan/scroll with internal zoom controls (50–300%) while
+  browser page zoom stays disabled.
+- **Accounts (optional)** — sign in with a 3ho.org site account (username or email);
+  cross-device favorites sync (non-destructive merge, tombstoned deletions,
+  last-write-wins on the server). Login unlocks sync, never core content.
+- **Multi-event groundwork** — Sync Lab (`/sync-lab`, internal) fetches versioned event
+  bundles from the WordPress backend; synced events render in the full app experience
+  (Program/Favorites/Teachers) and a "Your events" switcher appears on Home.
+- **Contact form** — saves to a local outbox first, then sends to the WordPress
+  endpoint when online.
+- **Women's Renewal** page, install tutorial, and an account entry in the global header.
 
 ## Documentation
 
@@ -17,166 +42,132 @@ Start at the **[docs index](docs/INDEX.md)** for the full map of docs. Key entri
 
 - [PRODUCT.md](PRODUCT.md) — who it's for, purpose, brand, principles.
 - [DESIGN.md](DESIGN.md) — the visual system.
-- [docs/ROADMAP.md](docs/ROADMAP.md) — phased plan (backend → native → multi-event → commerce).
-- [docs/BACKEND.md](docs/BACKEND.md) · [docs/NATIVE.md](docs/NATIVE.md) · [docs/LOCAL-NETWORK.md](docs/LOCAL-NETWORK.md) · [docs/FEATURES.md](docs/FEATURES.md) — architecture & feature plans.
-- [CHANGELOG.md](CHANGELOG.md) — notable changes.
+- [docs/PROJECT-MEMORY.md](docs/PROJECT-MEMORY.md) — living context & decision log.
+- [docs/ROADMAP.md](docs/ROADMAP.md) — phased plan (backend → native → community → multi-event → commerce).
+- [docs/BACKEND.md](docs/BACKEND.md) · [docs/ACCOUNTS.md](docs/ACCOUNTS.md) · [docs/NATIVE.md](docs/NATIVE.md) · [docs/MESSAGING.md](docs/MESSAGING.md) · [docs/TEACHERS.md](docs/TEACHERS.md) · [docs/LOCAL-NETWORK.md](docs/LOCAL-NETWORK.md) · [docs/FEATURES.md](docs/FEATURES.md) — architecture & feature plans.
+- [CHANGELOG.md](CHANGELOG.md) — notable changes (Keep a Changelog format).
 - [CLAUDE.md](CLAUDE.md) — contributor/agent guidance and the git workflow.
-
-## Contributing workflow
-
-Every change set goes on its own `type/topic` branch, then push and merge on completion;
-update `CHANGELOG.md` and any relevant docs with each change. Full rules are in
-[CLAUDE.md](CLAUDE.md) (git workflow, changelog, and documentation discipline).
 
 ## Stack
 
-- Next.js 15 App Router
-- React + TypeScript
-- TailwindCSS
-- shadcn/ui-style lightweight components
-- Dexie / IndexedDB for local favorites and personal agenda
-- @ducanh2912/next-pwa, the maintained Next PWA package compatible with modern Next versions
-- Capacitor configured for a later native phase
+- Next.js 15 App Router, static export (`output: "export"`)
+- React 19 + TypeScript
+- Tailwind CSS v4, shadcn/ui-style lightweight components
+- Dexie / IndexedDB for local favorites, agenda, event store, and contact outbox
+- `@ducanh2912/next-pwa` (Workbox) for the service worker
+- Capacitor 8 — `ios/` and `android/` native projects are committed and synced
+- Backend: custom REST on WordPress + MySQL (versioned bundle, opaque bearer tokens)
 
-## Content source
-
-The initial content was extracted from `01_SSOL_booklet_2026.pdf`.
-
-Generated data files:
-
-- `src/data/program.json`
-- `src/data/venues.json`
-- `src/data/categories.json`
-- `src/data/info-pages.json`
-
-Important: PDF extraction is imperfect. Review `TODO_CONTENT_REVIEW.md` before publishing or sharing widely.
-
-## Install
+## Getting started
 
 ```bash
 npm install
-```
-
-## Local development
-
-```bash
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000` (or `npm run dev -- -p 3011` for an alternate port).
 
-## Validation
+### Scripts
+
+| Script | What it does |
+|---|---|
+| `npm run dev` | Local dev server |
+| `npm run typecheck` | TypeScript check (`tsc --noEmit`) |
+| `npm run lint` | ESLint |
+| `npm run build` | Production build → static export in `out/` |
+| `npm run cap:sync` | Build + sync the static export into the native projects |
+| `npm run pull-program` | Import the published Teacher & Musician program from the checkout feed |
+
+### Validation before merging
 
 ```bash
-npm run typecheck
-npm run lint
-npm run build
+npm run typecheck && npm run lint && npm run build
 ```
 
-The build uses `output: "export"`, so the static web build is generated in `out/` for Capacitor.
+Routes export as flat files (`out/map.html`, `out/info.html`, …) — verify rendered
+content in `out/`, not only in source. Full checklist in [CLAUDE.md](CLAUDE.md).
 
 ## PWA / offline behavior
 
-- Manifest is generated by `src/app/manifest.ts`.
-- Icons are in `public/icons/`.
-- The service worker is generated during production build by `@ducanh2912/next-pwa`.
-- First load requires internet. After that, the app shell and JSON data are cached for offline use.
-- Favorites and My Agenda are stored locally in IndexedDB on the device.
-- Contact messages are stored locally in IndexedDB first, then retried when the app is online.
+- Manifest is generated by `src/app/manifest.ts`; icons live in `public/icons/`.
+- The service worker is generated at build time by `@ducanh2912/next-pwa`.
+- An offline preloader (`src/components/offline-preloader.tsx`) pre-caches every route
+  and static asset under a versioned cache (currently `solstice-full-offline-v57`).
+- **Cache rule:** any visible UI/content/asset change requires bumping the cache version
+  in both `src/components/offline-preloader.tsx` and `next.config.ts`, kept in sync.
+- First load requires internet; afterwards the whole app works offline.
+- All personal state (favorites, agenda, outbox, synced events) is local-first in
+  IndexedDB; favorites additionally sync to the backend when signed in.
 
-For installability:
+Installability: Android Chrome → menu → *Install app*; iPhone Safari → Share →
+*Add to Home Screen* (in-app tutorial at `/install`).
 
-- Android Chrome: browser menu → Install app / Add to Home screen.
-- iPhone Safari: Share button → Add to Home Screen.
+## Native apps (Capacitor)
+
+`ios/` and `android/` are committed (app id `org.threeho.summersolstice2026`). Workflow:
+
+```bash
+npm run cap:sync
+npx cap open ios
+npx cap open android
+```
+
+Native-only features: agenda reminders 15 minutes before favorited sessions
+(`@capacitor/local-notifications`) and push-registration groundwork
+(`@capacitor/push-notifications` — device token registered with the backend after
+sign-in; server-side sending ships with the messaging phase). Both are no-ops in the
+browser/PWA. Details in [docs/NATIVE.md](docs/NATIVE.md).
+
+## Content pipeline
+
+Two sources feed the static data in `src/data/`:
+
+1. **Booklet extraction** (initial) — `program.json`, `venues.json`, `categories.json`,
+   `info-pages.json`, `teachers.json` were extracted from `01_SSOL_booklet_2026.pdf`.
+   Extraction is imperfect; see `TODO_CONTENT_REVIEW.md` before publishing widely.
+2. **Checkout feed import** — `npm run pull-program` (`scripts/pull-program.mjs`)
+   merges the published Teacher & Musician program from the registration platform
+   (`register.3ho.org` presenter bundle) into the JSON files: `presenter-*` entries are
+   replaced wholesale with stable ids (favorites survive reschedules), teachers are
+   enriched by name match, and photos are downloaded to `public/images/teachers/`.
+   Supports `--base`, `--event`, `--dry-run`, `--insecure`. See
+   [docs/TEACHERS.md](docs/TEACHERS.md).
+
+## Backend & accounts
+
+The app consumes a versioned REST bundle from the `3ho-solstice-app` WordPress plugin
+(implemented in the 3ho.org repository): `auth` (opaque bearer tokens on WordPress
+users), `sync` (event bundles with `since`/ETag), and `devices` (push tokens). The
+backend origin is configurable via a shared base-URL override; the app remains fully
+usable logged out and offline. See [docs/BACKEND.md](docs/BACKEND.md) and
+[docs/ACCOUNTS.md](docs/ACCOUNTS.md).
 
 ## Contact form sending
 
-The app is a static export, so it cannot send email by itself. The contact form always saves messages locally first, then sends them to `NEXT_PUBLIC_CONTACT_ENDPOINT` when online.
-
-Recommended production setup: install `wordpress/3ho-solstice-contact-endpoint.php` on the 3HO WordPress site. It exposes:
+The app is a static export, so it cannot send email by itself. The contact form saves
+messages locally first, then posts them to `NEXT_PUBLIC_CONTACT_ENDPOINT` when online.
+Production setup uses `wordpress/3ho-solstice-contact-endpoint.php` on the 3HO
+WordPress site, which exposes:
 
 ```bash
 https://www.3ho.org/wp-json/3ho-solstice/v1/contact
 ```
 
-The endpoint uses WordPress `wp_mail()`, so it sends through the mail configuration already used by 3ho.org.
-
-Do not deploy a build that points to this endpoint until the plugin is installed and the route responds successfully in WordPress.
-
-Current testing recipient:
-
-```bash
-developer@3ho.org
-```
-
-Production recipient:
-
-```bash
-registration@3ho.org
-```
-
-Public app variables:
+Public app variables (embedded at build time — update Vercel env vars before deploying):
 
 ```bash
 NEXT_PUBLIC_CONTACT_ENDPOINT="https://www.3ho.org/wp-json/3ho-solstice/v1/contact"
-NEXT_PUBLIC_CONTACT_EMAIL="developer@3ho.org"
+NEXT_PUBLIC_CONTACT_EMAIL="developer@3ho.org"   # fallback email-draft target only
 ```
 
-`NEXT_PUBLIC_CONTACT_EMAIL` is only the fallback email draft target shown in the app. The automatic send target is configured on WordPress.
+The automatic recipient is configured on WordPress
+(`define('THREEHO_SOLSTICE_CONTACT_TO_EMAIL', '…')` — `registration@3ho.org` in
+production). Without the endpoint, messages stay saved locally and can be opened as
+email drafts.
 
-The WordPress plugin defaults to `developer@3ho.org`. To switch the automatic recipient without editing the plugin, define this in WordPress:
+## Contributing workflow
 
-```php
-define('THREEHO_SOLSTICE_CONTACT_TO_EMAIL', 'developer@3ho.org');
-```
-
-For production:
-
-```php
-define('THREEHO_SOLSTICE_CONTACT_TO_EMAIL', 'registration@3ho.org');
-```
-
-For production, change the PWA fallback too:
-
-```bash
-NEXT_PUBLIC_CONTACT_EMAIL="registration@3ho.org"
-```
-
-Because `NEXT_PUBLIC_*` variables are embedded at build time, update the Vercel env vars before creating the deployment that should use the WordPress endpoint.
-
-## Capacitor next steps
-
-Capacitor is installed and configured in `capacitor.config.ts`, but native platforms are not added yet.
-
-When ready:
-
-```bash
-npm run build
-npx cap add ios
-npx cap add android
-npx cap sync
-npx cap open ios
-npx cap open android
-```
-
-For future local notifications:
-
-- The app includes a preparation service at `src/lib/local-notifications.ts`.
-- Real reminder scheduling is not connected to the UI yet.
-- Capacitor Local Notifications will only run in the native app, not in the browser PWA.
-
-## Manual content review checklist
-
-- Confirm all dates from June 19–27, 2026.
-- Confirm typo-like headings in the PDF, especially `June 21th`, `June 22th`, `June 23th`, and the pages that label June 26 inconsistently.
-- Confirm activity title/facilitator/country splits where the PDF text contains several commas.
-- Confirm venues and map placement against the official booklet map.
-- Confirm `ENGLISH/SPANISH` language labels.
-- Confirm activities spanning page breaks have complete descriptions.
-- Replace placeholder map with the official extracted map image/vector if needed.
-
-## Backend dependency
-
-This version has no login. All core content is static JSON and most user state is local to the device.
-
-The only optional backend dependency is the contact endpoint. Without it, contact messages remain saved locally and can be opened as email drafts. With it, queued messages are sent automatically when the app is online.
+Every change set goes on its own `type/topic` branch, then push and merge on completion;
+update `CHANGELOG.md` and any relevant docs with each change, and bump the offline cache
+when the change is user-visible. Full rules are in [CLAUDE.md](CLAUDE.md) (git workflow,
+changelog, and documentation discipline).

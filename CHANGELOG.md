@@ -5,9 +5,22 @@ All notable changes to this project are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 Because the app ships as a static export + PWA, the offline cache version
 (`solstice-full-offline-vNN`) is the closest thing to a shipped release marker.
-Note the cache bump in an entry whenever one happened.
+Note the cache bump in an entry whenever one happened. When a set of changes
+ships, its `Unreleased` bullets move into a dated section below — newest on top.
 
 ## [Unreleased]
+
+### Changed
+
+- `README.md` rewritten to describe the current state of the app — accounts and
+  favorites sync, native iOS/Android platforms, synced events / Sync Lab, the
+  checkout-feed content pipeline (`pull-program`), and the WordPress backend —
+  replacing the pre-backend Phase 0 snapshot ("no backend, no login, no native
+  platforms"). This changelog was restructured from one accumulated
+  `[Unreleased]` block into dated sections per shipped change set. Docs only —
+  no cache bump.
+
+## [2026-08-05]
 
 ### Added
 
@@ -22,16 +35,7 @@ Note the cache bump in an entry whenever one happened.
   Docs in `docs/TEACHERS.md` ("Checkout feed import"). No shipped content changed
   yet — no cache bump. Phase 2 (runtime sync against the same endpoint) pending.
 
-### Fixed
-
-- Sync Lab now saves every successfully fetched bundle to the local event store
-  right away, so it appears in Home → "Your events" without needing to activate it
-  first ("Use this event in the app" now only switches the active event). Cache → v51.
-- Teacher quick-view modal was clipped inside the activity card (the card's
-  `backdrop-filter` made it the containing block for `position: fixed`) — now rendered
-  via a React portal on `document.body`, overlaying the whole page. It also gained a
-  fluid open/close transition (slide-up + fade with staggered inner elements),
-  honoring `prefers-reduced-motion`. Cache → v46.
+## [2026-07-20] — cache v52 → v57
 
 ### Added
 
@@ -68,6 +72,11 @@ Note the cache bump in an entry whenever one happened.
   modal and on the full teacher profile page now include the heart toggle, so
   activities can be saved as favorites right from a teacher's card — for the
   built-in event and synced events alike. Cache → v52.
+
+## [2026-07-19] — cache v44 → v51
+
+### Added
+
 - **"Your events" switcher on Home**: once at least one synced event exists locally,
   Home shows a card listing the built-in Summer Solstice 2026 and every synced event
   (name, dates, location) with one-tap activation, a check on the active one, and
@@ -98,7 +107,6 @@ Note the cache bump in an entry whenever one happened.
   `design/` prototype) — verifies the profile "About" section renders when a bio
   exists and stays hidden when empty. Remaining bios pending from the production
   team. Cache → v45.
-
 - **Teachers section** (static-first, per `docs/TEACHERS.md`): `/teachers` directory
   (34 teachers with photo/initials avatars, duo support, session counts) and
   `/teachers/[id]` full profiles (sessions grouped by day, linked to program detail;
@@ -106,13 +114,11 @@ Note the cache bump in an entry whenever one happened.
   modal opens from the facilitator photo/name on program cards and detail pages.
   Entry points: Home quick tile + "Teachers" link on the Program header. New routes
   registered in the offline preloader; cache → v44.
-
 - `docs/MESSAGING.md` — messaging/alerts design: unified channel model (DM, group,
   official announcements, work-group channels, alerts feed), REST API sketch, and the
   **polling-first, socket-ready** decision (realtime companion later).
 - `docs/TEACHERS.md` — teacher/presenter info spec: data model, program linking,
   static-first rollout then backend bundle.
-
 - Project documentation set and navigation index (`docs/INDEX.md`).
 - `CHANGELOG.md` (this file).
 - Planning docs: `docs/ROADMAP.md`, `docs/BACKEND.md`, `docs/NATIVE.md`,
@@ -138,10 +144,21 @@ Note the cache bump in an entry whenever one happened.
   **link out to the existing ticket-sales website** first, no in-app payments; teachers
   can ship static-first before the backend.
 
+### Fixed
+
+- Sync Lab now saves every successfully fetched bundle to the local event store
+  right away, so it appears in Home → "Your events" without needing to activate it
+  first ("Use this event in the app" now only switches the active event). Cache → v51.
+- Teacher quick-view modal was clipped inside the activity card (the card's
+  `backdrop-filter` made it the containing block for `position: fixed`) — now rendered
+  via a React portal on `document.body`, overlaying the whole page. It also gained a
+  fluid open/close transition (slide-up + fade with staggered inner elements),
+  honoring `prefers-reduced-motion`. Cache → v46.
+
 <!--
 Template for future entries — keep newest on top.
 
-## [YYYY-MM-DD] cache vNN
+## [YYYY-MM-DD] — cache vNN
 ### Added
 ### Changed
 ### Fixed
