@@ -21,8 +21,11 @@ Trello has no generic built-in CSV importer; the ways to create these cards in b
    ```bash
    # Real run — get an API key at https://trello.com/power-ups/admin and a token
    # from the link next to it; set them as env vars (never commit or share them).
-   # <shortLink> is the code in your board URL: trello.com/b/<shortLink>/…
-   TRELLO_KEY=your_key TRELLO_TOKEN=your_token npm run trello-import -- --board <shortLink>
+   export TRELLO_KEY=your_key TRELLO_TOKEN=your_token
+   # Don't know the board's short link? Run without --board to list your boards:
+   npm run trello-import
+   # Then import into the chosen board:
+   npm run trello-import -- --board <shortLink>
    ```
 
 2. **Multi-line paste (native, titles only)** — paste the title block below into

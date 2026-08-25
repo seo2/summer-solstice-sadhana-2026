@@ -16,7 +16,8 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   `scripts/wsol26-trello-cards.json`): batch-creates the WSOL26 board content via
   the Trello REST API — one list, 9 workstream cards with descriptions, 18
   checklists, 67 items. Credentials via `TRELLO_KEY`/`TRELLO_TOKEN` env vars
-  (never stored); `--dry-run` previews without writing. Import instructions added
+  (never stored); `--dry-run` previews without writing; running without
+  `--board` lists the account's open boards with their short links. Import instructions added
   to `docs/WSOL26-TRELLO.md` (API script, native multi-line paste, Power-Up
   alternatives).
 - `docs/WSOL26-TRELLO.md` — Trello card export of the WSOL26 plan: one card per

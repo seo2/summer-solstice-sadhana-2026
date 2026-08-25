@@ -8,7 +8,8 @@
  *
  * Options:
  *   --board <id>   Board id or the short link from the board URL
- *                  (trello.com/b/<shortLink>/name). Required.
+ *                  (trello.com/b/<shortLink>/name). Omit it (with credentials
+ *                  set) to print your open boards and their short links.
  *   --data <path>  Cards JSON (default: scripts/wsol26-trello-cards.json).
  *   --list <name>  Override the list name from the JSON file.
  *   --dry-run      Print what would be created; no API writes.
@@ -56,7 +57,16 @@ async function api(method, path, params = {}) {
 }
 
 async function main() {
-  if (!BOARD) fail("Missing --board <id or short link from the board URL>.");
+  if (!BOARD) {
+    if (!KEY || !TOKEN) {
+      fail("Missing --board. Tip: set TRELLO_KEY and TRELLO_TOKEN and run without --board to list your boards.");
+    }
+    const boards = await api("GET", "/members/me/boards", { fields: "name,shortLink,url", filter: "open" });
+    if (!boards.length) fail("No open boards on this account — create the board in Trello first.");
+    console.log("Your open boards — re-run with --board <shortLink>:\n");
+    for (const b of boards) console.log(`  ${b.shortLink}  ${b.name}\n            ${b.url}`);
+    return;
+  }
   const data = JSON.parse(await readFile(DATA, "utf8"));
   const listName = opt("--list", data.list || "Imported");
   const cards = data.cards || [];
