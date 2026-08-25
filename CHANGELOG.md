@@ -12,6 +12,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **App id changed to `org.threeho.eventapp`** (decision D5, closed while nothing
+  is on the stores — the id is immutable on Google Play once published): Capacitor
+  `appId`, Android `namespace`/`applicationId`, `package_name`/`custom_url_scheme`
+  strings, `MainActivity` package moved to `org/threeho/eventapp/`, iOS
+  `PRODUCT_BUNDLE_IDENTIFIER` (both configurations). Native-only — no visible UI
+  change, no cache bump. Store records (App Store Connect / Play Console) must be
+  created with this id.
 - **Shell renamed to "3HO Event App"** (decision D2 of the WSOL26 plan): PWA
   manifest (`name` "3HO Event App", `short_name` "3HO Events"), document
   title/description, iOS web-app title, global header brand ("3HO / Event App"),

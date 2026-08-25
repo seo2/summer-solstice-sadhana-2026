@@ -1,4 +1,4 @@
-package org.threeho.summersolstice2026;
+package org.threeho.eventapp;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "org.threeho.summersolstice2026"
+    namespace = "org.threeho.eventapp"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "org.threeho.summersolstice2026"
+        applicationId "org.threeho.eventapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -23,7 +23,7 @@ same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) an
   already works; WSOL26 content is already flowing through the checkout platform
   (`pull-program` defaults to `event=wsol26`).
 
-## Decisions (resolved 2026-08-25 unless noted)
+## Decisions (all resolved 2026-08-25)
 
 | # | Decision | Resolution |
 |---|---|---|
@@ -31,7 +31,7 @@ same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) an
 | D2 | App name / branding | ✅ Shell renamed to **"3HO Event App"** (implemented 2026-08-25, cache v58: PWA manifest, document title, global header, install page, Capacitor `appName`, iOS `CFBundleDisplayName`, Android `app_name`). In-app content branding stays per-event. |
 | D3 | Content source of truth | ✅ **Everything through WordPress** — the checkout feed imports into WP; the app syncs only the WP bundle. Constraint: the sync design must be **mirror-ready** for the summer-2027 local network (see WS1). |
 | D4 | WSOL26 dates + venue | ✅ **December 15–21, 2026 · Retreats By The Lake, Lake Wales, FL** (from the live checkout feed; tickets on sale). Content owners per WS7. |
-| D5 | **App id before first store publication** (open) | The id is `org.threeho.summersolstice2026` — misleading for a multi-event "3HO Event App" and **immutable on Google Play once published**. Decide now whether to change it (e.g. `org.threeho.eventapp`) while nothing is on the stores; changing it later means shipping a brand-new app. |
+| D5 | App id before first store publication | ✅ Changed to **`org.threeho.eventapp`** (implemented 2026-08-25: Capacitor `appId`, Android `namespace`/`applicationId`/package/`custom_url_scheme`, iOS `PRODUCT_BUNDLE_IDENTIFIER`). Done before anything reached the stores — the id is immutable on Google Play once published. Apple/Google store records must be created with this id (WS4). |
 
 ## Workstreams
 
@@ -130,7 +130,7 @@ needs its own:
 
 | When | Milestone |
 |---|---|
-| **September** | D5 decided · store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
+| **September** | Store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
 | **October** | WS1 + WS3 feature-complete · WS2 built · TestFlight / internal Android testing with real WSOL26 content |
 | **November** | WS6 · store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
 | **December** | Content freeze · event ops Dec 15–21: staff publish announcements & alerts |
