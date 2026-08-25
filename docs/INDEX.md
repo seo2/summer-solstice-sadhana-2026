@@ -34,7 +34,8 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [TEACHERS.md](TEACHERS.md) | Teacher/presenter info spec: data model, program linking, static-first rollout |
 | [REQUIREMENTS.md](REQUIREMENTS.md) | Features & technical requirements for the native (iOS/Android) version — stakeholder-ready |
 | [HANDOFF.md](HANDOFF.md) | Project handoff: state of both repos, pending QA, working knowledge, first-session checklist |
-| [WSOL26-PLAN.md](WSOL26-PLAN.md) | Next-stage plan for Winter Solstice 2026 (Florida): decisions, workstreams, timeline; local network out of scope |
+| [WSOL26-PLAN.md](WSOL26-PLAN.md) | Next-stage plan for Winter Solstice 2026 (Florida): decisions, workstreams with per-task explanations, timeline; local network out of scope |
+| [WSOL26-TRELLO.md](WSOL26-TRELLO.md) | Trello card export of the WSOL26 plan: one card per workstream with description and checklists |
 
 ## Content
 

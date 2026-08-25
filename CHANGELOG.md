@@ -10,7 +10,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- `docs/WSOL26-TRELLO.md` — Trello card export of the WSOL26 plan: one card per
+  workstream (WS1–WS7) with title, description, and checklists, plus a multi-line
+  title block for quick card creation. Registered in `docs/INDEX.md`.
+
 ### Changed
+
+- `docs/WSOL26-PLAN.md` — every task now carries an explanation: what it is, why
+  it matters, and what "done" looks like. Docs only — no cache bump.
 
 - **App id changed to `org.threeho.eventapp`** (decision D5, closed while nothing
   is on the stores — the id is immutable on Google Play once published): Capacitor

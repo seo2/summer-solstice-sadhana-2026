@@ -6,7 +6,8 @@ Retreats By The Lake, Lake Wales, Florida** (dates confirmed from the checkout f
 tickets on sale at register.3ho.org). Distribution: native iOS/Android **plus the web
 version (PWA)**, all from the same codebase. Prepared 2026-08-25, decisions resolved
 same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) and
-[HANDOFF.md](HANDOFF.md) (state of both repos).
+[HANDOFF.md](HANDOFF.md) (state of both repos). Trello-ready card export:
+[WSOL26-TRELLO.md](WSOL26-TRELLO.md).
 
 ## Context & assumptions
 
@@ -35,20 +36,39 @@ same day. Companion to [REQUIREMENTS.md](REQUIREMENTS.md) (what exists today) an
 
 ## Workstreams
 
+Each task carries what it is, why it matters, and what "done" looks like.
+
 ### WS1 — Runtime content sync (P0 · app)
 
-The piece that makes internet updates real. Today content only ships baked into the
-build or via the internal Sync Lab.
+The piece that makes internet updates real. Today fresh content only reaches users
+baked into an app build or through the internal Sync Lab — neither works for a live
+event where the schedule changes daily.
 
-- [ ] **UpdateAgent**: background refresh of the active event's versioned bundle
-      (ETag / `updated_since`) on app start and periodically while open — productize
-      the Sync Lab client.
-- [ ] Update UX: unobtrusive "program updated" indicator; silent apply; never
-      interrupt offline use.
-- [ ] Implement D3 pipeline: WSOL26 program/teachers land in WordPress
-      (automate checkout-feed → WP import if D3 = WordPress).
-- [ ] **Offline photos for synced events**: cache remote teacher photos
-      (the preloader currently only warms same-origin `/images/…`).
+- [ ] **UpdateAgent (automatic background refresh)** — A client agent that checks the
+      WordPress backend for a newer version of the active event's content bundle
+      (program, teachers, venues, categories) on app start and periodically while the
+      app is open. It reuses the versioned-bundle contract the server already exposes
+      (ETag / `updated_since`), downloads only when something actually changed, and
+      writes into the local event store — so the next fully-offline session already has
+      the fresh content. Done when a schedule change published in wp-admin appears on
+      an attendee's phone within minutes, with zero user action.
+- [ ] **Update UX** — What the attendee experiences when content changes: a quiet
+      "Program updated" indicator instead of a disruptive reload, silent apply in the
+      background, and never any blocking of offline reading. Includes choosing the
+      refresh cadence and keeping battery/data use negligible. Done when updates feel
+      invisible but trustworthy.
+- [ ] **Checkout feed → WordPress pipeline (per D3)** — Automate importing the
+      published Teacher & Musician program from the registration platform into
+      WordPress. Today `pull-program` bakes that feed into the app's static files at
+      build time; moving the import server-side makes WordPress the single source of
+      truth, so program changes reach the app through normal sync with **no app
+      rebuilds**. Done when a program change in the checkout platform lands in the WP
+      bundle without touching the app repo.
+- [ ] **Offline photos for synced events** — Teacher photos in synced bundles are
+      remote URLs, and the offline preloader currently only saves same-origin
+      `/images/…`. Cache these photos on the device at sync time so teacher profiles
+      aren't blank rectangles when the attendee is offline. Done when airplane-mode
+      browsing shows every photo of the active synced event.
 
 **Mirror-ready design constraints** (so the summer-2027 local network slots in
 without client changes — per D3 and [LOCAL-NETWORK.md](LOCAL-NETWORK.md)):
@@ -66,72 +86,131 @@ without client changes — per D3 and [LOCAL-NETWORK.md](LOCAL-NETWORK.md)):
 
 ### WS2 — Per-event Info Hub & venue map (P0 · app + backend + content)
 
-**Known gap**: synced events render program/teachers/favorites, but the Info Hub,
-camp map, and Women's Renewal pages are static Summer Solstice 2026 content. WSOL26
-needs its own:
+**Known gap**: synced events get program, teachers, and favorites — but the Info Hub,
+camp map, and Women's Renewal pages are static Summer Solstice content. A WSOL26
+attendee opening "Info" today would read about Ram Das Puri.
 
-- [ ] Info pages per event in the sync bundle (backend: content type + bundle field;
-      app: render synced info pages offline).
-- [ ] Florida venue map asset; reuse the zoomable viewer with a per-event image.
-- [ ] Decide what SSOL-specific sections (e.g. Women's Renewal) show or hide when
-      WSOL26 is active.
+- [ ] **Info pages per event in the sync bundle** — Backend: a per-event info-pages
+      content type included in the bundle; app: render synced info pages with the same
+      section-card UI as today's Info Hub, stored offline. Done when a WSOL26 attendee
+      can read arrival, schedule basics, and camp-life guidance for **Florida** with no
+      signal.
+- [ ] **Florida venue map** — Obtain or produce the venue map image for Retreats By
+      The Lake, serve it per event through the bundle, and point the existing zoomable
+      viewer (zoom buttons + pinch, 50–300%) at the active event's map. Done when the
+      Map tab shows the Florida grounds while WSOL26 is active — offline.
+- [ ] **Behavior of SSOL-specific sections** — Decide and implement what
+      Summer-Solstice-only surfaces (e.g. Women's Renewal) do while WSOL26 is active:
+      hidden, replaced by a WSOL equivalent, or clearly labeled as belonging to the
+      other event. Done when nothing on screen misleads a WSOL26 attendee.
 
-### WS3 — Announcements & alerts, app side (P0 · app; server is live)
+### WS3 — Announcements & alerts in the app (P0 · app; server is live)
 
-- [ ] Feed UI for official Announcements + urgent Alerts (design ready in
-      [MESSAGING.md](MESSAGING.md)).
-- [ ] Background polling agent on the cheap `GET /updates` endpoint; unread badge.
-- [ ] Notification permission requested in context (first alert interaction, not at
-      first launch — also a store-review point).
-- [ ] Push delivery server-side (APNs/FCM sending on the existing
-      `threeho_ssa_broadcast_posted` hook) — P1 if polling proves sufficient for
-      Florida connectivity.
+The server side already works: staff publish official Announcements and urgent Alerts
+from wp-admin, and a cheap polling API exposes them. The app just can't show them yet.
+Design is complete in [MESSAGING.md](MESSAGING.md).
 
-### WS4 — Store readiness / native ops (P0 · ops — longest lead times, start now)
+- [ ] **Feed UI** — A screen listing the active event's official Announcements and
+      urgent Alerts, newest first, readable offline once fetched. Done when a staff
+      post in wp-admin is readable in the app.
+- [ ] **Polling agent + unread badge** — Background poll of the single "what's new"
+      endpoint (`GET /updates`) on app start and periodically while open; an unread
+      count on the navigation so people notice new posts. Done when new posts surface
+      within the polling interval without opening the feed.
+- [ ] **Notification permission in context** — Ask for notification permission the
+      first time it's actually useful (e.g. first alert interaction), never as a
+      popup at first launch. Better acceptance rates, and it's what store reviewers
+      expect to see.
+- [ ] **Push delivery server-side (P1)** — Implement real APNs/FCM sending on the
+      existing `threeho_ssa_broadcast_posted` hook so urgent alerts reach phones with
+      the app closed. P1 because with Florida connectivity, foreground polling may
+      already cover the need for v1. Done when a test alert wakes a locked test
+      device.
 
-- [ ] Apple Developer account ready: signing identities, **APNs key**, Push
-      capability; App Store Connect listing; TestFlight beta group.
-- [ ] Google Play Console; **Firebase project + `google-services.json`** (FCM).
-- [ ] Final **1024 px icon artwork** (current asset is an upscale — must be replaced)
-      + splash screens via `@capacitor/assets`.
-- [ ] On-device QA passes (iPhone + Android): install, offline cold start, reminders,
-      push registration, sign-in.
-- [ ] Privacy policy URL, data-safety/privacy forms, review notes (optional accounts,
-      link-out commerce, no in-app payments).
-- [ ] Submit with buffer for review cycles (target: apps live ≥3 weeks before the event).
+### WS4 — Store readiness (P0 · ops — longest lead times, start now)
+
+None of this depends on app code, and every item has external waiting time (Apple
+review, account approvals). The new app id `org.threeho.eventapp` (D5) must be used
+for every record created here.
+
+- [ ] **Apple chain** — Signing identities, **APNs key**, Push Notifications
+      capability on the new bundle id, App Store Connect app record, and a TestFlight
+      group for internal testers. Done when a signed build installs via TestFlight.
+- [ ] **Google chain** — Play Console app record, **Firebase project** for FCM, and
+      `google-services.json` added to the Android project so push registration works.
+      Done when an internal-track build installs from Play.
+- [ ] **Icon & splash artwork** — Replace the current icon (an upscale, not
+      submission-quality) with real **1024 px** artwork and regenerate all icon/splash
+      sizes with `@capacitor/assets`. Done when store listings and devices show crisp
+      art.
+- [ ] **On-device QA** — Physical iPhone + Android passes: install, cold start in
+      airplane mode, agenda reminders firing 15 min before a favorited session, push
+      registration after sign-in, favorites sync. Done when the checklist passes on
+      both platforms.
+- [ ] **Privacy & review compliance** — Public privacy policy URL, App Store privacy
+      labels and Play data-safety form (accounts optional, favorites sync, push
+      tokens), review notes explaining link-out ticket sales (no in-app purchases).
+      Done when both store forms are submitted without red flags.
+- [ ] **Submission with buffer** — First submissions early November so both apps are
+      **live by November 24** (3 weeks pre-event) and attendees install before
+      traveling. Done when both apps are downloadable publicly.
 
 ### WS5 — Backend QA & production deploy (P0 · backend + ops)
 
-- [ ] Pending QA from [HANDOFF.md](HANDOFF.md): `php -l` on the new plugin classes,
-      DB v2 auto-migration check, post a test announcement, verify `GET /updates`.
-- [ ] Commit plugin v0.4.0 in the 3ho.org repo (owner does this, per that repo's rules),
-      then deploy to production 3ho.org.
-- [ ] Production hardening: CORS allowlist for app origins, rate limits sanity check,
-      token expiry behavior.
-- [ ] Create and publish the **WSOL26 event** (Events CRUD) and seed its content.
+The plugin (v0.4.0) has auth, sync, devices, and messaging endpoints working in dev
+but has never been production-hardened or deployed, and the WSOL26 event doesn't
+exist in the production database yet.
 
-### WS6 — Accounts & favorites for synced events (P1 · app)
+- [ ] **Pending plugin QA** — Lint the new classes (`php -l`), verify the DB v2
+      auto-migration on a fresh wp-admin load, post a test announcement, and confirm
+      `GET /updates` returns it. Done when the HANDOFF QA list is green.
+- [ ] **Commit & deploy the plugin** — Commit v0.4.0 in the 3ho.org repo (repo owner
+      does this, per that repo's rules) and deploy to production 3ho.org. Done when
+      production answers the REST routes.
+- [ ] **Production hardening** — CORS allowlist covering the production web origin
+      and Capacitor origins, rate-limit sanity check, token-expiry behavior. Done
+      when only intended origins pass and abuse is throttled.
+- [ ] **Create & publish the WSOL26 event** — Create the event in wp-admin (Events
+      CRUD) with the confirmed dates/venue and publish it; seed program/teachers as
+      content lands (WS7). Done when the app can sync the WSOL26 bundle from
+      production.
 
-- [ ] **Multi-event favorites sync**: v1 only syncs the built-in event's favorites.
-      If D1 = (a), WSOL26 favorites must sync cross-device too (local favorites,
-      agenda and reminders already work for synced events).
+### WS6 — Favorites sync for synced events (P1 · app)
 
-### WS7 — Content (parallel · content team)
+Today only the built-in event's favorites sync across devices — the v1 local store
+didn't record which event a favorite belongs to. Favorites, agenda, and reminders
+already **work locally** for synced events; this is only about the cross-device copy.
 
-- [ ] WSOL26 program & teachers finalized in the checkout platform / WordPress
-      (the feed is live but its presenter program is still **empty — 0 items** as of
-      2026-08-25).
-- [ ] Teacher bios (33 of 34 still empty — applies to both events).
-- [ ] WSOL26 info-hub texts and Florida venue map artwork.
-- [ ] Content QA on device (terminology exactly as provided: WTY®, White Tantric
-      Yoga®, Sadhana, Gurdwara).
+- [ ] **Event-scoped favorites sync** — Extend the sync client to push/pull favorites
+      per event (the server contract already carries an `event` field), including
+      merge-on-login and tombstoned deletions for synced events. Done when a WSOL26
+      favorite marked on one phone appears on the same account's other phone.
+
+### WS7 — Content (P0 · content team, parallel)
+
+The app can only be as good as what's loaded into it — and today the WSOL26 feed is
+live but **empty**.
+
+- [ ] **WSOL26 program & teachers** — Finalize the Teacher & Musician program in the
+      checkout platform / WordPress. The feed responds but its presenter program is
+      still **empty (0 items)** as of 2026-08-25. Done when the bundle carries the
+      real schedule.
+- [ ] **Teacher bios** — 33 of 34 bios are still empty (applies to both events). The
+      profile "About" section appears automatically as soon as a bio exists. Done
+      when priority teachers have bios.
+- [ ] **WSOL26 info texts & map artwork** — Arrival/camp-life texts for the Florida
+      venue and the venue map image (feeds WS2). Done when WS2 has real content to
+      render.
+- [ ] **On-device content QA** — Full read-through on a phone before freeze;
+      terminology exactly as provided: WTY®, White Tantric Yoga®, Sadhana, Gurdwara.
+      Done when no extraction artifacts or wrong labels remain.
 
 ## Timeline (event: December 15–21 → apps live by ~November 24)
 
 | When | Milestone |
 |---|---|
 | **September** | Store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
-| **October** | WS1 + WS3 feature-complete · WS2 built · TestFlight / internal Android testing with real WSOL26 content |
+| **October** | WS1 + WS3 feature-complete · WS2 built · TestFlight and internal Android testing with real WSOL26 content |
 | **November** | WS6 · store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
 | **December** | Content freeze · event ops Dec 15–21: staff publish announcements & alerts |
 
