@@ -129,8 +129,8 @@
       ]
     },
     {
-      "name": "WS6 · Favorites sync for synced events — P1 · App",
-      "desc": "Today only the built-in event's favorites sync across devices (the v1 store didn't record which event a favorite belongs to). Favorites, agenda, and reminders already work locally for synced events — this card is only the cross-device copy. Done when a WSOL26 favorite marked on one phone appears on the same account's other phone.",
+      "name": "WS6 · Favorites sync for synced events — Post-WSOL26 · App",
+      "desc": "DEFERRED to the next version, after WSOL26 (owner decision 2026-08-26). Today only the built-in event's favorites sync across devices (the v1 store didn't record which event a favorite belongs to). Favorites, agenda, and reminders already work locally for synced events — this card is only the cross-device copy. Done when a WSOL26 favorite marked on one phone appears on the same account's other phone.",
       "checklists": [
         {
           "name": "Tasks",
@@ -181,8 +181,8 @@
       ]
     },
     {
-      "name": "WS9 · Messaging: work-team channels, groups & DMs — P1 · App/Backend",
-      "desc": "People can message each other, create groups, and work-team (seva) leaders can create channels, add members, and post daily tasks, announcements, and meetings. Design ready in docs/MESSAGING.md (polling-first); server schema already has channel/member/message tables with broadcast endpoints live. Messaging requires sign-in; the rest of the app stays account-free. Phased to protect Dec 15: 9a (work-team channels) is the critical piece; 9b/9c ship only if the schedule holds, else in the first post-event update. If messaging is in the store build, UGC moderation (report/block/moderate + community rules) is mandatory for Apple/Google review.",
+      "name": "WS9 · Messaging: work-team channels, groups & DMs — Post-WSOL26 · App/Backend",
+      "desc": "DEFERRED to the next version, after WSOL26 (owner decision 2026-08-26). People can message each other, create groups, and work-team (seva) leaders can create channels, add members, and post daily tasks, announcements, and meetings. Design ready in docs/MESSAGING.md (polling-first); server schema already has channel/member/message tables with broadcast endpoints live. Messaging requires sign-in; the rest of the app stays account-free. Phased to protect Dec 15: 9a (work-team channels) is the critical piece; 9b/9c ship only if the schedule holds, else in the first post-event update. If messaging is in the store build, UGC moderation (report/block/moderate + community rules) is mandatory for Apple/Google review.",
       "checklists": [
         {
           "name": "9a · Work-team channels (build first)",

@@ -30,6 +30,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **WS6 (multi-event favorites sync) and WS9 (messaging) deferred to the next
+  version, post-WSOL26** (owner decision 2026-08-26): moved from active
+  workstreams to a "Next version" section in `docs/WSOL26-PLAN.md` (timeline and
+  WS4 store-compliance notes adjusted — no UGC requirements apply to this
+  submission), re-tagged "Post-WSOL26" in `docs/WSOL26-TRELLO.md` and
+  `scripts/wsol26-trello-cards.json`, and listed under "Siguiente versión" in
+  `docs/FUNCIONALIDADES.md` (new items now 7).
 - `docs/WSOL26-PLAN.md` — **WS9 · Messaging added to the stage** (owner request
   2026-08-25): work-team (seva) channels where leaders create groups, add members
   and post daily tasks/announcements/meetings (9a, builds first), user-created

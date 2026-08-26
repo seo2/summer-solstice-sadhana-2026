@@ -181,10 +181,9 @@ for every record created here.
       tokens — including anonymous device registration), review notes explaining
       link-out ticket sales (no in-app purchases). Future-event news pushes (N1) are
       opt-in with an in-app toggle — both stores treat marketing pushes without
-      consent as a rejection reason. If WS9 messaging is in the submitted build, the
-      UGC requirements (report, block, moderation, community rules — see WS9) must be
-      demonstrably in place. Done when both store forms are submitted without red
-      flags.
+      consent as a rejection reason. Messaging is deferred post-WSOL26, so no UGC
+      requirements apply to this submission (they become mandatory whenever WS9
+      ships). Done when both store forms are submitted without red flags.
 - [ ] **Submission with buffer** — First submissions early November so both apps are
       **live by November 24** (3 weeks pre-event) and attendees install before
       traveling. Done when both apps are downloadable publicly.
@@ -208,17 +207,6 @@ exist in the production database yet.
       CRUD) with the confirmed dates/venue and publish it; seed program/teachers as
       content lands (WS7). Done when the app can sync the WSOL26 bundle from
       production.
-
-### WS6 — Favorites sync for synced events (P1 · app)
-
-Today only the built-in event's favorites sync across devices — the v1 local store
-didn't record which event a favorite belongs to. Favorites, agenda, and reminders
-already **work locally** for synced events; this is only about the cross-device copy.
-
-- [ ] **Event-scoped favorites sync** — Extend the sync client to push/pull favorites
-      per event (the server contract already carries an `event` field), including
-      merge-on-login and tombstoned deletions for synced events. Done when a WSOL26
-      favorite marked on one phone appears on the same account's other phone.
 
 ### WS7 — Content (P0 · content team, parallel)
 
@@ -265,45 +253,36 @@ menu content arrives through the sync bundle, so it **doesn't gate store submiss
       for December 15–21 plus dietary notes (content task, parallel with WS7). Done
       when real menus are loaded in WordPress and verified on device.
 
-### WS9 — Messaging: work-team channels, groups & DMs (P1 · app + backend)
+## Next version (post-WSOL26) ⏭️
 
-Pulled into the stage by owner decision (2026-08-25): people can message each other,
-create groups, and **work-team (seva) leaders can create channels, add members, and
-post the day's tasks, announcements, and meetings**. The unified channel model and
-polling-first REST design already exist in [MESSAGING.md](MESSAGING.md), and the
-server schema (DB v2) already has channel/member/message tables with the broadcast
-endpoints live — this workstream builds membership, non-staff posting, and the chat
-UI on top. Messaging requires being signed in (identity); everything else in the app
-stays usable without an account. **Phased to protect the December date** — 9a is the
-operationally critical piece; 9b/9c follow if the schedule holds, otherwise they ship
-in the first post-event update.
+Deferred by owner decision **2026-08-26** — these ship in the release after the
+event, not in the WSOL26 stage:
 
-- [ ] **9a · Work-team (seva) channels** — Team leaders create a channel, add/remove
-      members by account, and post; members read and reply. Covers daily task lists,
-      team announcements, and meeting calls. Server: membership + member-posting
-      endpoints on the existing schema; app: channel list + conversation view riding
-      the same polling agent as WS3. Done when a leader posts the day's tasks and the
-      team reads them on their phones.
-- [ ] **9b · User-created groups** — Any signed-in attendee creates a group and
-      invites others; same conversation UI as 9a with member management. Done when
-      two attendees chat in a group they made themselves.
-- [ ] **9c · Direct messages (1:1)** — Person-to-person conversations, modeled as
-      two-member channels per [MESSAGING.md](MESSAGING.md); finding people via
-      attendee search with **opt-in discoverability** (nobody is searchable unless
-      they choose to be). Done when two signed-in attendees exchange messages.
-- [ ] **UGC safety & moderation (store-required)** — Report a message/user, block a
-      user, a staff moderation view (hide/remove content, suspend accounts), and
-      community rules accepted before first use of messaging. Apple and Google
-      **require all of this for apps with user-generated content** — shipping chat
-      without it is a likely review rejection. Feeds the WS4 review notes.
+### WS6 — Favorites sync for synced events (app)
+
+Today only the built-in event's favorites sync across devices; favorites, agenda,
+and reminders already **work locally** for synced events — this is only the
+cross-device copy. Task: extend the sync client to push/pull favorites per event
+(the server contract already carries an `event` field), with merge-on-login and
+tombstoned deletions.
+
+### WS9 — Messaging: work-team channels, groups & DMs (app + backend)
+
+People message each other, create groups, and **work-team (seva) leaders create
+channels, add members, and post daily tasks, announcements, and meetings**. Design
+ready in [MESSAGING.md](MESSAGING.md) (polling-first); server schema groundwork
+(channel/member/message tables) already live. Order when it ships: 9a work-team
+channels → 9b user groups → 9c DMs (opt-in discoverability). **Whenever messaging
+ships, the UGC set is store-mandatory**: report, block, staff moderation, community
+rules — Apple and Google require it for user-generated content.
 
 ## Timeline (event: December 15–21 → apps live by ~November 24)
 
 | When | Milestone |
 |---|---|
 | **September** | Store/Firebase/APNs accounts moving (WS4 started) · backend QA done + plugin deployed (WS5) · WS1 development underway |
-| **October** | WS1 + WS3 feature-complete · WS2 + WS8 built · WS9a (work-team channels) underway · TestFlight and internal Android testing with real WSOL26 content |
-| **November** | WS6 · WS9a done, 9b/9c only if the schedule holds · store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
+| **October** | WS1 + WS3 feature-complete · WS2 + WS8 built · TestFlight and internal Android testing with real WSOL26 content |
+| **November** | Store submissions early November (review buffer) · on-device QA · content complete (WS7) · **apps live by Nov 24** |
 | **December** | Content freeze · event ops Dec 15–21: staff publish announcements & alerts |
 
 ## Out of scope for this stage

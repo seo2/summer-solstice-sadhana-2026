@@ -47,11 +47,15 @@ WS2 · Per-event Info Hub & venue map — P0 · App/Backend/Content
 WS3 · Notifications: announcements, alerts & push — P0 · App/Backend
 WS4 · Store readiness (Apple & Google) — P0 · Ops
 WS5 · Backend QA & production deploy — P0 · Backend/Ops
-WS6 · Favorites sync for synced events — P1 · App
+WS6 · Favorites sync for synced events — Post-WSOL26 · App
 WS7 · WSOL26 content — P0 · Content
 WS8 · Menus & nutrition — P1 · App/Backend/Content
-WS9 · Messaging: work-team channels, groups & DMs — P1 · App/Backend
+WS9 · Messaging: work-team channels, groups & DMs — Post-WSOL26 · App/Backend
 ```
+
+> **Deferral (2026-08-26):** WS6 and WS9 moved to the **next version, after
+> WSOL26**. If the cards were already imported into the working list, drag those
+> two to Backlog (or a "Post-WSOL26" list).
 
 ---
 
@@ -185,9 +189,10 @@ production yet. Done when the app syncs the WSOL26 bundle from production 3ho.or
 
 ## Card 6
 
-**Title:** WS6 · Favorites sync for synced events — P1 · App
+**Title:** WS6 · Favorites sync for synced events — Post-WSOL26 · App
 
 **Description:**
+DEFERRED to the next version, after WSOL26 (owner decision 2026-08-26).
 Today only the built-in event's favorites sync across devices (the v1 store didn't
 record which event a favorite belongs to). Favorites, agenda, and reminders already
 work locally for synced events — this card is only the cross-device copy. Done when a
@@ -243,9 +248,10 @@ are live. Done when an attendee checks tomorrow's breakfast with no signal.
 
 ## Card 9
 
-**Title:** WS9 · Messaging: work-team channels, groups & DMs — P1 · App/Backend
+**Title:** WS9 · Messaging: work-team channels, groups & DMs — Post-WSOL26 · App/Backend
 
 **Description:**
+DEFERRED to the next version, after WSOL26 (owner decision 2026-08-26).
 People can message each other, create groups, and work-team (seva) leaders can
 create channels, add members, and post daily tasks, announcements, and meetings.
 Design ready in docs/MESSAGING.md (polling-first); server schema already has

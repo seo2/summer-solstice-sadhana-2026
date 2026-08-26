@@ -40,14 +40,20 @@ existe) y [WSOL26-PLAN.md](WSOL26-PLAN.md) (plan de la etapa con tareas explicad
    de futuros eventos a todos los que tengan la app instalada (con opt-in).
 5. **Alertas personales de agenda** — aviso si una sesión favorita cambia de hora,
    de lugar o se cancela.
-6. **Sync de favoritos multi-evento** — los favoritos de WSOL26 también entre
-   dispositivos.
-7. **Menús de alimentación y nutrición** — menú diario del comedor + guía de dieta
+6. **Menús de alimentación y nutrición** — menú diario del comedor + guía de dieta
    yóguica, offline.
-8. **Mensajería** — canales de equipos de trabajo (líderes publican tareas diarias,
-   anuncios, reuniones), grupos y mensajes directos (por fases), con moderación.
-9. **Publicación en App Store y Google Play** — apps disponibles públicamente antes
+7. **Publicación en App Store y Google Play** — apps disponibles públicamente antes
    del evento (meta: 24 de noviembre).
+
+## Siguiente versión (después de WSOL26) ⏭️
+
+Decisión del 2026-08-26 — se posponen para la versión posterior al evento:
+
+1. **Sync de favoritos multi-evento** — los favoritos de eventos sincronizados
+   también entre dispositivos (localmente ya funcionan hoy).
+2. **Mensajería** — canales de equipos de trabajo (líderes publican tareas diarias,
+   anuncios, reuniones), grupos y mensajes directos, con la moderación que exigen
+   las stores.
 
 ## Fuera de esta etapa
 
