@@ -12,6 +12,9 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- `docs/FUNCIONALIDADES.md` — Spanish-language feature summary for stakeholders:
+  every app capability marked as existing (✅) or new for the WSOL26 stage (🆕),
+  plus what stays out of scope. Registered in `docs/INDEX.md`.
 - `npm run trello-import` (`scripts/trello-import.mjs` +
   `scripts/wsol26-trello-cards.json`): batch-creates the WSOL26 board content via
   the Trello REST API — one list, 9 workstream cards with descriptions, 18
