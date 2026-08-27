@@ -12,6 +12,21 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Announcements & Alerts in the app — WS3 phase 3a** (`/announcements`,
+  `src/lib/messages.ts`, AlertsAgent, header bell): the feed shows the active
+  event's official Announcements and urgent Alerts (amber, newest first), stored
+  locally in Dexie (`solstice-messages`) so it reads offline once fetched, with a
+  manual refresh button and an empty state. A background AlertsAgent polls the
+  backend's cheap `GET /updates` endpoint (on boot, back-online, tab-visible, and
+  every 2 minutes while open) and fetches message bodies only for channels with
+  news; the active synced event polls its own base URL, the built-in event polls
+  the shared backend origin. A **bell in the global header** carries the unread
+  count from a locally tracked read cursor (no account needed; clears on opening
+  the feed). Shapes mirror the plugin's `class-ssa-messages.php` exactly;
+  verified end-to-end against a mock (badge, feed render, incremental new-post
+  arrival, read clearing). `/announcements` registered in the offline preloader.
+  Cache → v60.
+
 - **Runtime content sync — WS1 UpdateAgent** (`src/components/update-agent.tsx` +
   `src/lib/event-sync.ts`): a background agent refreshes every locally synced
   event bundle over the internet — shortly after app start, when the app comes

@@ -12,6 +12,8 @@ import { AccountButton } from "@/components/account-button";
 import { ReminderAgent } from "@/components/reminder-agent";
 import { PushAgent } from "@/components/push-agent";
 import { UpdateAgent } from "@/components/update-agent";
+import { AlertsAgent } from "@/components/alerts-agent";
+import { AnnouncementsBell } from "@/components/announcements-bell";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -49,7 +51,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>
                 <p className="text-lg font-bold text-[#2f62b6]">Event App</p>
               </Link>
-              <AccountButton />
+              <div className="flex items-center gap-1">
+                <AnnouncementsBell />
+                <AccountButton />
+              </div>
             </div>
           </header>
           <main className="safe-bottom flex-1 px-4 pb-5 pt-3">
@@ -61,6 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <ReminderAgent />
           <PushAgent />
           <UpdateAgent />
+          <AlertsAgent />
           <OfflinePreloader />
           <WomensRenewalReminder />
           <BottomNav />

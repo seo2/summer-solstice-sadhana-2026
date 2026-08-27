@@ -125,13 +125,14 @@ works (staff publish from wp-admin; polling API live); what's missing is the app
 surface, real push delivery, and reaching devices that never sign in. Design in
 [MESSAGING.md](MESSAGING.md).
 
-- [ ] **Feed UI** — A screen listing the active event's official Announcements and
-      urgent Alerts, newest first, readable offline once fetched. Done when a staff
-      post in wp-admin is readable in the app.
-- [ ] **Polling agent + unread badge** — Background poll of the single "what's new"
-      endpoint (`GET /updates`) on app start and periodically while open; an unread
-      count on the navigation so people notice new posts. Done when new posts surface
-      within the polling interval without opening the feed.
+- [x] **Feed UI** — ✅ done 2026-08-27 (`/announcements`, cache v60): official
+      Announcements (white) and urgent Alerts (amber) newest first, offline from the
+      local store, manual refresh button, empty state. Verified against a mock of
+      the exact plugin contract.
+- [x] **Polling agent + unread badge** — ✅ done 2026-08-27: AlertsAgent polls the
+      cheap `GET /updates` (boot/online/visibility/every 2 min), fetches bodies only
+      for channels with news, and a bell in the global header shows the locally
+      tracked unread count (works logged out; badge clears on opening the feed).
 - [ ] **Anonymous device registration (enables N1)** — Today the PushAgent registers
       the push token only after sign-in and unregisters on sign-out — future-event
       news would reach almost nobody. Register the device (with its notification
