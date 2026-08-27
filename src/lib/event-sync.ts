@@ -9,11 +9,13 @@
  */
 
 import {
+  bundleActivities,
   getActiveEventSlug,
   listSyncedEvents,
   saveBundle,
   type SyncedBundle,
 } from "@/lib/event-store";
+import { listFavoriteIds } from "@/lib/db";
 import { CACHE_NAME } from "@/components/offline-preloader";
 
 export type RefreshOutcome = {
@@ -21,15 +23,61 @@ export type RefreshOutcome = {
   updated: string[];
   /** True when the currently active event was among the updated ones. */
   activeUpdated: boolean;
+  /** Human-readable notices for favorited sessions that changed (N2b). */
+  favoriteChanges: string[];
 };
+
+function formatWhen(activity: { date: string; startTime: string }): string {
+  const start = new Date(`${activity.date}T${activity.startTime}:00`);
+  if (Number.isNaN(start.getTime())) return `${activity.date} ${activity.startTime}`;
+  return start.toLocaleString(undefined, { weekday: "short", hour: "numeric", minute: "2-digit" });
+}
+
+/**
+ * Diff the user's favorited sessions between the old and new bundle: a move in
+ * time, a venue change, or a removal each produce one notice. Computed fully
+ * on-device — works logged out, no per-user server targeting.
+ */
+function favoriteChangeNotices(
+  oldBundle: SyncedBundle,
+  newBundle: SyncedBundle,
+  favoriteIds: Set<string>,
+): string[] {
+  const after = new Map(bundleActivities(newBundle).map((activity) => [activity.id, activity]));
+  const notices: string[] = [];
+
+  for (const previous of bundleActivities(oldBundle)) {
+    if (!favoriteIds.has(previous.id)) continue;
+    const next = after.get(previous.id);
+    if (!next) {
+      notices.push(`"${previous.title}" is no longer on the program.`);
+      continue;
+    }
+    const timeChanged = previous.date !== next.date || previous.startTime !== next.startTime;
+    const placeChanged = (previous.location ?? "") !== (next.location ?? "") && !!next.location;
+    if (timeChanged && placeChanged) {
+      notices.push(`"${next.title}" moved to ${formatWhen(next)} · ${next.location}.`);
+    } else if (timeChanged) {
+      notices.push(`"${next.title}" moved to ${formatWhen(next)}.`);
+    } else if (placeChanged) {
+      notices.push(`"${next.title}" moved to ${next.location}.`);
+    }
+  }
+
+  return notices;
+}
 
 type SyncResponse = SyncedBundle & { unchanged?: boolean };
 
 export async function refreshSyncedEvents(): Promise<RefreshOutcome> {
-  const outcome: RefreshOutcome = { updated: [], activeUpdated: false };
+  const outcome: RefreshOutcome = { updated: [], activeUpdated: false, favoriteChanges: [] };
   if (typeof navigator !== "undefined" && !navigator.onLine) return outcome;
 
-  const [events, activeSlug] = await Promise.all([listSyncedEvents(), getActiveEventSlug()]);
+  const [events, activeSlug, favoriteIds] = await Promise.all([
+    listSyncedEvents(),
+    getActiveEventSlug(),
+    listFavoriteIds(),
+  ]);
 
   for (const record of events) {
     try {
@@ -40,6 +88,7 @@ export async function refreshSyncedEvents(): Promise<RefreshOutcome> {
       if (data.unchanged || typeof data.version !== "number") continue;
       // Monotonic guard: never apply an older bundle over a newer local one.
       if (data.version <= record.version) continue;
+      outcome.favoriteChanges.push(...favoriteChangeNotices(record.bundle, data, favoriteIds));
       await saveBundle(record.baseUrl, data);
       warmBundlePhotos(data).catch(() => {});
       outcome.updated.push(record.slug);

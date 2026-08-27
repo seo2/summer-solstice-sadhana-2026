@@ -61,8 +61,10 @@ export function ReminderAgent() {
     })().catch(() => {
       // Native APIs unavailable or permission denied — reminders are best-effort.
     });
+    // synced?.version: reschedule when a runtime sync updates the bundle, so a
+    // favorited session that moved gets its reminder at the NEW time.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [signature, synced?.slug]);
+  }, [signature, synced?.slug, synced?.version]);
 
   return null;
 }

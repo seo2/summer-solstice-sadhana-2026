@@ -51,6 +51,28 @@ export async function rescheduleFavoriteReminders(reminders: ReminderInput[]): P
   });
 }
 
+/**
+ * Fire one-off "schedule change" notifications right away (native only;
+ * no-op in the browser/PWA, where the UpdateAgent toast covers it). Scheduled
+ * a moment ahead — note rescheduleFavoriteReminders cancels ALL pending
+ * notifications, so a concurrent reschedule within that window can drop one;
+ * acceptable for v1 (the toast still shows).
+ */
+export async function notifyScheduleChanges(messages: string[]): Promise<void> {
+  const notifications = await nativeLocalNotifications();
+  if (!notifications || messages.length === 0) return;
+
+  const base = Date.now() % 2147483647;
+  await notifications.schedule({
+    notifications: messages.map((body, index) => ({
+      id: (base + index) % 2147483647,
+      title: "Schedule change",
+      body,
+      schedule: { at: new Date(Date.now() + 300) },
+    })),
+  });
+}
+
 function hashCode(value: string) {
   let hash = 0;
   for (let i = 0; i < value.length; i += 1) {

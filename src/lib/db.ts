@@ -71,6 +71,12 @@ async function toggle(table: Table<SavedActivity, string>, activityId: string) {
   return true;
 }
 
+/** Plain (non-hook) accessor for background agents. */
+export async function listFavoriteIds(): Promise<Set<string>> {
+  const rows = await db.favorites.toArray();
+  return new Set(rows.map((row) => row.activityId));
+}
+
 export function useSavedActivities() {
   const favorites = useLiveQuery(() => db.favorites.toArray(), [], []);
   const favoriteIds = new Set(favorites.map((item) => item.activityId));

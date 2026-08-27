@@ -12,6 +12,22 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Favorited-session change alerts — WS3 N2b**: when the UpdateAgent applies a
+  refreshed bundle, it diffs the user's favorited sessions against the previous
+  version — a move in time and/or venue or a cancellation produces a specific
+  notice (e.g. `"Morning Sadhana" moved to Wed 8:00 AM · Lakeside Hall.`), shown
+  as the UpdateAgent toast in the browser and fired as a native local
+  notification on the apps (`notifyScheduleChanges`). Computed fully on-device:
+  works logged out, no per-user server targeting. Verified against the mock
+  backend. Cache → v61.
+
+### Fixed
+
+- ReminderAgent now reschedules when a runtime sync bumps the active bundle's
+  **version** (previously only on favorites/slug changes) — so a favorited
+  session that moved gets its 15-minute reminder at the new time instead of the
+  stale one.
+
 - **Announcements & Alerts in the app — WS3 phase 3a** (`/announcements`,
   `src/lib/messages.ts`, AlertsAgent, header bell): the feed shows the active
   event's official Announcements and urgent Alerts (amber, newest first), stored

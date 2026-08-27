@@ -143,12 +143,13 @@ surface, real push delivery, and reaching devices that never sign in. Design in
       events" (N1) and "Event alerts" (N3), stored with the device registration.
       Marketing-style pushes must be opt-in/opt-out-able for store policy and basic
       courtesy. Done when toggling off provably stops that category.
-- [ ] **Favorited-session change alerts (N2b)** — When the UpdateAgent (WS1) applies
-      a refreshed bundle, diff the user's favorited sessions against the previous
-      version and fire a local notification on changes (time, venue, cancellation).
-      Computed on-device: works logged-out, needs no per-user server targeting. Done
-      when rescheduling a favorited session in wp-admin notifies a test device on its
-      next sync.
+- [x] **Favorited-session change alerts (N2b)** — ✅ done 2026-08-27 (cache v61):
+      the UpdateAgent diffs favorited sessions on every applied bundle — time/venue
+      moves and cancellations produce a specific toast in the browser and a native
+      local notification on the apps. Bonus fix: the ReminderAgent now also
+      reschedules on bundle **version** changes, so a moved session's 15-minute
+      reminder follows the new time. On-device: works logged-out, no per-user
+      server targeting. Verified against the mock backend.
 - [ ] **Notification permission in context** — Ask for notification permission the
       first time it's actually useful (favoriting a session, opening alerts), never
       as a popup at first launch. Better acceptance rates, and it's what store

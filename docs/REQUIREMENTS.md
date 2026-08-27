@@ -16,6 +16,9 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
   with photo, full description.
 - ✅ Program content importable from the checkout/registration platform feed
   (`pull-program`, build-time). 📋 Runtime sync of the same feed.
+- ✅ Runtime refresh (2026-08-26): synced event bundles auto-update over the
+  internet in the background, with a quiet "Program updated" toast and offline
+  pre-caching of bundle photos.
 
 ### 1.2 Teachers
 
@@ -29,6 +32,8 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 - ✅ One-tap favorites from program, teacher cards and detail views; personal
   agenda view; stored on-device (works with no account and no connectivity).
 - ✅ Cross-device favorites sync when signed in (merge on login, safe deletions).
+- ✅ Change alerts (2026-08-27): a favorited session that moves (time/venue) or is
+  cancelled notifies on the next sync — computed on-device, no account needed.
 
 ### 1.4 Accounts
 
@@ -48,7 +53,8 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 - ✅ Server-side: official Announcements + urgent Alerts channels per event;
   staff publish from wp-admin or REST; polling API with a single cheap
   "what's new" endpoint.
-- 📋 App-side feed UI + background polling (design complete: `docs/MESSAGING.md`).
+- ✅ App-side feed UI + background polling (2026-08-27): `/announcements` feed
+  (offline once fetched) + header bell with locally tracked unread badge.
 - 📋 Push delivery of alerts (APNs/FCM) — hook already in place server-side.
 - 📋 Later phases: work-group (seva) channels, group chats, direct messages.
 
@@ -137,6 +143,6 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 ## 3. Delivery status summary
 
 Phase 1 (backend + accounts) ✅ · Phase 2 (native port) 🔧 code complete, ops
-pending · Phase 3a (announcements/alerts) server ✅ / app 📋 · Phase 3b/3c
-(groups/DMs) 📋 · Multi-event ✅ (early) · Commerce link-out ✅ decision ·
-Camp network 📋 R&D.
+pending · Phase 3a (announcements/alerts) server ✅ / app feed ✅ (push 📋) ·
+Phase 3b/3c (groups/DMs) 📋 deferred post-WSOL26 · Multi-event ✅ (early, with
+runtime refresh) · Commerce link-out ✅ decision · Camp network 📋 R&D.

@@ -11,6 +11,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { refreshSyncedEvents } from "@/lib/event-sync";
+import { notifyScheduleChanges } from "@/lib/local-notifications";
 
 const BOOT_DELAY_MS = 8_000; // let the first paint and preloader breathe
 const REFRESH_MS = 15 * 60 * 1_000;
@@ -32,9 +33,21 @@ export function UpdateAgent() {
       running.current = true;
       lastRun.current = Date.now();
       try {
-        const { activeUpdated } = await refreshSyncedEvents();
-        if (!disposed && activeUpdated) {
-          setToast("Program updated");
+        const { activeUpdated, favoriteChanges } = await refreshSyncedEvents();
+        if (favoriteChanges.length > 0) {
+          // Native local notification (no-op in the browser, where the toast covers it).
+          notifyScheduleChanges(favoriteChanges).catch(() => {});
+        }
+        const message =
+          favoriteChanges.length === 1
+            ? favoriteChanges[0]
+            : favoriteChanges.length > 1
+              ? `${favoriteChanges.length} favorited sessions changed`
+              : activeUpdated
+                ? "Program updated"
+                : null;
+        if (!disposed && message) {
+          setToast(message);
           if (hideTimer.current !== null) window.clearTimeout(hideTimer.current);
           hideTimer.current = window.setTimeout(() => setToast(null), TOAST_MS);
         }
@@ -66,7 +79,7 @@ export function UpdateAgent() {
 
   return (
     <div role="status" aria-live="polite" className="pointer-events-none fixed inset-x-0 bottom-24 z-50 flex justify-center px-4">
-      <div className="rounded-full bg-[#2f62b6] px-4 py-2 text-xs font-bold text-white shadow-lg shadow-sky-900/20">
+      <div className="max-w-sm rounded-2xl bg-[#2f62b6] px-4 py-2 text-center text-xs font-bold text-white shadow-lg shadow-sky-900/20">
         {toast}
       </div>
     </div>
