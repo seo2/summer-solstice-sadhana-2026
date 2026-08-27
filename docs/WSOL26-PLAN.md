@@ -110,10 +110,13 @@ attendee opening "Info" today would read about Ram Das Puri.
       section-card UI as today's Info Hub, stored offline. Done when a WSOL26
       attendee can read arrival, schedule basics, and camp-life guidance for
       **Florida** with no signal.
-- [ ] **Florida venue map** — Obtain or produce the venue map image for Retreats By
-      The Lake, serve it per event through the bundle, and point the existing zoomable
-      viewer (zoom buttons + pinch, 50–300%) at the active event's map. Done when the
-      Map tab shows the Florida grounds while WSOL26 is active — offline.
+- [ ] **Florida venue map** — *Backend implemented 2026-08-27
+      (`ssa_event.map_image` + Media Library picker + bundle `event.mapImage`,
+      plugin v0.5.0 working tree); app side + artwork pending.* Obtain or produce
+      the venue map image for Retreats By The Lake, serve it per event through the
+      bundle, and point the existing zoomable viewer (zoom buttons + pinch,
+      50–300%) at the active event's map. Done when the Map tab shows the Florida
+      grounds while WSOL26 is active — offline.
 - [ ] **Behavior of SSOL-specific sections** — Decide and implement what
       Summer-Solstice-only surfaces (e.g. Women's Renewal) do while WSOL26 is active:
       hidden, replaced by a WSOL equivalent, or clearly labeled as belonging to the
@@ -134,7 +137,9 @@ surface, real push delivery, and reaching devices that never sign in. Design in
       cheap `GET /updates` (boot/online/visibility/every 2 min), fetches bodies only
       for channels with news, and a bell in the global header shows the locally
       tracked unread count (works logged out; badge clears on opening the feed).
-- [ ] **Anonymous device registration (enables N1)** — Today the PushAgent registers
+- [ ] **Anonymous device registration (enables N1)** — *Server side implemented
+      2026-08-27 (plugin v0.5.0 working tree, pending owner QA); app side pending.*
+      Today the PushAgent registers
       the push token only after sign-in and unregisters on sign-out — future-event
       news would reach almost nobody. Register the device (with its notification
       preferences and last-active event) once permission is granted, account or not;
@@ -241,12 +246,11 @@ the existing content (event info, program + detail, teachers, contact). Key prop
 menu content arrives through the sync bundle, so it **doesn't gate store submission**
 — menus can land, and change daily, after the apps are already live.
 
-- [ ] **Menu content model in the bundle (`menu_day`)** — Backend: per-event,
-      per-day structured menus (meal → dishes, with dietary notes such as
-      vegan/gluten-free), editable in wp-admin like program items and included in the
-      versioned bundle. Structured rather than free text so the app can show "today's
-      meals" and staff can edit one meal without touching the rest. Done when a menu
-      edited in wp-admin flows to the app through normal sync.
+- [x] **Menu content model in the bundle (`menu_day`)** — ✅ backend done
+      2026-08-27 (plugin v0.5.0 working tree, pending owner QA): `ssa_menu_day`
+      table, "Menus" wp-admin screen, JSON Import type with dry-run, and bundle
+      `menus: [{date, meal, title, items[], notes}]`; every write bumps
+      `content_version` so the UpdateAgent picks it up.
 - [ ] **Menus UI in the app** — A "Menus" surface (Home tile + Info entry): opens on
       today's meals, with day navigation like the program's day strip; offline once
       synced; mid-event changes arrive via the UpdateAgent (WS1). Done when an

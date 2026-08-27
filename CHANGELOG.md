@@ -10,6 +10,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- `docs/BACKEND-WSOL26.md` — status PROPOSAL → **approved & implemented**
+  (2026-08-27): P1 anonymous devices + notification prefs, P2 per-event venue
+  map, P3 daily menus are coded in the 3ho.org repo working tree as plugin
+  **v0.5.0 / DB v3**, `php -l` clean (that repo's CHANGELOG has the detail;
+  owner QA + commit pending, per its rules). `docs/WSOL26-PLAN.md` annotated:
+  WS8 menu backend done; WS2 map backend done (app side + artwork pending);
+  WS3 anonymous registration server side done (app side pending).
+
 ### Added
 
 - `docs/BACKEND-WSOL26.md` — proposal (pending owner approval) for the plugin

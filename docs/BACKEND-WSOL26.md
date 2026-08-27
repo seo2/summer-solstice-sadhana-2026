@@ -1,9 +1,12 @@
 # Backend (plugin) changes proposed for the WSOL26 stage
 
-**Status: PROPOSAL — pending owner approval.** Prepared 2026-08-27 against
-`3ho-solstice-app` v0.4.0, read from source in the 3ho.org repo. Per that repo's
-rules, nothing below gets coded there until approved, and nothing gets committed
-there except by the owner. Companion to [WSOL26-PLAN.md](WSOL26-PLAN.md).
+**Status: APPROVED & IMPLEMENTED 2026-08-27** — P1/P2/P3 are coded in the
+3ho.org repo **working tree** as plugin **v0.5.0 / DB v3** (`php -l` clean on
+all six touched files; details in that repo's `CHANGELOG.md`). Per that repo's
+rules the owner QAs and commits. Owner QA list: reload wp-admin (DB v3
+auto-migrates), try the Menus screen and the Events map field, `POST /devices`
+without an Authorization header, plus the v0.4.0 QA still pending (test
+announcement + `GET /updates`). Companion to [WSOL26-PLAN.md](WSOL26-PLAN.md).
 
 Key discovery while reading the plugin: **per-event info pages already exist
 server-side** (`ssa_info_page` table, included in the sync bundle as `infoPages`)
