@@ -55,7 +55,8 @@ The piece that makes internet updates real. Today fresh content only reaches use
 baked into an app build or through the internal Sync Lab — neither works for a live
 event where the schedule changes daily.
 
-- [ ] **UpdateAgent (automatic background refresh)** — A client agent that checks the
+- [x] **UpdateAgent (automatic background refresh)** — ✅ done 2026-08-26 (cache
+      v59; verified end-to-end against a mock backend). A client agent that checks the
       WordPress backend for a newer version of the active event's content bundle
       (program, teachers, venues, categories) on app start and periodically while the
       app is open. It reuses the versioned-bundle contract the server already exposes
@@ -63,7 +64,8 @@ event where the schedule changes daily.
       writes into the local event store — so the next fully-offline session already has
       the fresh content. Done when a schedule change published in wp-admin appears on
       an attendee's phone within minutes, with zero user action.
-- [ ] **Update UX** — What the attendee experiences when content changes: a quiet
+- [x] **Update UX** — ✅ done 2026-08-26 (quiet self-dismissing "Program updated"
+      toast; silent apply through live queries). What the attendee experiences when content changes: a quiet
       "Program updated" indicator instead of a disruptive reload, silent apply in the
       background, and never any blocking of offline reading. Includes choosing the
       refresh cadence and keeping battery/data use negligible. Done when updates feel
@@ -75,7 +77,8 @@ event where the schedule changes daily.
       truth, so program changes reach the app through normal sync with **no app
       rebuilds**. Done when a program change in the checkout platform lands in the WP
       bundle without touching the app repo.
-- [ ] **Offline photos for synced events** — Teacher photos in synced bundles are
+- [x] **Offline photos for synced events** — ✅ done 2026-08-26 (photos pre-cached
+      at sync time, cross-origin included). Teacher photos in synced bundles are
       remote URLs, and the offline preloader currently only saves same-origin
       `/images/…`. Cache these photos on the device at sync time so teacher profiles
       aren't blank rectangles when the attendee is offline. Done when airplane-mode

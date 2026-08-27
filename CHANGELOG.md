@@ -12,6 +12,21 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Runtime content sync — WS1 UpdateAgent** (`src/components/update-agent.tsx` +
+  `src/lib/event-sync.ts`): a background agent refreshes every locally synced
+  event bundle over the internet — shortly after app start, when the app comes
+  back online, when the tab becomes visible, and every 15 minutes while open —
+  using the incremental `sync?event=&since=` contract. Each event refreshes
+  against its own stored base URL with a monotonic version guard (mirror-ready
+  for the 2027 camp server). When the **active** event's content changed, a quiet
+  self-dismissing "Program updated" toast appears; content applies silently via
+  the existing live queries. Bundle photos (teachers + program, cross-origin
+  WordPress media included) are **pre-cached into the offline cache at sync
+  time** — implemented with fetch+`cache.put` because `cache.add()` rejects
+  opaque responses. Verified end-to-end against a mock backend: v1→v2 update
+  with toast, `unchanged` incremental path, photo cached as opaque, updated
+  program rendering offline. Cache → v59.
+
 - `docs/FUNCIONALIDADES.md` — Spanish-language feature summary for stakeholders:
   every app capability marked as existing (✅) or new for the WSOL26 stage (🆕),
   plus what stays out of scope. Registered in `docs/INDEX.md`.

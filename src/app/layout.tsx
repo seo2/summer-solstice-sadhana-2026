@@ -11,6 +11,7 @@ import { FavoritesSyncAgent } from "@/components/favorites-sync-agent";
 import { AccountButton } from "@/components/account-button";
 import { ReminderAgent } from "@/components/reminder-agent";
 import { PushAgent } from "@/components/push-agent";
+import { UpdateAgent } from "@/components/update-agent";
 import "./globals.css";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <FavoritesSyncAgent />
           <ReminderAgent />
           <PushAgent />
+          <UpdateAgent />
           <OfflinePreloader />
           <WomensRenewalReminder />
           <BottomNav />

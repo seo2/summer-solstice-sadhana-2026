@@ -82,6 +82,16 @@ export function useSyncedEvents(): SyncedEventRecord[] {
   return useLiveQuery(() => eventDb.syncedEvents.orderBy("savedAt").reverse().toArray(), [], []);
 }
 
+/** Plain (non-hook) accessors for background agents. */
+export async function listSyncedEvents(): Promise<SyncedEventRecord[]> {
+  return eventDb.syncedEvents.toArray();
+}
+
+export async function getActiveEventSlug(): Promise<string | null> {
+  const setting = await eventDb.settings.get(ACTIVE_EVENT_KEY);
+  return setting?.value ?? null;
+}
+
 export async function removeSyncedEvent(slug: string) {
   const setting = await eventDb.settings.get(ACTIVE_EVENT_KEY);
   if (setting?.value === slug) {
