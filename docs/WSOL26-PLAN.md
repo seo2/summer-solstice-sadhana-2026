@@ -104,11 +104,12 @@ without client changes — per D3 and [LOCAL-NETWORK.md](LOCAL-NETWORK.md)):
 camp map, and Women's Renewal pages are static Summer Solstice content. A WSOL26
 attendee opening "Info" today would read about Ram Das Puri.
 
-- [ ] **Info pages per event in the sync bundle** — Backend: a per-event info-pages
-      content type included in the bundle; app: render synced info pages with the same
-      section-card UI as today's Info Hub, stored offline. Done when a WSOL26 attendee
-      can read arrival, schedule basics, and camp-life guidance for **Florida** with no
-      signal.
+- [ ] **Info pages per event in the sync bundle** — Backend part **already live**
+      (discovered 2026-08-27 reading the plugin: `ssa_info_page` table ships in the
+      bundle as `infoPages`); what remains is app-side rendering with the same
+      section-card UI as today's Info Hub, stored offline. Done when a WSOL26
+      attendee can read arrival, schedule basics, and camp-life guidance for
+      **Florida** with no signal.
 - [ ] **Florida venue map** — Obtain or produce the venue map image for Retreats By
       The Lake, serve it per event through the bundle, and point the existing zoomable
       viewer (zoom buttons + pinch, 50–300%) at the active event's map. Done when the

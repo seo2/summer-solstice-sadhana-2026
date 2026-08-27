@@ -12,6 +12,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- `docs/BACKEND-WSOL26.md` — proposal (pending owner approval) for the plugin
+  changes the remaining WSOL26 workstreams need, written against v0.4.0 source:
+  P1 anonymous device registration + notification preferences with the push
+  audience model (WS3/N1), P2 per-event venue map (`ssa_event.map_image`, WS2),
+  P3 daily menus (`ssa_menu_day` table + admin + bundle field, WS8) — shipping
+  together as plugin v0.5.0 / DB v3. Documents the discovery that per-event
+  **info pages already exist server-side** (bundle `infoPages`), so WS2
+  app-side rendering is unblocked without plugin changes (noted in
+  `docs/WSOL26-PLAN.md`). Registered in `docs/INDEX.md`.
+
 - **Favorited-session change alerts — WS3 N2b**: when the UpdateAgent applies a
   refreshed bundle, it diffs the user's favorited sessions against the previous
   version — a move in time and/or venue or a cancellation produces a specific
