@@ -23,6 +23,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Local WordPress QA environment stood up and v0.5.0 verified end-to-end**
+  (2026-08-28): plugin activated locally (DB v3 migrated — `ssa_menu_day`,
+  `map_image`/`feed_slug`, device pref columns all present), both seeds loaded,
+  test menus/map/broadcasts created, and the app run against it via
+  `wp server` on `127.0.0.1:8080` (3ho.test's TLS currently hangs). Verified in
+  the browser: bundle with menus + mapImage, bell badge → announcements feed
+  from real WordPress, Menus opening on "Today", per-event map, anonymous
+  `POST /devices` storing prefs, and the P4 feed sync against the production
+  checkout feed with the hash gate ("Feed unchanged" on re-run).
+  `docs/TESTING-LOCAL.md` Level C rewritten to match the real setup.
 - **P4 checkout-feed pipeline approved & implemented** (2026-08-27, plugin
   v0.5.0 working tree in the 3ho.org repo, `php -l` clean): hourly cron +
   per-event "Sync feed now" pull the checkout presenter bundle into the

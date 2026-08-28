@@ -50,21 +50,41 @@ Walkthrough:
 
 ## Level C — App + real WordPress (plugin v0.5.0)
 
-The plugin lives in the 3ho.org repo (network volume) and runs locally at
-`https://3ho.test`. One-time: reload wp-admin so the DB v3 migration runs.
+The plugin lives in the 3ho.org repo (network volume). **State as of
+2026-08-28**: the plugin is ACTIVE locally, DB v3 migrated, and two events are
+seeded — `summer-solstice-2026` (full content, 34 info pages) and
+`winter-solstice-2025` (test event with menus, a venue map, one announcement,
+one alert, and `feed_slug=wsol26` for the P4 pipeline).
 
-1. In wp-admin (Solstice App menu): create/seed an event, add program items,
-   post an Announcement, add Menus, set a Venue map image, and optionally set
-   the event's **Checkout feed slug** + "Sync feed now" (P4).
-2. In the app: /sync-lab → base URL `https://3ho.test` → fetch + activate.
-   The override persists (localStorage) and every agent (UpdateAgent,
-   AlertsAgent, accounts, devices) uses it via `src/lib/backend.ts`.
-3. Edit content in wp-admin (`content_version` bumps on save) and watch the
-   app pick it up on the next tick — or reload to trigger the boot tick.
+`https://3ho.test` currently hangs on port 443 (nginx listens but never
+answers) — instead of touching that setup, serve WordPress with its built-in
+server:
+
+```bash
+cd "/Volumes/3HO/99 - Sites/3ho" && wp server --host=127.0.0.1 --port=8080
+```
+
+Then in the app (`npm run dev -- -p 3011`): /sync-lab → base URL
+`http://127.0.0.1:8080` → fetch `winter-solstice-2025` → activate from Home.
+The override persists (localStorage) and every agent (UpdateAgent,
+AlertsAgent, accounts, devices) uses it via `src/lib/backend.ts`.
+
+Useful loops:
+
+- Edit content in wp-admin — the local admin lives under the same server:
+  http://127.0.0.1:8080/wp-admin → Solstice App menu (Program, Menus,
+  Announcements, Events with map + feed fields). Every save bumps
+  `content_version`; the app picks it up on the next tick or reload.
+- Seed from CLI: `wp ssa seed --dir=wp-content/plugins/3ho-solstice-app/seeds/<dir> --event=<slug>`.
+- Feed pipeline: Events screen → "Sync feed now" (hash-gated; re-running with
+  no feed change reports "Feed unchanged").
 
 CORS: the plugin allowlist includes `http://localhost:<any port>` and the
 Capacitor origins. The full v0.5.0 owner-QA checklist is in the 3ho.org repo's
-`CHANGELOG.md`.
+`CHANGELOG.md`. Verified end-to-end 2026-08-28: sync bundle with
+menus/mapImage, `/updates` badge → announcements feed, anonymous
+`POST /devices` (row lands with prefs/event/app_version), and P4 against the
+production checkout feed (second run: "Feed unchanged").
 
 ## Level D — Native apps (simulator)
 
