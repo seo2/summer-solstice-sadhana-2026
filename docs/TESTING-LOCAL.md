@@ -72,7 +72,7 @@ AlertsAgent, accounts, devices) uses it via `src/lib/backend.ts`.
 Useful loops:
 
 - Edit content in wp-admin — the local admin lives under the same server:
-  http://127.0.0.1:8080/wp-admin → Solstice App menu (Program, Menus,
+  http://127.0.0.1:8080/wp-admin → Event App menu (Program, Menus,
   Announcements, Events with map + feed fields). Every save bumps
   `content_version`; the app picks it up on the next tick or reload.
 - Seed from CLI: `wp ssa seed --dir=wp-content/plugins/3ho-solstice-app/seeds/<dir> --event=<slug>`.

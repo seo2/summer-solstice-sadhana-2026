@@ -23,6 +23,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Backend plugin UI renamed: "Solstice App" → "Event App"** (2026-08-28): the
+  wp-admin menu, the eight screen headings, ACF block descriptions and the plugin
+  name itself now read *Event App* — the backend publishes any 3HO event, not only
+  Solstice. Labels only: screen slugs, REST namespace `3ho-solstice/v1`, the
+  `{prefix}ssa_*` tables, block names and the `[ssa_program]`/`[ssa_teachers]`
+  shortcodes are untouched, so no app-side change is needed. Docs updated
+  (`docs/HANDOFF.md`, `docs/TESTING-LOCAL.md`). Backend + docs only — no cache bump.
+
 - **Local WordPress QA environment stood up and v0.5.0 verified end-to-end**
   (2026-08-28): plugin activated locally (DB v3 migrated — `ssa_menu_day`,
   `map_image`/`feed_slug`, device pref columns all present), both seeds loaded,

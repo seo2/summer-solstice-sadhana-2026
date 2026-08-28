@@ -51,7 +51,7 @@ Everything below is merged and on GitHub:
   `channels/{id}/messages?since=`, combined `updates` poll. Public-read broadcasts;
   staff-only posting; `threeho_ssa_broadcast_posted` hook for future push delivery.
 - Multi-event MySQL schema `{prefix}ssa_*` (DB v2 adds channel/member/message).
-- wp-admin **Solstice App** menu: Program (with day/category/location/facilitator
+- wp-admin **Event App** menu: Program (with day/category/location/facilitator
   filters), Teachers, Events CRUD, Import (JSON upsert + dry run), Announcements,
   Settings. Media Library picker for photos.
 - Website **blocks + shortcodes** (`[ssa_program]`, `[ssa_teachers]`) rendering from
@@ -88,7 +88,7 @@ Everything below is merged and on GitHub:
 - Plugin CORS allows `http://localhost:<any-port>` and Capacitor origins.
 - Teachers link to program by **exact facilitator string** (`facilitatorNames`).
 - Photos policy: WordPress Media Library URLs; app-relative paths from seeds resolve
-  via the legacy media base URL (Solstice App → Settings).
+  via the legacy media base URL (Event App → Settings).
 - The website CSS defends against theme/Bootstrap `<button>` styling with
   `!important` (documented exception); `.ssa-app` caps width at 48rem — overlays
   must override it (see `.ssa-app.ssa-modal-overlay`).
