@@ -19,6 +19,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [../CLAUDE.md](../CLAUDE.md) | Agent/contributor guidance: rules, git workflow, changelog & docs discipline, checklists |
 | [../AGENTS.md](../AGENTS.md) | Next.js 15 warning for agents (read the bundled docs before Next changes) |
 | [../CHANGELOG.md](../CHANGELOG.md) | Notable changes, Keep-a-Changelog format |
+| [TESTING-LOCAL.md](TESTING-LOCAL.md) | How to test the app locally: alone, against the mock backend, against local WordPress, and in simulators |
 
 ## Planning & architecture
 

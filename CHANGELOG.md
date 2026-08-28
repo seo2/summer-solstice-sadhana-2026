@@ -10,6 +10,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **Local testing kit**: `npm run mock-backend` (`scripts/mock-backend.mjs`,
+  promoted from the session mock used to verify WS1/WS3/WS2/WS8) fakes the
+  plugin's REST contract — bundle v1→v2 with a favorited-session move,
+  announcements/alerts with a `/mock/post` publisher, per-event info pages,
+  venue map SVG, and menus — plus `docs/TESTING-LOCAL.md`, a four-level guide
+  (app alone · mock backend · local WordPress `3ho.test` · simulators, with
+  the Android-emulator `10.0.2.2` note). Registered in `docs/INDEX.md`.
+  Dev tooling only — no cache bump.
+
 ### Changed
 
 - **P4 checkout-feed pipeline approved & implemented** (2026-08-27, plugin

@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "cap:sync": "npm run build && npx cap sync",
     "pull-program": "node scripts/pull-program.mjs",
-    "trello-import": "node scripts/trello-import.mjs"
+    "trello-import": "node scripts/trello-import.mjs",
+    "mock-backend": "node scripts/mock-backend.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.2",
