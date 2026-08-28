@@ -35,7 +35,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [REQUIREMENTS.md](REQUIREMENTS.md) | Features & technical requirements for the native (iOS/Android) version — stakeholder-ready |
 | [HANDOFF.md](HANDOFF.md) | Project handoff: state of both repos, pending QA, working knowledge, first-session checklist |
 | [WSOL26-PLAN.md](WSOL26-PLAN.md) | Next-stage plan for Winter Solstice 2026 (Florida): decisions, workstreams with per-task explanations, timeline; local network out of scope |
-| [BACKEND-WSOL26.md](BACKEND-WSOL26.md) | Proposed plugin changes for the WSOL26 stage (v0.5.0/DB v3): anonymous devices + notification prefs, per-event venue map, menus |
+| [BACKEND-WSOL26.md](BACKEND-WSOL26.md) | Plugin changes for the WSOL26 stage (v0.5.0/DB v3): anonymous devices + prefs, venue map, menus (implemented); checkout-feed pipeline (P4, proposed) |
 | [WSOL26-TRELLO.md](WSOL26-TRELLO.md) | Trello card export of the WSOL26 plan: one card per workstream with description and checklists |
 | [FUNCIONALIDADES.md](FUNCIONALIDADES.md) | Spanish-language feature summary: what exists (✅) vs new for WSOL26 (🆕), stakeholder-friendly |
 

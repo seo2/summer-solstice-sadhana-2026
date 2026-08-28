@@ -12,6 +12,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- `docs/BACKEND-WSOL26.md` — **P4 proposal** (pending owner approval): the
+  checkout-feed → WordPress pipeline that closes WS1. Pull-based on 3ho.org
+  (`ssa_event.feed_slug` riding the same DB v3, hourly WP-cron + "Sync feed
+  now" button, configurable checkout base), merge semantics identical to
+  `pull-program.mjs` (feed owns only `presenter-*` rows with soft-deletes so
+  change alerts report cancellations; curated teacher content always wins),
+  hash-gated `content_version` bumps so polling never spams client refetches.
+  No app changes needed — content flows through the normal bundle sync.
+
 - **Anonymous push registration + notification preferences — WS3 N1 app side**
   (cache v63, pairs with plugin v0.5.0): the PushAgent no longer waits for
   sign-in — it registers on app start whenever the OS permission is already

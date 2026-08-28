@@ -1,6 +1,7 @@
 # Backend (plugin) changes proposed for the WSOL26 stage
 
-**Status: APPROVED & IMPLEMENTED 2026-08-27** — P1/P2/P3 are coded in the
+**Status: P1–P3 APPROVED & IMPLEMENTED 2026-08-27 · P4 PROPOSED (pending
+approval).** P1/P2/P3 are coded in the
 3ho.org repo **working tree** as plugin **v0.5.0 / DB v3** (`php -l` clean on
 all six touched files; details in that repo's `CHANGELOG.md`). Per that repo's
 rules the owner QAs and commits. Owner QA list: reload wp-admin (DB v3
@@ -76,6 +77,54 @@ JSON Import screen / seeds.)*
 4. **Version bump** — menu (and info-page/event) edits must bump the event's
    `content_version` so the app's UpdateAgent picks them up; verify the
    existing bump mechanics cover the new write paths.
+
+## P4 — Checkout feed → WordPress pipeline (WS1 · D3) — **PROPOSAL, pending approval**
+
+**Goal:** the registration platform (register.3ho.org, plugin `3ho-tickets`)
+publishes the Teacher & Musician program at
+`GET /wp-json/wsol/v1/presenter/bundle?event={slug}`. Today the app imports it
+at **build time** (`scripts/pull-program.mjs`) — a schedule change requires an
+app rebuild. This pipeline moves the import **server-side into 3ho.org**, so
+feed changes flow to attendees through the normal bundle sync (UpdateAgent),
+with zero rebuilds. Pull-based: **no changes needed on the checkout platform.**
+
+1. **New `includes/class-ssa-feed.php`** — fetch + map + upsert.
+2. **Config**: `ssa_event.feed_slug` VARCHAR(191) NULL (null = no feed for that
+   event) — rides the **same DB v3 migration**, since v0.5.0 is still
+   uncommitted; field on the Events screen. Global option
+   `threeho_ssa_checkout_base` (default `https://register.3ho.org`) in Settings.
+3. **Triggers**: WP-cron hourly over every event with a `feed_slug`
+   (interval filterable), plus a **"Sync feed now"** button in wp-admin.
+4. **Merge semantics — identical to `pull-program.mjs`** (the feed only owns
+   what it created; curated content always wins):
+   - *Program*: rows with id `presenter-*` are feed-owned — upsert all feed
+     rows, **soft-delete** feed-owned rows that left the feed (so the app's
+     favorited-session change alerts correctly report cancellations). Stable
+     ids preserve favorites across reschedules.
+   - *Teachers*: match by id or facilitator name (case-insensitive against
+     `facilitator_names`); fill **empty** fields only (bio, photo, country;
+     append the feed name to `facilitator_names` when missing); append unknown
+     presenters.
+   - *Venues / categories*: append missing ids only.
+   - *Photos*: v1 keeps the checkout platform's URLs (the app pre-caches
+     remote photos at sync time since WS1); a later opt-in can sideload them
+     into the 3ho.org Media Library for 2027 mirror-friendliness.
+5. **Change detection**: hash the normalized mapped payload per event
+   (`threeho_ssa_feed_hash_{slug}` option) — write + `bump_content_version()`
+   **only when something actually changed**, so hourly polling never spams
+   version bumps or client refetches. Last-run status (time, result, counts)
+   stored and shown in wp-admin.
+6. **Failure handling**: fetch/shape errors keep the last content untouched,
+   record the status, and retry on the next cron (15 s timeout, response
+   validated before any DB write).
+7. **App repo impact: none** — content arrives via the bundle.
+   `pull-program.mjs` remains a dev/build-time tool for the built-in event;
+   `docs/TEACHERS.md` gets a note that the WSOL26 flow is server-side.
+
+Owner QA when implemented: set `feed_slug=wsol26` on the WSOL26 event → "Sync
+feed now" → presenter rows appear and `content_version` bumps → re-run → **no**
+bump (hash unchanged) → change something in the checkout program → re-run →
+bump, and the app picks it up on its next sync.
 
 ## Rollout
 
