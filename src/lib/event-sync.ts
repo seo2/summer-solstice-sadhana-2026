@@ -119,6 +119,9 @@ export async function warmBundlePhotos(bundle: SyncedBundle) {
   };
   bundle.teachers.forEach(collect);
   bundle.program.forEach(collect);
+  if (typeof bundle.event.mapImage === "string" && bundle.event.mapImage) {
+    urls.add(bundle.event.mapImage);
+  }
   if (urls.size === 0) return;
 
   const cache = await caches.open(CACHE_NAME);

@@ -71,8 +71,13 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 ### 1.8 Info & camp life
 
 - ✅ Offline Info Hub (camp guide from the booklet) and zoomable camp map.
+- ✅ Per-event info & map (2026-08-27): a synced event shows its own info pages
+  and its own zoomable venue map (or a venue list until one is published) —
+  never the wrong campground's guide.
 - ✅ Contact form with offline outbox (sends when connectivity returns).
-- 📋 Daily menus / yogi diet content (second instance, per roadmap).
+- ✅ Daily menus UI (2026-08-27): per-day meals with dietary notes, offline,
+  fed by the backend `menu_day` model. 📋 Real menu content + yogi-diet
+  guidance texts (content team).
 
 ### 1.9 Content administration (staff-facing)
 

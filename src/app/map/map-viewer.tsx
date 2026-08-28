@@ -30,7 +30,27 @@ const featuredVenues = [11, 10, 2, 5, 4]
   .map((number) => mapLegend.find((item) => item.number === number))
   .filter((item): item is (typeof mapLegend)[number] => Boolean(item));
 
-export function MapViewer() {
+const BUILTIN_SRC = "/images/camp-map.png";
+
+type MapViewerProps = {
+  /** Map image URL — defaults to the built-in Ram Das Puri map. */
+  src?: string;
+  alt?: string;
+  eyebrow?: string;
+  title?: string;
+};
+
+export function MapViewer({
+  src = BUILTIN_SRC,
+  alt = "Camp map for Summer Solstice 2026",
+  eyebrow = "Ram Das Puri",
+  title = "Camp orientation",
+}: MapViewerProps = {}) {
+  // The legend (numbered pins with pixel coordinates) only applies to the
+  // built-in map; synced event maps are plain zoomable images measured on load.
+  const isBuiltin = src === BUILTIN_SRC;
+  const legend = isBuiltin ? mapLegend : [];
+  const [dims, setDims] = useState({ w: MAP_WIDTH, h: MAP_HEIGHT });
   const [zoom, setZoom] = useState(1);
   const [showLegend, setShowLegend] = useState(false);
   const [selectedVenue, setSelectedVenue] = useState<number | null>(null);
@@ -58,15 +78,15 @@ export function MapViewer() {
     setZoom(z);
   };
 
-  const scaledWidth = Math.round(MAP_WIDTH * zoom);
-  const scaledHeight = Math.round(MAP_HEIGHT * zoom);
-  const selectedItem = mapLegend.find((item) => item.number === selectedVenue);
+  const scaledWidth = Math.round(dims.w * zoom);
+  const scaledHeight = Math.round(dims.h * zoom);
+  const selectedItem = legend.find((item) => item.number === selectedVenue);
 
   const getFitZoom = () => {
     const el = containerRef.current;
     if (!el) return 1;
-    const fitWidth = (el.clientWidth - 16) / MAP_WIDTH;
-    const fitHeight = (el.clientHeight - 16) / MAP_HEIGHT;
+    const fitWidth = (el.clientWidth - 16) / dims.w;
+    const fitHeight = (el.clientHeight - 16) / dims.h;
     return clamp(Math.min(fitWidth, fitHeight), MIN_ZOOM, MAX_ZOOM);
   };
 
@@ -95,7 +115,7 @@ export function MapViewer() {
     const el = containerRef.current;
     if (!el) return;
     const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
-    setZoomAndScroll(z, (MAP_WIDTH * z - el.clientWidth) / 2, (MAP_HEIGHT * z - el.clientHeight) / 2, behavior);
+    setZoomAndScroll(z, (dims.w * z - el.clientWidth) / 2, (dims.h * z - el.clientHeight) / 2, behavior);
   };
 
   const fitMap = (behavior: ScrollBehavior = "smooth") => {
@@ -115,7 +135,8 @@ export function MapViewer() {
     );
   };
 
-  // Open in an overview state so the user sees the whole camp before zooming into details.
+  // Open in an overview state so the user sees the whole camp before zooming
+  // into details. Re-fits when a synced map's real dimensions arrive on load.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -123,7 +144,7 @@ export function MapViewer() {
       fitMap("auto");
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [dims.w, dims.h]);
 
   // After every zoom state update: apply pending pinch scroll or preserve button-zoom center.
   // useLayoutEffect runs before paint so scroll is set while the new image dimensions are live.
@@ -210,8 +231,8 @@ export function MapViewer() {
         <div className="border-b border-sky-900/10 bg-linear-to-r from-sky-50 via-white to-orange-50 px-3 py-3 sm:px-4">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#f39200]">Ram Das Puri</p>
-              <h2 className="mt-0.5 text-lg font-black leading-tight text-slate-950">Camp orientation</h2>
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#f39200]">{eyebrow}</p>
+              <h2 className="mt-0.5 text-lg font-black leading-tight text-slate-950">{title}</h2>
             </div>
             <div className="inline-flex h-10 min-w-16 items-center justify-center rounded-full bg-white px-3 text-sm font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-900/10">
               {Math.round(zoom * 100)}%
@@ -237,17 +258,19 @@ export function MapViewer() {
               <RotateCcw className="h-3.5 w-3.5" />
               Reset
             </button>
-            <button
-              type="button"
-              onClick={() => setShowLegend(true)}
-              className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
-            >
-              <List className="h-3.5 w-3.5" />
-              All venues
-            </button>
+            {legend.length > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowLegend(true)}
+                className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
+              >
+                <List className="h-3.5 w-3.5" />
+                All venues
+              </button>
+            )}
           </div>
-          <div className="no-scrollbar mt-3 flex gap-2 overflow-x-auto pb-1">
-            {featuredVenues.map((item) => (
+          <div className={`no-scrollbar mt-3 gap-2 overflow-x-auto pb-1 ${legend.length > 0 ? "flex" : "hidden"}`}>
+            {(legend.length > 0 ? featuredVenues : []).map((item) => (
               <button
                 key={item.number}
                 type="button"
@@ -282,13 +305,19 @@ export function MapViewer() {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/camp-map.png"
-                alt="Camp map for Summer Solstice 2026"
+                src={src}
+                alt={alt}
                 width={scaledWidth}
                 height={scaledHeight}
                 className="absolute inset-0 max-w-none"
+                onLoad={(event) => {
+                  const img = event.currentTarget;
+                  if (!isBuiltin && img.naturalWidth > 0 && (img.naturalWidth !== dims.w || img.naturalHeight !== dims.h)) {
+                    setDims({ w: img.naturalWidth, h: img.naturalHeight });
+                  }
+                }}
               />
-              {mapLegend.map((item) => (
+              {legend.map((item) => (
                 <button
                   key={item.number}
                   type="button"
@@ -369,7 +398,7 @@ export function MapViewer() {
       </div>
 
       {/* Legend modal */}
-      {showLegend && (
+      {showLegend && legend.length > 0 && (
         <div
           className="fixed inset-0 z-60 flex items-end justify-center bg-stone-950/40 backdrop-blur-sm"
           onClick={() => setShowLegend(false)}

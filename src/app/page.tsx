@@ -4,6 +4,7 @@ import { ArrowRight, CalendarDays, GraduationCap, Heart, Info, Map, MessageCircl
 import { InstallHint } from "@/components/install-hint";
 import { ActiveEventBanner } from "@/components/active-event-banner";
 import { EventSwitcher } from "@/components/event-switcher";
+import { MenusTile } from "@/components/menus-tile";
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
@@ -104,6 +105,7 @@ export default function Home() {
             </Link>
           );
         })}
+        <MenusTile />
       </section>
     </div>
   );

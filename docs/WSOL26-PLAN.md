@@ -104,19 +104,19 @@ without client changes — per D3 and [LOCAL-NETWORK.md](LOCAL-NETWORK.md)):
 camp map, and Women's Renewal pages are static Summer Solstice content. A WSOL26
 attendee opening "Info" today would read about Ram Das Puri.
 
-- [ ] **Info pages per event in the sync bundle** — Backend part **already live**
-      (discovered 2026-08-27 reading the plugin: `ssa_info_page` table ships in the
-      bundle as `infoPages`); what remains is app-side rendering with the same
-      section-card UI as today's Info Hub, stored offline. Done when a WSOL26
-      attendee can read arrival, schedule basics, and camp-life guidance for
-      **Florida** with no signal.
-- [ ] **Florida venue map** — *Backend implemented 2026-08-27
-      (`ssa_event.map_image` + Media Library picker + bundle `event.mapImage`,
-      plugin v0.5.0 working tree); app side + artwork pending.* Obtain or produce
-      the venue map image for Retreats By The Lake, serve it per event through the
-      bundle, and point the existing zoomable viewer (zoom buttons + pinch,
-      50–300%) at the active event's map. Done when the Map tab shows the Florida
-      grounds while WSOL26 is active — offline.
+- [x] **Info pages per event in the sync bundle** — ✅ done 2026-08-27 (cache v62):
+      backend was already live (`ssa_info_page` → bundle `infoPages`); the app now
+      renders the active synced event's info pages offline (collapsible cards,
+      paragraphs + bullet lists) and never shows the built-in Ram Das Puri guide
+      while a synced event is active (empty state when nothing published yet).
+      Real WSOL26 texts are a WS7 content task.
+- [ ] **Florida venue map** — *Backend done 2026-08-27 (`ssa_event.map_image` +
+      picker + bundle `event.mapImage`); app side done 2026-08-27 (cache v62): the
+      zoomable viewer now takes the active event's map (dimensions measured on
+      load, pre-cached offline at sync time; legend pins stay built-in-only), with
+      a venue-list fallback when no map is published. Built-in map verified
+      untouched.* Remaining: the real **Retreats By The Lake map artwork** (WS7
+      content task) — then this closes.
 - [ ] **Behavior of SSOL-specific sections** — Decide and implement what
       Summer-Solstice-only surfaces (e.g. Women's Renewal) do while WSOL26 is active:
       hidden, replaced by a WSOL equivalent, or clearly labeled as belonging to the
@@ -251,14 +251,15 @@ menu content arrives through the sync bundle, so it **doesn't gate store submiss
       table, "Menus" wp-admin screen, JSON Import type with dry-run, and bundle
       `menus: [{date, meal, title, items[], notes}]`; every write bumps
       `content_version` so the UpdateAgent picks it up.
-- [ ] **Menus UI in the app** — A "Menus" surface (Home tile + Info entry): opens on
-      today's meals, with day navigation like the program's day strip; offline once
-      synced; mid-event changes arrive via the UpdateAgent (WS1). Done when an
-      attendee checks tomorrow's breakfast with no signal.
+- [x] **Menus UI in the app** — ✅ done 2026-08-27 (cache v62): `/menus` with day
+      chips (opens on today when in range), meal cards in breakfast→lunch→dinner→
+      snack order, dish lists and dietary-note badges; offline from the local
+      store; a Home "Menus" tile appears only when the active event has menu
+      content. Mid-event changes arrive via the UpdateAgent.
 - [ ] **Nutrition & yogi-diet guidance** — Editorial content explaining the solstice
-      diet and its intent; rides the WS2 per-event info-pages machinery (or shared
-      pages, since the guidance applies to every event). Done when the guidance
-      renders offline with the Info Hub's section-card UI.
+      diet and its intent; **machinery ready** (rides the per-event info pages,
+      which now render in the app) — what remains is writing the guidance texts
+      (WS7/WS8 content task).
 - [ ] **WSOL26 menu content** — The kitchen/production team writes the real menus
       for December 15–21 plus dietary notes (content task, parallel with WS7). Done
       when real menus are loaded in WordPress and verified on device.

@@ -22,12 +22,25 @@ export type SyncedBundle = {
     location?: string;
     timezone?: string;
     status?: string;
+    mapImage?: string | null;
   };
   program: Record<string, unknown>[];
   teachers: Record<string, unknown>[];
   venues: { id: string; name: string; description?: string }[];
   categories: { id: string; name: string }[];
   infoPages?: { id: string; title: string; content?: string }[];
+  menus?: Record<string, unknown>[];
+};
+
+export type SyncedInfoPage = { id: string; title: string; content: string };
+
+export type MenuDay = {
+  id: string;
+  date: string;
+  meal: "breakfast" | "lunch" | "dinner" | "snack";
+  title?: string;
+  items: string[];
+  notes?: string;
 };
 
 export type SyncedEventRecord = {
@@ -184,4 +197,41 @@ export function bundleVenues(bundle: SyncedBundle): Venue[] {
 
 export function bundleCategories(bundle: SyncedBundle): Category[] {
   return bundle.categories.map((category) => ({ id: category.id, name: category.name }));
+}
+
+export function bundleInfoPages(bundle: SyncedBundle): SyncedInfoPage[] {
+  const pages: SyncedInfoPage[] = [];
+  for (const raw of bundle.infoPages ?? []) {
+    const id = str(raw.id);
+    const title = str(raw.title);
+    const content = typeof raw.content === "string" ? raw.content : "";
+    if (!id || !title) continue;
+    pages.push({ id, title, content });
+  }
+  return pages;
+}
+
+const MEALS = new Set(["breakfast", "lunch", "dinner", "snack"]);
+
+export function bundleMenus(bundle: SyncedBundle): MenuDay[] {
+  const menus: MenuDay[] = [];
+  for (const raw of bundle.menus ?? []) {
+    const id = str(raw.id);
+    const date = str(raw.date);
+    const meal = str(raw.meal);
+    if (!id || !date || !meal || !MEALS.has(meal)) continue;
+    menus.push({
+      id,
+      date,
+      meal: meal as MenuDay["meal"],
+      title: str(raw.title),
+      items: strArray(raw.items) ?? [],
+      notes: str(raw.notes),
+    });
+  }
+  return menus;
+}
+
+export function bundleMapImage(bundle: SyncedBundle): string | undefined {
+  return typeof bundle.event.mapImage === "string" && bundle.event.mapImage ? bundle.event.mapImage : undefined;
 }

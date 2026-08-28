@@ -10,6 +10,26 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **Synced-event content surfaces — WS2 + WS8 app side** (cache v62), all
+  offline-first from the local event store and verified end-to-end against a
+  mock of the v0.5.0 bundle:
+  - **Per-event Info Hub**: while a synced event is active, `/info` renders the
+    event's own `infoPages` (collapsible cards; paragraphs + bullet lists from
+    wp-admin-authored text) instead of the built-in Ram Das Puri booklet, with
+    an empty state until the event team publishes. Built-in Info Hub unchanged
+    otherwise.
+  - **Per-event venue map**: the zoomable MapViewer now accepts any map image
+    (`event.mapImage`, pre-cached offline at sync time, dimensions measured on
+    load); legend pins remain built-in-only; a synced event without a map shows
+    its venue list instead of the wrong campground. Built-in map + zoom
+    verified intact (fit, ±25% steps).
+  - **Menus** (`/menus`): day chips opening on today, meal cards in
+    breakfast→lunch→dinner→snack order with dish lists and dietary-note badges,
+    fed by the bundle's `menus`; a Home "Menus" tile appears only when the
+    active event has menu content. Route registered in the offline preloader.
+
 ### Changed
 
 - `docs/BACKEND-WSOL26.md` — status PROPOSAL → **approved & implemented**

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import { AppLink as Link } from "@/components/app-link";
 import { BookOpen, CalendarDays, ChevronDown, ChevronRight, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Smartphone, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
+import { SyncedInfoGate } from "@/components/synced-info";
 import type { InfoPage } from "@/lib/types";
 
 type InfoGroup = {
@@ -551,6 +552,7 @@ function SectionCard({ section }: { section: InfoSection }) {
 
 export default function InfoPage() {
   return (
+    <SyncedInfoGate>
     <div className="space-y-5">
       <section className="relative overflow-hidden rounded-xl bg-[#2f62b6] p-5 text-white shadow-xl">
         <div className="absolute -right-12 -top-14 h-36 w-36 rounded-full bg-white/20 blur-3xl" />
@@ -640,5 +642,6 @@ export default function InfoPage() {
       </section>
 
     </div>
+    </SyncedInfoGate>
   );
 }
