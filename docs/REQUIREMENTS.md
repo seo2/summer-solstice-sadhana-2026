@@ -63,8 +63,10 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 - ✅ iOS and Android projects building from the same web codebase (Capacitor).
 - ✅ Agenda reminders: local notification 15 minutes before each favorited
   session — fully offline, no server needed.
-- 🔧 Push notifications: device registration built end-to-end; requires APNs key
-  (Apple) and Firebase project (Android) to go live.
+- 🔧 Push notifications: device registration built end-to-end — since 2026-08-27
+  anonymous-capable (no account needed) with local notification preferences
+  (alerts on by default, future-event news opt-in). Requires APNs key (Apple)
+  and Firebase project (Android) to go live.
 - 📋 Home-screen widget and lock-screen "up next" (native modules, later phase).
 - 📋 App Store / Play Store listings and review submission.
 

@@ -10,6 +10,7 @@
 import { useEffect, useState } from "react";
 import { Megaphone, RefreshCw, TriangleAlert } from "lucide-react";
 import { ActiveEventBanner } from "@/components/active-event-banner";
+import { NotificationPrefsCard } from "@/components/notification-prefs";
 import { useActiveSyncedEvent } from "@/lib/event-store";
 import {
   broadcastContext,
@@ -127,6 +128,8 @@ export default function AnnouncementsPage() {
           ))}
         </div>
       )}
+
+      <NotificationPrefsCard />
     </div>
   );
 }

@@ -12,6 +12,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Anonymous push registration + notification preferences — WS3 N1 app side**
+  (cache v63, pairs with plugin v0.5.0): the PushAgent no longer waits for
+  sign-in — it registers on app start whenever the OS permission is already
+  granted, re-registers on sign-in/sign-out (sign-out now keeps the device
+  reachable **anonymously** instead of unregistering) and on active-event
+  changes, sending `prefs {news, alerts}`, the active event slug, and the app
+  version. New **Notifications card** on the Announcements screen with two
+  locally persisted toggles — "Event alerts" (default on) and "News about
+  future events" (default OFF, store-compliant opt-in); turning a toggle on is
+  the in-context moment for the OS permission prompt. Toggle persistence
+  verified in the browser; native registration/delivery QA happens on device
+  with APNs/FCM (WS4).
+
 - **Synced-event content surfaces — WS2 + WS8 app side** (cache v62), all
   offline-first from the local event store and verified end-to-end against a
   mock of the v0.5.0 bundle:

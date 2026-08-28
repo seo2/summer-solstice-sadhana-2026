@@ -137,18 +137,23 @@ surface, real push delivery, and reaching devices that never sign in. Design in
       cheap `GET /updates` (boot/online/visibility/every 2 min), fetches bodies only
       for channels with news, and a bell in the global header shows the locally
       tracked unread count (works logged out; badge clears on opening the feed).
-- [ ] **Anonymous device registration (enables N1)** — *Server side implemented
-      2026-08-27 (plugin v0.5.0 working tree, pending owner QA); app side pending.*
-      Today the PushAgent registers
+- [x] **Anonymous device registration (enables N1)** — ✅ app + server done
+      2026-08-27 (cache v63; server in plugin v0.5.0 working tree): the PushAgent
+      now registers on app start when the OS permission is already granted —
+      account or not — re-registers on sign-in/sign-out (sign-out keeps the device
+      reachable anonymously) and on active-event changes, sending prefs + event +
+      app version. End-to-end delivery QA needs a physical device with APNs/FCM
+      (WS4). Previously the PushAgent registered
       the push token only after sign-in and unregisters on sign-out — future-event
       news would reach almost nobody. Register the device (with its notification
       preferences and last-active event) once permission is granted, account or not;
       backend `devices` endpoint accepts account-less registrations. Done when a
       fresh install with no account is reachable by an "all devices" send.
-- [ ] **Notification preferences** — Simple in-app toggles: "News about future
-      events" (N1) and "Event alerts" (N3), stored with the device registration.
-      Marketing-style pushes must be opt-in/opt-out-able for store policy and basic
-      courtesy. Done when toggling off provably stops that category.
+- [x] **Notification preferences** — ✅ done 2026-08-27 (cache v63): "Event
+      alerts" (default on) and "News about future events" (default OFF — opt-in)
+      toggles on the Announcements screen, persisted locally and sent with every
+      device registration; verified persistence in the browser. The
+      "provably stops delivery" check runs with the real sender (WS4/WS5 QA).
 - [x] **Favorited-session change alerts (N2b)** — ✅ done 2026-08-27 (cache v61):
       the UpdateAgent diffs favorited sessions on every applied bundle — time/venue
       moves and cancellations produce a specific toast in the browser and a native
@@ -156,10 +161,11 @@ surface, real push delivery, and reaching devices that never sign in. Design in
       reschedules on bundle **version** changes, so a moved session's 15-minute
       reminder follows the new time. On-device: works logged-out, no per-user
       server targeting. Verified against the mock backend.
-- [ ] **Notification permission in context** — Ask for notification permission the
-      first time it's actually useful (favoriting a session, opening alerts), never
-      as a popup at first launch. Better acceptance rates, and it's what store
-      reviewers expect to see.
+- [x] **Notification permission in context** — ✅ done 2026-08-27: the OS prompt
+      only ever appears in context — on the first favorited session (reminders,
+      existing behavior) or when the user turns a notification toggle ON; app
+      start never prompts (the PushAgent registers only when permission was
+      already granted).
 - [ ] **Push delivery server-side (P0 — promoted per N1/N3)** — Real APNs/FCM
       sending on the existing `threeho_ssa_broadcast_posted` hook, with an audience
       model: urgent alerts → devices on the event; future-event news → all opted-in

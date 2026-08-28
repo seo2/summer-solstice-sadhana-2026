@@ -1,26 +1,42 @@
 "use client";
 
 /**
- * Native-only background agent: once the user is signed in, registers this
- * device for push notifications with the backend (`devices` endpoint).
- * No-ops in the browser/PWA and while signed out.
+ * Native-only background agent for push registration. Since plugin v0.5.0 the
+ * backend accepts anonymous devices, so this no longer waits for sign-in:
+ *  - on app start, registers if the OS permission is already granted (the
+ *    permission prompt itself happens in context — first favorite, or turning
+ *    a notification toggle on);
+ *  - on sign-in/sign-out, re-registers so the token attaches to / detaches
+ *    from the account;
+ *  - on active-event changes, re-registers so alert targeting follows the
+ *    event the attendee is actually viewing.
+ * No-ops entirely in the browser/PWA.
  */
 
 import { useEffect, useRef } from "react";
 import { useAuth } from "@/lib/auth";
-import { enablePush } from "@/lib/push";
+import { useActiveSyncedEvent } from "@/lib/event-store";
+import { refreshPushRegistration, registerPushIfPermitted } from "@/lib/push";
 
 export function PushAgent() {
   const auth = useAuth();
-  const registered = useRef(false);
+  const active = useActiveSyncedEvent();
+  const activeSlug = active ? active.slug : null;
+  const booted = useRef(false);
 
   useEffect(() => {
-    if (!auth || registered.current) return;
-    registered.current = true;
-    enablePush().catch(() => {
-      // Push unavailable (browser, permission denied, APNs/FCM unset) — fine.
+    if (booted.current) return;
+    booted.current = true;
+    registerPushIfPermitted().catch(() => {
+      // Push unavailable (browser, permission not granted, APNs/FCM unset) — fine.
     });
-  }, [auth]);
+  }, []);
+
+  // Re-register when the account or the active event changes.
+  useEffect(() => {
+    if (!booted.current) return;
+    refreshPushRegistration().catch(() => {});
+  }, [auth?.token, activeSlug]);
 
   return null;
 }

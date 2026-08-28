@@ -128,14 +128,6 @@ export async function login(email: string, password: string): Promise<AuthSessio
 export async function logout(): Promise<void> {
   const session = await getSession();
 
-  // Best-effort: stop push delivery to this device for the account.
-  try {
-    const { disablePush } = await import("@/lib/push");
-    await disablePush();
-  } catch {
-    // Native push not available — nothing to unregister.
-  }
-
   if (session) {
     try {
       await postJson("auth/logout", {}, session.token);
@@ -146,4 +138,14 @@ export async function logout(): Promise<void> {
   }
 
   await authDb.session.delete(SESSION_KEY);
+
+  // Best-effort: keep the device registered ANONYMOUSLY (v0.5.0 backend) so
+  // event alerts and opted-in news still arrive after sign-out. Runs after the
+  // session is cleared so the upsert detaches the account from the token.
+  try {
+    const { refreshPushRegistration } = await import("@/lib/push");
+    await refreshPushRegistration();
+  } catch {
+    // Native push not available — nothing to refresh.
+  }
 }
