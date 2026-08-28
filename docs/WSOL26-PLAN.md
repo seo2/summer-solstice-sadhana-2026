@@ -70,10 +70,11 @@ event where the schedule changes daily.
       background, and never any blocking of offline reading. Includes choosing the
       refresh cadence and keeping battery/data use negligible. Done when updates feel
       invisible but trustworthy.
-- [ ] **Checkout feed → WordPress pipeline (per D3)** — *Design proposed
-      2026-08-27 as P4 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md) (pull-based
-      cron + "Sync now" on 3ho.org, same merge contract as `pull-program.mjs`,
-      hash-gated version bumps); pending owner approval.* Automate importing the
+- [x] **Checkout feed → WordPress pipeline (per D3)** — ✅ implemented 2026-08-27
+      (P4 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md): pull-based hourly cron +
+      "Sync feed now" on 3ho.org, same merge contract as `pull-program.mjs`,
+      hash-gated version bumps; plugin v0.5.0 working tree, pending owner QA).
+      With this, WS1 is code-complete. Originally: automate importing the
       published Teacher & Musician program from the registration platform into
       WordPress. Today `pull-program` bakes that feed into the app's static files at
       build time; moving the import server-side makes WordPress the single source of

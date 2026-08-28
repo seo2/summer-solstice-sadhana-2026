@@ -1,7 +1,6 @@
 # Backend (plugin) changes proposed for the WSOL26 stage
 
-**Status: P1–P3 APPROVED & IMPLEMENTED 2026-08-27 · P4 PROPOSED (pending
-approval).** P1/P2/P3 are coded in the
+**Status: P1–P4 APPROVED & IMPLEMENTED 2026-08-27.** P1–P4 are coded in the
 3ho.org repo **working tree** as plugin **v0.5.0 / DB v3** (`php -l` clean on
 all six touched files; details in that repo's `CHANGELOG.md`). Per that repo's
 rules the owner QAs and commits. Owner QA list: reload wp-admin (DB v3
@@ -78,7 +77,11 @@ JSON Import screen / seeds.)*
    `content_version` so the app's UpdateAgent picks them up; verify the
    existing bump mechanics cover the new write paths.
 
-## P4 — Checkout feed → WordPress pipeline (WS1 · D3) — **PROPOSAL, pending approval**
+## P4 — Checkout feed → WordPress pipeline (WS1 · D3) — **APPROVED & IMPLEMENTED 2026-08-27**
+
+Implemented as designed below (`includes/class-ssa-feed.php`, `php -l` clean),
+riding the same v0.5.0 / DB v3 working tree — one owner QA pass covers
+everything. QA steps at the end of this section.
 
 **Goal:** the registration platform (register.3ho.org, plugin `3ho-tickets`)
 publishes the Teacher & Musician program at

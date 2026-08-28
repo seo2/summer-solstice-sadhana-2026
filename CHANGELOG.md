@@ -10,6 +10,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- **P4 checkout-feed pipeline approved & implemented** (2026-08-27, plugin
+  v0.5.0 working tree in the 3ho.org repo, `php -l` clean): hourly cron +
+  per-event "Sync feed now" pull the checkout presenter bundle into the
+  `ssa_*` tables with the `pull-program.mjs` merge contract and hash-gated
+  `content_version` bumps. `docs/BACKEND-WSOL26.md` status updated; the WS1
+  checkout-pipeline task in `docs/WSOL26-PLAN.md` is closed — **WS1 is
+  code-complete**. Owner QA list extended in the WP repo changelog.
+
 ### Added
 
 - `docs/BACKEND-WSOL26.md` — **P4 proposal** (pending owner approval): the

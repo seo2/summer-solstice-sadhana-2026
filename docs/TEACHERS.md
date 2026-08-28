@@ -60,6 +60,13 @@ for offline preload (small, compressed).
 
 ## Checkout feed import (Phase 1, shipped)
 
+> **Phase 2 shipped server-side (2026-08-27):** for WSOL26 the same feed is now
+> pulled **into WordPress** by the `3ho-solstice-app` plugin (hourly cron +
+> "Sync feed now"; P4 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md)), and reaches
+> the app through the normal bundle sync — no rebuilds. `pull-program.mjs`
+> below remains a dev/build-time tool for baking content into the built-in
+> event.
+
 Teachers and musicians now apply through the checkout platform
 (`/e/{slug}/present/` on register.3ho.org, plugin `3ho-tickets`), where the
 Programming Team accepts proposals and schedules day/time/venue with a
