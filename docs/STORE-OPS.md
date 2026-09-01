@@ -32,6 +32,10 @@ set per repo). The privacy policy's deletion paragraph should then be updated.
 
 1. **Apple Developer Program** (developer.apple.com, $99/yr): enroll as the
    organization (needs a D-U-N-S number — can take days; start first).
+   💡 **Nonprofit fee waiver**: US nonprofits can request a waiver of the $99/yr
+   during enrollment (checkbox), provided they never sign the Paid Applications
+   Agreement — our app has no paid apps/IAP (commerce is link-out), so 3HO
+   likely qualifies → $0/yr if approved.
 2. In **Certificates, Identifiers & Profiles**: register the App ID
    `org.threeho.eventapp` with the **Push Notifications** capability, and
    create an **APNs Auth Key** (`.p8`, Keys section) — download once, store
@@ -49,8 +53,13 @@ set per repo). The privacy policy's deletion paragraph should then be updated.
 
 ## B — Google chain
 
-1. **Play Console** (play.google.com/console, $25 one-time): create the app —
-   "3HO Event App", package `org.threeho.eventapp`.
+1. **Play Console** (play.google.com/console, $25 one-time): sign up as an
+   **ORGANIZATION account** — critical: org accounts (verified with a D-U-N-S
+   number and the EXACT legal entity name from registration documents) are
+   **exempt from the 12-testers-for-14-days closed-testing rule** that personal
+   accounts must pass before production; a personal account would sink the
+   Nov 24 timeline. Then create the app — "3HO Event App", package
+   `org.threeho.eventapp`.
 2. **Firebase**: create a project, add an Android app with the package name,
    download **`google-services.json`** → `[dev]` place in `android/app/`
    (required for FCM push registration; the Capacitor template picks it up).
