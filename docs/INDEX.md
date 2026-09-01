@@ -20,6 +20,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [../AGENTS.md](../AGENTS.md) | Next.js 15 warning for agents (read the bundled docs before Next changes) |
 | [../CHANGELOG.md](../CHANGELOG.md) | Notable changes, Keep-a-Changelog format |
 | [TESTING-LOCAL.md](TESTING-LOCAL.md) | How to test the app locally: alone, against the mock backend, against local WordPress, and in simulators |
+| [STORE-OPS.md](STORE-OPS.md) | WS4 runbook: Apple/Google store chains, privacy answers, review notes, QA checklist, timeline to Nov 24 |
 
 ## Planning & architecture
 

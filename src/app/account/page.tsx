@@ -210,6 +210,12 @@ export default function AccountPage() {
           </form>
         </section>
       )}
+
+      <p className="pt-2 text-center text-xs font-semibold text-stone-400">
+        <Link href="/privacy" className="underline decoration-stone-300 underline-offset-2">
+          Privacy Policy
+        </Link>
+      </p>
     </div>
   );
 }

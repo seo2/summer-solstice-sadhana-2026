@@ -201,7 +201,14 @@ for every record created here.
       airplane mode, agenda reminders firing 15 min before a favorited session, push
       registration after sign-in, favorites sync. Done when the checklist passes on
       both platforms.
-- [ ] **Privacy & review compliance** — Public privacy policy URL, App Store privacy
+- [ ] **Privacy & review compliance** — *Progress 2026-08-28 (cache v65):
+      privacy policy drafted at the app route `/privacy` (linked from Account —
+      needs org review + the final public domain decision); privacy-labels and
+      data-safety answer tables + review-notes template ready in
+      [STORE-OPS.md](STORE-OPS.md); Android `POST_NOTIFICATIONS` permission fixed.
+      **New requirement surfaced: in-app account deletion** (Apple 5.1.1(v) —
+      the app has in-app registration), needs a plugin endpoint + Account UI
+      before iOS submission.* Public privacy policy URL, App Store privacy
       labels and Play data-safety form (accounts optional, favorites sync, push
       tokens — including anonymous device registration), review notes explaining
       link-out ticket sales (no in-app purchases). Future-event news pushes (N1) are

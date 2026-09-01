@@ -12,6 +12,23 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **WS4 store prep** (cache v65): public **privacy policy** drafted as the app
+  route `/privacy` (accurate to what the app actually does; linked from the
+  Account screen; registered in the offline preloader) — needs organization
+  review and the final public-domain decision before store forms.
+  `docs/STORE-OPS.md`: the WS4 runbook — Apple/Google chains step by step,
+  privacy-labels & data-safety answer tables derived from the code, review-notes
+  template, on-device QA list, and the timeline back from Nov 24. Registered in
+  `docs/INDEX.md`.
+
+### Fixed
+
+- Android manifest now declares **`POST_NOTIFICATIONS`** — required on
+  Android 13+ for agenda reminders and push to display; without it,
+  notifications silently never appear on modern Android.
+
+### Added
+
 - **Local testing kit**: `npm run mock-backend` (`scripts/mock-backend.mjs`,
   promoted from the session mock used to verify WS1/WS3/WS2/WS8) fakes the
   plugin's REST contract — bundle v1→v2 with a favorited-session move,
