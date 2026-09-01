@@ -100,8 +100,15 @@ So: **bump `version` whenever content changes**, or clients will never see it.
 
 `scripts/mock-backend.mjs` serves any fixture in `scripts/fixtures/<slug>.json`
 as a real sync bundle. [`wsol26.json`](../scripts/fixtures/wsol26.json) is a full
-dummy Winter Solstice 2026 — 49 sessions across 7 days, 6 teachers, 6 venues,
+dummy Winter Solstice 2026 — 47 sessions across 7 days, 6 teachers, 6 venues,
 8 categories, 6 info pages, 19 menu entries, and a generated venue map.
+
+Its **event metadata and White Tantric Yoga days are real**, mirrored from the
+registration system (`register.3ho.org/wp-json/wsol/v1/presenter/bundle?event=wsol26`
+and the `3ho-solstice-checkout` seed): "Winter Solstice Sadhana Celebration
+2026", Dec 15–21 2026, Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales,
+FL 33898, with WTY on Dec 17–19 and the Solstice itself on Dec 20. Sessions,
+teachers, info pages and menus are invented.
 
 ```bash
 npm run mock-backend      # http://localhost:3999
@@ -125,6 +132,33 @@ instead of failing silently.
 `mocktest` remains a separate, deliberately tiny event with hardcoded v1→v2
 behaviour for exercising the change-alert path — see
 [TESTING-LOCAL.md](TESTING-LOCAL.md) Level B.
+
+## Loading a fixture into WordPress by CSV
+
+The plugin's Import screen (*Event App → Import*) takes JSON or CSV for
+**program**, **teachers** and **menus**. `scripts/fixture-to-csv.mjs` converts any
+fixture into the three CSVs that screen expects:
+
+```bash
+npm run fixtures:csv -- wsol26
+```
+
+writes `scripts/fixtures/csv/wsol26-{program,teachers,menus}.csv`. The header row
+uses the same field names as the bundle, so the CSV and JSON contracts are one
+contract; cells holding several values (`tags`, `photos`, `facilitatorNames`,
+`items`) separate them with **`|`**.
+
+Import with **Validate only** ticked first: the plugin reports each rejected row
+and why, without writing. The usual offender is a spreadsheet reformatting
+`09:00` into `9:00` or a date into `12/16/2026`.
+
+The column lists in `fixture-to-csv.mjs` mirror `THREEHO_SSA_Importer::csv_columns()`
+in the plugin — change one and change the other.
+
+Note that `venues`, `categories` and `info pages` are **not** importable from
+that screen in either format; they have tables but their upserts live only in
+WP-CLI. Load them with the fixture through the mock backend, or add them to the
+importer.
 
 ## Known gaps (2026-09-01)
 

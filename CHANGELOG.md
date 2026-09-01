@@ -26,7 +26,7 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   Shipped UI does not change, so no cache bump.
 
 - **Full dummy event for local testing** (`scripts/fixtures/wsol26.json`) — a
-  realistic WSOL26 bundle (49 sessions over Dec 15–21, 6 teachers, 6 venues, 8
+  realistic WSOL26 bundle (47 sessions over Dec 15–21, 6 teachers, 6 venues, 8
   categories, 6 info pages, 19 menu entries, venue map) with every category,
   venue and facilitator reference resolving. `scripts/mock-backend.mjs` now
   serves **any** `scripts/fixtures/<slug>.json` as a sync bundle, re-reading the
@@ -34,6 +34,23 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   app treats it as a content update — no restart, no rebuild. `/updates` (the
   announcements/alerts channels) answers for fixture events too. `mocktest` is
   untouched and keeps its hardcoded v1→v2 change-alert behaviour.
+
+- **CSV export of the fixtures for the WordPress Import screen**
+  (`scripts/fixture-to-csv.mjs`, `npm run fixtures:csv`) — converts a bundle
+  fixture into `scripts/fixtures/csv/<slug>-{program,teachers,menus}.csv` with
+  the header row the plugin's importer expects and `|` for multi-value cells.
+  Generated for WSOL26 and verified against the real plugin in dry run: 47/47
+  program rows, 6/6 teachers, 19/19 menu entries accepted, 0 skipped, nothing
+  written. The column lists mirror `THREEHO_SSA_Importer::csv_columns()`.
+
+- **WSOL26 fixture corrected against the real event** — the metadata now
+  mirrors the registration system (`register.3ho.org` wsol/v1 feed and the
+  `3ho-solstice-checkout` seed): "Winter Solstice Sadhana Celebration 2026",
+  Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales FL. White Tantric Yoga
+  moved to **Dec 17–19** (three days) with the Solstice itself on **Dec 20**,
+  replacing the invented Dec 17–18 pair; 47 sessions, `version` bumped to 2 so
+  clients treat it as an update. Also fixed one session ("Bazaar Open Hours")
+  whose description had landed in the `facilitator` field.
 
 - **`docs/CONTENT-MODEL.md`** — where each screen's content comes from
   (built-in JSON vs synced bundle), the bundle→screen map, the three joins that

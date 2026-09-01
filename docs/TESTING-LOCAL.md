@@ -54,7 +54,7 @@ Walkthrough:
 see the app carrying a realistic event, use the fixture instead:
 
 `/sync-lab` → base `http://localhost:3999`, event slug **`wsol26`** → Fetch
-bundle → Use this event in the app. That loads 49 sessions across 7 days, 6
+bundle → Use this event in the app. That loads 47 sessions across 7 days, 6
 teachers, 6 venues, 8 categories, 6 info pages, 19 menu entries and a venue map.
 
 The fixture lives at `scripts/fixtures/wsol26.json` and is re-read on every

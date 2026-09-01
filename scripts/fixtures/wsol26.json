@@ -1,13 +1,13 @@
 {
-  "_comment": "Dummy WSOL26 bundle for local testing. Served by scripts/mock-backend.mjs at /wp-json/3ho-solstice/v1/sync?event=wsol26 and re-read from disk on every request. Bump `version` after editing to make the app treat it as an update. See docs/CONTENT-MODEL.md.",
+  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 18-20) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). Program, teachers, info pages and menus are invented. Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 1,
+  "version": 2,
   "event": {
     "slug": "wsol26",
-    "name": "Winter Solstice Sadhana 2026",
+    "name": "Winter Solstice Sadhana Celebration 2026",
     "startDate": "2026-12-15",
     "endDate": "2026-12-21",
-    "location": "Retreats By The Lake, Lake Wales, FL",
+    "location": "Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales, FL 33898",
     "timezone": "America/New_York",
     "status": "active",
     "mapImage": "http://localhost:3999/photos/venue-map.svg"
@@ -69,26 +69,6 @@
       "endTime": "08:00"
     },
     {
-      "id": "2026-12-16-1200-lunch",
-      "date": "2026-12-16",
-      "day": "Wednesday",
-      "startTime": "12:00",
-      "title": "Lunch",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "13:30"
-    },
-    {
-      "id": "2026-12-16-1730-dinner",
-      "date": "2026-12-16",
-      "day": "Wednesday",
-      "startTime": "17:30",
-      "title": "Dinner",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "19:00"
-    },
-    {
       "id": "2026-12-16-0900-kriya-for-winter-vitality",
       "date": "2026-12-16",
       "day": "Wednesday",
@@ -116,6 +96,16 @@
       "description": "What to eat and drink through a Florida December: ginger, turmeric, and the classic Yogi Tea recipe."
     },
     {
+      "id": "2026-12-16-1200-lunch",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
       "id": "2026-12-16-1400-youth-&-family-program",
       "date": "2026-12-16",
       "day": "Wednesday",
@@ -126,6 +116,16 @@
       "endTime": "16:00",
       "facilitator": "Jagat Prakash Singh",
       "description": "Ages 6–14. Yoga games, chanting and craft. Parents check children in and out."
+    },
+    {
+      "id": "2026-12-16-1730-dinner",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
     },
     {
       "id": "2026-12-16-1930-evening-kirtan",
@@ -161,26 +161,6 @@
       "endTime": "08:00"
     },
     {
-      "id": "2026-12-17-1200-lunch",
-      "date": "2026-12-17",
-      "day": "Thursday",
-      "startTime": "12:00",
-      "title": "Lunch",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "13:30"
-    },
-    {
-      "id": "2026-12-17-1730-dinner",
-      "date": "2026-12-17",
-      "day": "Thursday",
-      "startTime": "17:30",
-      "title": "Dinner",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "19:00"
-    },
-    {
       "id": "2026-12-17-0830-white-tantric-yoga-—-registration",
       "date": "2026-12-17",
       "day": "Thursday",
@@ -207,6 +187,26 @@
         "full day",
         "pre-registration required"
       ]
+    },
+    {
+      "id": "2026-12-17-1230-lunch",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "12:30",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-17-1730-dinner",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
     },
     {
       "id": "2026-12-17-1930-gong-relaxation",
@@ -242,26 +242,6 @@
       "endTime": "08:00"
     },
     {
-      "id": "2026-12-18-1200-lunch",
-      "date": "2026-12-18",
-      "day": "Friday",
-      "startTime": "12:00",
-      "title": "Lunch",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "13:30"
-    },
-    {
-      "id": "2026-12-18-1730-dinner",
-      "date": "2026-12-18",
-      "day": "Friday",
-      "startTime": "17:30",
-      "title": "Dinner",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "19:00"
-    },
-    {
       "id": "2026-12-18-0900-white-tantric-yoga-—-day-2",
       "date": "2026-12-18",
       "day": "Friday",
@@ -278,6 +258,16 @@
       ]
     },
     {
+      "id": "2026-12-18-1230-lunch",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "12:30",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
       "id": "2026-12-18-1700-bazaar-open-hours",
       "date": "2026-12-18",
       "day": "Friday",
@@ -287,6 +277,16 @@
       "location": "Bazaar",
       "endTime": "17:45",
       "description": "Books, shawls, malas and the Yogi Tea stand. Cash and cards accepted."
+    },
+    {
+      "id": "2026-12-18-1730-dinner",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
     },
     {
       "id": "2026-12-18-1930-storytelling-night",
@@ -322,14 +322,42 @@
       "endTime": "08:00"
     },
     {
-      "id": "2026-12-19-1200-lunch",
+      "id": "2026-12-19-0900-white-tantric-yoga-—-day-3",
       "date": "2026-12-19",
       "day": "Saturday",
-      "startTime": "12:00",
+      "startTime": "09:00",
+      "title": "White Tantric Yoga® — Day 3",
+      "category": "White Tantric Yoga",
+      "location": "Tantric Shelter",
+      "endTime": "16:30",
+      "facilitator": "Nirvair Singh",
+      "description": "Final day of the course.",
+      "tags": [
+        "full day",
+        "pre-registration required"
+      ]
+    },
+    {
+      "id": "2026-12-19-1230-lunch",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "12:30",
       "title": "Lunch",
       "category": "Meal",
       "location": "Dining Hall",
       "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-19-1700-community-seva",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "17:00",
+      "title": "Community Seva",
+      "category": "Community",
+      "location": "Dining Hall",
+      "endTime": "18:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "Help prepare the Solstice meal. Everyone welcome, no signup needed."
     },
     {
       "id": "2026-12-19-1730-dinner",
@@ -340,56 +368,6 @@
       "category": "Meal",
       "location": "Dining Hall",
       "endTime": "19:00"
-    },
-    {
-      "id": "2026-12-19-0900-mantra-intensive",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "09:00",
-      "title": "Mantra Intensive",
-      "category": "Kriya and Meditation",
-      "location": "Main Tent",
-      "endTime": "11:00",
-      "facilitator": "Amrit Kirtan Kaur",
-      "description": "Two hours with Ad Guray Nameh and Guru Ram Das. No experience needed.",
-      "tags": [
-        "all levels"
-      ]
-    },
-    {
-      "id": "2026-12-19-1115-immunity-&-the-winter-body",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "11:15",
-      "title": "Immunity & the Winter Body",
-      "category": "Lecture",
-      "location": "Lakeside Hall",
-      "endTime": "12:00",
-      "facilitator": "Dr. Siri Atma Kaur"
-    },
-    {
-      "id": "2026-12-19-1400-sat-nam-rasayan-healing-circle",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "14:00",
-      "title": "Sat Nam Rasayan Healing Circle",
-      "category": "Kriya and Meditation",
-      "location": "Lakeside Hall",
-      "endTime": "15:30",
-      "facilitator": "Hari Simran Kaur",
-      "description": "Paired healing practice. Wear loose clothing."
-    },
-    {
-      "id": "2026-12-19-1600-community-seva",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "16:00",
-      "title": "Community Seva",
-      "category": "Community",
-      "location": "Dining Hall",
-      "endTime": "17:00",
-      "facilitator": "Jagat Prakash Singh",
-      "description": "Help prepare the Solstice-eve meal. Everyone welcome, no signup needed."
     },
     {
       "id": "2026-12-19-1930-evening-kirtan",
@@ -424,26 +402,6 @@
       "endTime": "08:00"
     },
     {
-      "id": "2026-12-20-1200-lunch",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "12:00",
-      "title": "Lunch",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "13:30"
-    },
-    {
-      "id": "2026-12-20-1700-dinner",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "17:00",
-      "title": "Dinner",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "18:30"
-    },
-    {
       "id": "2026-12-20-0900-kriya-for-the-turning-of-the-year",
       "date": "2026-12-20",
       "day": "Sunday",
@@ -467,6 +425,16 @@
       "description": "Kirtan, Hukam and Langar to follow."
     },
     {
+      "id": "2026-12-20-1200-lunch",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
       "id": "2026-12-20-1400-preparing-for-the-longest-night",
       "date": "2026-12-20",
       "day": "Sunday",
@@ -479,6 +447,16 @@
       "description": "What the Solstice night practice asks of us, and how to pace yourself through it."
     },
     {
+      "id": "2026-12-20-1700-dinner",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "17:00",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "18:30"
+    },
+    {
       "id": "2026-12-20-2000-solstice-night-chant",
       "date": "2026-12-20",
       "day": "Sunday",
@@ -488,7 +466,7 @@
       "location": "Main Tent",
       "endTime": "23:59",
       "facilitator": "Guru Dev Singh",
-      "description": "The long chant through the longest night of the year. Come and go as you need; blankets and cushions provided."
+      "description": "The long chant through the Solstice night. Come and go as you need; blankets and cushions provided."
     },
     {
       "id": "2026-12-21-0400-solstice-morning-sadhana",
@@ -511,26 +489,6 @@
       "category": "Meal",
       "location": "Dining Hall",
       "endTime": "08:00"
-    },
-    {
-      "id": "2026-12-21-1200-lunch",
-      "date": "2026-12-21",
-      "day": "Monday",
-      "startTime": "12:00",
-      "title": "Lunch",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "13:30"
-    },
-    {
-      "id": "2026-12-21-1630-dinner",
-      "date": "2026-12-21",
-      "day": "Monday",
-      "startTime": "16:30",
-      "title": "Dinner",
-      "category": "Meal",
-      "location": "Dining Hall",
-      "endTime": "18:00"
     },
     {
       "id": "2026-12-21-0900-closing-kriya-&-blessing",
@@ -556,6 +514,16 @@
       "description": "We close the circle we opened. Announcements about next year."
     },
     {
+      "id": "2026-12-21-1200-lunch",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
       "id": "2026-12-21-1300-departures-&-site-check-out",
       "date": "2026-12-21",
       "day": "Monday",
@@ -565,6 +533,16 @@
       "location": "Main Tent",
       "endTime": "18:00",
       "description": "Return your wristband at the Main Tent. Cabins must be cleared by 3 PM."
+    },
+    {
+      "id": "2026-12-21-1630-dinner",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "16:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "18:00"
     }
   ],
   "teachers": [
