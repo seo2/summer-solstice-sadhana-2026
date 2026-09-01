@@ -16,6 +16,9 @@
  *       realistic event bundle (e.g. "wsol26"). The file is re-read on every
  *       request, so editing it is enough; bump its `version` and the app
  *       treats the next fetch as an update. See docs/CONTENT-MODEL.md.
+ *   GET /wp-json/3ho-solstice/v1/events/current
+ *       the event the app should adopt: in progress > next to start > most
+ *       recently finished, across every fixture.
  *   GET /wp-json/3ho-solstice/v1/updates?event=mocktest&since=N
  *   GET /wp-json/3ho-solstice/v1/channels/{id}/messages?since=N
  *   GET /mock/post?type=alert|official&body=…   → publish a new broadcast
@@ -25,7 +28,7 @@
  * "mocktest" → Fetch bundle → activate from Home's "Your events".
  */
 import { createServer } from "node:http";
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -162,6 +165,39 @@ createServer((req, res) => {
     console.log(`mock/post -> #${message.id} [${type}] ${message.body.slice(0, 40)}`);
     res.writeHead(201, { "Content-Type": "application/json" });
     res.end(JSON.stringify(message));
+    return;
+  }
+
+  // The event the app should be showing. Same rule the plugin endpoint must
+  // implement: an event in progress wins, then the next one to start, then the
+  // most recently finished.
+  if (url.pathname === "/wp-json/3ho-solstice/v1/events/current") {
+    const today = new Date().toISOString().slice(0, 10);
+    const candidates = [];
+
+    for (const file of readdirSync(FIXTURES_DIR)) {
+      if (!file.endsWith(".json")) continue;
+      const fixture = loadFixture(file.replace(/\.json$/, ""));
+      if (fixture?.event?.slug && fixture.event.status !== "archived") candidates.push(fixture.event);
+    }
+
+    candidates.sort((a, b) => {
+      const rank = (e) => {
+        if (e.startDate <= today && (e.endDate ?? e.startDate) >= today) return 0; // en curso
+        if (e.startDate > today) return 1;                                          // próximo
+        return 2;                                                                   // pasado
+      };
+      if (rank(a) !== rank(b)) return rank(a) - rank(b);
+      // Entre próximos gana el más cercano; entre pasados, el más reciente.
+      return rank(a) === 2
+        ? (b.endDate ?? "").localeCompare(a.endDate ?? "")
+        : (a.startDate ?? "").localeCompare(b.startDate ?? "");
+    });
+
+    const current = candidates[0];
+    console.log(`events/current -> ${current ? current.slug : "(none)"}`);
+    res.writeHead(current ? 200 : 404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify(current ? { ok: true, ...current } : { ok: false, error: "no_event" }));
     return;
   }
 

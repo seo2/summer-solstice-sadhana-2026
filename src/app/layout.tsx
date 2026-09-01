@@ -12,6 +12,7 @@ import { AccountButton } from "@/components/account-button";
 import { ReminderAgent } from "@/components/reminder-agent";
 import { PushAgent } from "@/components/push-agent";
 import { UpdateAgent } from "@/components/update-agent";
+import { EventAdoptionAgent } from "@/components/event-adoption-agent";
 import { AlertsAgent } from "@/components/alerts-agent";
 import { AnnouncementsBell } from "@/components/announcements-bell";
 import "./globals.css";
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <ReminderAgent />
           <PushAgent />
           <UpdateAgent />
+          <EventAdoptionAgent />
           <AlertsAgent />
           <OfflinePreloader />
           <WomensRenewalReminder />

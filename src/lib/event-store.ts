@@ -70,6 +70,14 @@ class EventStoreDatabase extends Dexie {
 const eventDb = new EventStoreDatabase();
 
 const ACTIVE_EVENT_KEY = "active-event";
+/**
+ * Whether the active event was picked by the attendee or adopted automatically.
+ * Auto-adoption must never override a deliberate choice in the event switcher,
+ * so it only acts while this is absent or "auto".
+ */
+const ACTIVE_EVENT_SOURCE_KEY = "active-event-source";
+
+export type ActiveEventSource = "manual" | "auto";
 
 export async function saveBundle(baseUrl: string, bundle: SyncedBundle) {
   await eventDb.syncedEvents.put({
@@ -82,12 +90,21 @@ export async function saveBundle(baseUrl: string, bundle: SyncedBundle) {
   });
 }
 
-export async function setActiveEvent(slug: string | null) {
+export async function setActiveEvent(slug: string | null, source: ActiveEventSource = "manual") {
   if (slug) {
     await eventDb.settings.put({ key: ACTIVE_EVENT_KEY, value: slug });
   } else {
     await eventDb.settings.delete(ACTIVE_EVENT_KEY);
   }
+
+  await eventDb.settings.put({ key: ACTIVE_EVENT_SOURCE_KEY, value: source });
+}
+
+/** "manual" once the attendee has chosen an event (or the built-in) themselves. */
+export async function getActiveEventSource(): Promise<ActiveEventSource> {
+  const setting = await eventDb.settings.get(ACTIVE_EVENT_SOURCE_KEY);
+
+  return setting?.value === "manual" ? "manual" : "auto";
 }
 
 /** All locally stored synced events, most recently saved first. */

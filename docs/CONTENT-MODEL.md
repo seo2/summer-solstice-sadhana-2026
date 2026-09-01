@@ -133,6 +133,37 @@ instead of failing silently.
 behaviour for exercising the change-alert path — see
 [TESTING-LOCAL.md](TESTING-LOCAL.md) Level B.
 
+## How an event reaches a device
+
+Refreshing and *acquiring* are different problems. `event-sync.ts` only ever
+updates events already in the store, and the only other writer is Sync Lab — an
+internal screen the native shell cannot reach. So a new event needs adoption:
+
+```
+app start / back online
+   → GET /wp-json/3ho-solstice/v1/events/current
+   → not the built-in slug, and no manual choice on record?
+   → GET /sync?event=<slug>   →  saveBundle()  →  setActiveEvent(slug, "auto")
+```
+
+`src/lib/event-discovery.ts` (`adoptCurrentEvent`) run by `EventAdoptionAgent`.
+Three rules keep it safe:
+
+- **A manual choice wins.** Picking an event in the switcher records the source
+  as `"manual"` and adoption stops touching the selection from then on.
+- **The built-in slug is skipped** — the bundled content already covers it.
+- **Silent on failure.** Offline is normal; the built-in event still works.
+
+**Which event is "current"** is the backend's decision, and the rule is by date,
+not by creation order:
+
+1. an event **in progress** (`start ≤ today ≤ end`);
+2. otherwise the **next to start**, soonest first;
+3. otherwise the **most recently finished**.
+
+`scripts/mock-backend.mjs` implements exactly this across all fixtures, so the
+whole flow is testable locally before the plugin endpoint exists.
+
 ## Loading a fixture into WordPress by CSV
 
 The plugin's Import screen (*Event App → Import*) takes JSON or CSV for

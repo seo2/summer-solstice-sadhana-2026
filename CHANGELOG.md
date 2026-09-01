@@ -12,6 +12,24 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Events reach the device by themselves** (cache v67) (`src/lib/event-discovery.ts` +
+  `EventAdoptionAgent`) — on app start and when connectivity returns, the app
+  asks the backend which event is current, downloads its bundle and activates
+  it. Until now nothing in the app could *acquire* an event: `event-sync.ts`
+  only refreshes what is already stored and Sync Lab is an internal screen the
+  native shell cannot reach, so a WSOL26 attendee had no path to the event at
+  all. A deliberate choice in the switcher wins — `setActiveEvent()` now records
+  whether the selection was `"manual"` or `"auto"` and adoption never overrides
+  a manual one; the built-in slug is skipped rather than duplicated; every
+  failure is silent, because offline is normal.
+  `scripts/mock-backend.mjs` serves `GET /events/current` with the selection
+  rule the plugin must mirror: an event in progress wins, then the next to
+  start, then the most recently finished.
+  Verified in the browser from a clean store: the app adopted
+  `wsol26` with no user action (`events/current` → `sync?event=wsol26` → map
+  pre-cache), and after switching to the built-in event by hand a reload left
+  the choice alone.
+
 - **Native test builds can reach a backend and pull an event** — `npm run
   cap:sync:dev` sets `NEXT_PUBLIC_SHOW_SYNC_LAB=1`, which adds an "Internal
   build → Sync Lab" block at the bottom of the Account screen. Sync Lab is
