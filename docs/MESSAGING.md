@@ -3,8 +3,13 @@
 Design for the in-app messaging system: direct messages, group chats, official
 announcements, work-group (seva team) channels, and alarms/notifications.
 
-> Status: planning. Decided direction: **polling-first on WordPress, socket-ready API**.
-> Nothing here ships before Phase 1 (backend + accounts) exists.
+> Status: **phase 3a server-side shipped** (2026-07-20, plugin v0.4.0): channel/member/
+> message tables, broadcast channels (Announcements + Alerts) auto-provisioned per
+> event, public-read REST (`/channels`, `/channels/{id}/messages?since=`, combined
+> `/updates` poll), staff-only posting via REST or the wp-admin Announcements screen,
+> and the `threeho_ssa_broadcast_posted` hook for future push/LAN delivery.
+> Pending: app-side feed UI + polling; DMs/groups/work-group channels (3b/3c);
+> realtime companion later. Decided direction: **polling-first, socket-ready API**.
 
 ## Decision: polling now, socket-ready design
 

@@ -4,8 +4,30 @@
     {
       "name": "ssol-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026", "--", "-p", "3011"],
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026",
+        "--",
+        "-p",
+        "3011"
+      ],
       "port": 3011
+    },
+    {
+      "name": "ssol-dev-3012",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026",
+        "--",
+        "-p",
+        "3012"
+      ],
+      "port": 3012
     }
   ]
 }
