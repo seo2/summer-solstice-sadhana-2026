@@ -144,10 +144,20 @@ Gotchas that cost time the first run:
 - The repo's `java` on PATH may be **JDK 16**; AGP 8.13 needs 17+. Point
   `JAVA_HOME` at Android Studio's bundled JBR 21 rather than installing another
   JDK.
-- **No WebView DevTools on Android**: Capacitor leaves
-  `webContentsDebuggingEnabled` off, so there is no `webview_devtools_remote`
-  socket to attach Chrome to. Debug from `adb logcat` and screenshots, or turn
-  the flag on for debug builds only.
+- **WebView DevTools on Android are available in debug builds** — Capacitor
+  defaults `webContentsDebuggingEnabled` to the build's debuggable flag
+  (`CapConfig.java`), so a debug APK exposes a `webview_devtools_remote_<pid>`
+  socket. Do **not** set it to `true` in `capacitor.config.ts`: that forces it on
+  for release builds too. Attach with:
+
+  ```bash
+  adb forward tcp:9333 localabstract:webview_devtools_remote_$(adb shell pidof org.threeho.eventapp)
+  curl -s http://localhost:9333/json/list      # take the "page" target's webSocketDebuggerUrl
+  ```
+
+  Then drive it over CDP (`Runtime.evaluate`) to read `navigator.onLine`,
+  `location.origin`, run a `fetch` against the backend, or list IndexedDB — the
+  only way to tell a native-only failure apart from a guess.
 - The **Android emulator blocks cleartext HTTP** (no `usesCleartextTraffic`, no
   network-security config), so `http://10.0.2.2:3999` to the mock backend fails
   from the app. The iOS simulator can use `https://3ho.test` directly.

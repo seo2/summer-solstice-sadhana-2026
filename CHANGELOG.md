@@ -108,6 +108,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **`docs/TESTING-LOCAL.md` said Android WebView DevTools were unavailable** —
+  they are not: Capacitor defaults `webContentsDebuggingEnabled` to the build's
+  debuggable flag, so a debug APK already exposes a `webview_devtools_remote`
+  socket. Level D now documents attaching to it over CDP, and warns against
+  setting the flag to `true` in `capacitor.config.ts`, which would force a
+  debuggable WebView into release builds too.
+
+
 - **Android crashed on every launch once notifications were granted** (cache
   v66) — found in the first native prototype run on the emulator. `PushAgent`
   called `PushNotifications.register()`, and with no `google-services.json` the
