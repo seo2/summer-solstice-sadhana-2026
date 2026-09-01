@@ -5,6 +5,8 @@ import { InstallHint } from "@/components/install-hint";
 import { ActiveEventBanner } from "@/components/active-event-banner";
 import { EventSwitcher } from "@/components/event-switcher";
 import { MenusTile } from "@/components/menus-tile";
+import { HomeHero } from "@/components/home-hero";
+import { BuiltinOnly } from "@/components/builtin-only";
 
 const navItems = [
   { href: "/program", label: "Program", icon: CalendarDays, value: "Full schedule" },
@@ -20,6 +22,7 @@ export default function Home() {
   return (
     <div className="space-y-4">
       <ActiveEventBanner />
+      <HomeHero>
       <section className="relative -mx-1 overflow-hidden rounded-2xl bg-[#1d3f94] px-6 pb-7 pt-8 shadow-[0_24px_64px_rgba(18,51,130,0.30)] sm:mx-0 sm:px-8">
         {/* Decorative blurs */}
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-300/15 blur-3xl" />
@@ -54,11 +57,13 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </HomeHero>
 
       <InstallHint />
 
       <EventSwitcher />
 
+      <BuiltinOnly>
       <section className="overflow-hidden rounded-2xl border border-[#f39200]/25 bg-white shadow-[0_18px_48px_rgba(47,98,182,0.11)]">
         <div className="grid min-h-44 grid-cols-[minmax(0,1fr)_7.25rem] sm:grid-cols-[minmax(0,1fr)_13rem]">
           <div className="flex min-w-0 flex-col justify-center p-4 sm:p-5">
@@ -91,6 +96,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </BuiltinOnly>
 
       <section className="grid grid-cols-2 gap-3">
         {navItems.map((item) => {

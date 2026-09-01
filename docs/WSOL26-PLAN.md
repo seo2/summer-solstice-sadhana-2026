@@ -121,10 +121,14 @@ attendee opening "Info" today would read about Ram Das Puri.
       a venue-list fallback when no map is published. Built-in map verified
       untouched.* Remaining: the real **Retreats By The Lake map artwork** (WS7
       content task) — then this closes.
-- [ ] **Behavior of SSOL-specific sections** — Decide and implement what
-      Summer-Solstice-only surfaces (e.g. Women's Renewal) do while WSOL26 is active:
-      hidden, replaced by a WSOL equivalent, or clearly labeled as belonging to the
-      other event. Done when nothing on screen misleads a WSOL26 attendee.
+- [x] **Behavior of SSOL-specific sections** — ✅ done 2026-08-28 (cache v64):
+      while a synced event is active, the **Home hero shows that event** (name,
+      dates, location, same CTAs) instead of the Summer Solstice artwork, and the
+      Women's Renewal promo is hidden (`BuiltinOnly` gate — the reminder stays,
+      it's personal opt-in). The offline splash is now **event-neutral** ("3HO
+      Event App · Program, maps & announcements for 3HO events") instead of
+      SSOL26-branded. With this, **WS2 is code-complete** — only the Florida map
+      artwork (WS7 content) remains.
 
 ### WS3 — Notifications: announcements, alerts & push (P0 · app + backend)
 

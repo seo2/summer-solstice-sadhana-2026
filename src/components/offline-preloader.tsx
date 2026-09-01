@@ -6,9 +6,9 @@ import type { Activity, Teacher } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export const CACHE_NAME = "solstice-full-offline-v63";
-const STORAGE_KEY = "solstice-full-offline-v63-complete";
-const DISMISSED_KEY = "solstice-full-offline-v63-dismissed";
+export const CACHE_NAME = "solstice-full-offline-v64";
+const STORAGE_KEY = "solstice-full-offline-v64-complete";
+const DISMISSED_KEY = "solstice-full-offline-v64-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
@@ -150,8 +150,10 @@ function SplashScreen({
           className="mb-5 h-24 w-24 object-contain"
         />
         <p className="text-xs font-bold uppercase tracking-[0.45em] text-[#f39200]">3HO</p>
-        <h1 className="mt-1.5 text-3xl font-black tracking-tight text-[#2f62b6]">Summer Solstice</h1>
-        <p className="mt-1 text-lg font-semibold text-stone-500">Sadhana 2026</p>
+        <h1 className="mt-1.5 text-3xl font-black tracking-tight text-[#2f62b6]">Event App</h1>
+        <p className="mt-1 max-w-xs text-center text-base font-semibold leading-6 text-stone-500">
+          Program, maps &amp; announcements for 3HO events
+        </p>
       </div>
 
       {/* Progress */}
@@ -174,7 +176,7 @@ function SplashScreen({
       </div>
 
       {/* Bottom tagline */}
-      <p className="absolute bottom-10 text-[11px] text-stone-300">Ram Das Puri · New Mexico</p>
+      <p className="absolute bottom-10 text-[11px] text-stone-300">Works without signal once loaded</p>
     </div>
   );
 }

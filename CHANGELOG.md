@@ -23,6 +23,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Event-neutral shell surfaces — WS2 closed (code)** (cache v64): while a
+  synced event is active, the **Home hero now shows that event** — name, date
+  range, location, same CTAs — instead of the Summer Solstice artwork
+  (`HomeHero` gate), and the Women's Renewal promo card is hidden
+  (`BuiltinOnly`; the opt-in reminder banner is personal and stays). The
+  **offline splash is event-neutral**: "3HO · Event App · Program, maps &
+  announcements for 3HO events" with "Works without signal once loaded" as the
+  footer, replacing the Summer Solstice / Ram Das Puri branding. Verified in
+  the browser in both states (synced event active and built-in). WS2's only
+  remaining item is the real Florida map artwork (content, WS7).
+
 - **Backend plugin UI renamed: "Solstice App" → "Event App"** (2026-08-28): the
   wp-admin menu, the eight screen headings, ACF block descriptions and the plugin
   name itself now read *Event App* — the backend publishes any 3HO event, not only
