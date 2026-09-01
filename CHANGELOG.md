@@ -36,8 +36,9 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   untouched and keeps its hardcoded v1→v2 change-alert behaviour.
 
 - **WSOL26 fixture now carries the real venues, categories and info pages** —
-  venues are the five the event actually uses (TANTRIC SHELTER, ASTA, CHURUATA,
-  GURDWARA, CAMPFIRE) with every session's `location` remapped onto them, so the
+  venues are the six the event actually uses (TANTRIC SHELTER, ASTA, CHURUATA,
+  GURDWARA, CAMPFIRE, CHILDREN'S CAMP — the last one hosting the youth and
+  family program) with every session's `location` remapped onto them, so the
   name-based venue join still resolves; categories are the same 14 the previous
   events use, pulled from the production `summer-solstice-2026` bundle; and the
   34 info pages are copied from that same bundle as a base to edit for Florida.

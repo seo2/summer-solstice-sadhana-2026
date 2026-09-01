@@ -1,7 +1,7 @@
 {
   "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 18-20) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). Program, teachers, info pages and menus are invented. Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 3,
+  "version": 4,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -112,7 +112,7 @@
       "startTime": "14:00",
       "title": "Youth & Family Program",
       "category": "Community",
-      "location": "CHURUATA",
+      "location": "CHILDREN'S CAMP",
       "endTime": "16:00",
       "facilitator": "Jagat Prakash Singh",
       "description": "Ages 6–14. Yoga games, chanting and craft. Parents check children in and out."
@@ -627,6 +627,11 @@
       "id": "campfire",
       "name": "CAMPFIRE",
       "description": "Evening gatherings under the sky: storytelling, circles and the bazaar hours."
+    },
+    {
+      "id": "childrens-camp",
+      "name": "CHILDREN'S CAMP",
+      "description": "Youth and family program. Parents check children in and out."
     }
   ],
   "categories": [
