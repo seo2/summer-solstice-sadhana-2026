@@ -33,6 +33,31 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **Android crashed on every launch once notifications were granted** (cache
+  v66) — found in the first native prototype run on the emulator. `PushAgent`
+  called `PushNotifications.register()`, and with no `google-services.json` the
+  plugin raised `IllegalStateException: Default FirebaseApp is not initialized`
+  on Capacitor's native plugin thread: `FATAL EXCEPTION` and process death, in
+  a loop. The `.catch()` around the call could never help — the throw happens
+  natively, not as a rejected promise. `next.config.ts` now mirrors the Gradle
+  condition (`android/app/google-services.json` present and non-empty) into
+  `NEXT_PUBLIC_FCM_CONFIGURED`, and `src/lib/push.ts` skips the push plugin on
+  Android builds without FCM. Registration re-enables itself automatically once
+  WS4 drops the Firebase file in. iOS is untouched: APNs failures already
+  arrive as a `registrationError` event.
+
+- **iOS: the sticky header rendered under the status bar** (cache v66) — with
+  `viewportFit: "cover"` the WebView extends into the inset, and only
+  `safe-area-inset-bottom` was ever applied, so "Event App" collided with the
+  clock and the announcements bell sat behind the battery icon. New `.safe-top`
+  utility in `globals.css`, applied to the header in `layout.tsx`; resolves to
+  the previous padding wherever the inset is 0 (Android, browser).
+
+- **"Add to Home Screen" banner appeared inside the native apps** (cache v66) —
+  the native shell reports `display-mode: browser`, so the standalone check let
+  `InstallHint` through and the installed app told attendees to install it.
+  Now also gated on `Capacitor.isNativePlatform()`.
+
 - Android manifest now declares **`POST_NOTIFICATIONS`** — required on
   Android 13+ for agenda reminders and push to display; without it,
   notifications silently never appear on modern Android.

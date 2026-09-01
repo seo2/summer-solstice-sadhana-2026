@@ -19,6 +19,10 @@ export function InstallHint() {
   const [standalone, setStandalone] = useState(false);
   const [dismissed, setDismissed] = useState(true);
   const [platform, setPlatform] = useState<Platform>("other");
+  // The native shell reports display-mode "browser", so the standalone check
+  // alone lets this banner through inside the installed app — where telling the
+  // attendee to "Add to Home Screen" makes no sense. Native is never a hint.
+  const [native, setNative] = useState(false);
 
   useEffect(() => {
     const isStandalone =
@@ -30,7 +34,21 @@ export function InstallHint() {
     setPlatform(detectPlatform());
   }, []);
 
-  if (standalone || dismissed) return null;
+  useEffect(() => {
+    let cancelled = false;
+    import("@capacitor/core")
+      .then(({ Capacitor }) => {
+        if (!cancelled && Capacitor.isNativePlatform()) setNative(true);
+      })
+      .catch(() => {
+        // Capacitor absent (plain web) — the banner stays available.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (standalone || dismissed || native) return null;
 
   const isIos = platform === "ios";
   const isAndroid = platform === "android";

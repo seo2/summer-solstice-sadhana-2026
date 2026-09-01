@@ -54,6 +54,10 @@ set per repo). The privacy policy's deletion paragraph should then be updated.
 2. **Firebase**: create a project, add an Android app with the package name,
    download **`google-services.json`** → `[dev]` place in `android/app/`
    (required for FCM push registration; the Capacitor template picks it up).
+   Until that file exists the app **deliberately skips Android push
+   registration** — calling it without FCM crashes the process on every launch
+   (see [NATIVE.md](NATIVE.md)). Dropping the file in re-enables registration
+   automatically on the next `npm run build`; no code change needed.
    Note the project's service-account credentials — the server-side sender
    will need them.
 3. `[dev]` Build a signed AAB (`npx cap open android` → Build → Generate

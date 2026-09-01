@@ -2,11 +2,15 @@
 
 Plan for shipping real native apps from the existing web build using Capacitor.
 
-> Status: **platforms added** (2026-07-19). `ios/` and `android/` are scaffolded and
-> committed (`npx cap add`, Capacitor 8 with Swift Package Manager on iOS — no
-> CocoaPods needed), `npx cap sync` copies the `out/` build. App id is
-> `org.threeho.summersolstice2026` (Android package segments cannot start with a
-> digit, hence "threeho"). **Local notifications are wired**: a native-only
+> Status: **both prototypes run** (2026-09-01). `ios/` and `android/` are
+> scaffolded and committed (`npx cap add`, Capacitor 8 with Swift Package
+> Manager on iOS — no CocoaPods needed), `npx cap sync` copies the `out/` build.
+> App id is `org.threeho.eventapp` (Android package segments cannot start with a
+> digit, hence "threeho"). First simulator/emulator run — iOS 26.5 on iPhone 17
+> Pro and Android 16 on a Pixel_9 AVD — is recorded in
+> [TESTING-LOCAL.md](TESTING-LOCAL.md) Level D; it found and fixed an Android
+> crash loop, the iOS status-bar overlap, and the install banner showing inside
+> the native shell (see CHANGELOG, cache v66). **Local notifications are wired**: a native-only
 > ReminderAgent schedules a reminder 15 minutes before each favorited session
 > (built-in + active synced event), rescheduling on every favorites change.
 > **Push groundwork wired** (app side): `@capacitor/push-notifications` installed,
@@ -19,7 +23,8 @@ Plan for shipping real native apps from the existing web build using Capacitor.
 >
 > Pending ops (no code): APNs key + Push capability in Xcode; Firebase project +
 > `google-services.json` for Android FCM; server-side sending ships with the
-> messaging phase. Pending: run/QA in Xcode & Android Studio, widget.
+> messaging phase. Pending: interactive QA on the iOS simulator (map zoom,
+> favorites → reminder, `/sync-lab`), physical-device runs, widget.
 
 ## Approach
 
@@ -41,13 +46,23 @@ npx cap open android   # Android Studio
 | Capability | Layer | Notes |
 |---|---|---|
 | Program / map / info / agenda | Web (existing) | Already works offline via service worker + IndexedDB |
-| Local notifications (agenda reminders) | Capacitor plugin | `@capacitor/local-notifications`; a prep service exists at `src/lib/local-notifications.ts`, not yet wired to UI. Runs only in the native app, not the browser PWA |
-| Push notifications | Capacitor + backend | `@capacitor/push-notifications`; register device token with backend ([BACKEND.md](BACKEND.md)); APNs (iOS) + FCM (Android) |
+| Local notifications (agenda reminders) | Capacitor plugin | `@capacitor/local-notifications` via `src/lib/local-notifications.ts`, wired to favorites by `ReminderAgent`. Runs only in the native app, not the browser PWA |
+| Push notifications | Capacitor + backend | `@capacitor/push-notifications`; register device token with backend ([BACKEND.md](BACKEND.md)); APNs (iOS) + FCM (Android). **Android registration is gated on FCM being configured** — see the warning below |
 | Home-screen widget | **Native code** | iOS WidgetKit (SwiftUI) + Android App Widget — not expressible in Capacitor JS. Shares data with the web layer via App Groups (iOS) / shared storage (Android) |
 | Lock-screen "up next" | **Native code** | iOS Live Activities / ActivityKit; Android ongoing/updating notification. Feeds from the synced agenda |
 | Store presence | Native tooling | Xcode + App Store Connect; Android Studio + Play Console |
 
 ## Push notifications
+
+> ⚠️ **Never call `PushNotifications.register()` on Android without FCM.** The
+> plugin throws `IllegalStateException: Default FirebaseApp is not initialized`
+> on Capacitor's native plugin thread, which kills the process on every launch —
+> and because the throw is native, no JS `try`/`catch` or `.catch()` can
+> intercept it. `next.config.ts` therefore mirrors the Gradle condition
+> (`android/app/google-services.json` present and non-empty) into
+> `NEXT_PUBLIC_FCM_CONFIGURED`, and `src/lib/push.ts` skips the plugin on
+> Android when the flag is off. Dropping the Firebase file into `android/app/`
+> is all it takes to re-enable registration on the next build.
 
 - Device registers a push token on login (or first launch) and sends it to the backend
   `device` table.

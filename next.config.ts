@@ -1,7 +1,25 @@
+import { statSync } from "node:fs";
+import { join } from "node:path";
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v65";
+const OFFLINE_CACHE = "solstice-full-offline-v66";
+
+/**
+ * Android only initializes Firebase when `android/app/google-services.json` is
+ * present and non-empty — `android/app/build.gradle` applies the
+ * google-services plugin under exactly this condition. The web layer must know
+ * at build time, because calling PushNotifications.register() without FCM
+ * throws on Capacitor's native plugin thread and kills the process (no JS
+ * catch can intercept it). Mirror the Gradle check here.
+ */
+function fcmConfigured() {
+  try {
+    return statSync(join(process.cwd(), "android", "app", "google-services.json")).size > 0;
+  } catch {
+    return false;
+  }
+}
 
 const withPWA = withPWAInit({
   dest: "public",
@@ -43,6 +61,7 @@ const nextConfig: NextConfig = {
   output: "export",
   outputFileTracingRoot: process.cwd(),
   images: { unoptimized: true },
+  env: { NEXT_PUBLIC_FCM_CONFIGURED: fcmConfigured() ? "1" : "" },
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },

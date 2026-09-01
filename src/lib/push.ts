@@ -18,6 +18,17 @@ import { getActiveEventSlug } from "@/lib/event-store";
 import { BUILTIN_EVENT_SLUG } from "@/lib/messages";
 import { CACHE_NAME } from "@/components/offline-preloader";
 
+/**
+ * Android initializes Firebase only when `android/app/google-services.json`
+ * was present at build time (see next.config.ts and android/app/build.gradle).
+ * Without it, PushNotifications.register() raises IllegalStateException on
+ * Capacitor's native plugin thread — a crash no JS catch can intercept, so the
+ * whole app dies on every launch once the OS notification permission is
+ * granted. Until FCM is configured, skip the native push plugin on Android.
+ * iOS is unaffected: APNs failures arrive as a `registrationError` event.
+ */
+const FCM_CONFIGURED = process.env.NEXT_PUBLIC_FCM_CONFIGURED === "1";
+
 const TOKEN_KEY = "ssa-push-token";
 const PREFS_KEY = "ssa-notify-prefs";
 
@@ -52,6 +63,7 @@ async function nativePush() {
   const capacitor = await import("@capacitor/core");
   if (!capacitor.Capacitor.isNativePlatform()) return null;
   const platform = capacitor.Capacitor.getPlatform() as "ios" | "android";
+  if (platform === "android" && !FCM_CONFIGURED) return null;
   const { PushNotifications } = await import("@capacitor/push-notifications");
   return { PushNotifications, platform };
 }

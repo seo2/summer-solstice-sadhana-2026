@@ -57,6 +57,13 @@ select {
   padding-bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
 }
 
+/* The native iOS WebView renders under the status bar (viewportFit: "cover"),
+   so the sticky header needs the top inset or it collides with the clock and
+   battery. Resolves to the plain 0.75rem everywhere the inset is 0. */
+.safe-top {
+  padding-top: calc(env(safe-area-inset-top) + 0.75rem);
+}
+
 .card {
   border: 1px solid rgba(47, 98, 182, 0.12);
   background: rgba(255, 255, 255, 0.88);

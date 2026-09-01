@@ -45,7 +45,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
       <body>
         <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col">
-          <header className="sticky top-0 z-40 border-b border-sky-900/10 bg-white/82 px-4 py-3 backdrop-blur-xl">
+          <header className="safe-top sticky top-0 z-40 border-b border-sky-900/10 bg-white/82 px-4 pb-3 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-3">
               <Link href="/" className="leading-tight">
                 <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>

@@ -93,6 +93,48 @@ npm run cap:sync
 npx cap open ios        # or: npx cap open android
 ```
 
+### Toolchain notes (verified 2026-09-01)
+
+Both prototypes build and run headlessly, no IDE needed:
+
+```bash
+# iOS — build, install, launch, screenshot
+xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug \
+  -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  -derivedDataPath /tmp/ios-dd CODE_SIGNING_ALLOWED=NO build
+xcrun simctl install booted /tmp/ios-dd/Build/Products/Debug-iphonesimulator/App.app
+xcrun simctl launch booted org.threeho.eventapp
+xcrun simctl io booted screenshot shot.png
+
+# Android — needs JDK 17+; the system java may be older
+printf 'sdk.dir=%s/Library/Android/sdk\n' "$HOME" > android/local.properties
+cd android && JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home" \
+  ./gradlew assembleDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+adb shell am start -n org.threeho.eventapp/.MainActivity
+adb exec-out screencap -p > shot.png
+```
+
+Gotchas that cost time the first run:
+
+- **`local.properties` is gitignored** — regenerate it per machine (line above).
+- The repo's `java` on PATH may be **JDK 16**; AGP 8.13 needs 17+. Point
+  `JAVA_HOME` at Android Studio's bundled JBR 21 rather than installing another
+  JDK.
+- **No WebView DevTools on Android**: Capacitor leaves
+  `webContentsDebuggingEnabled` off, so there is no `webview_devtools_remote`
+  socket to attach Chrome to. Debug from `adb logcat` and screenshots, or turn
+  the flag on for debug builds only.
+- The **Android emulator blocks cleartext HTTP** (no `usesCleartextTraffic`, no
+  network-security config), so `http://10.0.2.2:3999` to the mock backend fails
+  from the app. The iOS simulator can use `https://3ho.test` directly.
+- Booting the emulator while Gradle compiles can wedge SystemUI
+  ("System UI isn't responding") — `adb reboot` and wait for
+  `sys.boot_completed`.
+- **`adb logcat` first, screenshots second**: the Android crash loop found on
+  this run was invisible in screenshots (the app simply returned to the
+  launcher) and obvious in logcat as `FATAL EXCEPTION: CapacitorPlugins`.
+
 - The native shells embed the **static build** (cap:sync rebuilds it) — they do
   not load the dev server.
 - Backend base: open /sync-lab inside the simulator app. The **iOS simulator**
