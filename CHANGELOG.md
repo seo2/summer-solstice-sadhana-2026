@@ -12,6 +12,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Winter Solstice venue map artwork received and wired** (2026-09-01):
+  `references/winter-solstice-map-revised-v3.jpg` (1496×1051 — full venue
+  legend: entrance, Inco Park, Kitchen, Bazaar/Yogi Tea, Tantric Shelter,
+  Gurdwara, Natural Sarovar, numbered cabins). Imported into the local
+  WordPress Media Library, set as the winter test event's `map_image`, and
+  verified rendering in the app's per-event zoomable Map tab served from the
+  bundle. Closes WS2 entirely. Production step pending: upload to the
+  production Media Library when the WSOL26 event is created (WS5). No app code
+  changed — no cache bump.
+
 - **WS4 store prep** (cache v65): public **privacy policy** drafted as the app
   route `/privacy` (accurate to what the app actually does; linked from the
   Account screen; registered in the offline preloader) — needs organization

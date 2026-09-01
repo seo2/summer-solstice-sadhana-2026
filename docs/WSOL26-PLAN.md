@@ -114,13 +114,15 @@ attendee opening "Info" today would read about Ram Das Puri.
       paragraphs + bullet lists) and never shows the built-in Ram Das Puri guide
       while a synced event is active (empty state when nothing published yet).
       Real WSOL26 texts are a WS7 content task.
-- [ ] **Florida venue map** — *Backend done 2026-08-27 (`ssa_event.map_image` +
-      picker + bundle `event.mapImage`); app side done 2026-08-27 (cache v62): the
-      zoomable viewer now takes the active event's map (dimensions measured on
-      load, pre-cached offline at sync time; legend pins stay built-in-only), with
-      a venue-list fallback when no map is published. Built-in map verified
-      untouched.* Remaining: the real **Retreats By The Lake map artwork** (WS7
-      content task) — then this closes.
+- [x] **Florida venue map** — ✅ closed 2026-09-01: the real Winter Solstice map
+      artwork arrived (`references/winter-solstice-map-revised-v3.jpg`,
+      1496×1051), was loaded into the local WordPress Media Library, set on the
+      test event, and **verified rendering in the app's zoomable viewer** served
+      from the bundle. Backend + app side were done 2026-08-27 (map per event,
+      dims measured on load, offline pre-cache, venue-list fallback, built-in map
+      untouched). Remaining ops note: when the WSOL26 event is created in
+      **production** (WS5), upload the same JPG to its Media Library and set it
+      in the Events screen.
 - [x] **Behavior of SSOL-specific sections** — ✅ done 2026-08-28 (cache v64):
       while a synced event is active, the **Home hero shows that event** (name,
       dates, location, same CTAs) instead of the Summer Solstice artwork, and the
