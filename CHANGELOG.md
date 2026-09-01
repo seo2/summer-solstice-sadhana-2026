@@ -35,6 +35,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   announcements/alerts channels) answers for fixture events too. `mocktest` is
   untouched and keeps its hardcoded v1→v2 change-alert behaviour.
 
+- **WSOL26 fixture now carries the real venues, categories and info pages** —
+  venues are the five the event actually uses (TANTRIC SHELTER, ASTA, CHURUATA,
+  GURDWARA, CAMPFIRE) with every session's `location` remapped onto them, so the
+  name-based venue join still resolves; categories are the same 14 the previous
+  events use, pulled from the production `summer-solstice-2026` bundle; and the
+  34 info pages are copied from that same bundle as a base to edit for Florida.
+  `fixture-to-csv.mjs` now also emits `venues`, `categories` and `infoPages`
+  CSVs — ready for when the plugin's Import screen learns those types.
+
 - **CSV export of the fixtures for the WordPress Import screen**
   (`scripts/fixture-to-csv.mjs`, `npm run fixtures:csv`) — converts a bundle
   fixture into `scripts/fixtures/csv/<slug>-{program,teachers,menus}.csv` with

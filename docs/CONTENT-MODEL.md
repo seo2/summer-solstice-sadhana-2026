@@ -155,10 +155,11 @@ and why, without writing. The usual offender is a spreadsheet reformatting
 The column lists in `fixture-to-csv.mjs` mirror `THREEHO_SSA_Importer::csv_columns()`
 in the plugin — change one and change the other.
 
-Note that `venues`, `categories` and `info pages` are **not** importable from
-that screen in either format; they have tables but their upserts live only in
-WP-CLI. Load them with the fixture through the mock backend, or add them to the
-importer.
+The converter also emits `venues`, `categories` and `infoPages` CSVs, but that
+screen **cannot import them yet** in either format: they have tables, and their
+upserts (`upsert_simple`, `upsert_info_pages`) still live in WP-CLI as private
+methods. The files are ready for the day the screen learns those types; until
+then load them through the mock backend.
 
 ## Known gaps (2026-09-01)
 

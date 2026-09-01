@@ -24,6 +24,13 @@ const COLUMNS = {
   program: ["id", "date", "day", "startTime", "endTime", "title", "category", "tags", "location", "facilitator", "country", "language", "description", "photo", "photos", "sourcePage"],
   teachers: ["id", "name", "facilitatorNames", "bio", "country", "photo", "photos"],
   menus: ["id", "date", "meal", "title", "items", "notes", "sort"],
+  // Not importable from the plugin's Import screen yet — their upserts still
+  // live in WP-CLI (upsert_simple / upsert_info_pages). Emitted so the files are
+  // ready the moment the screen learns these types; the columns match what
+  // those upserts read.
+  venues: ["id", "name", "description"],
+  categories: ["id", "name"],
+  infoPages: ["id", "title", "content", "sourcePage"],
 };
 
 const MULTI_SEPARATOR = "|";
