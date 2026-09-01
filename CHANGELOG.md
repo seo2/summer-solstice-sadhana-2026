@@ -12,6 +12,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Native test builds can reach a backend and pull an event** — `npm run
+  cap:sync:dev` sets `NEXT_PUBLIC_SHOW_SYNC_LAB=1`, which adds an "Internal
+  build → Sync Lab" block at the bottom of the Account screen. Sync Lab is
+  unlinked on purpose and the native shell has no address bar, so before this
+  there was **no way at all** to point a test build at a local backend or load
+  an event into it — Level D of TESTING-LOCAL described a step that was
+  impossible. Store builds leave the flag unset and the block is absent from the
+  export (`grep -c "Sync Lab" out/account.html` → 0 for a store build, 1 for a
+  test build). Also `android/app/src/debug/AndroidManifest.xml`: debug-only
+  `usesCleartextTraffic`, so debug builds can reach plain-HTTP local backends
+  (`http://10.0.2.2:3999` from the emulator); release builds are unaffected.
+  Shipped UI does not change, so no cache bump.
+
 - **Full dummy event for local testing** (`scripts/fixtures/wsol26.json`) — a
   realistic WSOL26 bundle (49 sessions over Dec 15–21, 6 teachers, 6 venues, 8
   categories, 6 info pages, 19 menu entries, venue map) with every category,

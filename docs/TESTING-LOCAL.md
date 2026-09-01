@@ -103,9 +103,18 @@ production checkout feed (second run: "Feed unchanged").
 ## Level D — Native apps (simulator)
 
 ```bash
-npm run cap:sync
+npm run cap:sync:dev    # test build: reveals the Sync Lab entry
 npx cap open ios        # or: npx cap open android
 ```
+
+Use **`cap:sync:dev`**, not `cap:sync`, for anything that needs a backend. Sync
+Lab is unlinked from the app on purpose and the native shell has no address bar,
+so a plain build gives you no way to point the app at a local backend or pull an
+event into it. `cap:sync:dev` sets `NEXT_PUBLIC_SHOW_SYNC_LAB=1`, which adds an
+"Internal build → Sync Lab" block at the bottom of the **Account** screen
+(reached from the avatar in the header). Store builds leave the flag unset and
+the block does not exist in the export — verify with
+`grep -c "Sync Lab" out/account.html` (0 for a store build, 1 for a test build).
 
 ### Toolchain notes (verified 2026-09-01)
 
@@ -151,10 +160,15 @@ Gotchas that cost time the first run:
 
 - The native shells embed the **static build** (cap:sync rebuilds it) — they do
   not load the dev server.
-- Backend base: open /sync-lab inside the simulator app. The **iOS simulator**
-  resolves `https://3ho.test` (it uses the host's DNS). The **Android
-  emulator** does not resolve `.test` — use the machine's LAN IP, or
-  `http://10.0.2.2:3999` for the mock backend.
+- Backend base: Account → Sync Lab inside the app (test build only, above). The
+  **iOS simulator** resolves `https://3ho.test` (it uses the host's DNS). The
+  **Android emulator** does not resolve `.test` — use the machine's LAN IP, or
+  `http://10.0.2.2:3999` for the mock backend. Debug builds carry
+  `android/app/src/debug/AndroidManifest.xml`, which allows cleartext HTTP so
+  those plain-HTTP backends are reachable; release builds do not.
+- Loading a dummy event on a device is a **per-install** action: each app has
+  its own WebView storage, so syncing an event in the browser or on iOS does
+  nothing for the Android app. Every install pulls its own copy.
 - Visible only on native: agenda reminders (15 min before a favorite) and the
   immediate "Schedule change" notifications — both work in the iOS simulator.
   **Real push delivery does not** (APNs needs a physical device + keys — WS4).

@@ -8,11 +8,20 @@
 
 import { useState } from "react";
 import { AppLink as Link } from "@/components/app-link";
-import { ArrowLeft, CloudUpload, LogOut, RefreshCw, UserRound } from "lucide-react";
+import { ArrowLeft, CloudUpload, FlaskConical, LogOut, RefreshCw, UserRound } from "lucide-react";
 import { login, logout, register, useAuth } from "@/lib/auth";
 import { getBackendBaseUrl } from "@/lib/backend";
 import { syncFavorites } from "@/lib/favorites-sync";
 import { useSavedActivities } from "@/lib/db";
+
+/**
+ * Sync Lab is an internal bench, unlinked from the app on purpose. The native
+ * shell has no address bar, so without an entry point there is no way to point
+ * a test build at a local backend or pull an event into it. Build test apps
+ * with NEXT_PUBLIC_SHOW_SYNC_LAB=1 (npm run cap:sync:dev) to reveal it; store
+ * builds leave it unset and the block never renders.
+ */
+const SHOW_SYNC_LAB = process.env.NEXT_PUBLIC_SHOW_SYNC_LAB === "1";
 
 type Mode = "login" | "register";
 
@@ -208,6 +217,22 @@ export default function AccountPage() {
               </p>
             )}
           </form>
+        </section>
+      )}
+
+      {SHOW_SYNC_LAB && (
+        <section className="rounded-2xl border border-dashed border-stone-300 bg-stone-50 p-4">
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-stone-400">Internal build</p>
+          <p className="mt-1 text-xs font-semibold leading-5 text-stone-500">
+            Point the app at a backend and pull an event bundle. Not present in store builds.
+          </p>
+          <Link
+            href="/sync-lab"
+            className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-black text-stone-600 ring-1 ring-stone-300"
+          >
+            <FlaskConical className="h-4 w-4" />
+            Sync Lab
+          </Link>
         </section>
       )}
 

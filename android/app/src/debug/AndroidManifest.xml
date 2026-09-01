@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Debug-only overrides. Merged into the manifest for debug builds only, so
+  nothing here reaches a release AAB.
+
+  The app is served over https://localhost by Capacitor, and Android blocks
+  cleartext HTTP by default. Local QA backends are plain HTTP
+  (http://10.0.2.2:3999 for the mock backend from the emulator, or the
+  machine's LAN IP), so debug builds need cleartext to reach them.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application android:usesCleartextTraffic="true" tools:ignore="UnusedAttribute" />
+</manifest>
