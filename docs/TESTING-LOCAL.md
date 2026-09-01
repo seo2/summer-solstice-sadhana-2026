@@ -48,6 +48,20 @@ Walkthrough:
    data (or remove the event from Home's "Your events" and clear the base URL
    in /sync-lab).
 
+### A full dummy event (`wsol26`)
+
+`mocktest` is deliberately tiny — one session, for exercising change alerts. To
+see the app carrying a realistic event, use the fixture instead:
+
+`/sync-lab` → base `http://localhost:3999`, event slug **`wsol26`** → Fetch
+bundle → Use this event in the app. That loads 49 sessions across 7 days, 6
+teachers, 6 venues, 8 categories, 6 info pages, 19 menu entries and a venue map.
+
+The fixture lives at `scripts/fixtures/wsol26.json` and is re-read on every
+request: edit it, bump its `version`, re-fetch, and the app treats it as an
+update. Any `scripts/fixtures/<slug>.json` is served the same way. See
+[CONTENT-MODEL.md](CONTENT-MODEL.md).
+
 ## Level C — App + real WordPress (plugin v0.5.0)
 
 The plugin lives in the 3ho.org repo (network volume). **State as of

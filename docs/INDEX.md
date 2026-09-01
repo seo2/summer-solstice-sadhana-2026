@@ -28,6 +28,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 |---|---|
 | [ROADMAP.md](ROADMAP.md) | Phased plan from PWA → backend → native → multi-event → commerce |
 | [BACKEND.md](BACKEND.md) | Backend proposal, multi-event data model, sync strategy |
+| [CONTENT-MODEL.md](CONTENT-MODEL.md) | Where each screen's content comes from: built-in JSON vs synced bundle, field contracts, the name-based joins, and loading a full dummy event locally |
 | [NATIVE.md](NATIVE.md) | Capacitor iOS/Android, push, widget, lock-screen "up next" |
 | [LOCAL-NETWORK.md](LOCAL-NETWORK.md) | Campsite local network + edge server for offline updates/notifications |
 | [FEATURES.md](FEATURES.md) | Per-feature specs, status, dependencies, and phase |

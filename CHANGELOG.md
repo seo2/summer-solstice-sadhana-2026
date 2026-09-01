@@ -12,6 +12,23 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Full dummy event for local testing** (`scripts/fixtures/wsol26.json`) — a
+  realistic WSOL26 bundle (49 sessions over Dec 15–21, 6 teachers, 6 venues, 8
+  categories, 6 info pages, 19 menu entries, venue map) with every category,
+  venue and facilitator reference resolving. `scripts/mock-backend.mjs` now
+  serves **any** `scripts/fixtures/<slug>.json` as a sync bundle, re-reading the
+  file on every request: edit the JSON, bump its `version`, re-fetch, and the
+  app treats it as a content update — no restart, no rebuild. `/updates` (the
+  announcements/alerts channels) answers for fixture events too. `mocktest` is
+  untouched and keeps its hardcoded v1→v2 change-alert behaviour.
+
+- **`docs/CONTENT-MODEL.md`** — where each screen's content comes from
+  (built-in JSON vs synced bundle), the bundle→screen map, the three joins that
+  match on **name** rather than id (category, venue, facilitator) and fail
+  silently when they don't, the info-page text conventions, update/version
+  semantics, and the local dummy-event loop. Registered in `docs/INDEX.md`;
+  `TESTING-LOCAL.md` Level B points at the fixture.
+
 - **Winter Solstice venue map artwork received and wired** (2026-09-01):
   `references/winter-solstice-map-revised-v3.jpg` (1496×1051 — full venue
   legend: entrance, Inco Park, Kitchen, Bazaar/Yogi Tea, Tantric Shelter,

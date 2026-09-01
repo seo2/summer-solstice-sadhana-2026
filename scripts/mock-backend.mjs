@@ -11,6 +11,11 @@
  *       no since → full bundle v1 · since=1 → v2 (the favorited-session
  *       "Morning Sadhana" moves time+venue, exercising the change alerts)
  *       · since>=2 → { unchanged } — plus infoPages, menus, event.mapImage.
+ *   GET /wp-json/3ho-solstice/v1/sync?event=<slug>[&since=N]
+ *       any slug with a fixture at scripts/fixtures/<slug>.json — a full,
+ *       realistic event bundle (e.g. "wsol26"). The file is re-read on every
+ *       request, so editing it is enough; bump its `version` and the app
+ *       treats the next fetch as an update. See docs/CONTENT-MODEL.md.
  *   GET /wp-json/3ho-solstice/v1/updates?event=mocktest&since=N
  *   GET /wp-json/3ho-solstice/v1/channels/{id}/messages?since=N
  *   GET /mock/post?type=alert|official&body=…   → publish a new broadcast
@@ -20,6 +25,33 @@
  * "mocktest" → Fetch bundle → activate from Home's "Your events".
  */
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const FIXTURES_DIR = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
+
+/**
+ * Load scripts/fixtures/<slug>.json fresh on every request, so editing a
+ * fixture needs no server restart. Returns null when there is no such file
+ * (the caller answers 404) or when the JSON is broken (logged, so a typo
+ * while editing is obvious instead of silent).
+ */
+function loadFixture(slug) {
+  if (!/^[a-z0-9-]{1,64}$/.test(slug)) return null;
+  let raw;
+  try {
+    raw = readFileSync(join(FIXTURES_DIR, `${slug}.json`), "utf8");
+  } catch {
+    return null;
+  }
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    console.error(`fixture ${slug}.json is not valid JSON: ${error.message}`);
+    return null;
+  }
+}
 
 const event = {
   slug: "mocktest",
@@ -133,7 +165,10 @@ createServer((req, res) => {
     return;
   }
 
-  if (url.pathname === "/wp-json/3ho-solstice/v1/updates" && url.searchParams.get("event") === "mocktest") {
+  const updatesEvent = url.searchParams.get("event") ?? "";
+  const knownEvent = updatesEvent === "mocktest" || Boolean(loadFixture(updatesEvent));
+
+  if (url.pathname === "/wp-json/3ho-solstice/v1/updates" && knownEvent) {
     const since = Number(url.searchParams.get("since") ?? "0");
     let cursor = since;
     const payload = channels.map((channel) => {
@@ -178,12 +213,31 @@ createServer((req, res) => {
     return;
   }
 
-  if (url.pathname === "/wp-json/3ho-solstice/v1/sync" && url.searchParams.get("event") === "mocktest") {
+  if (url.pathname === "/wp-json/3ho-solstice/v1/sync") {
+    const slug = url.searchParams.get("event") ?? "";
     const since = Number(url.searchParams.get("since") ?? "0");
-    const body = since >= 2 ? { unchanged: true, version: 2 } : bundle(since >= 1 ? 2 : 1);
-    console.log(`sync since=${url.searchParams.get("since") ?? "(none)"} -> ${body.unchanged ? "unchanged" : `v${body.version}`}`);
-    res.writeHead(200, { "Content-Type": "application/json", ETag: `"mock-${body.version}"` });
-    res.end(JSON.stringify(body));
+
+    if (slug === "mocktest") {
+      const body = since >= 2 ? { unchanged: true, version: 2 } : bundle(since >= 1 ? 2 : 1);
+      console.log(`sync mocktest since=${url.searchParams.get("since") ?? "(none)"} -> ${body.unchanged ? "unchanged" : `v${body.version}`}`);
+      res.writeHead(200, { "Content-Type": "application/json", ETag: `"mock-${body.version}"` });
+      res.end(JSON.stringify(body));
+      return;
+    }
+
+    const fixture = loadFixture(slug);
+    if (fixture) {
+      const version = Number(fixture.version ?? 1);
+      const body = since >= version ? { unchanged: true, version } : fixture;
+      console.log(`sync ${slug} since=${url.searchParams.get("since") ?? "(none)"} -> ${body.unchanged ? "unchanged" : `v${version} (${fixture.program?.length ?? 0} sessions)`}`);
+      res.writeHead(200, { "Content-Type": "application/json", ETag: `"${slug}-${version}"` });
+      res.end(JSON.stringify(body));
+      return;
+    }
+
+    console.log(`sync ${slug} -> unknown_event`);
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ ok: false, error: "unknown_event", message: "Event not found." }));
     return;
   }
 

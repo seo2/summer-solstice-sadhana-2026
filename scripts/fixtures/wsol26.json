@@ -1,0 +1,949 @@
+{
+  "_comment": "Dummy WSOL26 bundle for local testing. Served by scripts/mock-backend.mjs at /wp-json/3ho-solstice/v1/sync?event=wsol26 and re-read from disk on every request. Bump `version` after editing to make the app treat it as an update. See docs/CONTENT-MODEL.md.",
+  "ok": true,
+  "version": 1,
+  "event": {
+    "slug": "wsol26",
+    "name": "Winter Solstice Sadhana 2026",
+    "startDate": "2026-12-15",
+    "endDate": "2026-12-21",
+    "location": "Retreats By The Lake, Lake Wales, FL",
+    "timezone": "America/New_York",
+    "status": "active",
+    "mapImage": "http://localhost:3999/photos/venue-map.svg"
+  },
+  "program": [
+    {
+      "id": "2026-12-15-1400-registration-&-check-in",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "14:00",
+      "title": "Registration & Check-in",
+      "category": "Logistics",
+      "location": "Main Tent",
+      "endTime": "20:00",
+      "description": "Bring your ticket QR code and a photo ID. Wristbands are issued here and must stay on for the whole event."
+    },
+    {
+      "id": "2026-12-15-1730-dinner",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
+    },
+    {
+      "id": "2026-12-15-1930-opening-circle",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "19:30",
+      "title": "Opening Circle",
+      "category": "Community",
+      "location": "Main Tent",
+      "endTime": "21:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "We begin the Solstice together. Introductions, the week ahead, and the first chant."
+    },
+    {
+      "id": "2026-12-16-0400-morning-sadhana",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "04:00",
+      "title": "Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh",
+      "description": "Japji, Kundalini Yoga kriya and the Aquarian Sadhana mantras. Doors open at 3:45 AM."
+    },
+    {
+      "id": "2026-12-16-0630-breakfast",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-16-1200-lunch",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-16-1730-dinner",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
+    },
+    {
+      "id": "2026-12-16-0900-kriya-for-winter-vitality",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "09:00",
+      "title": "Kriya for Winter Vitality",
+      "category": "Kriya and Meditation",
+      "location": "Main Tent",
+      "endTime": "11:00",
+      "facilitator": "Hari Simran Kaur",
+      "description": "A warming kriya for the coldest mornings of the year, followed by a long deep relaxation.",
+      "tags": [
+        "all levels"
+      ]
+    },
+    {
+      "id": "2026-12-16-1115-yogic-nutrition-in-winter",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "11:15",
+      "title": "Yogic Nutrition in Winter",
+      "category": "Lecture",
+      "location": "Lakeside Hall",
+      "endTime": "12:00",
+      "facilitator": "Dr. Siri Atma Kaur",
+      "description": "What to eat and drink through a Florida December: ginger, turmeric, and the classic Yogi Tea recipe."
+    },
+    {
+      "id": "2026-12-16-1400-youth-&-family-program",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "14:00",
+      "title": "Youth & Family Program",
+      "category": "Community",
+      "location": "Lakeside Hall",
+      "endTime": "16:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "Ages 6–14. Yoga games, chanting and craft. Parents check children in and out."
+    },
+    {
+      "id": "2026-12-16-1930-evening-kirtan",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "19:30",
+      "title": "Evening Kirtan",
+      "category": "Gurdwara",
+      "location": "Gurdwara",
+      "endTime": "21:00",
+      "facilitator": "Amrit Kirtan Kaur",
+      "description": "Head covered, shoes off. Everyone is welcome, come and go quietly."
+    },
+    {
+      "id": "2026-12-17-0400-morning-sadhana",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "04:00",
+      "title": "Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh"
+    },
+    {
+      "id": "2026-12-17-0630-breakfast",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-17-1200-lunch",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-17-1730-dinner",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
+    },
+    {
+      "id": "2026-12-17-0830-white-tantric-yoga-—-registration",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "08:30",
+      "title": "White Tantric Yoga® — Registration",
+      "category": "Logistics",
+      "location": "Tantric Shelter",
+      "endTime": "09:00",
+      "facilitator": "Nirvair Singh",
+      "description": "Course check-in. Bring your own mat, a shawl and water. Doors close at 9:00 AM sharp."
+    },
+    {
+      "id": "2026-12-17-0900-white-tantric-yoga-—-day-1",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "09:00",
+      "title": "White Tantric Yoga® — Day 1",
+      "category": "White Tantric Yoga",
+      "location": "Tantric Shelter",
+      "endTime": "16:30",
+      "facilitator": "Nirvair Singh",
+      "description": "Six kriyas with breaks. Once a kriya begins the hall stays closed — please arrive early.",
+      "tags": [
+        "full day",
+        "pre-registration required"
+      ]
+    },
+    {
+      "id": "2026-12-17-1930-gong-relaxation",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "19:30",
+      "title": "Gong Relaxation",
+      "category": "Kriya and Meditation",
+      "location": "Main Tent",
+      "endTime": "20:30",
+      "facilitator": "Hari Simran Kaur",
+      "description": "A gentle close to a long day. Bring a blanket."
+    },
+    {
+      "id": "2026-12-18-0400-morning-sadhana",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "04:00",
+      "title": "Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh"
+    },
+    {
+      "id": "2026-12-18-0630-breakfast",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-18-1200-lunch",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-18-1730-dinner",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
+    },
+    {
+      "id": "2026-12-18-0900-white-tantric-yoga-—-day-2",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "09:00",
+      "title": "White Tantric Yoga® — Day 2",
+      "category": "White Tantric Yoga",
+      "location": "Tantric Shelter",
+      "endTime": "16:30",
+      "facilitator": "Nirvair Singh",
+      "description": "Second day of the course. Same schedule, same rule about the doors.",
+      "tags": [
+        "full day",
+        "pre-registration required"
+      ]
+    },
+    {
+      "id": "2026-12-18-1700-bazaar-open-hours",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "17:00",
+      "title": "Bazaar Open Hours",
+      "category": "Community",
+      "location": "Bazaar",
+      "endTime": "17:45",
+      "description": "Books, shawls, malas and the Yogi Tea stand. Cash and cards accepted."
+    },
+    {
+      "id": "2026-12-18-1930-storytelling-night",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "19:30",
+      "title": "Storytelling Night",
+      "category": "Community",
+      "location": "Main Tent",
+      "endTime": "21:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "Longtime attendees share what brought them to Solstice. Open mic at the end."
+    },
+    {
+      "id": "2026-12-19-0400-morning-sadhana",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "04:00",
+      "title": "Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh"
+    },
+    {
+      "id": "2026-12-19-0630-breakfast",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-19-1200-lunch",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-19-1730-dinner",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "17:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "19:00"
+    },
+    {
+      "id": "2026-12-19-0900-mantra-intensive",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "09:00",
+      "title": "Mantra Intensive",
+      "category": "Kriya and Meditation",
+      "location": "Main Tent",
+      "endTime": "11:00",
+      "facilitator": "Amrit Kirtan Kaur",
+      "description": "Two hours with Ad Guray Nameh and Guru Ram Das. No experience needed.",
+      "tags": [
+        "all levels"
+      ]
+    },
+    {
+      "id": "2026-12-19-1115-immunity-&-the-winter-body",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "11:15",
+      "title": "Immunity & the Winter Body",
+      "category": "Lecture",
+      "location": "Lakeside Hall",
+      "endTime": "12:00",
+      "facilitator": "Dr. Siri Atma Kaur"
+    },
+    {
+      "id": "2026-12-19-1400-sat-nam-rasayan-healing-circle",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "14:00",
+      "title": "Sat Nam Rasayan Healing Circle",
+      "category": "Kriya and Meditation",
+      "location": "Lakeside Hall",
+      "endTime": "15:30",
+      "facilitator": "Hari Simran Kaur",
+      "description": "Paired healing practice. Wear loose clothing."
+    },
+    {
+      "id": "2026-12-19-1600-community-seva",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "16:00",
+      "title": "Community Seva",
+      "category": "Community",
+      "location": "Dining Hall",
+      "endTime": "17:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "Help prepare the Solstice-eve meal. Everyone welcome, no signup needed."
+    },
+    {
+      "id": "2026-12-19-1930-evening-kirtan",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "19:30",
+      "title": "Evening Kirtan",
+      "category": "Gurdwara",
+      "location": "Gurdwara",
+      "endTime": "21:00",
+      "facilitator": "Amrit Kirtan Kaur"
+    },
+    {
+      "id": "2026-12-20-0400-morning-sadhana",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "04:00",
+      "title": "Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh"
+    },
+    {
+      "id": "2026-12-20-0630-breakfast",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-20-1200-lunch",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-20-1700-dinner",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "17:00",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "18:30"
+    },
+    {
+      "id": "2026-12-20-0900-kriya-for-the-turning-of-the-year",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "09:00",
+      "title": "Kriya for the Turning of the Year",
+      "category": "Kriya and Meditation",
+      "location": "Main Tent",
+      "endTime": "11:00",
+      "facilitator": "Hari Simran Kaur"
+    },
+    {
+      "id": "2026-12-20-1115-gurdwara-sahib",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "11:15",
+      "title": "Gurdwara Sahib",
+      "category": "Gurdwara",
+      "location": "Gurdwara",
+      "endTime": "12:00",
+      "facilitator": "Amrit Kirtan Kaur",
+      "description": "Kirtan, Hukam and Langar to follow."
+    },
+    {
+      "id": "2026-12-20-1400-preparing-for-the-longest-night",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "14:00",
+      "title": "Preparing for the Longest Night",
+      "category": "Lecture",
+      "location": "Main Tent",
+      "endTime": "16:00",
+      "facilitator": "Guru Dev Singh",
+      "description": "What the Solstice night practice asks of us, and how to pace yourself through it."
+    },
+    {
+      "id": "2026-12-20-2000-solstice-night-chant",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "20:00",
+      "title": "Solstice Night Chant",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "23:59",
+      "facilitator": "Guru Dev Singh",
+      "description": "The long chant through the longest night of the year. Come and go as you need; blankets and cushions provided."
+    },
+    {
+      "id": "2026-12-21-0400-solstice-morning-sadhana",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "04:00",
+      "title": "Solstice Morning Sadhana",
+      "category": "Sadhana",
+      "location": "Main Tent",
+      "endTime": "07:00",
+      "facilitator": "Guru Dev Singh",
+      "description": "The first Sadhana of the new light."
+    },
+    {
+      "id": "2026-12-21-0630-breakfast",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "06:30",
+      "title": "Breakfast",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "08:00"
+    },
+    {
+      "id": "2026-12-21-1200-lunch",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "12:00",
+      "title": "Lunch",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "13:30"
+    },
+    {
+      "id": "2026-12-21-1630-dinner",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "16:30",
+      "title": "Dinner",
+      "category": "Meal",
+      "location": "Dining Hall",
+      "endTime": "18:00"
+    },
+    {
+      "id": "2026-12-21-0900-closing-kriya-&-blessing",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "09:00",
+      "title": "Closing Kriya & Blessing",
+      "category": "Kriya and Meditation",
+      "location": "Main Tent",
+      "endTime": "10:30",
+      "facilitator": "Hari Simran Kaur"
+    },
+    {
+      "id": "2026-12-21-1100-closing-circle",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "11:00",
+      "title": "Closing Circle",
+      "category": "Community",
+      "location": "Main Tent",
+      "endTime": "12:00",
+      "facilitator": "Jagat Prakash Singh",
+      "description": "We close the circle we opened. Announcements about next year."
+    },
+    {
+      "id": "2026-12-21-1300-departures-&-site-check-out",
+      "date": "2026-12-21",
+      "day": "Monday",
+      "startTime": "13:00",
+      "title": "Departures & Site Check-out",
+      "category": "Logistics",
+      "location": "Main Tent",
+      "endTime": "18:00",
+      "description": "Return your wristband at the Main Tent. Cabins must be cleared by 3 PM."
+    }
+  ],
+  "teachers": [
+    {
+      "id": "t-hari-simran",
+      "name": "Hari Simran Kaur",
+      "facilitatorNames": [
+        "Hari Simran Kaur"
+      ],
+      "bio": "Teaches Kundalini Yoga as taught by Yogi Bhajan® since 1998. Lead trainer in Level 2 Vitality and Stress.",
+      "country": "United States"
+    },
+    {
+      "id": "t-guru-dev",
+      "name": "Guru Dev Singh",
+      "facilitatorNames": [
+        "Guru Dev Singh"
+      ],
+      "bio": "Longtime Sadhana leader; guides the pre-dawn practice and the mantra intensives.",
+      "country": "Mexico"
+    },
+    {
+      "id": "t-siri-atma",
+      "name": "Dr. Siri Atma Kaur",
+      "facilitatorNames": [
+        "Dr. Siri Atma Kaur",
+        "Siri Atma Kaur"
+      ],
+      "bio": "Physician and Ayurvedic practitioner. Lectures on winter immunity and the yogic diet.",
+      "country": "Canada"
+    },
+    {
+      "id": "t-nirvair",
+      "name": "Nirvair Singh",
+      "facilitatorNames": [
+        "Nirvair Singh"
+      ],
+      "bio": "White Tantric Yoga® facilitator and course host.",
+      "country": "United States"
+    },
+    {
+      "id": "t-amrit-kirtan",
+      "name": "Amrit Kirtan Kaur",
+      "facilitatorNames": [
+        "Amrit Kirtan Kaur"
+      ],
+      "bio": "Kirtan singer and Gurdwara musician. Leads the evening chants.",
+      "country": "Brazil"
+    },
+    {
+      "id": "t-jagat",
+      "name": "Jagat Prakash Singh",
+      "facilitatorNames": [
+        "Jagat Prakash Singh"
+      ],
+      "bio": "Community coordinator; runs the youth and family program.",
+      "country": "Spain"
+    }
+  ],
+  "venues": [
+    {
+      "id": "main-tent",
+      "name": "Main Tent",
+      "description": "Main program shelter by the lake. Heated in the early mornings."
+    },
+    {
+      "id": "tantric-shelter",
+      "name": "Tantric Shelter",
+      "description": "White Tantric Yoga® hall. Doors close when the course begins."
+    },
+    {
+      "id": "gurdwara",
+      "name": "Gurdwara",
+      "description": "Head covered, shoes off. Open all day for quiet meditation."
+    },
+    {
+      "id": "dining-hall",
+      "name": "Dining Hall",
+      "description": "All meals, plus Yogi Tea through the day."
+    },
+    {
+      "id": "lakeside-hall",
+      "name": "Lakeside Hall",
+      "description": "Indoor hall next to the dining area. Workshops and youth program."
+    },
+    {
+      "id": "bazaar",
+      "name": "Bazaar",
+      "description": "Vendors, books and Yogi Tea stand. Closes at sunset."
+    }
+  ],
+  "categories": [
+    {
+      "id": "sadhana",
+      "name": "Sadhana"
+    },
+    {
+      "id": "kriya-and-meditation",
+      "name": "Kriya and Meditation"
+    },
+    {
+      "id": "white-tantric-yoga",
+      "name": "White Tantric Yoga"
+    },
+    {
+      "id": "gurdwara",
+      "name": "Gurdwara"
+    },
+    {
+      "id": "lecture",
+      "name": "Lecture"
+    },
+    {
+      "id": "community",
+      "name": "Community"
+    },
+    {
+      "id": "meal",
+      "name": "Meal"
+    },
+    {
+      "id": "logistics",
+      "name": "Logistics"
+    }
+  ],
+  "infoPages": [
+    {
+      "id": "wsol26-arrival",
+      "title": "Arrival & Check-in",
+      "content": "Check-in opens Tuesday, December 15 at 2 PM in the Main Tent and stays open until 8 PM.\n\nBring your ticket QR code and a photo ID. You will receive a wristband that must stay on for the whole event.\n\n∙ Parking is next to the Main Lodge, follow the volunteers\n∙ Late arrivals: call the site number on your ticket\n∙ Quiet hours start at 9:30 PM across the whole site"
+    },
+    {
+      "id": "wsol26-what-to-bring",
+      "title": "What to Bring",
+      "content": "Florida nights in December get down to the 40s°F (5°C), and Sadhana starts at 4 AM.\n\n∙ Yoga mat, meditation cushion and a sheepskin if you have one\n∙ Warm layers and a shawl for the early mornings\n∙ Flashlight or headlamp for the walk to the Main Tent\n∙ Reusable water bottle and a mug for Yogi Tea\n∙ White clothing for the Solstice night, if you wish"
+    },
+    {
+      "id": "wsol26-white-tantric-yoga",
+      "title": "White Tantric Yoga®",
+      "content": "White Tantric Yoga® runs Thursday and Friday from 9 AM to 4:30 PM in the Tantric Shelter.\n\nPre-registration is required and separate from the event ticket.\n\n∙ Registration opens at 8:30 AM on Thursday\n∙ Doors close when a kriya begins and stay closed until it ends\n∙ Bring your own mat, a shawl and water\n∙ Wear white if you can, and no wristwatches during the kriyas"
+    },
+    {
+      "id": "wsol26-gurdwara",
+      "title": "Gurdwara",
+      "content": "The Gurdwara is open all day for quiet meditation, with Kirtan each evening at 7:30 PM.\n\n∙ Cover your head and remove your shoes before entering\n∙ Everyone is welcome regardless of background\n∙ Please enter and leave quietly during Kirtan\n\nGurdwara Sahib with Langar is on Sunday at 11:15 AM."
+    },
+    {
+      "id": "wsol26-site-and-safety",
+      "title": "Site & Safety",
+      "content": "Retreats By The Lake sits on Tiger Lake in Lake Wales, Florida.\n\n∙ First aid is at the Main Lodge, staffed 24 hours\n∙ Do not swim in the lake — it is not supervised and there is wildlife\n∙ Golf carts have right of way on the paths\n∙ Alcohol, smoking and drugs are not permitted anywhere on site\n∙ Emergency: dial 911, then notify the Main Lodge"
+    },
+    {
+      "id": "wsol26-meals",
+      "title": "Meals & Dietary Needs",
+      "content": "All meals are vegetarian and served in the Dining Hall. Yogi Tea is available through the day.\n\n∙ Breakfast 6:30–8:00 AM · Lunch 12:00–1:30 PM · Dinner 5:30–7:00 PM\n∙ Gluten-free and vegan options at every meal\n∙ Severe allergies: speak to the kitchen lead on arrival\n∙ Please bring your own mug and water bottle"
+    }
+  ],
+  "menus": [
+    {
+      "id": "menu-2026-12-15-dinner",
+      "date": "2026-12-15",
+      "meal": "dinner",
+      "items": [
+        "Lentil soup",
+        "Fresh bread",
+        "Green salad",
+        "Yogi Tea"
+      ],
+      "notes": "Vegan · gluten-free bread on request"
+    },
+    {
+      "id": "menu-2026-12-16-breakfast",
+      "date": "2026-12-16",
+      "meal": "breakfast",
+      "items": [
+        "Oatmeal with dates and almonds",
+        "Fresh fruit",
+        "Yogi Tea"
+      ],
+      "title": "Solstice morning",
+      "notes": "Vegan"
+    },
+    {
+      "id": "menu-2026-12-16-lunch",
+      "date": "2026-12-16",
+      "meal": "lunch",
+      "items": [
+        "Kitcheree with mung beans",
+        "Steamed winter greens",
+        "Yogurt",
+        "Golden milk"
+      ],
+      "notes": "Vegan option without yogurt"
+    },
+    {
+      "id": "menu-2026-12-16-dinner",
+      "date": "2026-12-16",
+      "meal": "dinner",
+      "items": [
+        "Roasted root vegetables",
+        "Quinoa pilaf",
+        "Tahini sauce"
+      ],
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-17-breakfast",
+      "date": "2026-12-17",
+      "meal": "breakfast",
+      "items": [
+        "Warm rice porridge",
+        "Bananas",
+        "Yogi Tea"
+      ],
+      "notes": "Vegan"
+    },
+    {
+      "id": "menu-2026-12-17-lunch",
+      "date": "2026-12-17",
+      "meal": "lunch",
+      "items": [
+        "Vegetable broth",
+        "Cucumber salad",
+        "Flatbread"
+      ],
+      "title": "Light before the kriyas",
+      "notes": "Light meal for the White Tantric Yoga® day"
+    },
+    {
+      "id": "menu-2026-12-17-dinner",
+      "date": "2026-12-17",
+      "meal": "dinner",
+      "items": [
+        "Chickpea stew",
+        "Basmati rice",
+        "Steamed carrots"
+      ],
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-18-breakfast",
+      "date": "2026-12-18",
+      "meal": "breakfast",
+      "items": [
+        "Oatmeal with apples and cinnamon",
+        "Yogi Tea"
+      ],
+      "notes": "Vegan"
+    },
+    {
+      "id": "menu-2026-12-18-lunch",
+      "date": "2026-12-18",
+      "meal": "lunch",
+      "items": [
+        "Miso vegetable soup",
+        "Brown rice",
+        "Pickled vegetables"
+      ],
+      "title": "Light before the kriyas",
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-18-dinner",
+      "date": "2026-12-18",
+      "meal": "dinner",
+      "items": [
+        "Vegetable lasagna",
+        "Garden salad",
+        "Herbal tea"
+      ],
+      "notes": "Gluten-free portion available"
+    },
+    {
+      "id": "menu-2026-12-19-breakfast",
+      "date": "2026-12-19",
+      "meal": "breakfast",
+      "items": [
+        "Millet porridge",
+        "Dried fruit and nuts",
+        "Yogi Tea"
+      ],
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-19-lunch",
+      "date": "2026-12-19",
+      "meal": "lunch",
+      "items": [
+        "Dal with ginger",
+        "Rice",
+        "Sauteed spinach",
+        "Mango chutney"
+      ],
+      "notes": "Vegan"
+    },
+    {
+      "id": "menu-2026-12-19-dinner",
+      "date": "2026-12-19",
+      "meal": "dinner",
+      "items": [
+        "Squash curry",
+        "Coconut rice",
+        "Cabbage slaw",
+        "Golden milk"
+      ],
+      "title": "Solstice-eve meal",
+      "notes": "Vegan · prepared by community seva"
+    },
+    {
+      "id": "menu-2026-12-20-breakfast",
+      "date": "2026-12-20",
+      "meal": "breakfast",
+      "items": [
+        "Buckwheat pancakes",
+        "Maple syrup",
+        "Fresh fruit",
+        "Yogi Tea"
+      ],
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-20-lunch",
+      "date": "2026-12-20",
+      "meal": "lunch",
+      "items": [
+        "Dal",
+        "Rice",
+        "Roti",
+        "Kheer"
+      ],
+      "title": "Langar",
+      "notes": "Served after Gurdwara Sahib · vegan except kheer"
+    },
+    {
+      "id": "menu-2026-12-20-dinner",
+      "date": "2026-12-20",
+      "meal": "dinner",
+      "items": [
+        "Vegetable stew",
+        "Corn bread",
+        "Ginger tea"
+      ],
+      "title": "Before the longest night",
+      "notes": "Light and warming · vegan"
+    },
+    {
+      "id": "menu-2026-12-21-breakfast",
+      "date": "2026-12-21",
+      "meal": "breakfast",
+      "items": [
+        "Warm almond milk with cardamom",
+        "Fruit bowl",
+        "Yogi Tea"
+      ],
+      "title": "First light",
+      "notes": "Vegan · gluten-free"
+    },
+    {
+      "id": "menu-2026-12-21-lunch",
+      "date": "2026-12-21",
+      "meal": "lunch",
+      "items": [
+        "Kitcheree",
+        "Steamed greens",
+        "Yogurt"
+      ],
+      "notes": "Vegan option available"
+    },
+    {
+      "id": "menu-2026-12-21-dinner",
+      "date": "2026-12-21",
+      "meal": "dinner",
+      "items": [
+        "Vegetable paella",
+        "Green salad",
+        "Herbal tea"
+      ],
+      "title": "Farewell meal",
+      "notes": "Vegan · gluten-free"
+    }
+  ]
+}
