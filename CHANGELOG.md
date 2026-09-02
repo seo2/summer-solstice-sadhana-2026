@@ -106,6 +106,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   template, on-device QA list, and the timeline back from Nov 24. Registered in
   `docs/INDEX.md`.
 
+### Changed
+
+- **Account creation removed from the app** (cache v68) — Apple guideline
+  5.1.1(v) requires in-app account deletion from any app that offers sign-up,
+  and that flow does not exist (no `auth/delete-account` endpoint, no UI).
+  Rather than build it for the first release, `ACCOUNT_CREATION_ENABLED = false`
+  in `src/app/account/page.tsx` drops the "Create account" tab and its Name
+  field; the screen now shows a plain "Sign in" heading that says an account is
+  optional and only adds cross-device favorites sync. Accounts are created on
+  3ho.org. The privacy policy was corrected to match — it no longer says you can
+  create an account from the app, and points at 3ho.org for deletion. Flip the
+  constant back on in the same change set that ships deletion; `docs/STORE-OPS.md`
+  records the G1 blocker as resolved this way.
+
 ### Fixed
 
 - **`docs/TESTING-LOCAL.md` said Android WebView DevTools were unavailable** —

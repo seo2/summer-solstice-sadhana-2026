@@ -20,13 +20,23 @@ the WS4 Trello card checklists. Prepared 2026-08-28.
   **public web domain** of the PWA (the policy URL you give the stores, e.g.
   `https://<final-domain>/privacy`).
 
-## ⚠️ Blocker to schedule: in-app account deletion (G1)
+## ~~Blocker: in-app account deletion (G1)~~ — resolved by dropping sign-up
 
-Apple guideline 5.1.1(v): apps that offer **account creation must offer
-in-app account deletion**. The app has in-app registration, so this is required
-before iOS submission. Needs a small plugin endpoint (`auth/delete-account`)
-plus a button in `/account` — ask the dev side to propose & build it (≈1 change
-set per repo). The privacy policy's deletion paragraph should then be updated.
+Apple guideline 5.1.1(v) requires in-app account deletion from any app that
+offers **account creation**. Rather than build the deletion flow for the first
+release, **sign-up was removed from the app** (2026-09-02, cache v68):
+`ACCOUNT_CREATION_ENABLED = false` in `src/app/account/page.tsx` hides the
+"Create account" tab and its fields, leaving only sign-in. Accounts are created
+on 3ho.org, so the guideline no longer applies.
+
+Two things to keep in mind:
+
+- **The backend endpoint still exists.** Only the app's UI was removed, so if a
+  reviewer probes the API this is not "account creation offered by the app" —
+  but be ready to say that accounts are made on the website.
+- **To bring sign-up back**, flip that constant *in the same change set* that
+  ships account deletion (`auth/delete-account` in the plugin + a button in
+  `/account`), and restore the privacy policy's wording about creating accounts.
 
 ## A — Apple chain
 

@@ -48,7 +48,8 @@ export default function PrivacyPage() {
 
       <Section title="Optional account">
         <p>
-          You can use the entire app without an account. If you choose to sign in or create a 3HO account,
+          You can use the entire app without an account, and the app does not create accounts — those are
+          made on 3HO&apos;s website. If you choose to sign in with a 3HO account,
           your email address, display name, and password are processed by 3HO&apos;s website (3ho.org) to
           authenticate you, and your favorited sessions are synced to your account so they follow you across
           devices. Passwords are handled by WordPress&apos;s standard authentication; the app stores only an
@@ -89,7 +90,8 @@ export default function PrivacyPage() {
         <p>
           Signing out stops favorites sync and invalidates the app&apos;s access token. Disabling notifications
           unregisters your device from push delivery. Uninstalling the app removes all locally stored data.
-          To delete your 3HO account and its synced data, contact us through the app&apos;s Contact section.
+          To delete your 3HO account and its synced data, ask us through the app&apos;s Contact section or on
+          3ho.org, where the account was created.
         </p>
       </Section>
 

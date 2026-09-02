@@ -1,8 +1,8 @@
 "use client";
 
 /**
- * Account: login/register against the WordPress backend, profile + favorites
- * sync when logged in. The app never requires an account — this only adds
+ * Account: sign in against the WordPress backend, profile + favorites sync
+ * when logged in. The app never requires an account — this only adds
  * cross-device sync (and, later, push and messaging identity).
  */
 
@@ -22,6 +22,15 @@ import { useSavedActivities } from "@/lib/db";
  * builds leave it unset and the block never renders.
  */
 const SHOW_SYNC_LAB = process.env.NEXT_PUBLIC_SHOW_SYNC_LAB === "1";
+
+/**
+ * Sign-up is off for the first store release. Apple guideline 5.1.1(v) requires
+ * in-app account deletion from any app that offers account creation, and that
+ * flow does not exist yet (no `auth/delete-account` endpoint, no UI). Signing in
+ * stays: accounts are created on 3ho.org, and the app works fully without one.
+ * Turn this back on in the same change set that ships account deletion.
+ */
+const ACCOUNT_CREATION_ENABLED = false;
 
 type Mode = "login" | "register";
 
@@ -48,7 +57,7 @@ export default function AccountPage() {
     setNotice("");
 
     try {
-      if (mode === "register") {
+      if (ACCOUNT_CREATION_ENABLED && mode === "register") {
         await register(email.trim(), password, displayName.trim());
       } else {
         await login(email.trim(), password);
@@ -141,6 +150,7 @@ export default function AccountPage() {
         </section>
       ) : (
         <section className="activity-detail-card rounded-2xl p-6">
+          {ACCOUNT_CREATION_ENABLED ? (
           <div className="mb-5 flex gap-2">
             <button
               type="button"
@@ -157,6 +167,11 @@ export default function AccountPage() {
               Create account
             </button>
           </div>
+          ) : (
+            // The page header above already explains that an account is
+            // optional; repeating it here just crowded the card.
+            <p className="mb-5 text-lg font-black text-slate-950">Sign in</p>
+          )}
 
           <form onSubmit={submit} className="space-y-3">
             {mode === "register" && (
