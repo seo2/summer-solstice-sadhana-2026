@@ -33,7 +33,7 @@ Supporting neutrals come from Tailwind `slate`/`stone` ramps (text: `slate-900/9
 - **Tag chips:** rounded-full 50-tint backgrounds with ring (amber = category, sky = location/language).
 - **Buttons:** rounded-xl/2xl, `font-black`; primary = solid `#2f62b6` or white-on-dark in hero; favorite toggle = circular icon button, rose-500 when active.
 - **Bottom nav:** fixed, 5 items, icon + 11px label, active = `bg-sky-100/80` + blue text.
-- **Header:** sticky, translucent white with `backdrop-blur-xl`, 3HO eyebrow + title.
+- **Header:** sticky, translucent white with `backdrop-blur-xl`, the horizontal 3HO International logo (PNG, 40px tall) linking to Home, bell + account on the right.
 - **Info hub:** `<details>` accordions inside cards; section cards with gradient header strips; list items rendered as tinted rounded boxes (emerald bullets, indigo numbered, slate definition boxes); quotes as orange `border-l-4` callouts.
 - **Map viewer:** card-wrapped scrollable container, zoom −/＋ circular buttons with percentage, legend in a bottom-sheet modal (`z-60`, backdrop blur).
 - **Install hint:** dismissible sky-tinted card with platform-specific instructions.

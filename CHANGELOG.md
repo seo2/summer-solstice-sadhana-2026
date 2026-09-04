@@ -12,6 +12,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **3HO logo in the header** (cache v71) — the top-left "3HO / Event App"
+  wordmark is replaced by the official horizontal 3HO International logo on
+  every screen (`public/images/3ho-logo-horizontal.png`, preloaded for
+  offline) — the same `Full-Color_horizontal.png` the 3ho.org site header
+  uses (1160×625, transparent), rendered 40px tall. The link still leads to
+  Home.
+
 - **A bolder Home** (cache v70) — the featured event is now the Home's hero:
   deep-blue card in the event hero's own language (cover image as backdrop
   under a blue gradient, `solstice-title` display type, orange dates, white

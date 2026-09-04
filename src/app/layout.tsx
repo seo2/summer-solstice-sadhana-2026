@@ -49,9 +49,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <div className="mx-auto flex min-h-screen w-full max-w-3xl flex-col">
           <header className="safe-top sticky top-0 z-40 border-b border-sky-900/10 bg-white/82 px-4 pb-3 backdrop-blur-xl">
             <div className="flex items-center justify-between gap-3">
-              <Link href="/" className="leading-tight">
-                <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#f39200]">3HO</p>
-                <p className="text-lg font-bold text-[#2f62b6]">Event App</p>
+              <Link href="/" aria-label="3HO Event App — Home" className="flex items-center">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/images/3ho-logo-horizontal.png" alt="3HO International" width={1160} height={625} className="h-10 w-auto" />
               </Link>
               <div className="flex items-center gap-1">
                 <AnnouncementsBell />
