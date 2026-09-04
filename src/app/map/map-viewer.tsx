@@ -118,12 +118,20 @@ export function MapViewer({
   // commit. Button zoom and pinch anchor their scroll math on it, i.e. on what
   // is actually on screen, never on state still waiting to render.
   const domZoomRef = useRef(1);
-  // Pinch state recorded when the second finger lands
-  const pinchRef = useRef({ active: false, startDist: 0, startZoom: 1 });
+  // Running fling animation (requestAnimationFrame id), 0 when idle.
+  const flingRef = useRef(0);
   // Scroll target set by pinch, applied after the image resizes in layout effect
   const pendingScrollRef = useRef<{ left: number; top: number } | null>(null);
 
+  const stopFling = () => {
+    if (flingRef.current) {
+      cancelAnimationFrame(flingRef.current);
+      flingRef.current = 0;
+    }
+  };
+
   const applyZoom = (next: number) => {
+    stopFling();
     const z = clamp(next, MIN_ZOOM, MAX_ZOOM);
     zoomRef.current = z;
     setZoom(z);
@@ -151,6 +159,7 @@ export function MapViewer({
   };
 
   const setZoomAndScroll = (nextZoom: number, left: number, top: number, behavior: ScrollBehavior = "smooth") => {
+    stopFling();
     const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
     const el = containerRef.current;
     if (!el) {
@@ -228,52 +237,143 @@ export function MapViewer({
     domZoomRef.current = zoom;
   }, [zoom]);
 
-  // Pinch-to-zoom anchored under the fingers. Every move re-anchors the map
-  // point that is under the fingers *right now*, read from the live scroll
-  // position and the current midpoint. That holds whether or not the browser
-  // is also panning the scroll container natively during the gesture: a
-  // two-finger drag that began as a one-finger scroll can no longer be
-  // cancelled, and anchoring on the gesture's *initial* scroll and midpoint
-  // (the previous approach) fought that pan and dragged the anchor away from
-  // the pinch.
+  // Touch gestures — the viewer owns them all (`.app-map-scroll` sets
+  // `touch-action: none`): one finger pans by moving the scroll position, two
+  // fingers pinch-zoom anchored under the fingers, and letting go after a pan
+  // flings with the finger's velocity. Nothing here can be left to native
+  // scrolling: iOS ignores programmatic scrollLeft/scrollTop writes while a
+  // native scroll gesture is in flight, which made the pinch scale the map
+  // from its top-left corner (the scroll never moved) instead of around the
+  // fingers.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
+    type Gesture = {
+      mode: "none" | "pan" | "pinch";
+      lastX: number;
+      lastY: number;
+      lastT: number;
+      vx: number; // scroll velocity, px per ms
+      vy: number;
+      startDist: number;
+      startZoom: number;
+      anchorX: number; // map point (unscaled px) under the pinch midpoint
+      anchorY: number;
+    };
+    const g: Gesture = { mode: "none", lastX: 0, lastY: 0, lastT: 0, vx: 0, vy: 0, startDist: 0, startZoom: 1, anchorX: 0, anchorY: 0 };
+
     const getDist = (t: TouchList) =>
       Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
 
+    const local = (t: Touch) => {
+      const rect = el.getBoundingClientRect();
+      return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+    };
+
+    const beginPan = (t: Touch, time: number) => {
+      const p = local(t);
+      g.mode = "pan";
+      g.lastX = p.x;
+      g.lastY = p.y;
+      g.lastT = time;
+      g.vx = 0;
+      g.vy = 0;
+    };
+
+    const beginPinch = (touches: TouchList) => {
+      const a = local(touches[0]);
+      const b = local(touches[1]);
+      const domZoom = domZoomRef.current;
+      g.mode = "pinch";
+      g.startDist = getDist(touches);
+      g.startZoom = zoomRef.current;
+      // The map point under the midpoint stays under the (moving) midpoint
+      // for the whole pinch — so the gesture both zooms and pans.
+      g.anchorX = (el.scrollLeft + (a.x + b.x) / 2) / domZoom;
+      g.anchorY = (el.scrollTop + (a.y + b.y) / 2) / domZoom;
+    };
+
+    const fling = () => {
+      let last = performance.now();
+      const step = (now: number) => {
+        const dt = Math.min(now - last, 50);
+        last = now;
+        el.scrollLeft += g.vx * dt;
+        el.scrollTop += g.vy * dt;
+        const decay = Math.pow(0.994, dt);
+        g.vx *= decay;
+        g.vy *= decay;
+        flingRef.current = Math.abs(g.vx) > 0.01 || Math.abs(g.vy) > 0.01 ? requestAnimationFrame(step) : 0;
+      };
+      flingRef.current = requestAnimationFrame(step);
+    };
+
     const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
-        pinchRef.current = { active: true, startDist: getDist(e.touches), startZoom: zoomRef.current };
+      if (flingRef.current) {
+        cancelAnimationFrame(flingRef.current);
+        flingRef.current = 0;
       }
+      if (e.touches.length === 1) beginPan(e.touches[0], e.timeStamp);
+      else if (e.touches.length >= 2) beginPinch(e.touches);
     };
 
     const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length !== 2 || !pinchRef.current.active) return;
+      if (g.mode === "none") return;
       if (e.cancelable) e.preventDefault();
 
-      const p = pinchRef.current;
-      const nextZoom = clamp((p.startZoom * getDist(e.touches)) / p.startDist, MIN_ZOOM, MAX_ZOOM);
-      const domZoom = domZoomRef.current;
-      if (Math.abs(nextZoom - domZoom) < 0.0005) return;
+      if (g.mode === "pan" && e.touches.length === 1) {
+        const p = local(e.touches[0]);
+        const dx = p.x - g.lastX;
+        const dy = p.y - g.lastY;
+        const dt = e.timeStamp - g.lastT;
+        el.scrollLeft -= dx;
+        el.scrollTop -= dy;
+        if (dt > 0) {
+          // Smoothed velocity in scroll units so the fling continues the motion.
+          g.vx = 0.7 * g.vx + 0.3 * (-dx / dt);
+          g.vy = 0.7 * g.vy + 0.3 * (-dy / dt);
+        }
+        g.lastX = p.x;
+        g.lastY = p.y;
+        g.lastT = e.timeStamp;
+        return;
+      }
 
-      const rect = el.getBoundingClientRect();
-      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+      if (g.mode === "pinch" && e.touches.length >= 2) {
+        const a = local(e.touches[0]);
+        const b = local(e.touches[1]);
+        const midX = (a.x + b.x) / 2;
+        const midY = (a.y + b.y) / 2;
+        const nextZoom = clamp((g.startZoom * getDist(e.touches)) / g.startDist, MIN_ZOOM, MAX_ZOOM);
+        const left = g.anchorX * nextZoom - midX;
+        const top = g.anchorY * nextZoom - midY;
 
-      // Map point (unscaled px) under the fingers, as currently laid out…
-      const mapX = (el.scrollLeft + midX) / domZoom;
-      const mapY = (el.scrollTop + midY) / domZoom;
+        if (Math.abs(nextZoom - domZoomRef.current) < 0.0005) {
+          // Zoom unchanged (clamped or fingers steady): just follow the midpoint.
+          el.scrollLeft = left;
+          el.scrollTop = top;
+          return;
+        }
 
-      // …kept under the fingers once the image is re-laid out at nextZoom.
-      pendingScrollRef.current = { left: mapX * nextZoom - midX, top: mapY * nextZoom - midY };
-      zoomRef.current = nextZoom;
-      setZoom(nextZoom);
+        // Applied by the layout effect once the image is laid out at nextZoom.
+        pendingScrollRef.current = { left, top };
+        zoomRef.current = nextZoom;
+        setZoom(nextZoom);
+      }
     };
 
-    const onTouchEnd = () => {
-      pinchRef.current.active = false;
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length >= 2) {
+        beginPinch(e.touches);
+      } else if (e.touches.length === 1) {
+        // One finger left after a pinch (or a stray touch): keep panning from it.
+        beginPan(e.touches[0], e.timeStamp);
+      } else {
+        const wasPan = g.mode === "pan";
+        g.mode = "none";
+        if (wasPan && (Math.abs(g.vx) > 0.05 || Math.abs(g.vy) > 0.05)) fling();
+      }
     };
 
     el.addEventListener("touchstart", onTouchStart, { passive: true });
@@ -285,6 +385,7 @@ export function MapViewer({
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
+      if (flingRef.current) cancelAnimationFrame(flingRef.current);
     };
   }, []);
 

@@ -12,17 +12,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
-- **Map pinch-to-zoom anchors under the fingers** (cache v77) — the pinch used
-  to scale around the scroll position and midpoint captured when the gesture
-  began, assuming nothing else moved the container; on devices the browser's
-  own two-finger pan (uncancellable once a one-finger scroll has started)
-  fought that correction and the zoom drifted away from the pinch. Every move
-  now re-anchors the map point currently under the fingers from the live
-  scroll position and midpoint, whether or not a native pan is happening.
-  Also honours `touchcancel` and only calls `preventDefault` on cancelable
-  moves. Verified with synthesized two-finger gestures: the anchored point
-  stays fixed to within a pixel from 100% to 275%, after a simulated native
-  pan, and when the midpoint moves.
+- **Map touch gestures owned by the viewer: pinch anchors under the fingers**
+  (cache v77 → v78) — on iOS the pinch scaled the map from its top-left
+  corner. Root cause: with `touch-action: pan-x pan-y` two fingers start a
+  native scroll gesture, and WKWebView ignores programmatic
+  `scrollLeft`/`scrollTop` writes while one is in flight, so the anchoring
+  correction never landed. The map container now sets `touch-action: none` and
+  `MapViewer` handles every touch gesture itself: one-finger pan (scroll
+  position follows the finger), two-finger pinch anchored on the map point
+  under the midpoint — which also pans when the fingers move — a fling with
+  the finger's velocity on release, and a seamless hand-over when one finger
+  lifts mid-pinch. Zoom buttons, Overview/Reset and mouse-wheel scrolling are
+  unchanged. Verified with synthesized touch gestures: pan deltas exact,
+  anchored point fixed to within a pixel from 100% to 238% including a moving
+  midpoint, fling continues after release.
 
 ### Added
 

@@ -162,7 +162,11 @@ Current intended behavior:
   - current range: 50% to 300%
   - current step: 25%
 - The map image sits inside a scrollable container for panning.
-- `.app-map-scroll` in `src/app/globals.css` allows map gestures and avoids selection/image drag.
+- `.app-map-scroll` in `src/app/globals.css` sets `touch-action: none` and disables selection/image
+  drag. The viewer handles **every touch gesture in JS** (one-finger pan, two-finger pinch anchored
+  under the fingers, fling on release). Do not reintroduce native touch panning (`pan-x pan-y`):
+  iOS ignores programmatic scroll writes while a native scroll gesture is in flight, which made the
+  pinch scale from the map's top-left corner. Mouse wheel and scrollbars still work natively.
 
 If changing map zoom/pan behavior, verify in a browser that:
 
