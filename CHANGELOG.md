@@ -10,6 +10,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Fixed
+
+- **Map pinch-to-zoom anchors under the fingers** (cache v77) — the pinch used
+  to scale around the scroll position and midpoint captured when the gesture
+  began, assuming nothing else moved the container; on devices the browser's
+  own two-finger pan (uncancellable once a one-finger scroll has started)
+  fought that correction and the zoom drifted away from the pinch. Every move
+  now re-anchors the map point currently under the fingers from the live
+  scroll position and midpoint, whether or not a native pan is happening.
+  Also honours `touchcancel` and only calls `preventDefault` on cancelable
+  moves. Verified with synthesized two-finger gestures: the anchored point
+  stays fixed to within a pixel from 100% to 275%, after a simulated native
+  pan, and when the midpoint moves.
+
 ### Added
 
 - **Venue map pins for synced events** (cache v76) — the Map tab's tappable

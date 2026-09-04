@@ -114,18 +114,12 @@ export function MapViewer({
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef(1);
 
-  // Tracks previous zoom for button-zoom center preservation
-  const prevZoomRef = useRef(1);
-  // Pinch state recorded at touchstart
-  const pinchRef = useRef({
-    active: false,
-    dist: 0,
-    startZoom: 1,
-    midX: 0,
-    midY: 0,
-    startScrollLeft: 0,
-    startScrollTop: 0,
-  });
+  // Zoom the DOM currently reflects — updated in the layout effect after each
+  // commit. Button zoom and pinch anchor their scroll math on it, i.e. on what
+  // is actually on screen, never on state still waiting to render.
+  const domZoomRef = useRef(1);
+  // Pinch state recorded when the second finger lands
+  const pinchRef = useRef({ active: false, startDist: 0, startZoom: 1 });
   // Scroll target set by pinch, applied after the image resizes in layout effect
   const pendingScrollRef = useRef<{ left: number; top: number } | null>(null);
 
@@ -222,19 +216,26 @@ export function MapViewer({
       el.scrollLeft = pendingScrollRef.current.left;
       el.scrollTop = pendingScrollRef.current.top;
       pendingScrollRef.current = null;
-    } else if (prevZoomRef.current !== zoom) {
+    } else if (domZoomRef.current !== zoom) {
       // Button zoom: keep the visible center anchored
-      const ratio = zoom / prevZoomRef.current;
+      const ratio = zoom / domZoomRef.current;
       const cx = el.scrollLeft + el.clientWidth / 2;
       const cy = el.scrollTop + el.clientHeight / 2;
       el.scrollLeft = cx * ratio - el.clientWidth / 2;
       el.scrollTop = cy * ratio - el.clientHeight / 2;
     }
 
-    prevZoomRef.current = zoom;
+    domZoomRef.current = zoom;
   }, [zoom]);
 
-  // Pinch-to-zoom with focal point anchored to the pinch midpoint
+  // Pinch-to-zoom anchored under the fingers. Every move re-anchors the map
+  // point that is under the fingers *right now*, read from the live scroll
+  // position and the current midpoint. That holds whether or not the browser
+  // is also panning the scroll container natively during the gesture: a
+  // two-finger drag that began as a one-finger scroll can no longer be
+  // cancelled, and anchoring on the gesture's *initial* scroll and midpoint
+  // (the previous approach) fought that pan and dragged the anchor away from
+  // the pinch.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -244,37 +245,31 @@ export function MapViewer({
 
     const onTouchStart = (e: TouchEvent) => {
       if (e.touches.length === 2) {
-        const rect = el.getBoundingClientRect();
-        const midClientX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-        const midClientY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-        pinchRef.current = {
-          active: true,
-          dist: getDist(e.touches),
-          startZoom: zoomRef.current,
-          midX: midClientX - rect.left,
-          midY: midClientY - rect.top,
-          startScrollLeft: el.scrollLeft,
-          startScrollTop: el.scrollTop,
-        };
+        pinchRef.current = { active: true, startDist: getDist(e.touches), startZoom: zoomRef.current };
       }
     };
 
     const onTouchMove = (e: TouchEvent) => {
       if (e.touches.length !== 2 || !pinchRef.current.active) return;
-      e.preventDefault();
+      if (e.cancelable) e.preventDefault();
 
       const p = pinchRef.current;
-      const newZoom = clamp(p.startZoom * getDist(e.touches) / p.dist, MIN_ZOOM, MAX_ZOOM);
-      const ratio = newZoom / p.startZoom;
+      const nextZoom = clamp((p.startZoom * getDist(e.touches)) / p.startDist, MIN_ZOOM, MAX_ZOOM);
+      const domZoom = domZoomRef.current;
+      if (Math.abs(nextZoom - domZoom) < 0.0005) return;
 
-      // Schedule scroll correction for after the image DOM update
-      pendingScrollRef.current = {
-        left: (p.startScrollLeft + p.midX) * ratio - p.midX,
-        top: (p.startScrollTop + p.midY) * ratio - p.midY,
-      };
+      const rect = el.getBoundingClientRect();
+      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
 
-      zoomRef.current = newZoom;
-      setZoom(newZoom);
+      // Map point (unscaled px) under the fingers, as currently laid out…
+      const mapX = (el.scrollLeft + midX) / domZoom;
+      const mapY = (el.scrollTop + midY) / domZoom;
+
+      // …kept under the fingers once the image is re-laid out at nextZoom.
+      pendingScrollRef.current = { left: mapX * nextZoom - midX, top: mapY * nextZoom - midY };
+      zoomRef.current = nextZoom;
+      setZoom(nextZoom);
     };
 
     const onTouchEnd = () => {
@@ -284,10 +279,12 @@ export function MapViewer({
     el.addEventListener("touchstart", onTouchStart, { passive: true });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: true });
+    el.addEventListener("touchcancel", onTouchEnd, { passive: true });
     return () => {
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
+      el.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
 
