@@ -144,11 +144,16 @@ attendee opening "Info" today would read about Ram Das Puri.
       [BACKEND-WSOL26.md](BACKEND-WSOL26.md)). Content: the venues CSV was
       imported into production on 2026-09-04 but landed before P6 (22 flat
       venues, no pins); re-import it after the deploy to fill them in.
-- [ ] **Info Hub design parity for synced events** — the built-in grouped Info
-      Hub (topic grid, group headers, section cards with lists, definitions and
-      quotes) becomes a shared renderer used by synced pages too. Needs
-      `group` / `sort` / `featured` on info pages (**P7**, proposed) and
-      authoring conventions for headings and lists in wp-admin texts.
+- [x] **Info Hub design parity for synced events** — ✅ app side done
+      2026-09-04 (cache v80): the built-in grouped Info Hub (topic grid, group
+      headers, section cards with lists, definitions and quotes) is now a
+      shared renderer used by synced pages too, with `## Heading` / `1.` /
+      `>` / `Label: value` conventions for wp-admin texts and a new
+      "Nutrition" topic. Grouping falls back to known page ids, so WSOL26 in
+      production is fully grouped with no backend change; **P7** (`group` /
+      `sort` / `featured` columns) stays optional for new pages. Content: the
+      WSOL26 pages still carry the Ram Das Puri texts — rewriting them for
+      Florida is WS7.
 
 ### WS3 — Notifications: announcements, alerts & push (P0 · app + backend)
 

@@ -28,11 +28,12 @@ export type SyncedBundle = {
   teachers: Record<string, unknown>[];
   venues: ({ id: string; name: string; description?: string } & Record<string, unknown>)[];
   categories: { id: string; name: string }[];
-  infoPages?: { id: string; title: string; content?: string }[];
+  infoPages?: ({ id: string; title: string; content?: string } & Record<string, unknown>)[];
   menus?: Record<string, unknown>[];
 };
 
-export type SyncedInfoPage = { id: string; title: string; content: string };
+/** Info page from the bundle; `group` / `sort` / `featured` are optional editorial hints (plugin P7). */
+export type SyncedInfoPage = { id: string; title: string; content: string; group?: string; sort?: number; featured?: boolean };
 
 export type MenuDay = {
   id: string;
@@ -248,7 +249,12 @@ export function bundleInfoPages(bundle: SyncedBundle): SyncedInfoPage[] {
     const title = str(raw.title);
     const content = typeof raw.content === "string" ? raw.content : "";
     if (!id || !title) continue;
-    pages.push({ id, title, content });
+    const page: SyncedInfoPage = { id, title, content };
+    const group = str(raw.group);
+    if (group) page.group = group;
+    if (typeof raw.sort === "number" && Number.isFinite(raw.sort)) page.sort = raw.sort;
+    if (raw.featured === true || raw.featured === 1) page.featured = true;
+    pages.push(page);
   }
   return pages;
 }

@@ -124,17 +124,24 @@ Important renderers:
 - Program list: `src/components/program-explorer.tsx`
 - Activity cards: `src/components/activity-card.tsx`
 - Program detail: `src/app/program/[id]/page.tsx`
-- Info hub: `src/app/info/page.tsx`
+- Info hub: `src/components/info-hub.tsx` (shared body) + `src/lib/info-content.ts` (catalog,
+  grouping, section parser); `src/app/info/page.tsx` is the built-in shell, `src/components/synced-info.tsx`
+  the synced-event shell
 - Map page: `src/app/map/page.tsx`
 
 For Info Hub changes, understand the flow before editing:
 
-`info-pages.json` → `pageTitles` / `infoGroups` / `sectionHeadings` in `src/app/info/page.tsx` → `normalizeLines()` → `sectionsFor()` → `SectionCard()`.
+`info-pages.json` (built-in) or bundle `infoPages` (synced) → `groupInfoPages()` with `infoGroupCatalog` /
+`pageTitles` in `src/lib/info-content.ts` → `normalizeLines()` → `sectionsFor()` (known booklet headings,
+`## Heading`, bullets, `1.` lists, `Label: value` definitions, `>` quotes, `*` footnotes) →
+`SectionCard()` in `src/components/info-hub.tsx`. Both events render through the same `InfoHub`.
 
 Pitfalls:
 
 - `normalizeLines()` filters page titles. If a page title is also the first intended section heading, the heading can disappear unless specifically preserved.
-- `sectionHeadings` controls which lines become section cards.
+- `sectionHeadings` controls which booklet lines become section cards; synced content should use
+  `## Heading` instead of relying on that list.
+- Grouping: a page's `group` key (bundle) wins, then the catalog's page-id lists, then "More".
 - Bullet lines beginning with `∙`, `•`, `—`, or `-` render as styled list items.
 - Avoid user-facing labels like “PDF page” or “Section N”.
 - Keep visible labels clean and event-attendee friendly.

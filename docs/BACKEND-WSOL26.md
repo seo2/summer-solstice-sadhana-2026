@@ -181,7 +181,7 @@ re-import the CSV in production — the import done on 2026-09-04 landed before
 P6, so production holds 22 flat venues (bundle v15, no pins, landmarks showing
 in the Program venue filter) until it is repeated.
 
-## P7 — Info page groups (WS2 follow-up · proposed 2026-09-04)
+## P7 — Info page groups (WS2 follow-up · proposed 2026-09-04 · app side ✅ done, plugin optional)
 
 **Today:** the built-in Info Hub groups its pages under ten topics with icon,
 accent color and description, a topic grid with anchors, and section cards
@@ -198,11 +198,14 @@ components: `start-here`, `health-safety`, `camp-life`, `rules`,
 `nutrition`; unknown or empty keys fall into a "More" group. The Info Pages
 editor and importer gain the group dropdown, `sort` and `featured`.
 
-App side (pending, this repo): one shared Info Hub renderer for built-in and
-synced pages, plus explicit authoring conventions for synced content —
-`## Heading` opens a section card, `1.` numbered lists, `Label: value`
-definitions, `>` quotes, `*` footnotes — so wp-admin texts get the same
-treatment as the booklet without the booklet's heuristic heading list.
+**App side done 2026-09-04 (cache v80):** one shared Info Hub renderer for
+built-in and synced pages, with the authoring conventions above (`## Heading`,
+`1.`, `Label: value`, `>`, `*`). The app already reads `group` / `sort` /
+`featured` from the bundle when present and otherwise groups by known page id —
+WSOL26 in production reuses the booklet's 34 ids, so it renders fully grouped
+today. The plugin columns therefore only matter for **new** pages that need a
+topic other than "More", or for reordering: lower priority than before, ship
+with the next migration.
 
 ## Rollout
 

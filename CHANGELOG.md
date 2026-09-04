@@ -10,6 +10,25 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **Synced events get the full Info Hub design** (cache v79 → v80) — the
+  built-in Info Hub body (topic grid with icons, group headers, collapsible
+  page cards, section cards with paragraphs, bullet and numbered lists,
+  definitions, quotes and footnotes) is now one shared renderer, `InfoHub`
+  (`src/components/info-hub.tsx`) over a pure content model
+  (`src/lib/info-content.ts`), used by both the booklet and the active synced
+  event. Synced pages are grouped by the bundle's optional `group` key, else by
+  their known page id, else under "More"; `sort` orders inside a group and
+  `featured` highlights a card. Authoring conventions for wp-admin texts:
+  `## Heading` opens a section card, `1.` numbered items, `> text` quotes,
+  plus the existing bullets, `Label: value` definitions and `*` footnotes. New
+  "Nutrition" topic for WS8. The built-in Info Hub renders the same as before;
+  WSOL26 in production (same 34 page ids as the booklet) picks up the design
+  with no backend change — plugin P7 (`group`/`sort`/`featured` columns)
+  remains optional. The WSOL26 fixture (v6) adds an arrival page written with
+  the new conventions.
+
 ### Changed
 
 - **Sign-in hidden until further notice** (cache v78 → v79) — attendees

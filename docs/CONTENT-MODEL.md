@@ -53,7 +53,7 @@ a session that simply never appears — check counts, not just that the screen r
 | `teachers[]` | `id`, `name` | Teachers tab, session detail sheets |
 | `venues[]` | `id`, `name` | Program venue filter (not `kind: landmark`); Map pins for items with `mapPoint`; Map venue cards **only when no map image** |
 | `categories[]` | `id`, `name` | Program category filter and chips |
-| `infoPages[]` | `id`, `title` | Info Hub accordions |
+| `infoPages[]` | `id`, `title` | Info Hub — grouped topic grid, page cards and section cards (same renderer as the booklet) |
 | `menus[]` | `id`, `date`, `meal` | Menus tab |
 
 ## The three joins — match on NAME, not id
@@ -75,12 +75,34 @@ Two categories are treated as routine and render without a chip:
 
 ## Info page content
 
-`infoPages[].content` is plain text, rendered by the Info Hub:
+Synced pages render through the same Info Hub as the booklet
+(`src/components/info-hub.tsx` over `src/lib/info-content.ts`): a topic grid,
+group headers, one collapsible card per page and section cards inside.
 
-- A blank line starts a new paragraph.
-- A line starting with `∙`, `•`, `—` or `-` becomes a styled list item.
+**Grouping.** Each page lands in a topic from the catalog in
+`src/lib/info-content.ts` — `start-here`, `health-safety`, `camp-life`,
+`rules`, `daily-rhythm`, `nutrition`, `yoga-dharma`, `wty`, `practice`,
+`families`, `faq`. The page's own `group` key wins when the bundle carries one
+(plugin P7, optional); otherwise a page whose `id` matches a booklet page id
+inherits that page's topic; anything else goes under **More**. Optional `sort`
+orders pages inside a topic (lower first) and `featured: true` highlights the
+card. WSOL26 in production reuses the booklet's 34 ids, so it is fully grouped
+today without any of these fields.
+
+**Content.** `infoPages[].content` is plain text with light conventions:
+
+- `## Heading` opens a section card (the booklet's known headings work too).
+- A blank line (or a lone `¶`) starts a new paragraph.
+- `∙`, `•`, `—` or `-` start a bullet; `1.`, `2.` … a numbered item.
+- `Label: value` with a known label (Posture, Mantra, Meaning of the Mantra,
+  Breath, Mudra, Eye Focus, Time, End, Comments, Directions) renders as a
+  definition; `> text` renders as a quote (consecutive lines join); `*` or
+  `**` open a footnote.
 - Keep 3HO terminology exact: WTY®, White Tantric Yoga®, Sadhana, Gurdwara.
 - No internal labels ("PDF page", "Section N") — this is attendee-facing copy.
+
+The fixture page `page-arrival-lake-wales` in `scripts/fixtures/wsol26.json`
+is a worked example of all of the above.
 
 ## Menus
 
