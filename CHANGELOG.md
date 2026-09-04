@@ -10,6 +10,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- **A bolder Home** (cache v70) — the featured event is now the Home's hero:
+  deep-blue card in the event hero's own language (cover image as backdrop
+  under a blue gradient, `solstice-title` display type, orange dates, white
+  CTA + translucent Register), with a phase + countdown badge — "Upcoming ·
+  In 102 days", "Happening now · Day 3 of 7", "Past event · Ended Jun 27"
+  (`eventCountdown()`). The first post renders in a magazine layout
+  (full-width image, big title) on Home and `/news`; the "Sat Nam" greeting
+  gets the brand gradient. Owner request 2026-09-04 ("more impactful").
+
 ### Added
 
 - **Home before the event: app Home with events, announcements & posts**

@@ -209,6 +209,39 @@ export function eventPhase(event: { startDate?: string; endDate?: string }, toda
   return "past";
 }
 
+const monthShort = (date: Date) => date.toLocaleDateString("en-US", { month: "short" });
+
+const DAY_MS = 86_400_000;
+
+/** Whole days from `from` to `to` (both YYYY-MM-DD), DST-proof via UTC. */
+function daysBetween(from: string, to: string): number {
+  const [fy, fm, fd] = from.split("-").map(Number);
+  const [ty, tm, td] = to.split("-").map(Number);
+  return Math.round((Date.UTC(ty, tm - 1, td) - Date.UTC(fy, fm - 1, fd)) / DAY_MS);
+}
+
+/**
+ * The one line that makes a date feel close: "In 102 days", "Starts
+ * tomorrow", "Day 3 of 7", "Ended Jun 27". Null without a start date.
+ */
+export function eventCountdown(event: { startDate?: string; endDate?: string }, today = localToday()): string | null {
+  if (!event.startDate) return null;
+  const end = event.endDate ?? event.startDate;
+  const phase = eventPhase(event, today);
+
+  if (phase === "upcoming") {
+    const days = daysBetween(today, event.startDate);
+    return days === 1 ? "Starts tomorrow" : `In ${days} days`;
+  }
+  if (phase === "live") {
+    const total = daysBetween(event.startDate, end) + 1;
+    const day = daysBetween(event.startDate, today) + 1;
+    return total > 1 ? `Day ${day} of ${total}` : "Today";
+  }
+  const ended = new Date(`${end}T12:00:00`);
+  return Number.isNaN(ended.getTime()) ? null : `Ended ${monthShort(ended)} ${ended.getDate()}`;
+}
+
 export type HomeEventEntry = HomeEvent & {
   /** The bundled Summer Solstice content — always available, never removable. */
   builtin: boolean;
@@ -296,8 +329,6 @@ export function visiblePosts(posts: HomePost[], activeSlug: string): HomePost[] 
       return when !== 0 ? when : a.id.localeCompare(b.id);
     });
 }
-
-const monthShort = (date: Date) => date.toLocaleDateString("en-US", { month: "short" });
 
 /** "Jun 19–27, 2026" · "Dec 15 – Jan 2, 2027" · "Dec 20, 2026". */
 export function formatEventDates(start?: string, end?: string): string | null {

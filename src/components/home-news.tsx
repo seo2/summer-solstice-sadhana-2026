@@ -50,8 +50,8 @@ export function HomeNews() {
       </div>
 
       <div className="mt-3 space-y-3">
-        {visible.slice(0, SHOWN).map((post) => (
-          <PostCard key={post.id} post={post} eventName={post.eventSlug ? eventNames.get(post.eventSlug) : undefined} onOpen={setOpen} />
+        {visible.slice(0, SHOWN).map((post, index) => (
+          <PostCard key={post.id} post={post} featured={index === 0} eventName={post.eventSlug ? eventNames.get(post.eventSlug) : undefined} onOpen={setOpen} />
         ))}
       </div>
 

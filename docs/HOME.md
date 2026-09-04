@@ -16,7 +16,7 @@ there was no place for news that is not an urgent alert. Product owner
 direction (2026-09-04): **the Home comes before the event's home — the app
 must not open an event on Home.**
 
-Status: **app side shipped** (cache v69). **Plugin side proposed** (P5 below);
+Status: **app side shipped** (cache v70). **Plugin side proposed** (P5 below);
 until it lands, production answers `GET /home` with 404 and the App Home lists
 the built-in event alone, plus whatever events the device has downloaded.
 
@@ -25,15 +25,16 @@ the built-in event alone, plus whatever events the device has downloaded.
 | # | Section | Source | Hidden when |
 |---|---|---|---|
 | 1 | **Title block** — "3HO Event App · Sat Nam" + one line on what the app is | static | never |
-| 2 | **Events** — the first entry featured (cover or brand strip, summary, big CTA), the rest as compact rows | `home-feed.ts` catalog ∪ built-in ∪ locally synced (`HomeEvents`) | never (the built-in event is always there) |
+| 2 | **Events** — the first entry is the Home's **hero**: deep-blue card with the event's cover as backdrop, phase + countdown badge ("Upcoming · In 102 days", "Happening now · Day 3 of 7", "Past event · Ended Jun 27"), display-size uppercase name, dates in orange, summary, white CTA (+ Register); the rest as compact rows with cover thumbnails | `home-feed.ts` catalog ∪ built-in ∪ locally synced (`HomeEvents`) | never (the built-in event is always there) |
 | 3 | **Install hint** | existing | installed / native / dismissed |
 | 4 | **Announcements** — two newest official/alert messages of the event being viewed, with that event's name | `messages.ts` local store (`HomeAnnouncements showEvent`) | no message stored for that event |
-| 5 | **News & posts** — three newest visible posts | `home-feed.ts` posts (`HomeNews`) | no visible post |
+| 5 | **News & posts** — three newest visible posts; the first one in a magazine layout (full-width image, big title) when it has an image | `home-feed.ts` posts (`HomeNews`) | no visible post |
 
 Every dynamic section reads from IndexedDB, so a fresh install with no
 connectivity still sees a complete, calm Home. Design per `PRODUCT.md`: one
-focal point (the featured event), white cards on the existing ground, no new
-decoration.
+focal point — the featured event's hero reuses the event hero's own language
+(deep blue, `solstice-title` display type, orange dates, white CTA) so the two
+homes feel like one app — and white cards for everything else.
 
 ## Event Home (`/event`)
 
@@ -60,7 +61,8 @@ phase the **event being viewed comes first**, so "Continue" is one tap. The
 phase is computed by calendar date on the device (`eventPhase()`).
 
 Each entry shows the phase chip, name, dates, location, and — featured only —
-the summary and cover. Actions:
+the countdown (`eventCountdown()`), the summary and the cover as backdrop.
+Actions:
 
 - **Continue** (viewing now) → `/event` without changing anything;
 - **Open event** when the bundle is on the device → activates it, then `/event`;

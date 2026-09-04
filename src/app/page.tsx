@@ -17,8 +17,8 @@ export default function Home() {
     <div className="space-y-5">
       <section className="pt-1">
         <p className="solstice-kicker text-xs font-black uppercase text-[#f39200]">3HO Event App</p>
-        <h1 className="mt-1 text-4xl font-black tracking-tight text-[#2f62b6]">Sat Nam</h1>
-        <p className="mt-1 text-sm font-semibold leading-6 text-stone-600">
+        <h1 className="mt-1 bg-gradient-to-r from-[#2f62b6] to-[#39a9ef] bg-clip-text text-[2.75rem] font-black leading-none tracking-tight text-transparent">Sat Nam</h1>
+        <p className="mt-2 text-sm font-semibold leading-6 text-stone-600">
           Programs, maps, menus and announcements for 3HO gatherings — saved on your phone, no signal needed.
         </p>
       </section>

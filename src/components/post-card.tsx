@@ -20,13 +20,40 @@ type CardProps = {
   post: HomePost;
   /** Name of the event the post is scoped to, when it is. */
   eventName?: string;
+  /** Magazine layout for the top post: full-width image, bigger title. */
+  featured?: boolean;
   onOpen: (post: HomePost) => void;
 };
 
-export function PostCard({ post, eventName, onOpen }: CardProps) {
+export function PostCard({ post, eventName, featured = false, onOpen }: CardProps) {
   const excerpt = plainTextExcerpt(post.body);
   const when = formatPostDate(post.publishedAt);
   const meta = [when, eventName].filter(Boolean).join(" · ");
+
+  if (featured && post.image) {
+    return (
+      <article className="overflow-hidden rounded-2xl border border-sky-900/10 bg-white shadow-[0_18px_48px_rgba(47,98,182,0.10)]">
+        <button type="button" onClick={() => onOpen(post)} className="block w-full text-left">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={post.image} alt="" className="h-44 w-full object-cover sm:h-56" />
+          <div className="p-4 sm:p-5">
+            {(post.pinned || meta) && (
+              <p className="flex items-center gap-1.5 text-xs font-bold text-stone-500">
+                {post.pinned && <Pin className="h-3.5 w-3.5 text-[#f39200]" aria-label="Pinned" />}
+                {meta && <span>{meta}</span>}
+              </p>
+            )}
+            <h3 className="mt-1.5 text-2xl font-black leading-[1.05] tracking-[-0.03em] text-slate-950 [text-wrap:balance]">{post.title}</h3>
+            {excerpt && <p className="mt-2 line-clamp-3 text-sm font-semibold leading-6 text-slate-600">{excerpt}</p>}
+            <p className="mt-3 inline-flex items-center gap-1 text-sm font-black text-[#2f62b6]">
+              Read more
+              <ChevronRight className="h-4 w-4" aria-hidden />
+            </p>
+          </div>
+        </button>
+      </article>
+    );
+  }
 
   return (
     <article className="overflow-hidden rounded-2xl border border-sky-900/10 bg-white shadow-sm">

@@ -71,8 +71,8 @@ export default function NewsPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {visible.map((post) => (
-            <PostCard key={post.id} post={post} eventName={post.eventSlug ? eventNames.get(post.eventSlug) : undefined} onOpen={setOpen} />
+          {visible.map((post, index) => (
+            <PostCard key={post.id} post={post} featured={index === 0} eventName={post.eventSlug ? eventNames.get(post.eventSlug) : undefined} onOpen={setOpen} />
           ))}
         </div>
       )}
