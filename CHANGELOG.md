@@ -25,6 +25,16 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   `mapX`/`mapY`/`color`/`number`/`featured`/`kind`. Plugin side proposed as
   P6 (and Info Hub groups as P7) in `docs/BACKEND-WSOL26.md`.
 
+- **Venue map pins stored by the real backend** — plugin P6 implemented in the
+  3ho.org working tree (v0.7.0 / DB v5, owner QA + commit + deploy pending):
+  `ssa_venue` gains `map_x` / `map_y` / `pin_color` / `pin_number` /
+  `featured_rank` / `kind`, the venues import (CSV or JSON) accepts and
+  validates them, and `/sync` emits `mapPoint` / `color` / `number` /
+  `featured` / `kind`. Verified end-to-end on local WordPress (migration,
+  dry-run validation, import, bundle). No app code change; docs updated.
+  Production note: the WSOL26 venues CSV imported on 2026-09-04 landed before
+  P6 (22 flat venues), so it must be re-imported after the deploy.
+
 - **Home feed served by the real backend** — plugin P5 implemented in the
   3ho.org working tree (v0.6.0 / DB v4, owner QA + commit pending): `GET /home`
   (events catalog + posts, weak ETag), `ssa_post` table with an "Event App →

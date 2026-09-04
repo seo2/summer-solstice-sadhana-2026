@@ -137,35 +137,49 @@ gains `summary`, `cover_image`, `registration_url`; new `ssa_post` table with an
 bucket, weak `ETag`). Independent of `content_version`. Implemented in the WP
 working tree per that repo's rules; owner QA and commit pending.
 
-## P6 — Venue map pins (WS2 follow-up · proposed 2026-09-04)
+## P6 — Venue map pins (WS2 follow-up · ✅ implemented 2026-09-04, working tree)
 
 **Today:** the app draws tappable pins, quick-access chips and an "All venues"
 legend on any event map from the bundle's `venues[]` (app side shipped, cache
 v76), but `ssa_venue` only stores `id`, `name`, `description` — so a synced
 event renders a bare image until the plugin can carry placements.
 
-**Proposed (DB v5, or folded into v4 if that migration has not run anywhere
-yet):** `ssa_venue` gains
+**Implemented as plugin v0.7.0 / DB v5** (on top of the uncommitted v0.6.0;
+DB v4 had already run in production, so this is its own migration). `ssa_venue`
+gains
 
 | Column | Type | Bundle field | Meaning |
 |---|---|---|---|
 | `map_x`, `map_y` | DECIMAL(5,2) NULL | `mapPoint: {x, y}` | Pin position as **percent** of the map image width/height (0–100), independent of the file's pixel size |
-| `color` | VARCHAR(20) NULL | `color` | Pin color (CSS); the app falls back to a palette |
-| `number` | SMALLINT NULL | `number` | Legend number; the app fills gaps in order |
-| `featured` | SMALLINT NULL | `featured` | Rank in the chip row (1 = first); NULL = not a chip |
+| `pin_color` | VARCHAR(20) NULL | `color` | Pin color (CSS); the app falls back to a palette |
+| `pin_number` | SMALLINT NULL | `number` | Legend number; the app fills gaps in order |
+| `featured_rank` | SMALLINT NULL | `featured` | Rank in the chip row (1 = first); NULL = not a chip |
 | `kind` | VARCHAR(20) NOT NULL DEFAULT 'venue' | `kind` | `venue` or `landmark` (map-only point — restrooms, parking, cabins; hidden from the Program venue filter) |
 
-- **Sync**: emit the fields only when set (`clean_row`), `mapPoint` as an
-  object with both coordinates.
-- **Importer**: the `venues` type accepts the columns `scripts/fixture-to-csv.mjs`
-  already writes (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`);
-  `scripts/fixtures/csv/wsol26-venues.csv` is a ready test file with the 22
-  Florida placements. Every write bumps `content_version`.
-- **Admin**: a Venues screen with a visual picker — the event's map image with
-  a click-to-place crosshair writing `map_x` / `map_y`. Two numeric fields are
-  the acceptable minimum.
-- **Feed (P4)**: venues appended from the checkout feed keep `kind = 'venue'`
-  and no placement; staff place them afterwards.
+- **Sync** (`venue_row()` in `class-ssa-sync.php`): emits `mapPoint {x, y}`
+  only when both coordinates are set, plus `color`, `number`, `featured`,
+  `kind`; the raw column names never reach the bundle.
+- **Importer** (`venue_pin_fields()` in `class-ssa-importer.php`): the `venues`
+  type accepts the columns `scripts/fixture-to-csv.mjs` writes (`mapX`, `mapY`,
+  `color`, `number`, `featured`, `kind`) and the bundle's nested `mapPoint` in
+  JSON. Validated in "Validate only" too: half a coordinate, values outside
+  0–100 or an unknown `kind` reject the row with a message; bad
+  color/number/featured are dropped field by field. Rows are written with
+  REPLACE, so re-importing venues from a file without these columns clears
+  their pins. Every write bumps `content_version`.
+- **Admin**: help text on the Import screen; the CSV template includes the new
+  columns. The visual click-to-place picker is **not built** — pins load by
+  CSV/JSON for now.
+- **Feed (P4)**: verified — the hourly checkout-feed sync only `insert`s
+  missing venue ids and never touches existing rows, so placements survive it.
+
+**Verified on local WordPress** (2026-09-04): migration to DB v5 (12 columns),
+dry-run validation, real import of `wsol26-venues.csv` (22 rows), and the
+bundle carrying `mapPoint` for 22 venues with 16 landmarks and zero raw column
+names. **Pending**: owner commit + production deploy (repo rule), then
+re-import the CSV in production — the import done on 2026-09-04 landed before
+P6, so production holds 22 flat venues (bundle v15, no pins, landmarks showing
+in the Program venue filter) until it is repeated.
 
 ## P7 — Info page groups (WS2 follow-up · proposed 2026-09-04)
 
@@ -199,6 +213,6 @@ treatment as the booklet without the booklet's heuristic heading list.
   push audience model; **P2/P3** unblock WS2 venue map and WS8 menus.
 - After approval: implementation lands in the WP repo working tree for the
   owner's QA and commit; the app-side counterparts follow here branch by branch.
-- **P6 / P7** (proposed 2026-09-04) ride the next migration together. The app
-  side of P6 is already live behind the bundle fields (cache v76); P7's app
-  side follows once the fields exist.
+- **P6** implemented 2026-09-04 as v0.7.0 / DB v5 in the working tree (app side
+  already live behind the bundle fields, cache v76); **P7** stays proposed and
+  rides the following migration, its app side follows once the fields exist.

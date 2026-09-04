@@ -138,9 +138,12 @@ attendee opening "Info" today would read about Ram Das Puri.
       (`mapPoint` in percent of the image, `color`, `number`, `featured` rank,
       `kind: landmark` for map-only points such as restrooms and parking). The
       WSOL26 fixture carries 22 pins measured on the real Florida artwork,
-      which the mock backend now serves. Plugin side: **P6** in
-      [BACKEND-WSOL26.md](BACKEND-WSOL26.md) (proposed). Content: place the
-      real venues once the WSOL26 event exists in production (WS5 / WS7).
+      which the mock backend now serves. Plugin side: **P6** implemented the
+      same day in the 3ho.org working tree (v0.7.0 / DB v5, verified on local
+      WordPress; owner commit + deploy pending — see
+      [BACKEND-WSOL26.md](BACKEND-WSOL26.md)). Content: the venues CSV was
+      imported into production on 2026-09-04 but landed before P6 (22 flat
+      venues, no pins); re-import it after the deploy to fill them in.
 - [ ] **Info Hub design parity for synced events** — the built-in grouped Info
       Hub (topic grid, group headers, section cards with lists, definitions and
       quotes) becomes a shared renderer used by synced pages too. Needs

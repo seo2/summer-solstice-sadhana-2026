@@ -104,9 +104,9 @@ as a quick-access chip that centers the map on it.
 | `description` | text | Shown in the pin tooltip and the legend |
 
 Malformed map fields are dropped one by one; the venue itself always survives.
-The plugin does not store these fields yet — see P6 in
-[BACKEND-WSOL26.md](BACKEND-WSOL26.md); until then they load through the mock
-backend.
+Plugin v0.7.0 (P6 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md)) stores them on
+`ssa_venue` and accepts them in the venues import: CSV columns `mapX`, `mapY`,
+`color`, `number`, `featured`, `kind`, or the nested `mapPoint` in JSON.
 
 ## Update semantics
 
@@ -211,13 +211,11 @@ and why, without writing. The usual offender is a spreadsheet reformatting
 The column lists in `fixture-to-csv.mjs` mirror `THREEHO_SSA_Importer::csv_columns()`
 in the plugin — change one and change the other.
 
-The converter also emits `venues`, `categories` and `infoPages` CSVs, but that
-screen **cannot import them yet** in either format: they have tables, and their
-upserts (`upsert_simple`, `upsert_info_pages`) still live in WP-CLI as private
-methods. The files are ready for the day the screen learns those types; until
-then load them through the mock backend. The venues CSV already carries the
-map-pin columns (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`) that
-plugin proposal P6 adds to `ssa_venue`.
+The converter also emits `venues`, `categories` and `infoPages` CSVs; the
+Import screen accepts those types too (plugin ≥ 0.5.x). The venues CSV carries
+the map-pin columns (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`)
+that plugin v0.7.0 (P6) imports — older plugins silently keep only id, name and
+description.
 
 ## The Home feed (not part of the bundle)
 
