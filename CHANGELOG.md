@@ -10,6 +10,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **"Schedule subject to change" notice** (cache v72) — a dismissible amber
+  strip at the top of the Program (dismissal remembered on the device) with a
+  "Details" link, and a permanent card near the top of the Info Hub for both
+  the built-in and synced events (`ScheduleNoticeCard`, anchor
+  `/info#schedule-changes`). Plain attendee-facing wording: times, venues,
+  presenters and activities may change (weather, safety, presenter
+  availability, circumstances beyond our control) and 3HO International may
+  modify, reschedule or cancel any part of the program; the app refreshes
+  itself when connected and important changes are posted in Announcements;
+  printed schedules may be out of date; registration, refunds and
+  cancellations follow the terms accepted at registration.
+
 ### Changed
 
 - **3HO logo in the header** (cache v71) — the top-left "3HO / Event App"

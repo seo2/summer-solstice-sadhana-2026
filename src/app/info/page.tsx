@@ -3,6 +3,7 @@ import { AppLink as Link } from "@/components/app-link";
 import { BookOpen, CalendarDays, ChevronDown, ChevronRight, Flame, HeartPulse, HelpCircle, Info, Leaf, MapPin, ShieldCheck, Smartphone, Users } from "lucide-react";
 import infoPages from "@/data/info-pages.json";
 import { SyncedInfoGate } from "@/components/synced-info";
+import { ScheduleNoticeCard } from "@/components/schedule-notice";
 import type { InfoPage } from "@/lib/types";
 
 type InfoGroup = {
@@ -565,6 +566,8 @@ export default function InfoPage() {
           </p>
         </div>
       </section>
+
+      <ScheduleNoticeCard />
 
       <Link
         href="/install"

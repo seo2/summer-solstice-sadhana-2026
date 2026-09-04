@@ -15,6 +15,7 @@
 import { Fragment, type ReactNode } from "react";
 import { ChevronDown, Megaphone } from "lucide-react";
 import { ActiveEventBanner } from "@/components/active-event-banner";
+import { ScheduleNoticeCard } from "@/components/schedule-notice";
 import { bundleInfoPages, useActiveSyncedEvent, type SyncedInfoPage } from "@/lib/event-store";
 
 type InfoItem = { k: "p" | "b"; text: string };
@@ -116,6 +117,8 @@ export function SyncedInfoGate({ children }: { children: ReactNode }) {
           </p>
         </div>
       </section>
+
+      <ScheduleNoticeCard />
 
       {pages.length === 0 ? (
         <div className="rounded-2xl border border-sky-900/10 bg-white p-6 text-center shadow-sm">

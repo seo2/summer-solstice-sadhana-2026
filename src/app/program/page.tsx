@@ -2,6 +2,7 @@ import { AppLink as Link } from "@/components/app-link";
 import { GraduationCap } from "lucide-react";
 import { ActiveEventBanner } from "@/components/active-event-banner";
 import { ProgramView } from "@/components/program-view";
+import { ScheduleNoticeBanner } from "@/components/schedule-notice";
 import program from "@/data/program.json";
 import venues from "@/data/venues.json";
 import categories from "@/data/categories.json";
@@ -30,6 +31,7 @@ export default function ProgramPage() {
           Teachers
         </Link>
       </section>
+      <ScheduleNoticeBanner />
       <ProgramView activities={activities} venues={venues as Venue[]} categories={categories as Category[]} />
     </div>
   );
