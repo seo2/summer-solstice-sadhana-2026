@@ -3,12 +3,15 @@
 /**
  * Header account entry (top right, every screen): a neutral user icon when
  * logged out, the user's initials on the brand gradient when logged in.
- * Both states lead to /account.
+ * Both states lead to /account. While sign-in is hidden
+ * (ACCOUNT_SIGN_IN_ENABLED = false) the logged-out icon is not rendered at
+ * all — only a device that still holds a session sees the button.
  */
 
 import { AppLink as Link } from "@/components/app-link";
 import { UserRound } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { ACCOUNT_SIGN_IN_ENABLED } from "@/lib/features";
 
 function initialsOf(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
@@ -32,6 +35,9 @@ export function AccountButton() {
       </Link>
     );
   }
+
+  // Nothing to offer a logged-out user while sign-in is hidden.
+  if (!ACCOUNT_SIGN_IN_ENABLED) return null;
 
   return (
     <Link

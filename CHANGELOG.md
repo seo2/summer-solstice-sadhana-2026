@@ -10,6 +10,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- **Sign-in hidden until further notice** (cache v78 → v79) — attendees
+  currently have no way to create an account (in-app sign-up was already off
+  for the first store release, and 3ho.org account creation is not open to
+  them), so a sign-in form only led to dead ends. A shared switch,
+  `ACCOUNT_SIGN_IN_ENABLED = false` in `src/lib/features.ts`, now hides the
+  header account button for logged-out visitors, removes the "Account" tile
+  from the Event home, and replaces the `/account` sign-in form with a short
+  notice ("Sign-in is not available yet"). A device that still holds a session
+  from an earlier build keeps its avatar and the profile card (Sync now / Sign
+  out). The auth code, favorites sync and the `/account` route stay in place;
+  flip the switch back on when accounts can be created again.
+
 ### Fixed
 
 - **Map touch gestures owned by the viewer: pinch anchors under the fingers**

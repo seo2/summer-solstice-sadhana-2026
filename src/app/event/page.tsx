@@ -5,6 +5,7 @@ import { ActiveEventBanner } from "@/components/active-event-banner";
 import { EventHero } from "@/components/event-hero";
 import { MenusTile } from "@/components/menus-tile";
 import { BuiltinOnly } from "@/components/builtin-only";
+import { ACCOUNT_SIGN_IN_ENABLED } from "@/lib/features";
 
 /**
  * Event home — the front door of ONE event: its hero (built-in artwork, or the
@@ -22,7 +23,8 @@ const navItems = [
   { href: "/map", label: "Map", icon: Map, value: "Venues & map" },
   { href: "/contact", label: "Contact", icon: MessageCircle, value: "Help & messages" },
   { href: "/account", label: "Account", icon: UserRound, value: "Sync favorites" },
-];
+  // The Account tile only makes sense while a visitor can actually sign in.
+].filter((item) => ACCOUNT_SIGN_IN_ENABLED || item.href !== "/account");
 
 export default function EventHomePage() {
   return (

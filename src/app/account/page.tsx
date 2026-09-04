@@ -4,6 +4,10 @@
  * Account: sign in against the WordPress backend, profile + favorites sync
  * when logged in. The app never requires an account — this only adds
  * cross-device sync (and, later, push and messaging identity).
+ *
+ * While ACCOUNT_SIGN_IN_ENABLED is false (src/lib/features.ts) a logged-out
+ * visitor sees a short notice instead of the form; a device that still holds
+ * a session keeps the profile card so it can sync or sign out.
  */
 
 import { useState } from "react";
@@ -11,6 +15,7 @@ import { AppLink as Link } from "@/components/app-link";
 import { ArrowLeft, CloudUpload, FlaskConical, LogOut, RefreshCw, UserRound } from "lucide-react";
 import { login, logout, register, useAuth } from "@/lib/auth";
 import { getBackendBaseUrl } from "@/lib/backend";
+import { ACCOUNT_SIGN_IN_ENABLED } from "@/lib/features";
 import { syncFavorites } from "@/lib/favorites-sync";
 import { useSavedActivities } from "@/lib/db";
 
@@ -101,7 +106,9 @@ export default function AccountPage() {
         <p className="solstice-kicker text-xs font-black uppercase text-[#f39200]">Your Account</p>
         <h1 className="mt-1 text-4xl font-black tracking-tight text-[#2f62b6]">Account</h1>
         <p className="mt-1 text-sm font-semibold text-stone-600">
-          Optional — the app works fully without an account. Signing in keeps your favorites safe across devices.
+          {ACCOUNT_SIGN_IN_ENABLED || auth
+            ? "Optional — the app works fully without an account. Signing in keeps your favorites safe across devices."
+            : "The app works fully without an account. Your favorites are saved on this device."}
         </p>
       </section>
 
@@ -146,6 +153,20 @@ export default function AccountPage() {
               <LogOut className="h-4 w-4" />
               Sign out
             </button>
+          </div>
+        </section>
+      ) : !ACCOUNT_SIGN_IN_ENABLED ? (
+        <section className="activity-detail-card rounded-2xl p-6">
+          <div className="flex items-center gap-4">
+            <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-50 text-[#2f62b6] ring-1 ring-sky-200/70">
+              <UserRound className="h-6 w-6" />
+            </span>
+            <div className="min-w-0">
+              <p className="text-lg font-black tracking-tight text-slate-950">Sign-in is not available yet</p>
+              <p className="mt-1 text-sm font-semibold text-stone-600">
+                Accounts will come in a later update. Everything in the app — program, favorites, map and info — works without one.
+              </p>
+            </div>
           </div>
         </section>
       ) : (

@@ -37,6 +37,14 @@ Two things to keep in mind:
 - **To bring sign-up back**, flip that constant *in the same change set* that
   ships account deletion (`auth/delete-account` in the plugin + a button in
   `/account`), and restore the privacy policy's wording about creating accounts.
+- **Sign-in is hidden as well** (2026-09-04, cache v79): since attendees cannot
+  create accounts anywhere yet, `ACCOUNT_SIGN_IN_ENABLED = false` in
+  `src/lib/features.ts` removes the header account button (logged-out state),
+  the Event-home "Account" tile and the `/account` form (a notice shows
+  instead). For review purposes the app currently offers **no** account
+  functionality to a fresh install; the "Optional account" section of the
+  privacy policy still describes what happens *if* a session exists. Details in
+  [ACCOUNTS.md](ACCOUNTS.md).
 
 ## A — Apple chain
 

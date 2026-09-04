@@ -20,6 +20,10 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 ### User registration & login — 🔜 Phase 1
 
 - Account creation and sign-in; unlocks sync and social features.
+- Built (sign-in + favorites sync, see [ACCOUNTS.md](ACCOUNTS.md)) but **hidden
+  until further notice** since 2026-09-04: attendees cannot create accounts yet,
+  so `ACCOUNT_SIGN_IN_ENABLED = false` (`src/lib/features.ts`) removes every
+  sign-in entry point.
 - App stays fully usable **logged out** (core content never requires an account).
 - Depends on: [BACKEND.md](BACKEND.md) (auth).
 

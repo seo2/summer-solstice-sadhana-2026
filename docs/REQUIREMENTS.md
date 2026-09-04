@@ -41,6 +41,10 @@ and stakeholder review. Status legend: ✅ built · 🔧 built, pending ops/QA �
 - ✅ Sign in with existing **3ho.org accounts** (username or email) or create an
   account in-app (same WordPress user pool); password reset via the site.
 - ✅ Account UI: header avatar with initials, profile, sync status, sign out.
+- ⏸️ **Hidden until further notice (2026-09-04)** — no account-creation path
+  exists for attendees, so the sign-in entry points (header button, Event-home
+  tile, `/account` form) are switched off via `ACCOUNT_SIGN_IN_ENABLED` in
+  `src/lib/features.ts`. Existing sessions keep working.
 
 ### 1.5 Multi-event
 

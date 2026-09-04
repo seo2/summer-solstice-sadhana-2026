@@ -26,9 +26,12 @@ The app is evolving into a backend-connected, multi-event native app (see
 - **Info Hub** — offline reference content generated from the booklet.
 - **Camp map** — app-style pan/scroll with internal zoom controls (50–300%) while
   browser page zoom stays disabled.
-- **Accounts (optional)** — sign in with a 3ho.org site account (username or email);
-  cross-device favorites sync (non-destructive merge, tombstoned deletions,
-  last-write-wins on the server). Login unlocks sync, never core content.
+- **Accounts (optional, hidden for now)** — sign in with a 3ho.org site account
+  (username or email); cross-device favorites sync (non-destructive merge,
+  tombstoned deletions, last-write-wins on the server). Login unlocks sync, never
+  core content. Since 2026-09-04 the sign-in entry points are hidden
+  (`ACCOUNT_SIGN_IN_ENABLED = false` in `src/lib/features.ts`) because attendees
+  cannot create accounts yet; see [docs/ACCOUNTS.md](docs/ACCOUNTS.md).
 - **Home before the event** — `/` lists every event 3HO publishes (featured + rows,
   one tap downloads and opens), the latest announcements and **news & posts**; each
   event has its own home at `/event` (hero + sections). Synced events render in the

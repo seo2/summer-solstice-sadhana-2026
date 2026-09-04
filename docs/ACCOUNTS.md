@@ -6,6 +6,23 @@ app-side completion of Phase 1 ([ROADMAP.md](ROADMAP.md), [BACKEND.md](BACKEND.m
 > Core principle unchanged: the app is fully usable **logged out and offline**.
 > An account only adds cross-device sync of favorites (and later: push, messaging).
 
+## Status (2026-09-04): sign-in hidden until further notice
+
+Attendees currently have no way to create an account — in-app sign-up was
+already off for the first store release ([STORE-OPS.md](STORE-OPS.md)), and
+account creation on 3ho.org is not open to them — so the sign-in UI is hidden
+too. `ACCOUNT_SIGN_IN_ENABLED = false` in `src/lib/features.ts` (cache v79):
+
+- the header account button renders only for a device that still holds a
+  session from an earlier build (avatar → profile card with Sync now / Sign out);
+- `/account` shows a short "Sign-in is not available yet" notice instead of the
+  form; the route stays (it is preloaded offline and linked from nowhere else);
+- the Event home has no "Account" tile.
+
+Everything below describes the code paths that remain in place and come back
+the moment the switch is flipped. Flip it in the same change set that makes
+account creation available to attendees.
+
 ## What ships
 
 - **`/account`** (quick tile on Home, not in the bottom nav): login and register
