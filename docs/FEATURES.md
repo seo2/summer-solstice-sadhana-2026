@@ -80,10 +80,21 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   work-group channels → DMs/groups.
 - Depends on: backend + identity (Phase 1); push for alert delivery ([NATIVE.md](NATIVE.md)).
 
+### App Home: events catalog, announcements digest, news & posts — ✅ app shipped (cache v69) · plugin 📋 P5
+
+- `/` is the app's front door, before any event: every published event (featured +
+  rows, one-tap open/download), the two newest announcements of the event being
+  viewed, and staff **posts** (news, registration openings, notices) with a detail
+  sheet and a full list at `/news`. The former Home is the **Event Home** at `/event`.
+- Reads `GET /home` (events catalog + posts) into IndexedDB; offline once fetched.
+  Spec and plugin proposal: [HOME.md](HOME.md).
+- Depends on: plugin P5 (`ssa_post` table, event catalog fields, `/home` route) for
+  real content — the mock backend already serves it.
+
 ### Multi-event — 📋 Phase 4 (design early)
 
 - Event as a first-class entity; program/map/info/teachers/menus scoped per event.
-- Event switcher; follow/register for multiple events.
+- Event switcher — ✅ shipped as the Home events list ([HOME.md](HOME.md)); follow/register for multiple events still planned.
 - Depends on: multi-event data model baked in from Phase 1 ([BACKEND.md](BACKEND.md)).
 
 ### Store: merch & tickets — 💤 Phase 5

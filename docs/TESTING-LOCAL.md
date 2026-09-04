@@ -27,11 +27,16 @@ npm run mock-backend        # terminal 1 → http://localhost:3999
 npm run dev -- -p 3011      # terminal 2
 ```
 
+(Both are also launch configurations in `.claude/launch.json` — `mock-backend`
+and `ssol-dev` — for the Claude desktop app's browser pane.)
+
 Walkthrough:
 
 1. Open http://localhost:3011/sync-lab → base URL `http://localhost:3999`,
    event slug `mocktest` → **Fetch bundle** (saves v1 locally).
-2. Home → "Your events" → tap **Mock Winter Solstice** to activate it.
+2. Home → **Events** → tap **Mock Winter Solstice** (Open event) — it becomes
+   the active event and lands on its Event Home (`/event`). Home also shows the
+   mock's **News & posts** and the **Announcements** digest within ~10 s.
 3. Explore: Program (one session), **Info** (2 event pages), **Map** (Florida
    SVG with zoom), **Menus** (Home tile appears; day chips + meal cards).
 4. **Change alert**: favorite "Morning Sadhana" (heart), then reload the page.
@@ -45,8 +50,8 @@ Walkthrough:
    ```
 
 6. Reset app state when done: DevTools → Application → Storage → Clear site
-   data (or remove the event from Home's "Your events" and clear the base URL
-   in /sync-lab).
+   data (or remove the event with the trash icon on Home's **Events** list and
+   clear the base URL in /sync-lab).
 
 ### A full dummy event (`wsol26`)
 
@@ -54,8 +59,11 @@ Walkthrough:
 see the app carrying a realistic event, use the fixture instead:
 
 `/sync-lab` → base `http://localhost:3999`, event slug **`wsol26`** → Fetch
-bundle → Use this event in the app. That loads 47 sessions across 7 days, 6
-teachers, 6 venues, 8 categories, 6 info pages, 19 menu entries and a venue map.
+bundle → Use this event in the app (or open it from Home's **Events** list —
+the adoption agent also pulls it by itself once the base URL is set). That
+loads 47 sessions across 7 days, 6 teachers, 6 venues, 8 categories, 34 info
+pages, 19 menu entries and a venue map; Home lists it with its cover and
+Register link from `scripts/fixtures/home.json` (see [HOME.md](HOME.md)).
 
 The fixture lives at `scripts/fixtures/wsol26.json` and is re-read on every
 request: edit it, bump its `version`, re-fetch, and the app treats it as an
@@ -79,7 +87,9 @@ cd "/Volumes/3HO/99 - Sites/3ho" && wp server --host=127.0.0.1 --port=8080
 ```
 
 Then in the app (`npm run dev -- -p 3011`): /sync-lab → base URL
-`http://127.0.0.1:8080` → fetch `winter-solstice-2025` → activate from Home.
+`http://127.0.0.1:8080` → fetch `winter-solstice-2025` → open it from Home's
+Events list. (The plugin does not serve `GET /home` yet — P5 in HOME.md — so
+Home lists only the built-in and downloaded events and shows no posts.)
 The override persists (localStorage) and every agent (UpdateAgent,
 AlertsAgent, accounts, devices) uses it via `src/lib/backend.ts`.
 

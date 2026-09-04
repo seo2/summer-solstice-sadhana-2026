@@ -1,12 +1,14 @@
 "use client";
 
 /**
- * Shown when a synced event is active: names it and offers the way back to
- * the built-in Summer Solstice 2026 content.
+ * Shown on event screens while a synced event is active: names it and links
+ * back to the app's Home, where every event (the built-in Summer Solstice
+ * included) can be opened. Switching lives there, not here.
  */
 
-import { CalendarRange, Undo2 } from "lucide-react";
-import { setActiveEvent, useActiveSyncedEvent } from "@/lib/event-store";
+import { CalendarRange, ChevronLeft } from "lucide-react";
+import { AppLink as Link } from "@/components/app-link";
+import { useActiveSyncedEvent } from "@/lib/event-store";
 
 export function ActiveEventBanner() {
   const synced = useActiveSyncedEvent();
@@ -20,14 +22,13 @@ export function ActiveEventBanner() {
         <p className="text-xs font-black uppercase tracking-[0.14em] text-[#9a5a00]">Viewing event</p>
         <p className="truncate text-sm font-black text-slate-900">{synced.name}</p>
       </div>
-      <button
-        type="button"
-        onClick={() => setActiveEvent(null)}
-        className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-xs font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-200/80"
+      <Link
+        href="/"
+        className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-3.5 py-2 text-xs font-black text-[#2f62b6] shadow-sm ring-1 ring-sky-200/80"
       >
-        <Undo2 className="h-3.5 w-3.5" />
-        Summer Solstice
-      </button>
+        <ChevronLeft className="h-3.5 w-3.5" />
+        All events
+      </Link>
     </div>
   );
 }

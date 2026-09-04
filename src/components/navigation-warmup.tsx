@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const primaryRoutes = ["/", "/program", "/favorites", "/info", "/map", "/contact", "/womens-renewal"];
+const primaryRoutes = ["/", "/event", "/program", "/favorites", "/info", "/map", "/contact", "/womens-renewal"];
 
 export function NavigationWarmup() {
   const router = useRouter();

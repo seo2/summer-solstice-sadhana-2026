@@ -12,6 +12,32 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Home before the event: app Home with events, announcements & posts**
+  (cache v69) — `/` is now the *app's* front door, one level above any event
+  (owner direction 2026-09-04: the app must not open an event on Home). It
+  lists **every event** 3HO publishes — the first featured with cover, summary
+  and a big call to action, the rest as rows; happening now → upcoming → past,
+  the event being viewed first within its phase — plus the built-in Summer
+  Solstice and anything already downloaded. One tap opens an event
+  (downloading its bundle first when needed, choice recorded as manual so
+  adoption never overrides it) and lands on the new **Event Home at `/event`**,
+  which is the former `/` unchanged: hero (`EventHero`, ex-`HomeHero`), tiles,
+  Women's Renewal promo, plus an "All events" way back. Home also shows an
+  **Announcements digest** (two newest, unread count, event name, link to the
+  feed) and **News & posts** — a new content type (title, plain-text body in
+  the info-page grammar, image, link, pinned, scoped to an event or for
+  everyone) with a detail sheet and a full list at **`/news`**. All of it
+  reads from IndexedDB (`solstice-home-feed`), fetched by a `HomeFeedAgent`
+  from the proposed public **`GET /home`** endpoint (events catalog + posts);
+  covers and post images are pre-cached for offline. `scripts/mock-backend.mjs`
+  serves `/home` from `scripts/fixtures/home.json`; the plugin change is
+  proposed as P5 in the new `docs/HOME.md`. The `ActiveEventBanner` button now
+  links back to Home instead of switching to the built-in event, and the
+  "Your events" switcher (`event-switcher.tsx`) is removed — the Home list
+  replaces it. Verified in the browser against the mock backend: catalog,
+  digest and posts render; Continue → `/event`; the Summer Solstice row
+  activates the built-in event; `/news` lists and opens posts.
+
 - **Events reach the device by themselves** (cache v67) (`src/lib/event-discovery.ts` +
   `EventAdoptionAgent`) — on app start and when connectivity returns, the app
   asks the backend which event is current, downloads its bundle and activates

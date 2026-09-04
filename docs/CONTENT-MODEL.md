@@ -16,8 +16,10 @@ The app renders exactly one event at a time, from one of two sources:
 
 The built-in event is the fallback and is **always** available offline. Activating
 a synced event swaps what Program, Favorites, Teachers, Info, Menus and Map
-render; deactivating it (the "Summer Solstice" chip in the event switcher)
-restores the built-in content. Both live side by side in "Your events" on Home.
+render; opening the built-in Summer Solstice again from Home restores the
+built-in content. Every event — built-in, downloaded, or merely
+published — is listed on the app's Home (`/`); opening one lands on its Event
+Home (`/event`). See [HOME.md](HOME.md).
 
 ```
 WordPress plugin              app                          screens
@@ -45,7 +47,7 @@ a session that simply never appears — check counts, not just that the screen r
 
 | Bundle key | Required per item | Surfaces in |
 |---|---|---|
-| `event` | `slug`, `name` | Home hero, event switcher, Map kicker |
+| `event` | `slug`, `name` | Event Home hero, Home events list, Map kicker |
 | `event.mapImage` | — | Map tab (zoomable viewer) |
 | `program[]` | `id`, `date`, `startTime`, `title` | Program, Favorites, reminders, Teachers' session lists |
 | `teachers[]` | `id`, `name` | Teachers tab, session detail sheets |
@@ -116,8 +118,9 @@ npm run dev -- -p 3011
 ```
 
 Then in the app: **`/sync-lab`** → base `http://localhost:3999`, event slug
-`wsol26` → **Fetch bundle** → **Use this event in the app**. Home, Program,
-Teachers, Info, Menus and Map all switch to the dummy event.
+`wsol26` → **Fetch bundle** → **Use this event in the app** (or simply open it
+from Home's **Events** list). The Event Home, Program, Teachers, Info, Menus
+and Map all switch to the dummy event.
 
 The fixture is re-read from disk on **every** request, so the editing loop is:
 
@@ -149,8 +152,8 @@ app start / back online
 `src/lib/event-discovery.ts` (`adoptCurrentEvent`) run by `EventAdoptionAgent`.
 Three rules keep it safe:
 
-- **A manual choice wins.** Picking an event in the switcher records the source
-  as `"manual"` and adoption stops touching the selection from then on.
+- **A manual choice wins.** Opening an event from Home records the source as
+  `"manual"` and adoption stops touching the selection from then on.
 - **The built-in slug is skipped** — the bundled content already covers it.
 - **Silent on failure.** Offline is normal; the built-in event still works.
 
@@ -191,6 +194,15 @@ screen **cannot import them yet** in either format: they have tables, and their
 upserts (`upsert_simple`, `upsert_info_pages`) still live in WP-CLI as private
 methods. The files are ready for the day the screen learns those types; until
 then load them through the mock backend.
+
+## The Home feed (not part of the bundle)
+
+The app's Home (`/`) reads a second, event-independent payload: `GET /home` —
+the **events catalog** (every published event with `summary`, `cover`,
+`registrationUrl`) and **posts** (staff news and notices, optionally scoped to
+one event). Stored in its own Dexie DB (`solstice-home-feed`) and replaced
+whole on every refresh. `scripts/fixtures/home.json` is the mock's source;
+the plugin side is proposed as P5. Full contract in [HOME.md](HOME.md).
 
 ## Known gaps (2026-09-01)
 

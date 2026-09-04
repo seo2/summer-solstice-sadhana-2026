@@ -28,6 +28,17 @@
         "3012"
       ],
       "port": 3012
+    },
+    {
+      "name": "mock-backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "mock-backend",
+        "--prefix",
+        "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026"
+      ],
+      "port": 3999
     }
   ]
 }

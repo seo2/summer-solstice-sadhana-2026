@@ -103,13 +103,10 @@ export async function refreshSyncedEvents(): Promise<RefreshOutcome> {
 
 /**
  * Pre-cache the bundle's photos into the offline cache so teacher/program
- * images render with zero connectivity. Cross-origin photos (WordPress Media
- * Library) are stored as opaque responses; the service worker serves both from
- * the same cache. Best-effort — a failed photo never fails the sync.
+ * images render with zero connectivity. Best-effort — a failed photo never
+ * fails the sync.
  */
 export async function warmBundlePhotos(bundle: SyncedBundle) {
-  if (typeof caches === "undefined") return;
-
   const urls = new Set<string>();
   const collect = (raw: Record<string, unknown>) => {
     if (typeof raw.photo === "string" && raw.photo) urls.add(raw.photo);
@@ -122,11 +119,23 @@ export async function warmBundlePhotos(bundle: SyncedBundle) {
   if (typeof bundle.event.mapImage === "string" && bundle.event.mapImage) {
     urls.add(bundle.event.mapImage);
   }
-  if (urls.size === 0) return;
+  await warmImageUrls(urls);
+}
+
+/**
+ * Store remote images in the offline cache. Cross-origin images (WordPress
+ * Media Library) are stored as opaque responses; the service worker serves
+ * both from the same cache. Shared by bundle photos and the home feed's
+ * covers and post images.
+ */
+export async function warmImageUrls(urls: Iterable<string>) {
+  if (typeof caches === "undefined") return;
+  const unique = Array.from(new Set(Array.from(urls).filter(Boolean)));
+  if (unique.length === 0) return;
 
   const cache = await caches.open(CACHE_NAME);
   await Promise.all(
-    Array.from(urls, async (url) => {
+    unique.map(async (url) => {
       try {
         const absolute = new URL(url, window.location.origin);
         if (await cache.match(absolute.href)) return;
@@ -137,7 +146,7 @@ export async function warmBundlePhotos(bundle: SyncedBundle) {
           await cache.put(absolute.href, response);
         }
       } catch {
-        // Missing or unreachable photo — the UI falls back to initials.
+        // Missing or unreachable image — the UI falls back gracefully.
       }
     }),
   );

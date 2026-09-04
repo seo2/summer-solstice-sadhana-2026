@@ -1,0 +1,65 @@
+{
+  "_comment": "Home feed fixture served by scripts/mock-backend.mjs at GET /wp-json/3ho-solstice/v1/home. `events` adds catalog-only fields (summary, cover, registrationUrl) per slug — a slug with no bundle fixture (the built-in Summer Solstice) is listed from here alone. `posts` are staff-authored posts: eventSlug scopes one to an event, omit it for everyone. Bodies use the info-page grammar (blank line = paragraph, ∙ = bullet). Re-read on every request — edit and reload.",
+  "events": {
+    "summer-solstice-2026": {
+      "slug": "summer-solstice-2026",
+      "name": "Summer Solstice Sadhana 2026",
+      "startDate": "2026-06-19",
+      "endDate": "2026-06-27",
+      "location": "Ram Das Puri, New Mexico",
+      "timezone": "America/Denver",
+      "status": "active",
+      "summary": "Chardi Kala · A Celebration of Joy. Nine days of Sadhana, White Tantric Yoga® and community in the high desert.",
+      "version": 12
+    },
+    "wsol26": {
+      "summary": "Seven days by the lake in Florida: White Tantric Yoga® Dec 17–19, the Solstice on Dec 20, and a program for the whole family.",
+      "cover": "http://localhost:3999/photos/event-cover.svg",
+      "registrationUrl": "https://register.3ho.org/"
+    }
+  },
+  "posts": [
+    {
+      "id": "post-wsol26-registration-open",
+      "title": "Winter Solstice 2026 registration is open",
+      "body": "Join us December 15–21 at Retreats By The Lake in Lake Wales, Florida. Early registration is open now.\n\n∙ White Tantric Yoga® on December 17, 18 and 19\n∙ The Solstice itself on December 20\n∙ Family and youth program at the Children's Camp\n\nRegister early to reserve your spot and the housing option you prefer.",
+      "image": "http://localhost:3999/photos/post-cover.svg",
+      "linkUrl": "https://register.3ho.org/",
+      "linkLabel": "Register now",
+      "pinned": true,
+      "publishedAt": "2026-09-01T15:00:00+00:00"
+    },
+    {
+      "id": "post-wsol26-travel",
+      "title": "Getting to Lake Wales",
+      "body": "The nearest airports are Orlando (MCO, about 75 minutes) and Tampa (TPA, about 90 minutes). A shuttle will run from Orlando on December 15 and back on December 21.\n\n∙ Book your shuttle seat when you register\n∙ Carpool board opens in November\n∙ Parking on site is free",
+      "eventSlug": "wsol26",
+      "pinned": false,
+      "publishedAt": "2026-09-03T12:00:00+00:00"
+    },
+    {
+      "id": "post-seva-2026",
+      "title": "Serve at Solstice: seva teams are forming",
+      "body": "Every Solstice runs on seva. Kitchen, site crew, children's camp and welcome desk teams are looking for volunteers for the winter event.\n\nSeva shifts come with a discount on registration and a very good breakfast.",
+      "linkUrl": "https://www.3ho.org/",
+      "linkLabel": "Learn about seva",
+      "pinned": false,
+      "publishedAt": "2026-08-28T10:00:00+00:00"
+    },
+    {
+      "id": "post-thank-you-ssol26",
+      "title": "Thank you, Summer Solstice 2026",
+      "body": "Photos and recordings from Ram Das Puri are being gathered. We will share them here as they are ready.",
+      "eventSlug": "summer-solstice-2026",
+      "pinned": false,
+      "publishedAt": "2026-07-02T18:00:00+00:00"
+    },
+    {
+      "id": "post-ssol27-save-the-date",
+      "title": "Save the date: Summer Solstice 2027",
+      "body": "Summer Solstice Sadhana returns to Ram Das Puri in June 2027. Dates and registration will be announced here first.",
+      "pinned": false,
+      "publishedAt": "2026-08-15T09:00:00+00:00"
+    }
+  ]
+}

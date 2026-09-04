@@ -29,9 +29,11 @@ The app is evolving into a backend-connected, multi-event native app (see
 - **Accounts (optional)** — sign in with a 3ho.org site account (username or email);
   cross-device favorites sync (non-destructive merge, tombstoned deletions,
   last-write-wins on the server). Login unlocks sync, never core content.
-- **Multi-event groundwork** — Sync Lab (`/sync-lab`, internal) fetches versioned event
-  bundles from the WordPress backend; synced events render in the full app experience
-  (Program/Favorites/Teachers) and a "Your events" switcher appears on Home.
+- **Home before the event** — `/` lists every event 3HO publishes (featured + rows,
+  one tap downloads and opens), the latest announcements and **news & posts**; each
+  event has its own home at `/event` (hero + sections). Synced events render in the
+  full app experience (Program/Favorites/Teachers/Info/Map/Menus). Sync Lab
+  (`/sync-lab`, internal) remains the backend test bench. See `docs/HOME.md`.
 - **Contact form** — saves to a local outbox first, then sends to the WordPress
   endpoint when online.
 - **Women's Renewal** page, install tutorial, and an account entry in the global header.

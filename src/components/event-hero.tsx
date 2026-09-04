@@ -1,10 +1,12 @@
 "use client";
 
 /**
- * Home hero gate: while a synced event is active, the hero shows THAT event
- * (name, dates, location, same CTAs) instead of the built-in Summer Solstice
- * artwork — the last SSOL-only surface a synced-event attendee would see.
- * With no synced event, renders the server-rendered built-in hero (children).
+ * Event home hero gate: while a synced event is active, the hero shows THAT
+ * event (name, dates, location, same CTAs) instead of the built-in Summer
+ * Solstice artwork — the last SSOL-only surface a synced-event attendee would
+ * see. With no synced event, renders the server-rendered built-in hero
+ * (children). Lives on /event, the event's own home; the app's Home (/) lists
+ * every event instead.
  */
 
 import type { ReactNode } from "react";
@@ -28,7 +30,7 @@ function formatRange(start?: string, end?: string): string | null {
   return `${month(from)} ${from.getDate()}, ${from.getFullYear()}`;
 }
 
-export function HomeHero({ children }: { children: ReactNode }) {
+export function EventHero({ children }: { children: ReactNode }) {
   const synced = useActiveSyncedEvent();
 
   if (!synced) return <>{children}</>;

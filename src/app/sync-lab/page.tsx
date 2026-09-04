@@ -106,7 +106,7 @@ export default function SyncLabPage() {
       } else {
         setBundle(data);
         // Every fetched bundle is stored locally right away, so it shows up
-        // in Home → "Your events" without needing to activate it first.
+        // in Home → "Events" without needing to activate it first.
         if (data.event) {
           await saveBundle(cleanBase, data as unknown as SyncedBundle);
         }

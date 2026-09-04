@@ -19,13 +19,18 @@
  *   GET /wp-json/3ho-solstice/v1/events/current
  *       the event the app should adopt: in progress > next to start > most
  *       recently finished, across every fixture.
+ *   GET /wp-json/3ho-solstice/v1/home
+ *       the Home feed: the events catalog (every fixture's event, plus the
+ *       catalog-only fields and slugs in scripts/fixtures/home.json) and
+ *       the staff posts from that same file. See docs/HOME.md.
  *   GET /wp-json/3ho-solstice/v1/updates?event=mocktest&since=N
  *   GET /wp-json/3ho-solstice/v1/channels/{id}/messages?since=N
  *   GET /mock/post?type=alert|official&body=…   → publish a new broadcast
- *   GET /photos/venue-map.svg, /photos/mock-teacher.png
+ *   GET /photos/venue-map.svg, /photos/mock-teacher.png,
+ *       /photos/event-cover.svg, /photos/post-cover.svg
  *
  * Pair it with the app: /sync-lab → base http://localhost:3999, event
- * "mocktest" → Fetch bundle → activate from Home's "Your events".
+ * "mocktest" → Fetch bundle → open it from Home's "Events" catalog.
  */
 import { createServer } from "node:http";
 import { readdirSync, readFileSync } from "node:fs";
@@ -77,6 +82,21 @@ const MAP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="80
   <rect x="200" y="420" width="280" height="140" rx="12" fill="#c4e3c0" stroke="#6faa68" stroke-width="3"/>
   <text x="340" y="495" text-anchor="middle" font-family="Arial" font-size="24" font-weight="bold" fill="#3c6b36">Lakeside Hall</text>
   <text x="600" y="60" text-anchor="middle" font-family="Arial" font-size="34" font-weight="bold" fill="#2f62b6">RETREATS BY THE LAKE · LAKE WALES, FL</text>
+</svg>`;
+
+const EVENT_COVER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d3f94"/><stop offset="1" stop-color="#39a9ef"/></linearGradient></defs>
+  <rect width="1200" height="480" fill="url(#g)"/>
+  <circle cx="980" cy="120" r="150" fill="#f39200" opacity="0.85"/>
+  <ellipse cx="600" cy="470" rx="700" ry="120" fill="#a8d4e6" opacity="0.6"/>
+  <text x="60" y="400" font-family="Arial" font-size="56" font-weight="bold" fill="#ffffff">WINTER SOLSTICE · LAKE WALES, FL</text>
+</svg>`;
+
+const POST_COVER_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#fff6e1"/>
+  <circle cx="400" cy="260" r="170" fill="#f39200" opacity="0.9"/>
+  <rect x="0" y="380" width="800" height="220" fill="#2f62b6"/>
+  <text x="400" y="500" text-anchor="middle" font-family="Arial" font-size="44" font-weight="bold" fill="#ffffff">Registration open</text>
 </svg>`;
 
 const bundle = (version) => ({
@@ -176,7 +196,7 @@ createServer((req, res) => {
     const candidates = [];
 
     for (const file of readdirSync(FIXTURES_DIR)) {
-      if (!file.endsWith(".json")) continue;
+      if (!file.endsWith(".json") || file === "home.json") continue;
       const fixture = loadFixture(file.replace(/\.json$/, ""));
       if (fixture?.event?.slug && fixture.event.status !== "archived") candidates.push(fixture.event);
     }
@@ -198,6 +218,36 @@ createServer((req, res) => {
     console.log(`events/current -> ${current ? current.slug : "(none)"}`);
     res.writeHead(current ? 200 : 404, { "Content-Type": "application/json" });
     res.end(JSON.stringify(current ? { ok: true, ...current } : { ok: false, error: "no_event" }));
+    return;
+  }
+
+  // The Home feed: events catalog + staff posts. Events come from every fixture
+  // (same non-archived rule as /events/current) merged with the catalog-only
+  // fields in home.json; a home.json slug with no bundle fixture (the built-in
+  // Summer Solstice) is listed from home.json alone. Posts come from home.json.
+  if (url.pathname === "/wp-json/3ho-solstice/v1/home") {
+    const home = loadFixture("home") ?? { events: {}, posts: [] };
+    const extras = home.events ?? {};
+    const events = new Map();
+
+    for (const file of readdirSync(FIXTURES_DIR)) {
+      if (!file.endsWith(".json") || file === "home.json") continue;
+      const fixture = loadFixture(file.replace(/\.json$/, ""));
+      const event = fixture?.event;
+      if (!event?.slug || event.status === "archived") continue;
+      const catalog = { ...event, ...(extras[event.slug] ?? {}), version: Number(fixture.version ?? 1) };
+      delete catalog.mapImage; // bundle-only field; the catalog carries `cover` instead
+      events.set(event.slug, catalog);
+    }
+    for (const [slug, extra] of Object.entries(extras)) {
+      if (!events.has(slug) && extra?.name) events.set(slug, { slug, ...extra });
+    }
+
+    const list = Array.from(events.values()).sort((a, b) => (a.startDate ?? "").localeCompare(b.startDate ?? ""));
+    const posts = Array.isArray(home.posts) ? home.posts : [];
+    console.log(`home -> ${list.length} events, ${posts.length} posts`);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ ok: true, generatedAt: new Date().toISOString(), events: list, posts }));
     return;
   }
 
@@ -240,6 +290,18 @@ createServer((req, res) => {
   if (url.pathname === "/photos/venue-map.svg") {
     res.writeHead(200, { "Content-Type": "image/svg+xml" });
     res.end(MAP_SVG);
+    return;
+  }
+
+  if (url.pathname === "/photos/event-cover.svg") {
+    res.writeHead(200, { "Content-Type": "image/svg+xml" });
+    res.end(EVENT_COVER_SVG);
+    return;
+  }
+
+  if (url.pathname === "/photos/post-cover.svg") {
+    res.writeHead(200, { "Content-Type": "image/svg+xml" });
+    res.end(POST_COVER_SVG);
     return;
   }
 
