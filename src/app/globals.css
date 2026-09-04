@@ -137,69 +137,41 @@ select {
   user-select: none;
 }
 
-/* Screen transitions. The exit runs before the router swaps the route (see
-   src/lib/route-transition.ts), the enter once the new screen mounts, so a
-   navigation reads as one movement instead of a flash. Durations here are
-   mirrored by EXIT_MS in that module. */
+/* Screen transitions: the incoming screen slides into place, in the direction
+   of the navigation. Transform only — never opacity. A screen that fades in has
+   to start invisible, and on a heavy route that invisible state lasts as long
+   as the render, which is what used to read as a blank flash. Opaque content
+   that moves cannot flash, and cannot get stuck looking washed out. See
+   src/lib/route-transition.ts. */
 .route-transition-shell {
   min-height: 100%;
-  opacity: 0;
-  transition:
-    opacity 180ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+  transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-/* Resting position of an incoming screen, per direction: deeper comes from the
-   right, back comes from the left, peers just lift a little. */
+/* Where an incoming screen starts, per direction: deeper from the right, back
+   from the left, peer tabs rise a little. */
 .route-transition-shell.nav-forward {
-  transform: translate3d(1.25rem, 0, 0);
+  transform: translate3d(1.5rem, 0, 0);
 }
 
 .route-transition-shell.nav-back {
-  transform: translate3d(-1.25rem, 0, 0);
+  transform: translate3d(-1.5rem, 0, 0);
 }
 
 .route-transition-shell.nav-cross {
-  transform: translate3d(0, 0.45rem, 0);
+  transform: translate3d(0, 0.6rem, 0);
 }
 
 .route-transition-shell.is-entered {
-  opacity: 1;
   transform: translate3d(0, 0, 0);
-}
-
-/* Leaving: the outgoing screen moves the opposite way, so the pair reads as one
-   push. It dims rather than disappearing — the old screen stays mounted until
-   the router swaps routes, so fading it to zero is what produced a blank hold
-   on heavier screens (Program renders 47 sessions). Dimmed, that wait reads as
-   the screen stepping back instead of as a flash. */
-.route-transition-shell.is-exiting {
-  opacity: 0.38;
-  transition:
-    opacity 110ms ease-in,
-    transform 110ms ease-in;
-}
-
-.route-transition-shell.is-exiting.nav-forward {
-  transform: translate3d(-0.75rem, 0, 0);
-}
-
-.route-transition-shell.is-exiting.nav-back {
-  transform: translate3d(0.75rem, 0, 0);
-}
-
-.route-transition-shell.is-exiting.nav-cross {
-  transform: translate3d(0, -0.3rem, 0);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .route-transition-shell,
   .route-transition-shell.nav-forward,
   .route-transition-shell.nav-back,
-  .route-transition-shell.nav-cross,
-  .route-transition-shell.is-exiting {
-    opacity: 1;
+  .route-transition-shell.nav-cross {
     transform: none;
     transition: none;
     will-change: auto;

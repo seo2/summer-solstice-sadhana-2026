@@ -35,24 +35,27 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
-- **Screen transitions now animate between screens, not just into them**
-  (cache v73). The shell already faded each new screen in, but nothing played on
-  the way out, so on a phone a navigation read as a flash: measured in the
-  browser, tapping Program left the screen **blank for 325 ms** before the new
-  one appeared, and returning Home for 112 ms. `AppLink` — the single choke
-  point every internal link goes through — now plays a short exit and awaits it
-  before pushing the route, and the motion follows the navigation: going deeper
-  slides in from the right, coming back from the left, switching tabs
-  cross-fades (`navDirection` in `src/lib/route-transition.ts`).
-  The exit **dims to 0.38 instead of fading out**, which is what removed the
-  blank: the outgoing screen stays mounted until the router swaps routes, so
-  fading it to zero was itself painting the gap. Re-measured: **zero blank
-  frames** in both directions, opacity never below 0.38.
-  Modifier clicks, middle clicks, new-tab targets and downloads keep the
-  browser's own behaviour, and `prefers-reduced-motion` disables the whole thing.
-  Not built on the View Transitions API: React 19.2 stable does not export
-  `<ViewTransition>`, so Next's `experimental.viewTransition` would mean shipping
-  React's experimental channel to the stores.
+- **Screen transitions rebuilt: transform only, no exit** (cache v74). The first
+  attempt was rough and could leave the whole screen stuck at 38% opacity — a
+  real bug: tapping the tab of the screen you were already on played the exit,
+  and since the path never changed the effect that restored the state never ran.
+  Two design faults sat behind it: awaiting an exit before navigating made every
+  tap feel late, and dimming the outgoing screen turned a slow render into a
+  visible hold.
+  The rewrite removes both. Navigation is untouched — `AppLink` is a plain link
+  again, no click interception, no edge cases around modifier or middle clicks —
+  and `RouteTransitionShell` derives the direction from the previous path on its
+  own. The incoming screen animates **transform only, never opacity**: a screen
+  that fades in has to start invisible, and on a heavy route that invisible
+  state lasts as long as the render, which is what produced the blank flash in
+  the first place. Opaque content that moves cannot flash, and cannot get stuck
+  looking washed out.
+  The offset is derived during render rather than in an effect: deriving it
+  after the commit made the screen paint in place and then jump, and a ref guard
+  plus StrictMode's double-invoked effects could leave it permanently offset —
+  both observed in the browser before the fix.
+  Verified across Home→Program, Program→Info, Info→Info (the stuck case),
+  Info→Home and Home→Map: every navigation ends in place, opacity never leaves 1.
 
 
 - **3HO logo in the header** (cache v71) — the top-left "3HO / Event App"
