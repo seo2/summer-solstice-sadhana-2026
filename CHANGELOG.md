@@ -35,6 +35,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **The bottom nav's active background slides between tabs** (cache v75) —
+  instead of six buttons each fading their own background, a single pill moves
+  from the tab you left to the one you opened, which reads as one gesture and
+  shows where you came from. It is absolutely positioned inside the tab grid and
+  driven by a transform, with its geometry derived from the grid itself
+  ((100% − 5 gaps) / 6 wide, translated by (100% + gap) per column), so it stays
+  aligned at any width without measuring the DOM. On screens that are not tabs
+  (Account, Teachers, Menus) it fades out rather than parking on an unrelated
+  tab, and `prefers-reduced-motion` drops the animation.
+  Verified in the browser: the pill lands within 1px of every tab across all six
+  sections, travels 8 → 310px with a small settle, and sits at opacity 0 on
+  `/account`.
+
+
 - **Screen transitions rebuilt: transform only, no exit** (cache v74). The first
   attempt was rough and could leave the whole screen stuck at 38% opacity — a
   real bug: tapping the tab of the screen you were already on played the exit,

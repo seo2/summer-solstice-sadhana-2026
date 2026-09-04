@@ -3,7 +3,7 @@ import { join } from "node:path";
 import type { NextConfig } from "next";
 import withPWAInit from "@ducanh2912/next-pwa";
 
-const OFFLINE_CACHE = "solstice-full-offline-v74";
+const OFFLINE_CACHE = "solstice-full-offline-v75";
 
 /**
  * Android only initializes Firebase when `android/app/google-services.json` is

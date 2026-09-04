@@ -178,6 +178,32 @@ select {
   }
 }
 
+/* The bottom nav's active pill. Absolutely positioned inside the tab grid and
+   moved with a transform, so switching sections slides one background between
+   tabs instead of fading six of them independently. Geometry comes from the
+   inline style in bottom-nav.tsx, which knows the column count and gap. */
+.nav-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 0;
+  border-radius: 1rem;
+  background: rgba(224, 242, 254, 0.8);
+  transition:
+    transform 320ms cubic-bezier(0.34, 1.32, 0.48, 1),
+    opacity 180ms ease;
+  will-change: transform;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill {
+    transition: none;
+    will-change: auto;
+  }
+}
+
 .day-filter-button {
   flex: 0 0 auto;
   min-width: max-content;
