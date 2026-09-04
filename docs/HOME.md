@@ -16,9 +16,12 @@ there was no place for news that is not an urgent alert. Product owner
 direction (2026-09-04): **the Home comes before the event's home — the app
 must not open an event on Home.**
 
-Status: **app side shipped** (cache v70). **Plugin side proposed** (P5 below);
-until it lands, production answers `GET /home` with 404 and the App Home lists
-the built-in event alone, plus whatever events the device has downloaded.
+Status: **app side shipped** (cache v70). **Plugin side implemented 2026-09-04**
+in the 3ho.org working tree as plugin **v0.6.0 / DB v4** (P5 below; that repo's
+rule: the owner QAs and commits) and verified end-to-end against local
+WordPress. Until it is deployed, production answers `GET /home` with 404 and
+the App Home lists the built-in event alone, plus whatever events the device
+has downloaded.
 
 ## App Home (`/`), top to bottom
 
@@ -178,11 +181,16 @@ Rules the app relies on:
 - **Images:** covers and post images are warmed into the offline cache
   (`warmImageUrls`, shared with bundle photos).
 
-## P5 — plugin proposal (3ho.org repo, not yet implemented)
+## P5 — plugin side (3ho.org repo) — IMPLEMENTED 2026-09-04, pending owner QA + commit
 
 Follows the pattern of P1–P4 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md): proposed
-here, implemented in the WordPress working tree for owner QA, committed by the
-owner.
+here, implemented in the WordPress working tree (`includes/class-ssa-home.php`
+new; `class-ssa-schema.php`, `class-ssa-admin.php`, the bootstrap, README and
+that repo's `CHANGELOG.md` updated; `php -l` clean), QA'd and committed by the
+owner. Verified locally: `plugins_loaded` migrated the DB to v4, `GET /home`
+answers with events + posts, `ETag` + `If-None-Match` → 304, the Posts and
+Events screens render with the new fields prefilled, and the app's Home lists
+the real catalog and posts from local WordPress with the scope rule holding.
 
 1. **Schema (DB v4)**
    - `ssa_event` gains `summary` VARCHAR(500) NULL, `cover_image` VARCHAR(500)
@@ -205,7 +213,10 @@ owner.
 5. **Optional later** — `ETag` on `/home`; a `threeho_ssa_post_published` hook
    for the push sender (a pinned post could become an opt-in "news" push, N1).
 
-Owner QA when implemented: create a post for everyone and one scoped to WSOL26;
+Owner QA: reload wp-admin (DB v4 auto-migrates), open Event App → Posts (two
+QA posts were left there: `post-qa-registration-open` for everyone and
+`post-qa-scoped-wsol25` scoped to Winter Solstice Test; delete or edit them),
+create a post for everyone and one scoped to WSOL26;
 `GET /home` returns both with the event catalog; the App Home shows the catalog
 and the everyone-post while Summer Solstice is active, and both posts once
 WSOL26 is opened; delete the post in wp-admin → gone from the app after the

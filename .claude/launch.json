@@ -39,6 +39,17 @@
         "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026"
       ],
       "port": 3999
+    },
+    {
+      "name": "wp-local",
+      "runtimeExecutable": "wp",
+      "runtimeArgs": [
+        "--path=/Volumes/3HO/99 - Sites/3ho",
+        "server",
+        "--host=127.0.0.1",
+        "--port=8081"
+      ],
+      "port": 8081
     }
   ]
 }

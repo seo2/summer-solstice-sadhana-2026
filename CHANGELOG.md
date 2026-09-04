@@ -12,6 +12,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Home feed served by the real backend** — plugin P5 implemented in the
+  3ho.org working tree (v0.6.0 / DB v4, owner QA + commit pending): `GET /home`
+  (events catalog + posts, weak ETag), `ssa_post` table with an "Event App →
+  Posts" screen, and `summary` / `cover_image` / `registration_url` on events.
+  Verified end-to-end: the app's Home against local WordPress lists the real
+  catalog and posts with the scope rule holding. No app code change; docs
+  (`HOME.md`, `BACKEND-WSOL26.md`, `TESTING-LOCAL.md`) and a `wp-local` launch
+  configuration (port 8081) updated.
+
 - **"Schedule subject to change" notice** (cache v72) — a dismissible amber
   strip at the top of the Program (dismissal remembered on the device) with a
   "Details" link, and a permanent card near the top of the Info Hub for both

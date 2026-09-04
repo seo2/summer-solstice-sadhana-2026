@@ -80,16 +80,18 @@ one alert, and `feed_slug=wsol26` for the P4 pipeline).
 
 `https://3ho.test` currently hangs on port 443 (nginx listens but never
 answers) — instead of touching that setup, serve WordPress with its built-in
-server:
+server (port 8081; 8080 is taken by a local `httpd`):
 
 ```bash
-cd "/Volumes/3HO/99 - Sites/3ho" && wp server --host=127.0.0.1 --port=8080
+wp --path="/Volumes/3HO/99 - Sites/3ho" server --host=127.0.0.1 --port=8081
 ```
 
-Then in the app (`npm run dev -- -p 3011`): /sync-lab → base URL
-`http://127.0.0.1:8080` → fetch `winter-solstice-2025` → open it from Home's
-Events list. (The plugin does not serve `GET /home` yet — P5 in HOME.md — so
-Home lists only the built-in and downloaded events and shows no posts.)
+(Also the `wp-local` launch configuration in `.claude/launch.json`.) Then in
+the app (`npm run dev -- -p 3011`): /sync-lab → base URL
+`http://127.0.0.1:8081` → fetch `winter-solstice-2025` → open it from Home's
+Events list. With plugin v0.6.0 the local WordPress also serves `GET /home`, so
+Home shows the real events catalog and the posts from Event App → Posts (see
+[HOME.md](HOME.md)).
 The override persists (localStorage) and every agent (UpdateAgent,
 AlertsAgent, accounts, devices) uses it via `src/lib/backend.ts`.
 

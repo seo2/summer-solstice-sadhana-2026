@@ -129,6 +129,14 @@ feed now" → presenter rows appear and `content_version` bumps → re-run → *
 bump (hash unchanged) → change something in the checkout program → re-run →
 bump, and the app picks it up on its next sync.
 
+## P5 — Home feed: events catalog + posts (`GET /home`) — **IMPLEMENTED 2026-09-04** (plugin v0.6.0 / DB v4)
+
+Spec, contract and QA list live in [HOME.md](HOME.md). In short: `ssa_event`
+gains `summary`, `cover_image`, `registration_url`; new `ssa_post` table with an
+"Event App → Posts" admin screen; new public `GET /home` route (own rate-limit
+bucket, weak `ETag`). Independent of `content_version`. Implemented in the WP
+working tree per that repo's rules; owner QA and commit pending.
+
 ## Rollout
 
 - All three ship as **plugin v0.5.0 / DB v3** (one dbDelta migration, existing
