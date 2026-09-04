@@ -28,7 +28,7 @@ const COLUMNS = {
   // live in WP-CLI (upsert_simple / upsert_info_pages). Emitted so the files are
   // ready the moment the screen learns these types; the columns match what
   // those upserts read.
-  venues: ["id", "name", "description"],
+  venues: ["id", "name", "description", "mapX", "mapY", "color", "number", "featured", "kind"],
   categories: ["id", "name"],
   infoPages: ["id", "title", "content", "sourcePage"],
 };
@@ -55,12 +55,20 @@ function toCsv(columns, rows) {
   return `${lines.join("\n")}\n`;
 }
 
+/** Nested bundle fields flattened into CSV cells (venues: `mapPoint` → `mapX` / `mapY`). */
+function flattenRow(row) {
+  if (row.mapPoint && typeof row.mapPoint === "object") {
+    return { ...row, mapX: row.mapPoint.x, mapY: row.mapPoint.y };
+  }
+  return row;
+}
+
 function convert(slug) {
   const bundle = JSON.parse(readFileSync(join(FIXTURES_DIR, `${slug}.json`), "utf8"));
   const written = [];
 
   for (const [type, columns] of Object.entries(COLUMNS)) {
-    const rows = bundle[type] ?? [];
+    const rows = (bundle[type] ?? []).map(flattenRow);
 
     if (!rows.length) continue;
 

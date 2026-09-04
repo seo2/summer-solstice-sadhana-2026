@@ -12,6 +12,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Venue map pins for synced events** (cache v76) — the Map tab's tappable
+  pins, quick-access chips (tap to center) and "All venues" legend, until now
+  hardcoded to the Ram Das Puri map, are driven by the bundle: every
+  `venues[]` item with a `mapPoint` (percent of the map image) plus optional
+  `color`, `number`, `featured` rank and `kind` (`landmark` = map-only point,
+  hidden from the Program venue filter) becomes a pin whose tooltip shows the
+  venue description. `MapViewer` takes a `legend` prop (`legendFromVenues()`);
+  the built-in legend now uses the same shape. The WSOL26 fixture carries 22
+  pins measured on the real Florida artwork, which the mock backend serves as
+  `/photos/wsol26-map.jpg`; the venues CSV gains
+  `mapX`/`mapY`/`color`/`number`/`featured`/`kind`. Plugin side proposed as
+  P6 (and Info Hub groups as P7) in `docs/BACKEND-WSOL26.md`.
+
 - **Home feed served by the real backend** — plugin P5 implemented in the
   3ho.org working tree (v0.6.0 / DB v4, owner QA + commit pending): `GET /home`
   (events catalog + posts, weak ETag), `ssa_post` table with an "Event App →

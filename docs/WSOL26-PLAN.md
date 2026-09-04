@@ -131,6 +131,21 @@ attendee opening "Info" today would read about Ram Das Puri.
       Event App · Program, maps & announcements for 3HO events") instead of
       SSOL26-branded. With this, **WS2 is code-complete** — only the Florida map
       artwork (WS7 content) remains.
+- [x] **Venue map pins & quick-access chips for synced maps** — ✅ app side
+      done 2026-09-04 (cache v76), reopening WS2 for design parity with the
+      Summer Solstice PWA: the Map tab draws tappable pins, featured chips that
+      center the map, and the "All venues" legend from the bundle's `venues[]`
+      (`mapPoint` in percent of the image, `color`, `number`, `featured` rank,
+      `kind: landmark` for map-only points such as restrooms and parking). The
+      WSOL26 fixture carries 22 pins measured on the real Florida artwork,
+      which the mock backend now serves. Plugin side: **P6** in
+      [BACKEND-WSOL26.md](BACKEND-WSOL26.md) (proposed). Content: place the
+      real venues once the WSOL26 event exists in production (WS5 / WS7).
+- [ ] **Info Hub design parity for synced events** — the built-in grouped Info
+      Hub (topic grid, group headers, section cards with lists, definitions and
+      quotes) becomes a shared renderer used by synced pages too. Needs
+      `group` / `sort` / `featured` on info pages (**P7**, proposed) and
+      authoring conventions for headings and lists in wp-admin texts.
 
 ### WS3 — Notifications: announcements, alerts & push (P0 · app + backend)
 

@@ -27,10 +27,23 @@ export type Teacher = {
   photos?: string[];
 };
 
+/** Position on the event's venue map, as a percentage (0–100) of the image width/height. */
+export type VenueMapPoint = { x: number; y: number };
+
 export type Venue = {
   id: string;
   name: string;
   description?: string;
+  /** Where the pin sits on the venue map; venues without it are not drawn. */
+  mapPoint?: VenueMapPoint;
+  /** Pin color (any CSS color). Defaults to a palette color when missing. */
+  color?: string;
+  /** Legend number printed inside the pin. Assigned in order when missing. */
+  number?: number;
+  /** Rank in the quick-access chip row above the map (1 = first); absent = not featured. */
+  featured?: number;
+  /** "landmark" = map-only point (restrooms, parking) that is never a program venue. */
+  kind?: "venue" | "landmark";
 };
 
 export type Category = {

@@ -3,12 +3,13 @@
 /**
  * Map tab: the built-in Ram Das Puri map (with legend pins) for the built-in
  * event; the active synced event's own venue map (bundle `event.mapImage`,
- * pre-cached offline at sync time) when one is active. A synced event without
- * a published map shows its venue list instead of the wrong campground.
+ * pre-cached offline at sync time) when one is active, with pins for every
+ * venue that carries a `mapPoint`. A synced event without a published map
+ * shows its venue list instead of the wrong campground.
  */
 
 import { MapPinOff } from "lucide-react";
-import { MapViewer } from "./map-viewer";
+import { legendFromVenues, MapViewer } from "./map-viewer";
 import { ActiveEventBanner } from "@/components/active-event-banner";
 import { bundleMapImage, bundleVenues, useActiveSyncedEvent } from "@/lib/event-store";
 
@@ -17,6 +18,7 @@ export default function MapPage() {
 
   if (synced) {
     const mapImage = bundleMapImage(synced.bundle);
+    const venues = bundleVenues(synced.bundle);
 
     if (mapImage) {
       return (
@@ -24,6 +26,7 @@ export default function MapPage() {
           <ActiveEventBanner />
           <MapViewer
             src={mapImage}
+            legend={legendFromVenues(venues)}
             alt={`Venue map for ${synced.name}`}
             eyebrow={synced.bundle.event.location ?? synced.name}
             title="Venue orientation"
@@ -32,7 +35,8 @@ export default function MapPage() {
       );
     }
 
-    const venues = bundleVenues(synced.bundle);
+    // Landmarks (restrooms, parking…) only make sense on a map.
+    const listed = venues.filter((venue) => venue.kind !== "landmark");
 
     return (
       <div className="space-y-4">
@@ -44,10 +48,10 @@ export default function MapPage() {
             The map for {synced.name} will appear here once the event team publishes it.
           </p>
         </div>
-        {venues.length > 0 && (
+        {listed.length > 0 && (
           <div className="space-y-2">
             <h2 className="px-1 text-sm font-bold uppercase tracking-[0.18em] text-[#f39200]">Venues</h2>
-            {venues.map((venue) => (
+            {listed.map((venue) => (
               <div key={venue.id} className="rounded-xl border border-sky-900/10 bg-white p-4 shadow-sm">
                 <p className="text-sm font-black text-slate-950">{venue.name}</p>
                 {venue.description && <p className="mt-1 text-xs font-semibold leading-5 text-slate-500">{venue.description}</p>}

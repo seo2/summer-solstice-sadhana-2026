@@ -1,7 +1,23 @@
-id,name,description
-tantric-shelter,TANTRIC SHELTER,White Tantric Yoga® hall. Doors close when a kriya begins and stay closed until it ends.
-asta,ASTA,"Main program space: Sadhana, kriyas, lectures and the Solstice night chant."
-churuata,CHURUATA,"Meals and Yogi Tea through the day, plus workshops and the youth program."
-gurdwara,GURDWARA,"Head covered, shoes off. Open all day for quiet meditation; Kirtan each evening."
-campfire,CAMPFIRE,"Evening gatherings under the sky: storytelling, circles and the bazaar hours."
-childrens-camp,CHILDREN'S CAMP,Youth and family program. Parents check children in and out.
+id,name,description,mapX,mapY,color,number,featured,kind
+tantric-shelter,TANTRIC SHELTER,White Tantric Yoga® hall. Doors close when a kriya begins and stay closed until it ends.,21.7,66.6,#ffffff,1,1,
+asta,ASTA,"Main program space: Sadhana, kriyas, lectures and the Solstice night chant.",56.8,56.8,#c9714f,2,2,
+churuata,CHURUATA,"Meals and Yogi Tea through the day, plus workshops and the youth program.",65.2,61.1,#8b4a2b,3,3,
+gurdwara,GURDWARA,"Head covered, shoes off. Open all day for quiet meditation; Kirtan each evening.",84.9,40.4,#a3261d,4,4,
+campfire,CAMPFIRE,"Evening gatherings under the sky: storytelling, circles and the bazaar hours.",63.2,88.5,#2b4d8c,5,,
+childrens-camp,CHILDREN'S CAMP,Youth and family program. Parents check children in and out.,30.2,79,#b8402f,6,,
+first-aid,FIRST AID,Medical help and the hospitality desk.,47.6,58.5,#c8322b,7,5,landmark
+kitchen,KITCHEN,,39.1,51.9,#f7c600,8,,landmark
+bazaar-yogi-tea,BAZAAR / YOGI TEA,Bazaar stalls and Yogi Tea service.,40.6,58.2,#f2d24b,9,,landmark
+restrooms,RESTROOMS,,31.4,58.8,#2b4d8c,10,,landmark
+pool,POOL,,31.6,67.1,#4fb8d8,11,,landmark
+waterfront,WATERFRONT,Dock on the Natural Sarovar.,46.7,69.9,#8b5a2b,12,,landmark
+outdoor-kitchen,OUTDOOR KITCHEN,,71.5,68.5,#3f8f3a,13,,landmark
+office,OFFICE,Registration and the event office.,50.1,22.8,#9b2d22,14,,landmark
+camp-entrance,CAMP ENTRANCE,,29.4,10.5,#7a7a7a,15,,landmark
+parking-lot,PARKING LOT,,56.1,9.5,#4c9a3c,16,,landmark
+tent-camping,TENT CAMPING,,85.6,29.7,#5aa84a,17,,landmark
+inco-park,INCO PARK,Open lawn for outdoor classes.,54.5,36,#4c9a3c,18,,landmark
+cabins-1-7,CABINS 1–7 & 30,,68.9,27.6,#4a8f3f,19,,landmark
+cabins-8-13,CABINS 8–13,,72.9,47.6,#4a8f3f,20,,landmark
+cabins-14-20,CABINS 14–20,,52.5,46.9,#4a8f3f,21,,landmark
+cabins-21-28,CABINS 21–28,,19.9,83.7,#4a8f3f,22,,landmark

@@ -2,6 +2,7 @@
 
 import { List, Maximize2, Minus, Plus, RotateCcw, X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { Venue } from "@/lib/types";
 
 const MAP_WIDTH = 1266;
 const MAP_HEIGHT = 1204;
@@ -9,32 +10,89 @@ const MIN_ZOOM = 0.3;
 const MAX_ZOOM = 3;
 const ZOOM_STEP = 0.25;
 
-const mapLegend = [
-  { number: 1, label: "SSS Cabin", shortLabel: "SSS Cabin", color: "#e8a323", point: { x: 434, y: 424 } },
-  { number: 2, label: "Cool Room", shortLabel: "Cool Room", color: "#88aa50", point: { x: 574, y: 397 } },
-  { number: 3, label: "Admin / Security", shortLabel: "Admin / Security", color: "#f3b6db", point: { x: 601, y: 460 } },
-  { number: 4, label: "Showers\nFlush Toilets\nFamily Showers", shortLabel: "Showers", color: "#55c4e6", point: { x: 631, y: 372 } },
-  { number: 5, label: "Tantric Shelter", shortLabel: "Tantric", color: "#d97843", point: { x: 914, y: 444 } },
-  { number: 6, label: "Atma Shelter", shortLabel: "Atma", color: "#df824f", point: { x: 884, y: 705 } },
-  { number: 7, label: "Prem Shelter", shortLabel: "Prem", color: "#dc7840", point: { x: 854, y: 546 } },
-  { number: 8, label: "SDI Academy", shortLabel: "SDI", color: "#e47f45", point: { x: 772, y: 770 } },
-  { number: 9, label: "Kids Camp", shortLabel: "Kids Camp", color: "#f2dc27", point: { x: 710, y: 918 } },
-  { number: 10, label: "First Aid / Hospitality", shortLabel: "First Aid / Hospitality", color: "#e5272f", point: { x: 544, y: 711 } },
-  { number: 11, label: "Dining / Bazaar\nRegistration", shortLabel: "Dining", color: "#9c84c5", point: { x: 681, y: 614 } },
-  { number: 12, label: "Kitchen", shortLabel: "Kitchen", color: "#c8beb9", point: { x: 556, y: 532 } },
-  { number: 13, label: "Adobe Cabins", shortLabel: "Cabins", color: "#ffffff", point: { x: 315, y: 1003 } },
+/**
+ * One pin on the map. `point` is a percentage (0–100) of the image width and
+ * height, so the same legend works whatever size the map file is served at
+ * and whether the image dimensions are known up front or measured on load.
+ */
+export type MapLegendItem = {
+  id: string;
+  number: number;
+  /** Full name — tooltip title and legend modal. */
+  name: string;
+  /** Shorter label for the chip row; falls back to `name`. */
+  short?: string;
+  /** Extra lines under the name (services offered, a venue description…). */
+  detail?: string;
+  color: string;
+  point: { x: number; y: number };
+  /** Rank in the quick-access chip row (1 = first); absent = not a chip. */
+  featured?: number;
+};
+
+// Built-in Ram Das Puri legend, measured in pixels on the 1266×1204 map.
+const builtinPins: { number: number; name: string; short?: string; detail?: string; color: string; px: number; py: number; featured?: number }[] = [
+  { number: 1, name: "SSS Cabin", color: "#e8a323", px: 434, py: 424 },
+  { number: 2, name: "Cool Room", color: "#88aa50", px: 574, py: 397, featured: 3 },
+  { number: 3, name: "Admin / Security", color: "#f3b6db", px: 601, py: 460 },
+  { number: 4, name: "Showers", detail: "Flush Toilets\nFamily Showers", color: "#55c4e6", px: 631, py: 372, featured: 5 },
+  { number: 5, name: "Tantric Shelter", short: "Tantric", color: "#d97843", px: 914, py: 444, featured: 4 },
+  { number: 6, name: "Atma Shelter", short: "Atma", color: "#df824f", px: 884, py: 705 },
+  { number: 7, name: "Prem Shelter", short: "Prem", color: "#dc7840", px: 854, py: 546 },
+  { number: 8, name: "SDI Academy", short: "SDI", color: "#e47f45", px: 772, py: 770 },
+  { number: 9, name: "Kids Camp", color: "#f2dc27", px: 710, py: 918 },
+  { number: 10, name: "First Aid / Hospitality", color: "#e5272f", px: 544, py: 711, featured: 2 },
+  { number: 11, name: "Dining / Bazaar", short: "Dining", detail: "Registration", color: "#9c84c5", px: 681, py: 614, featured: 1 },
+  { number: 12, name: "Kitchen", color: "#c8beb9", px: 556, py: 532 },
+  { number: 13, name: "Adobe Cabins", short: "Cabins", color: "#ffffff", px: 315, py: 1003 },
 ];
 
+export const BUILTIN_LEGEND: MapLegendItem[] = builtinPins.map(({ px, py, ...pin }) => ({
+  ...pin,
+  id: `builtin-${pin.number}`,
+  point: { x: (px / MAP_WIDTH) * 100, y: (py / MAP_HEIGHT) * 100 },
+}));
+
+const FALLBACK_COLORS = ["#f39200", "#2f62b6", "#88aa50", "#9c84c5", "#55c4e6", "#e5272f", "#f2dc27", "#d97843"];
+
+/**
+ * Legend for a synced event: every venue that carries a `mapPoint` becomes a
+ * pin. Missing numbers are filled with the next free integer and missing
+ * colors cycle through a palette, so a partially annotated venue list still
+ * renders a usable legend.
+ */
+export function legendFromVenues(venues: Venue[]): MapLegendItem[] {
+  const placed = venues.filter((venue) => venue.mapPoint);
+  const taken = new Set(placed.map((venue) => venue.number).filter((n): n is number => typeof n === "number"));
+  let next = 1;
+  const nextFree = () => {
+    while (taken.has(next)) next += 1;
+    taken.add(next);
+    return next;
+  };
+
+  return placed
+    .map((venue, index) => ({
+      id: venue.id,
+      number: venue.number ?? nextFree(),
+      name: venue.name,
+      detail: venue.description,
+      color: venue.color ?? FALLBACK_COLORS[index % FALLBACK_COLORS.length],
+      point: venue.mapPoint!,
+      featured: venue.featured,
+    }))
+    .sort((a, b) => a.number - b.number);
+}
+
 const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v));
-const featuredVenues = [11, 10, 2, 5, 4]
-  .map((number) => mapLegend.find((item) => item.number === number))
-  .filter((item): item is (typeof mapLegend)[number] => Boolean(item));
 
 const BUILTIN_SRC = "/images/camp-map.png";
 
 type MapViewerProps = {
   /** Map image URL — defaults to the built-in Ram Das Puri map. */
   src?: string;
+  /** Pins to draw; defaults to the built-in legend for the built-in map, none otherwise. */
+  legend?: MapLegendItem[];
   alt?: string;
   eyebrow?: string;
   title?: string;
@@ -42,18 +100,17 @@ type MapViewerProps = {
 
 export function MapViewer({
   src = BUILTIN_SRC,
+  legend = src === BUILTIN_SRC ? BUILTIN_LEGEND : [],
   alt = "Camp map for Summer Solstice 2026",
   eyebrow = "Ram Das Puri",
   title = "Camp orientation",
 }: MapViewerProps = {}) {
-  // The legend (numbered pins with pixel coordinates) only applies to the
-  // built-in map; synced event maps are plain zoomable images measured on load.
+  // The built-in map has known dimensions; synced maps are measured on load.
   const isBuiltin = src === BUILTIN_SRC;
-  const legend = isBuiltin ? mapLegend : [];
   const [dims, setDims] = useState({ w: MAP_WIDTH, h: MAP_HEIGHT });
   const [zoom, setZoom] = useState(1);
   const [showLegend, setShowLegend] = useState(false);
-  const [selectedVenue, setSelectedVenue] = useState<number | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const zoomRef = useRef(1);
 
@@ -80,7 +137,16 @@ export function MapViewer({
 
   const scaledWidth = Math.round(dims.w * zoom);
   const scaledHeight = Math.round(dims.h * zoom);
-  const selectedItem = legend.find((item) => item.number === selectedVenue);
+  const selectedItem = legend.find((item) => item.id === selectedId);
+  const featuredItems = legend.some((item) => item.featured !== undefined)
+    ? legend
+        .filter((item) => item.featured !== undefined)
+        .sort((a, b) => (a.featured ?? 0) - (b.featured ?? 0))
+    : legend.slice(0, 5);
+
+  // Pixel position of a pin at the current zoom.
+  const pinLeft = (item: MapLegendItem) => (item.point.x / 100) * scaledWidth;
+  const pinTop = (item: MapLegendItem) => (item.point.y / 100) * scaledHeight;
 
   const getFitZoom = () => {
     const el = containerRef.current;
@@ -123,15 +189,15 @@ export function MapViewer({
     centerMap(fitZoom, behavior);
   };
 
-  const focusVenue = (item: (typeof mapLegend)[number]) => {
+  const focusVenue = (item: MapLegendItem) => {
     const el = containerRef.current;
     if (!el) return;
     const targetZoom = Math.max(zoomRef.current, 1);
-    setSelectedVenue(item.number);
+    setSelectedId(item.id);
     setZoomAndScroll(
       targetZoom,
-      item.point.x * targetZoom - el.clientWidth / 2,
-      item.point.y * targetZoom - el.clientHeight / 2,
+      (item.point.x / 100) * dims.w * targetZoom - el.clientWidth / 2,
+      (item.point.y / 100) * dims.h * targetZoom - el.clientHeight / 2,
     );
   };
 
@@ -250,7 +316,7 @@ export function MapViewer({
             <button
               type="button"
               onClick={() => {
-                setSelectedVenue(null);
+                setSelectedId(null);
                 centerMap(1);
               }}
               className="inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-3.5 py-2 text-xs font-black text-slate-700 shadow-sm ring-1 ring-sky-900/10 transition active:scale-95"
@@ -269,15 +335,15 @@ export function MapViewer({
               </button>
             )}
           </div>
-          <div className={`no-scrollbar mt-3 gap-2 overflow-x-auto pb-1 ${legend.length > 0 ? "flex" : "hidden"}`}>
-            {(legend.length > 0 ? featuredVenues : []).map((item) => (
+          <div className={`no-scrollbar mt-3 gap-2 overflow-x-auto pb-1 ${featuredItems.length > 0 ? "flex" : "hidden"}`}>
+            {featuredItems.map((item) => (
               <button
-                key={item.number}
+                key={item.id}
                 type="button"
                 onClick={() => focusVenue(item)}
-                aria-pressed={selectedVenue === item.number}
+                aria-pressed={selectedId === item.id}
                 className={`inline-flex min-h-11 shrink-0 items-center gap-2 rounded-full px-3 py-2 text-xs font-black shadow-sm ring-1 transition active:scale-95 ${
-                  selectedVenue === item.number
+                  selectedId === item.id
                     ? "bg-[#2f62b6] text-white ring-[#2f62b6]"
                     : "bg-white text-slate-700 ring-sky-900/10"
                 }`}
@@ -288,7 +354,7 @@ export function MapViewer({
                 >
                   {item.number}
                 </span>
-                {item.shortLabel}
+                {item.short ?? item.name}
               </button>
             ))}
           </div>
@@ -301,7 +367,7 @@ export function MapViewer({
             <div
               className="relative"
               style={{ width: scaledWidth, height: scaledHeight }}
-              onClick={() => setSelectedVenue(null)}
+              onClick={() => setSelectedId(null)}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -319,26 +385,26 @@ export function MapViewer({
               />
               {legend.map((item) => (
                 <button
-                  key={item.number}
+                  key={item.id}
                   type="button"
                   onClick={(event) => {
                     event.stopPropagation();
-                    setSelectedVenue(item.number);
+                    setSelectedId(item.id);
                   }}
-                  aria-label={`Show ${item.label.replace(/\n/g, ", ")} on map`}
-                  aria-describedby={selectedVenue === item.number ? `map-tooltip-${item.number}` : undefined}
+                  aria-label={`Show ${item.name} on map`}
+                  aria-describedby={selectedId === item.id ? `map-tooltip-${item.id}` : undefined}
                   className={`absolute z-10 flex h-12 w-12 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full transition active:scale-95 focus-visible:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2f62b6] ${
-                    selectedVenue === item.number ? "bg-white/15 ring-2 ring-[#2f62b6]/45" : "bg-transparent"
+                    selectedId === item.id ? "bg-white/15 ring-2 ring-[#2f62b6]/45" : "bg-transparent"
                   }`}
-                  style={{ left: item.point.x * zoom, top: item.point.y * zoom }}
+                  style={{ left: pinLeft(item), top: pinTop(item) }}
                 >
-                  <span className="sr-only">{item.shortLabel}</span>
+                  <span className="sr-only">{item.short ?? item.name}</span>
                 </button>
               ))}
               {selectedItem ? (
                 <div
                   className="pointer-events-none absolute z-20 flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-sky-200/25 ring-4 ring-[#2f62b6]/30"
-                  style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
+                  style={{ left: pinLeft(selectedItem), top: pinTop(selectedItem) }}
                 >
                   <span
                     className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-slate-950 text-sm font-black text-slate-950 shadow-lg"
@@ -350,10 +416,10 @@ export function MapViewer({
               ) : null}
               {selectedItem ? (
                 <div
-                  id={`map-tooltip-${selectedItem.number}`}
+                  id={`map-tooltip-${selectedItem.id}`}
                   role="tooltip"
                   className="pointer-events-none absolute z-30 w-52 -translate-x-1/2 -translate-y-[calc(100%+1rem)] rounded-xl bg-white px-3 py-2 text-left shadow-xl ring-1 ring-sky-900/10"
-                  style={{ left: selectedItem.point.x * zoom, top: selectedItem.point.y * zoom }}
+                  style={{ left: pinLeft(selectedItem), top: pinTop(selectedItem) }}
                 >
                   <span className="absolute left-1/2 top-full h-3 w-3 -translate-x-1/2 -translate-y-1/2 rotate-45 bg-white ring-1 ring-sky-900/10" />
                   <span className="relative flex items-start gap-2">
@@ -364,10 +430,12 @@ export function MapViewer({
                       {selectedItem.number}
                     </span>
                     <span className="min-w-0">
-                      <span className="block text-sm font-black leading-tight text-slate-950">{selectedItem.shortLabel}</span>
-                      <span className="mt-0.5 block whitespace-pre-line text-xs font-semibold leading-snug text-slate-600">
-                        {selectedItem.label}
-                      </span>
+                      <span className="block text-sm font-black leading-tight text-slate-950">{selectedItem.name}</span>
+                      {selectedItem.detail ? (
+                        <span className="mt-0.5 block whitespace-pre-line text-xs font-semibold leading-snug text-slate-600">
+                          {selectedItem.detail}
+                        </span>
+                      ) : null}
                     </span>
                   </span>
                 </div>
@@ -422,16 +490,16 @@ export function MapViewer({
               </button>
             </div>
             <div className="grid gap-2 overflow-y-auto p-4 pb-[calc(env(safe-area-inset-bottom)+1.25rem)] sm:grid-cols-2">
-              {mapLegend.map((item) => (
+              {legend.map((item) => (
                 <button
-                  key={item.number}
+                  key={item.id}
                   type="button"
                   onClick={() => {
                     focusVenue(item);
                     setShowLegend(false);
                   }}
                   className={`flex min-h-14 items-start gap-3 rounded-xl px-3 py-2.5 text-left transition active:scale-[0.99] ${
-                    selectedVenue === item.number
+                    selectedId === item.id
                       ? "bg-sky-50 ring-2 ring-[#2f62b6]"
                       : "bg-white/86 ring-1 ring-sky-900/10"
                   }`}
@@ -442,7 +510,12 @@ export function MapViewer({
                   >
                     {item.number}
                   </span>
-                  <span className="whitespace-pre-line pt-0.5 text-sm font-black leading-tight text-stone-700">{item.label}</span>
+                  <span className="min-w-0 pt-0.5">
+                    <span className="block text-sm font-black leading-tight text-stone-700">{item.name}</span>
+                    {item.detail ? (
+                      <span className="mt-0.5 block whitespace-pre-line text-xs font-semibold leading-snug text-stone-500">{item.detail}</span>
+                    ) : null}
+                  </span>
                 </button>
               ))}
             </div>

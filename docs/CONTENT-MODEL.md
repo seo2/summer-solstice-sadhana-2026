@@ -51,7 +51,7 @@ a session that simply never appears — check counts, not just that the screen r
 | `event.mapImage` | — | Map tab (zoomable viewer) |
 | `program[]` | `id`, `date`, `startTime`, `title` | Program, Favorites, reminders, Teachers' session lists |
 | `teachers[]` | `id`, `name` | Teachers tab, session detail sheets |
-| `venues[]` | `id`, `name` | Program venue filter; Map venue cards **only when no map image** |
+| `venues[]` | `id`, `name` | Program venue filter (not `kind: landmark`); Map pins for items with `mapPoint`; Map venue cards **only when no map image** |
 | `categories[]` | `id`, `name` | Program category filter and chips |
 | `infoPages[]` | `id`, `title` | Info Hub accordions |
 | `menus[]` | `id`, `date`, `meal` | Menus tab |
@@ -88,6 +88,26 @@ Two categories are treated as routine and render without a chip:
 other value is dropped. `items` is an array of dish strings, `notes` carries
 dietary information, `title` is an optional name for the meal.
 
+## Venue map pins
+
+Any `venues[]` item that carries a `mapPoint` is drawn on the event's map as a
+tappable pin, listed in the "All venues" legend, and — when `featured` — shown
+as a quick-access chip that centers the map on it.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `mapPoint` | `{ x, y }`, each 0–100 | Position as a **percentage of the map image width/height**, so it does not depend on the file's pixel size |
+| `color` | CSS color | Pin color; a palette color is used when missing |
+| `number` | positive integer | Number printed in the pin; gaps are filled in order when missing |
+| `featured` | integer rank (1 = first) or `true` | Puts the venue in the chip row above the map, in rank order |
+| `kind` | `venue` (default) or `landmark` | A `landmark` is a map-only point (restrooms, parking, cabins): it never appears in the Program venue filter and is left out of the no-map venue list |
+| `description` | text | Shown in the pin tooltip and the legend |
+
+Malformed map fields are dropped one by one; the venue itself always survives.
+The plugin does not store these fields yet — see P6 in
+[BACKEND-WSOL26.md](BACKEND-WSOL26.md); until then they load through the mock
+backend.
+
 ## Update semantics
 
 The bundle is versioned. `GET /sync?event=<slug>&since=<n>` answers
@@ -102,8 +122,10 @@ So: **bump `version` whenever content changes**, or clients will never see it.
 
 `scripts/mock-backend.mjs` serves any fixture in `scripts/fixtures/<slug>.json`
 as a real sync bundle. [`wsol26.json`](../scripts/fixtures/wsol26.json) is a full
-dummy Winter Solstice 2026 — 47 sessions across 7 days, 6 teachers, 6 venues,
-8 categories, 6 info pages, 19 menu entries, and a generated venue map.
+dummy Winter Solstice 2026 — 47 sessions across 7 days, 6 teachers, 22 map
+points (6 venues + 16 landmarks) placed on the real Winter Solstice map artwork
+(`references/winter-solstice-map-revised-v3.jpg`, served by the mock as
+`/photos/wsol26-map.jpg`), 14 categories, 34 info pages and 19 menu entries.
 
 Its **event metadata and White Tantric Yoga days are real**, mirrored from the
 registration system (`register.3ho.org/wp-json/wsol/v1/presenter/bundle?event=wsol26`
@@ -193,7 +215,9 @@ The converter also emits `venues`, `categories` and `infoPages` CSVs, but that
 screen **cannot import them yet** in either format: they have tables, and their
 upserts (`upsert_simple`, `upsert_info_pages`) still live in WP-CLI as private
 methods. The files are ready for the day the screen learns those types; until
-then load them through the mock backend.
+then load them through the mock backend. The venues CSV already carries the
+map-pin columns (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`) that
+plugin proposal P6 adds to `ssa_venue`.
 
 ## The Home feed (not part of the bundle)
 
@@ -215,6 +239,6 @@ the **built-in** event that do not follow the active synced event:
 - `/teachers` sets the document title to "Teachers · Summer Solstice Sadhana
   2026" regardless of the active event ([teachers/page.tsx](../src/app/teachers/page.tsx)).
 
-Also worth an editorial decision, not a bug: when an event publishes a
-`mapImage`, the Map tab shows **only** the map — the per-venue descriptions from
-the bundle are the no-map fallback and never appear alongside it.
+With a published `mapImage`, venue descriptions appear in the pin tooltips
+and the legend — but only for venues that carry a `mapPoint`; a venue without
+placement is invisible on the Map tab until the no-map fallback list kicks in.

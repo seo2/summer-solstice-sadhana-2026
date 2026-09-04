@@ -1,7 +1,7 @@
 {
-  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 18-20) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). Program, teachers, info pages and menus are invented. Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
+  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 18-20) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). Program, teachers, info pages and menus are invented; the venue map pins are measured on the real Winter Solstice map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 4,
+  "version": 5,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -10,7 +10,7 @@
     "location": "Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales, FL 33898",
     "timezone": "America/New_York",
     "status": "active",
-    "mapImage": "http://localhost:3999/photos/venue-map.svg"
+    "mapImage": "http://localhost:3999/photos/wsol26-map.jpg"
   },
   "program": [
     {
@@ -606,32 +606,254 @@
     {
       "id": "tantric-shelter",
       "name": "TANTRIC SHELTER",
-      "description": "White Tantric Yoga® hall. Doors close when a kriya begins and stay closed until it ends."
+      "description": "White Tantric Yoga® hall. Doors close when a kriya begins and stay closed until it ends.",
+      "mapPoint": {
+        "x": 21.7,
+        "y": 66.6
+      },
+      "color": "#ffffff",
+      "number": 1,
+      "featured": 1
     },
     {
       "id": "asta",
       "name": "ASTA",
-      "description": "Main program space: Sadhana, kriyas, lectures and the Solstice night chant."
+      "description": "Main program space: Sadhana, kriyas, lectures and the Solstice night chant.",
+      "mapPoint": {
+        "x": 56.8,
+        "y": 56.8
+      },
+      "color": "#c9714f",
+      "number": 2,
+      "featured": 2
     },
     {
       "id": "churuata",
       "name": "CHURUATA",
-      "description": "Meals and Yogi Tea through the day, plus workshops and the youth program."
+      "description": "Meals and Yogi Tea through the day, plus workshops and the youth program.",
+      "mapPoint": {
+        "x": 65.2,
+        "y": 61.1
+      },
+      "color": "#8b4a2b",
+      "number": 3,
+      "featured": 3
     },
     {
       "id": "gurdwara",
       "name": "GURDWARA",
-      "description": "Head covered, shoes off. Open all day for quiet meditation; Kirtan each evening."
+      "description": "Head covered, shoes off. Open all day for quiet meditation; Kirtan each evening.",
+      "mapPoint": {
+        "x": 84.9,
+        "y": 40.4
+      },
+      "color": "#a3261d",
+      "number": 4,
+      "featured": 4
     },
     {
       "id": "campfire",
       "name": "CAMPFIRE",
-      "description": "Evening gatherings under the sky: storytelling, circles and the bazaar hours."
+      "description": "Evening gatherings under the sky: storytelling, circles and the bazaar hours.",
+      "mapPoint": {
+        "x": 63.2,
+        "y": 88.5
+      },
+      "color": "#2b4d8c",
+      "number": 5
     },
     {
       "id": "childrens-camp",
       "name": "CHILDREN'S CAMP",
-      "description": "Youth and family program. Parents check children in and out."
+      "description": "Youth and family program. Parents check children in and out.",
+      "mapPoint": {
+        "x": 30.2,
+        "y": 79.0
+      },
+      "color": "#b8402f",
+      "number": 6
+    },
+    {
+      "id": "first-aid",
+      "name": "FIRST AID",
+      "description": "Medical help and the hospitality desk.",
+      "mapPoint": {
+        "x": 47.6,
+        "y": 58.5
+      },
+      "color": "#c8322b",
+      "number": 7,
+      "featured": 5,
+      "kind": "landmark"
+    },
+    {
+      "id": "kitchen",
+      "name": "KITCHEN",
+      "mapPoint": {
+        "x": 39.1,
+        "y": 51.9
+      },
+      "color": "#f7c600",
+      "number": 8,
+      "kind": "landmark"
+    },
+    {
+      "id": "bazaar-yogi-tea",
+      "name": "BAZAAR / YOGI TEA",
+      "description": "Bazaar stalls and Yogi Tea service.",
+      "mapPoint": {
+        "x": 40.6,
+        "y": 58.2
+      },
+      "color": "#f2d24b",
+      "number": 9,
+      "kind": "landmark"
+    },
+    {
+      "id": "restrooms",
+      "name": "RESTROOMS",
+      "mapPoint": {
+        "x": 31.4,
+        "y": 58.8
+      },
+      "color": "#2b4d8c",
+      "number": 10,
+      "kind": "landmark"
+    },
+    {
+      "id": "pool",
+      "name": "POOL",
+      "mapPoint": {
+        "x": 31.6,
+        "y": 67.1
+      },
+      "color": "#4fb8d8",
+      "number": 11,
+      "kind": "landmark"
+    },
+    {
+      "id": "waterfront",
+      "name": "WATERFRONT",
+      "description": "Dock on the Natural Sarovar.",
+      "mapPoint": {
+        "x": 46.7,
+        "y": 69.9
+      },
+      "color": "#8b5a2b",
+      "number": 12,
+      "kind": "landmark"
+    },
+    {
+      "id": "outdoor-kitchen",
+      "name": "OUTDOOR KITCHEN",
+      "mapPoint": {
+        "x": 71.5,
+        "y": 68.5
+      },
+      "color": "#3f8f3a",
+      "number": 13,
+      "kind": "landmark"
+    },
+    {
+      "id": "office",
+      "name": "OFFICE",
+      "description": "Registration and the event office.",
+      "mapPoint": {
+        "x": 50.1,
+        "y": 22.8
+      },
+      "color": "#9b2d22",
+      "number": 14,
+      "kind": "landmark"
+    },
+    {
+      "id": "camp-entrance",
+      "name": "CAMP ENTRANCE",
+      "mapPoint": {
+        "x": 29.4,
+        "y": 10.5
+      },
+      "color": "#7a7a7a",
+      "number": 15,
+      "kind": "landmark"
+    },
+    {
+      "id": "parking-lot",
+      "name": "PARKING LOT",
+      "mapPoint": {
+        "x": 56.1,
+        "y": 9.5
+      },
+      "color": "#4c9a3c",
+      "number": 16,
+      "kind": "landmark"
+    },
+    {
+      "id": "tent-camping",
+      "name": "TENT CAMPING",
+      "mapPoint": {
+        "x": 85.6,
+        "y": 29.7
+      },
+      "color": "#5aa84a",
+      "number": 17,
+      "kind": "landmark"
+    },
+    {
+      "id": "inco-park",
+      "name": "INCO PARK",
+      "description": "Open lawn for outdoor classes.",
+      "mapPoint": {
+        "x": 54.5,
+        "y": 36.0
+      },
+      "color": "#4c9a3c",
+      "number": 18,
+      "kind": "landmark"
+    },
+    {
+      "id": "cabins-1-7",
+      "name": "CABINS 1–7 & 30",
+      "mapPoint": {
+        "x": 68.9,
+        "y": 27.6
+      },
+      "color": "#4a8f3f",
+      "number": 19,
+      "kind": "landmark"
+    },
+    {
+      "id": "cabins-8-13",
+      "name": "CABINS 8–13",
+      "mapPoint": {
+        "x": 72.9,
+        "y": 47.6
+      },
+      "color": "#4a8f3f",
+      "number": 20,
+      "kind": "landmark"
+    },
+    {
+      "id": "cabins-14-20",
+      "name": "CABINS 14–20",
+      "mapPoint": {
+        "x": 52.5,
+        "y": 46.9
+      },
+      "color": "#4a8f3f",
+      "number": 21,
+      "kind": "landmark"
+    },
+    {
+      "id": "cabins-21-28",
+      "name": "CABINS 21–28",
+      "mapPoint": {
+        "x": 19.9,
+        "y": 83.7
+      },
+      "color": "#4a8f3f",
+      "number": 22,
+      "kind": "landmark"
     }
   ],
   "categories": [

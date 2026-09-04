@@ -27,7 +27,9 @@
  *   GET /wp-json/3ho-solstice/v1/channels/{id}/messages?since=N
  *   GET /mock/post?type=alert|official&body=…   → publish a new broadcast
  *   GET /photos/venue-map.svg, /photos/mock-teacher.png,
- *       /photos/event-cover.svg, /photos/post-cover.svg
+ *       /photos/event-cover.svg, /photos/post-cover.svg,
+ *       /photos/wsol26-map.jpg (the real Winter Solstice map artwork from
+ *       references/, so the WSOL26 fixture's pins can be checked visually)
  *
  * Pair it with the app: /sync-lab → base http://localhost:3999, event
  * "mocktest" → Fetch bundle → open it from Home's "Events" catalog.
@@ -38,6 +40,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const FIXTURES_DIR = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
+const WSOL26_MAP_JPG = join(dirname(fileURLToPath(import.meta.url)), "..", "references", "winter-solstice-map-revised-v3.jpg");
 
 /**
  * Load scripts/fixtures/<slug>.json fresh on every request, so editing a
@@ -290,6 +293,18 @@ createServer((req, res) => {
   if (url.pathname === "/photos/venue-map.svg") {
     res.writeHead(200, { "Content-Type": "image/svg+xml" });
     res.end(MAP_SVG);
+    return;
+  }
+
+  if (url.pathname === "/photos/wsol26-map.jpg") {
+    try {
+      const jpg = readFileSync(WSOL26_MAP_JPG);
+      res.writeHead(200, { "Content-Type": "image/jpeg", "Cache-Control": "public, max-age=60" });
+      res.end(jpg);
+    } catch {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ ok: false, error: "map artwork not found in references/" }));
+    }
     return;
   }
 

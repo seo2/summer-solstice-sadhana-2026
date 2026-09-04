@@ -61,8 +61,9 @@ see the app carrying a realistic event, use the fixture instead:
 `/sync-lab` → base `http://localhost:3999`, event slug **`wsol26`** → Fetch
 bundle → Use this event in the app (or open it from Home's **Events** list —
 the adoption agent also pulls it by itself once the base URL is set). That
-loads 47 sessions across 7 days, 6 teachers, 6 venues, 8 categories, 34 info
-pages, 19 menu entries and a venue map; Home lists it with its cover and
+loads 47 sessions across 7 days, 6 teachers, 22 map points (6 venues + 16
+landmarks) on the real Florida map with tappable pins and chips, 14
+categories, 34 info pages and 19 menu entries; Home lists it with its cover and
 Register link from `scripts/fixtures/home.json` (see [HOME.md](HOME.md)).
 
 The fixture lives at `scripts/fixtures/wsol26.json` and is re-read on every

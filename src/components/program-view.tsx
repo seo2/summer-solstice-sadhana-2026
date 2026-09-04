@@ -58,7 +58,8 @@ export function ProgramView({ activities, venues, categories, mode = "all" }: Pr
     }
     return {
       activities: syncedActivities,
-      venues: bundleVenues(synced.bundle),
+      // Landmarks are map-only points; they never host sessions.
+      venues: bundleVenues(synced.bundle).filter((venue) => venue.kind !== "landmark"),
       categories: bundleCategories(synced.bundle),
       resolveTeacher: (activity: Activity): TeacherResolution => {
         if (!activity.facilitator) return null;

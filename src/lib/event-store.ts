@@ -26,7 +26,7 @@ export type SyncedBundle = {
   };
   program: Record<string, unknown>[];
   teachers: Record<string, unknown>[];
-  venues: { id: string; name: string; description?: string }[];
+  venues: ({ id: string; name: string; description?: string } & Record<string, unknown>)[];
   categories: { id: string; name: string }[];
   infoPages?: { id: string; title: string; content?: string }[];
   menus?: Record<string, unknown>[];
@@ -208,8 +208,33 @@ export function bundleTeachers(bundle: SyncedBundle): Teacher[] {
   return teachers;
 }
 
+const VENUE_KINDS = new Set(["venue", "landmark"]);
+
+function percent(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 100 ? value : undefined;
+}
+
+/**
+ * Venues with their optional map placement (`mapPoint` in percent of the map
+ * image, `color`, `number`, `featured` rank, `kind`). Malformed map fields are
+ * dropped field-by-field — the venue itself always survives.
+ */
 export function bundleVenues(bundle: SyncedBundle): Venue[] {
-  return bundle.venues.map((venue) => ({ id: venue.id, name: venue.name, description: venue.description }));
+  return bundle.venues.map((raw) => {
+    const venue: Venue = { id: raw.id, name: raw.name, description: raw.description };
+    const point = raw.mapPoint as { x?: unknown; y?: unknown } | undefined;
+    const x = percent(point?.x);
+    const y = percent(point?.y);
+    if (x !== undefined && y !== undefined) venue.mapPoint = { x, y };
+    const color = str(raw.color);
+    if (color) venue.color = color;
+    if (typeof raw.number === "number" && Number.isInteger(raw.number) && raw.number > 0) venue.number = raw.number;
+    if (typeof raw.featured === "number" && Number.isFinite(raw.featured)) venue.featured = raw.featured;
+    else if (raw.featured === true) venue.featured = Number.MAX_SAFE_INTEGER;
+    const kind = str(raw.kind);
+    if (kind && VENUE_KINDS.has(kind)) venue.kind = kind as Venue["kind"];
+    return venue;
+  });
 }
 
 export function bundleCategories(bundle: SyncedBundle): Category[] {

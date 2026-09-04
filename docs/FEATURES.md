@@ -12,7 +12,7 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 | ✅ Program browsing + filters | 125 activities, category filters, detail pages |
 | ✅ Favorites + personal agenda | Local only (Dexie/IndexedDB) |
 | ✅ Offline Info Hub | Generated from booklet content |
-| ✅ Camp map | Zoom/pan, legend |
+| ✅ Camp map | Zoom/pan, tappable legend pins and quick-access chips — built-in and per event from the bundle (`mapPoint`) |
 | ✅ Contact form | Local outbox + optional WordPress endpoint |
 
 ## Planned features

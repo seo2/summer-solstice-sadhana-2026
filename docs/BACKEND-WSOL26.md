@@ -137,6 +137,59 @@ gains `summary`, `cover_image`, `registration_url`; new `ssa_post` table with an
 bucket, weak `ETag`). Independent of `content_version`. Implemented in the WP
 working tree per that repo's rules; owner QA and commit pending.
 
+## P6 — Venue map pins (WS2 follow-up · proposed 2026-09-04)
+
+**Today:** the app draws tappable pins, quick-access chips and an "All venues"
+legend on any event map from the bundle's `venues[]` (app side shipped, cache
+v76), but `ssa_venue` only stores `id`, `name`, `description` — so a synced
+event renders a bare image until the plugin can carry placements.
+
+**Proposed (DB v5, or folded into v4 if that migration has not run anywhere
+yet):** `ssa_venue` gains
+
+| Column | Type | Bundle field | Meaning |
+|---|---|---|---|
+| `map_x`, `map_y` | DECIMAL(5,2) NULL | `mapPoint: {x, y}` | Pin position as **percent** of the map image width/height (0–100), independent of the file's pixel size |
+| `color` | VARCHAR(20) NULL | `color` | Pin color (CSS); the app falls back to a palette |
+| `number` | SMALLINT NULL | `number` | Legend number; the app fills gaps in order |
+| `featured` | SMALLINT NULL | `featured` | Rank in the chip row (1 = first); NULL = not a chip |
+| `kind` | VARCHAR(20) NOT NULL DEFAULT 'venue' | `kind` | `venue` or `landmark` (map-only point — restrooms, parking, cabins; hidden from the Program venue filter) |
+
+- **Sync**: emit the fields only when set (`clean_row`), `mapPoint` as an
+  object with both coordinates.
+- **Importer**: the `venues` type accepts the columns `scripts/fixture-to-csv.mjs`
+  already writes (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`);
+  `scripts/fixtures/csv/wsol26-venues.csv` is a ready test file with the 22
+  Florida placements. Every write bumps `content_version`.
+- **Admin**: a Venues screen with a visual picker — the event's map image with
+  a click-to-place crosshair writing `map_x` / `map_y`. Two numeric fields are
+  the acceptable minimum.
+- **Feed (P4)**: venues appended from the checkout feed keep `kind = 'venue'`
+  and no placement; staff place them afterwards.
+
+## P7 — Info page groups (WS2 follow-up · proposed 2026-09-04)
+
+**Today:** the built-in Info Hub groups its pages under ten topics with icon,
+accent color and description, a topic grid with anchors, and section cards
+(headings, bullet and numbered lists, definitions, quotes). Synced pages render
+as a flat list of accordions with paragraphs and bullets only, because
+`ssa_info_page` has no grouping, order or section markup conventions.
+
+**Proposed (same migration as P6):** `ssa_info_page` gains `group_key`
+VARCHAR(64) NULL, `sort` INT NOT NULL DEFAULT 0 and `featured` TINYINT(1) NOT
+NULL DEFAULT 0; the bundle emits `group`, `sort`, `featured`. The group catalog
+(key → icon, accent, description) lives in the app because icons are
+components: `start-here`, `health-safety`, `camp-life`, `rules`,
+`daily-rhythm`, `yoga-dharma`, `wty`, `practice`, `families`, `faq`,
+`nutrition`; unknown or empty keys fall into a "More" group. The Info Pages
+editor and importer gain the group dropdown, `sort` and `featured`.
+
+App side (pending, this repo): one shared Info Hub renderer for built-in and
+synced pages, plus explicit authoring conventions for synced content —
+`## Heading` opens a section card, `1.` numbered lists, `Label: value`
+definitions, `>` quotes, `*` footnotes — so wp-admin texts get the same
+treatment as the booklet without the booklet's heuristic heading list.
+
 ## Rollout
 
 - All three ship as **plugin v0.5.0 / DB v3** (one dbDelta migration, existing
@@ -146,3 +199,6 @@ working tree per that repo's rules; owner QA and commit pending.
   push audience model; **P2/P3** unblock WS2 venue map and WS8 menus.
 - After approval: implementation lands in the WP repo working tree for the
   owner's QA and commit; the app-side counterparts follow here branch by branch.
+- **P6 / P7** (proposed 2026-09-04) ride the next migration together. The app
+  side of P6 is already live behind the bundle fields (cache v76); P7's app
+  side follows once the fields exist.
