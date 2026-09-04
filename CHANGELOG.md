@@ -35,6 +35,26 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Screen transitions now animate between screens, not just into them**
+  (cache v73). The shell already faded each new screen in, but nothing played on
+  the way out, so on a phone a navigation read as a flash: measured in the
+  browser, tapping Program left the screen **blank for 325 ms** before the new
+  one appeared, and returning Home for 112 ms. `AppLink` — the single choke
+  point every internal link goes through — now plays a short exit and awaits it
+  before pushing the route, and the motion follows the navigation: going deeper
+  slides in from the right, coming back from the left, switching tabs
+  cross-fades (`navDirection` in `src/lib/route-transition.ts`).
+  The exit **dims to 0.38 instead of fading out**, which is what removed the
+  blank: the outgoing screen stays mounted until the router swaps routes, so
+  fading it to zero was itself painting the gap. Re-measured: **zero blank
+  frames** in both directions, opacity never below 0.38.
+  Modifier clicks, middle clicks, new-tab targets and downloads keep the
+  browser's own behaviour, and `prefers-reduced-motion` disables the whole thing.
+  Not built on the View Transitions API: React 19.2 stable does not export
+  `<ViewTransition>`, so Next's `experimental.viewTransition` would mean shipping
+  React's experimental channel to the stores.
+
+
 - **3HO logo in the header** (cache v71) — the top-left "3HO / Event App"
   wordmark is replaced by the official horizontal 3HO International logo on
   every screen (`public/images/3ho-logo-horizontal.png`, preloaded for
