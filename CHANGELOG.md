@@ -10,6 +10,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Changed
+
+- **No bottom bar on the app Home** (cache v73) — the tabs (Program, Favorites,
+  Info, Map, Contact) are one event's sections, so on `/`, one level above any
+  event, the bar is hidden; it appears again on the Event Home and every
+  section. `BottomNav` now renders the in-flow spacer that keeps content clear
+  of the fixed bar (`.nav-spacer`, replacing `.safe-bottom` on `<main>`), so
+  the Home ends at its last card with only the safe-area inset below.
+
 ### Added
 
 - **Program filters fold into a compact bar while reading** (cache v81 → v82) —

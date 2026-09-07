@@ -56,8 +56,17 @@ select {
   -webkit-tap-highlight-color: transparent;
 }
 
-.safe-bottom {
-  padding-bottom: calc(env(safe-area-inset-bottom) + 5.5rem);
+/* Rendered by BottomNav in normal flow, right after <main>: the height of the
+   fixed bar plus the home-indicator inset, so the last card scrolls clear of
+   it. On the app Home the bar is hidden and only the inset remains. */
+.nav-spacer {
+  flex: 0 0 auto;
+  height: calc(env(safe-area-inset-bottom) + 5.5rem);
+}
+
+.nav-spacer-inset {
+  flex: 0 0 auto;
+  height: calc(env(safe-area-inset-bottom) + 0.5rem);
 }
 
 /* The native iOS WebView renders under the status bar (viewportFit: "cover"),

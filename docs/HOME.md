@@ -45,7 +45,11 @@ The former `/` content, unchanged in look: `ActiveEventBanner` (synced event →
 "All events" link back to `/`), an "All events" back link for the built-in
 event, the hero (`EventHero`, formerly `HomeHero`), the Women's Renewal promo
 (`BuiltinOnly`), and the section tiles. It is in the offline preload list and
-the navigation warm-up. The bottom bar's **Home** tab always leads to `/`.
+the navigation warm-up. The bottom bar's **Home** tab always leads to `/`; the
+bar itself is **hidden on the app Home** (owner direction 2026-09-04): its tabs
+are one event's sections and have nothing to point at before an event is open.
+`BottomNav` renders the in-flow spacer that keeps content clear of the fixed
+bar, so the Home has no empty band at the bottom.
 
 ## Events list
 

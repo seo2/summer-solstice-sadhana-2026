@@ -59,7 +59,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </div>
             </div>
           </header>
-          <main className="safe-bottom flex-1 px-4 pb-5 pt-3">
+          <main className="flex-1 px-4 pb-5 pt-3">
             <RouteTransitionShell>{children}</RouteTransitionShell>
           </main>
           <NavigationWarmup />

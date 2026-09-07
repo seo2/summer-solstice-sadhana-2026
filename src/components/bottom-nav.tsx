@@ -19,6 +19,13 @@ const GAP = "0.25rem";
 export function BottomNav() {
   const pathname = usePathname();
 
+  // The tabs are one event's sections. The app Home (/) sits above any event,
+  // so the bar has nothing to point at there: hide it and keep only the
+  // safe-area inset so the last card clears the iOS home indicator.
+  if (pathname === "/") {
+    return <div aria-hidden className="nav-spacer-inset" />;
+  }
+
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
     return pathname.startsWith(href);
@@ -29,6 +36,9 @@ export function BottomNav() {
   const activeIndex = navItems.findIndex((item) => isActive(item.href));
 
   return (
+    <>
+    {/* In-flow twin of the fixed bar, so the page scrolls its last card clear of it. */}
+    <div aria-hidden className="nav-spacer" />
     <nav className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-3xl border-t border-sky-900/10 bg-white/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur-xl">
       <div className="relative grid grid-cols-6 gap-1">
         {/*
@@ -66,5 +76,6 @@ export function BottomNav() {
         })}
       </div>
     </nav>
+    </>
   );
 }
