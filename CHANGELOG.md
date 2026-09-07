@@ -31,6 +31,25 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **WSOL26 fixture carries a template program** (fixture v6 → v7; no cache
+  bump — `scripts/` only) — the 47 invented sessions in
+  `scripts/fixtures/wsol26.json` are replaced by the recurring structure of a
+  Solstice week for Dec 15–21, 2026, at the times of the 2025 Winter Solstice
+  program: Registration & Check-in, Welcome Gurdwara, KRI Trainers Forum and
+  All Camp Opening Ceremony on Tuesday; "Rise up sweet family dear!", Sadhana,
+  Gurdwara, 🍴 meals, Karma Yoga & Service Exchange Meetings, Kids Camp,
+  Rehras, evening music, Gong Meditation and 🌙 Lights Out daily; White
+  Tantric Yoga® on Dec 17–19 with the WTY Monitors Meeting the day before and
+  Ecstatic Dance closing day three; Free Time, Prepare for Rensabai and
+  Rensabai Kirtan on Sunday; Start the Journey Home on Monday. Between the
+  fixed elements, 32 class slots tagged "To be announced" carry the category
+  that can go there (Kundalini Yoga Class, Meditation Class, Lecture, Workshop,
+  Mantra & Chanting, Community Circle) at TANTRIC SHELTER, ASTA and CAMPFIRE.
+  87 items in all; every `category` and `location` matches the fixture's
+  categories and venues by name. `scripts/fixtures/csv/` regenerated for the
+  WordPress Import screen (program 87 rows; the infoPages CSV catches up with
+  the v6 arrival page). Documented in `docs/CONTENT-MODEL.md`,
+  `docs/TESTING-LOCAL.md` and the WS7 note in `docs/WSOL26-PLAN.md`.
 - **Sign-in hidden until further notice** (cache v78 → v79) — attendees
   currently have no way to create an account (in-app sign-up was already off
   for the first store release, and 3ho.org account creation is not open to

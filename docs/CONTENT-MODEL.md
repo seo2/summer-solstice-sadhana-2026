@@ -144,17 +144,34 @@ So: **bump `version` whenever content changes**, or clients will never see it.
 
 `scripts/mock-backend.mjs` serves any fixture in `scripts/fixtures/<slug>.json`
 as a real sync bundle. [`wsol26.json`](../scripts/fixtures/wsol26.json) is a full
-dummy Winter Solstice 2026 — 47 sessions across 7 days, 6 teachers, 22 map
-points (6 venues + 16 landmarks) placed on the real Winter Solstice map artwork
-(`references/winter-solstice-map-revised-v3.jpg`, served by the mock as
-`/photos/wsol26-map.jpg`), 14 categories, 34 info pages and 19 menu entries.
+dummy Winter Solstice 2026 — an 87-item template program across 7 days, 6
+teachers, 22 map points (6 venues + 16 landmarks) placed on the real Winter
+Solstice map artwork (`references/winter-solstice-map-revised-v3.jpg`, served
+by the mock as `/photos/wsol26-map.jpg`), 14 categories, 35 info pages and 19
+menu entries.
 
 Its **event metadata and White Tantric Yoga days are real**, mirrored from the
 registration system (`register.3ho.org/wp-json/wsol/v1/presenter/bundle?event=wsol26`
 and the `3ho-solstice-checkout` seed): "Winter Solstice Sadhana Celebration
 2026", Dec 15–21 2026, Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales,
-FL 33898, with WTY on Dec 17–19 and the Solstice itself on Dec 20. Sessions,
-teachers, info pages and menus are invented.
+FL 33898, with WTY on Dec 17–19 and the Solstice itself on Dec 20.
+
+**The program is a template, not an invented schedule.** Every element that
+repeats year to year sits at the times of the 2025 Winter Solstice program:
+Registration & Check-in, Welcome Gurdwara and the All Camp Opening Ceremony on
+arrival day; "Rise up sweet family dear!", Sadhana, Gurdwara, 🍴 Breakfast /
+Lunch / Dinner, Karma Yoga & Service Exchange Meetings, Rehras, evening music,
+Gong Meditation and 🌙 Lights Out every day; White Tantric Yoga® on Dec 17–19
+(Ecstatic Dance closes day three); Free Time and Rensabai on Sunday; Start the
+Journey Home on Monday. Between the fixed elements are **class slots** tagged
+"To be announced" whose title and category say what kind of session can go
+there — Kundalini Yoga Class (*Kriya and Meditation*), Meditation Class,
+Lecture, Workshop, Mantra & Chanting (*Mantras*), Community Circle
+(*Community*) — two in parallel (TANTRIC SHELTER + ASTA, a third at CAMPFIRE
+on Sunday) in the 9:45, 11:15, 2:30 and 4:00 blocks of the two class days. To
+fill a slot, replace its title, teacher and description and drop the tag; to
+add a parallel class, copy a slot row and change its `id` and `location`.
+Teachers, info pages and menus are invented.
 
 ```bash
 npm run mock-backend      # http://localhost:3999

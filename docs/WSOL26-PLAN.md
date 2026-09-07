@@ -274,6 +274,12 @@ live but **empty**.
       checkout platform / WordPress. The feed responds but its presenter program is
       still **empty (0 items)** as of 2026-08-25. Done when the bundle carries the
       real schedule.
+      *Interim (2026-09-07):* a **template program** — the recurring Solstice
+      elements at the 2025 times plus "To be announced" class slots carrying the
+      category that can go there — lives in `scripts/fixtures/wsol26.json` (v7)
+      and `scripts/fixtures/csv/wsol26-program.csv` (87 rows), ready to import
+      into the WSOL26 event so the app shows the shape of the week before the
+      real schedule lands. Structure in [CONTENT-MODEL.md](CONTENT-MODEL.md).
 - [ ] **Teacher bios** — 33 of 34 bios are still empty (applies to both events). The
       profile "About" section appears automatically as soon as a bio exists. Done
       when priority teachers have bios.
