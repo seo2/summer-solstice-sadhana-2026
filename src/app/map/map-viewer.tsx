@@ -2,6 +2,7 @@
 
 import { List, Maximize2, Minus, Plus, RotateCcw, X } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type React from "react";
 import type { Venue } from "@/lib/types";
 
 const MAP_WIDTH = 1266;
@@ -112,30 +113,26 @@ export function MapViewer({
   const [showLegend, setShowLegend] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const zoomRef = useRef(1);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  // Zoom the DOM currently reflects — updated in the layout effect after each
-  // commit. Button zoom and pinch anchor their scroll math on it, i.e. on what
-  // is actually on screen, never on state still waiting to render.
-  const domZoomRef = useRef(1);
+  // ---------------------------------------------------------------------
+  // Viewport model. The map content is positioned with a CSS transform, not
+  // with native scrolling: `offset` is how many (scaled) pixels of the map are
+  // hidden to the left/top of the viewport — the scroll position it replaces.
+  // Native overflow scrolling was the source of every touch bug here: iOS
+  // ignores programmatic scroll writes while a finger is down on the
+  // scroller (the pan never moved) and while a native gesture is in flight
+  // (the pinch scaled from the corner). Transforms are always honoured.
+  // ---------------------------------------------------------------------
+  const zoomRef = useRef(1); // latest requested zoom
+  const domZoomRef = useRef(1); // zoom the DOM currently reflects (set after commit)
+  const dimsRef = useRef(dims);
+  const offsetRef = useRef({ x: 0, y: 0 });
+  // Offset to apply once the content is laid out at the newly requested zoom.
+  const pendingOffsetRef = useRef<{ x: number; y: number; animate: boolean } | null>(null);
   // Running fling animation (requestAnimationFrame id), 0 when idle.
   const flingRef = useRef(0);
-  // Scroll target set by pinch, applied after the image resizes in layout effect
-  const pendingScrollRef = useRef<{ left: number; top: number } | null>(null);
-
-  const stopFling = () => {
-    if (flingRef.current) {
-      cancelAnimationFrame(flingRef.current);
-      flingRef.current = 0;
-    }
-  };
-
-  const applyZoom = (next: number) => {
-    stopFling();
-    const z = clamp(next, MIN_ZOOM, MAX_ZOOM);
-    zoomRef.current = z;
-    setZoom(z);
-  };
+  dimsRef.current = dims;
 
   const scaledWidth = Math.round(dims.w * zoom);
   const scaledHeight = Math.round(dims.h * zoom);
@@ -150,6 +147,70 @@ export function MapViewer({
   const pinLeft = (item: MapLegendItem) => (item.point.x / 100) * scaledWidth;
   const pinTop = (item: MapLegendItem) => (item.point.y / 100) * scaledHeight;
 
+  const stopFling = () => {
+    if (flingRef.current) {
+      cancelAnimationFrame(flingRef.current);
+      flingRef.current = 0;
+    }
+  };
+
+  /** Keep the map inside the viewport; a map smaller than the viewport sits centered. */
+  const clampOffset = (x: number, y: number, z: number) => {
+    const el = containerRef.current;
+    if (!el) return { x, y };
+    const w = dimsRef.current.w * z;
+    const h = dimsRef.current.h * z;
+    return {
+      x: w <= el.clientWidth ? (w - el.clientWidth) / 2 : clamp(x, 0, w - el.clientWidth),
+      y: h <= el.clientHeight ? (h - el.clientHeight) / 2 : clamp(y, 0, h - el.clientHeight),
+    };
+  };
+
+  /** Move the map. `z` is the zoom the content is laid out at (defaults to what the DOM shows). */
+  const applyOffset = (x: number, y: number, z = domZoomRef.current, animate = false) => {
+    const el = contentRef.current;
+    if (!el) return;
+    const next = clampOffset(x, y, z);
+    offsetRef.current = next;
+    el.style.transition = animate ? "transform 320ms cubic-bezier(0.22, 1, 0.36, 1)" : "none";
+    el.style.transform = `translate3d(${-next.x}px, ${-next.y}px, 0)`;
+  };
+
+  /**
+   * Zoom so that map point `anchor` (unscaled px) ends up under viewport
+   * point `screen`. When the zoom actually changes, the move waits for React
+   * to lay the content out at the new size (see the layout effect).
+   */
+  const setZoomAt = (nextZoom: number, anchor: { x: number; y: number }, screen: { x: number; y: number }, animate = false) => {
+    stopFling();
+    const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
+    const target = { x: anchor.x * z - screen.x, y: anchor.y * z - screen.y };
+    if (Math.abs(z - zoomRef.current) > 0.0005) {
+      pendingOffsetRef.current = { ...target, animate };
+      zoomRef.current = z;
+      setZoom(z);
+      return;
+    }
+    applyOffset(target.x, target.y, z, animate);
+  };
+
+  const viewportCenter = () => {
+    const el = containerRef.current;
+    return el ? { x: el.clientWidth / 2, y: el.clientHeight / 2 } : { x: 0, y: 0 };
+  };
+
+  /** Map point (unscaled px) currently under a viewport point. */
+  const mapPointAt = (screen: { x: number; y: number }) => ({
+    x: (offsetRef.current.x + screen.x) / domZoomRef.current,
+    y: (offsetRef.current.y + screen.y) / domZoomRef.current,
+  });
+
+  /** Button zoom: keep whatever is at the center of the viewport centered. */
+  const applyZoom = (next: number) => {
+    const center = viewportCenter();
+    setZoomAt(next, mapPointAt(center), center);
+  };
+
   const getFitZoom = () => {
     const el = containerRef.current;
     if (!el) return 1;
@@ -158,49 +219,21 @@ export function MapViewer({
     return clamp(Math.min(fitWidth, fitHeight), MIN_ZOOM, MAX_ZOOM);
   };
 
-  const setZoomAndScroll = (nextZoom: number, left: number, top: number, behavior: ScrollBehavior = "smooth") => {
-    stopFling();
-    const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
-    const el = containerRef.current;
-    if (!el) {
-      applyZoom(z);
-      return;
-    }
-
-    if (Math.abs(z - zoomRef.current) > 0.001) {
-      pendingScrollRef.current = { left, top };
-      applyZoom(z);
-      return;
-    }
-
-    el.scrollTo({
-      left: clamp(left, 0, Math.max(0, el.scrollWidth - el.clientWidth)),
-      top: clamp(top, 0, Math.max(0, el.scrollHeight - el.clientHeight)),
-      behavior,
-    });
+  const centerMap = (nextZoom = zoomRef.current, animate = true) => {
+    setZoomAt(nextZoom, { x: dims.w / 2, y: dims.h / 2 }, viewportCenter(), animate);
   };
 
-  const centerMap = (nextZoom = zoomRef.current, behavior: ScrollBehavior = "smooth") => {
-    const el = containerRef.current;
-    if (!el) return;
-    const z = clamp(nextZoom, MIN_ZOOM, MAX_ZOOM);
-    setZoomAndScroll(z, (dims.w * z - el.clientWidth) / 2, (dims.h * z - el.clientHeight) / 2, behavior);
-  };
-
-  const fitMap = (behavior: ScrollBehavior = "smooth") => {
-    const fitZoom = getFitZoom();
-    centerMap(fitZoom, behavior);
+  const fitMap = (animate = true) => {
+    centerMap(getFitZoom(), animate);
   };
 
   const focusVenue = (item: MapLegendItem) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const targetZoom = Math.max(zoomRef.current, 1);
     setSelectedId(item.id);
-    setZoomAndScroll(
-      targetZoom,
-      (item.point.x / 100) * dims.w * targetZoom - el.clientWidth / 2,
-      (item.point.y / 100) * dims.h * targetZoom - el.clientHeight / 2,
+    setZoomAt(
+      Math.max(zoomRef.current, 1),
+      { x: (item.point.x / 100) * dims.w, y: (item.point.y / 100) * dims.h },
+      viewportCenter(),
+      true,
     );
   };
 
@@ -210,41 +243,46 @@ export function MapViewer({
     const el = containerRef.current;
     if (!el) return;
     requestAnimationFrame(() => {
-      fitMap("auto");
+      fitMap(false);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dims.w, dims.h]);
 
-  // After every zoom state update: apply pending pinch scroll or preserve button-zoom center.
-  // useLayoutEffect runs before paint so scroll is set while the new image dimensions are live.
+  // After every zoom commit the content has its new size: apply the offset
+  // that was computed for it (pinch / focus / fit), or — for a zoom change
+  // that carried no target — keep the visible center anchored. Also re-clamps
+  // when the map's dimensions change.
   useLayoutEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
-
-    if (pendingScrollRef.current) {
-      el.scrollLeft = pendingScrollRef.current.left;
-      el.scrollTop = pendingScrollRef.current.top;
-      pendingScrollRef.current = null;
+    const pending = pendingOffsetRef.current;
+    if (pending) {
+      pendingOffsetRef.current = null;
+      applyOffset(pending.x, pending.y, zoom, pending.animate);
     } else if (domZoomRef.current !== zoom) {
-      // Button zoom: keep the visible center anchored
+      const center = viewportCenter();
       const ratio = zoom / domZoomRef.current;
-      const cx = el.scrollLeft + el.clientWidth / 2;
-      const cy = el.scrollTop + el.clientHeight / 2;
-      el.scrollLeft = cx * ratio - el.clientWidth / 2;
-      el.scrollTop = cy * ratio - el.clientHeight / 2;
+      const o = offsetRef.current;
+      applyOffset((o.x + center.x) * ratio - center.x, (o.y + center.y) * ratio - center.y, zoom);
+    } else {
+      applyOffset(offsetRef.current.x, offsetRef.current.y, zoom);
     }
-
     domZoomRef.current = zoom;
-  }, [zoom]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [zoom, dims.w, dims.h]);
+
+  // Keep the map in bounds when the viewport changes size (rotation, resize).
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => applyOffset(offsetRef.current.x, offsetRef.current.y));
+    observer.observe(el);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Touch gestures — the viewer owns them all (`.app-map-scroll` sets
-  // `touch-action: none`): one finger pans by moving the scroll position, two
-  // fingers pinch-zoom anchored under the fingers, and letting go after a pan
-  // flings with the finger's velocity. Nothing here can be left to native
-  // scrolling: iOS ignores programmatic scrollLeft/scrollTop writes while a
-  // native scroll gesture is in flight, which made the pinch scale the map
-  // from its top-left corner (the scroll never moved) instead of around the
-  // fingers.
+  // `touch-action: none`): one finger pans, two fingers pinch-zoom anchored
+  // under the fingers (and pan as they move), and letting go after a pan
+  // flings with the finger's velocity.
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -254,7 +292,7 @@ export function MapViewer({
       lastX: number;
       lastY: number;
       lastT: number;
-      vx: number; // scroll velocity, px per ms
+      vx: number; // offset velocity, px per ms
       vy: number;
       startDist: number;
       startZoom: number;
@@ -284,14 +322,12 @@ export function MapViewer({
     const beginPinch = (touches: TouchList) => {
       const a = local(touches[0]);
       const b = local(touches[1]);
-      const domZoom = domZoomRef.current;
+      const anchor = mapPointAt({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
       g.mode = "pinch";
       g.startDist = getDist(touches);
       g.startZoom = zoomRef.current;
-      // The map point under the midpoint stays under the (moving) midpoint
-      // for the whole pinch — so the gesture both zooms and pans.
-      g.anchorX = (el.scrollLeft + (a.x + b.x) / 2) / domZoom;
-      g.anchorY = (el.scrollTop + (a.y + b.y) / 2) / domZoom;
+      g.anchorX = anchor.x;
+      g.anchorY = anchor.y;
     };
 
     const fling = () => {
@@ -299,21 +335,19 @@ export function MapViewer({
       const step = (now: number) => {
         const dt = Math.min(now - last, 50);
         last = now;
-        el.scrollLeft += g.vx * dt;
-        el.scrollTop += g.vy * dt;
+        const before = offsetRef.current;
+        applyOffset(before.x + g.vx * dt, before.y + g.vy * dt);
+        const after = offsetRef.current;
         const decay = Math.pow(0.994, dt);
-        g.vx *= decay;
-        g.vy *= decay;
+        g.vx = after.x === before.x ? 0 : g.vx * decay; // hit an edge: stop on that axis
+        g.vy = after.y === before.y ? 0 : g.vy * decay;
         flingRef.current = Math.abs(g.vx) > 0.01 || Math.abs(g.vy) > 0.01 ? requestAnimationFrame(step) : 0;
       };
       flingRef.current = requestAnimationFrame(step);
     };
 
     const onTouchStart = (e: TouchEvent) => {
-      if (flingRef.current) {
-        cancelAnimationFrame(flingRef.current);
-        flingRef.current = 0;
-      }
+      stopFling();
       if (e.touches.length === 1) beginPan(e.touches[0], e.timeStamp);
       else if (e.touches.length >= 2) beginPinch(e.touches);
     };
@@ -327,10 +361,9 @@ export function MapViewer({
         const dx = p.x - g.lastX;
         const dy = p.y - g.lastY;
         const dt = e.timeStamp - g.lastT;
-        el.scrollLeft -= dx;
-        el.scrollTop -= dy;
+        applyOffset(offsetRef.current.x - dx, offsetRef.current.y - dy);
         if (dt > 0) {
-          // Smoothed velocity in scroll units so the fling continues the motion.
+          // Smoothed velocity in offset units so the fling continues the motion.
           g.vx = 0.7 * g.vx + 0.3 * (-dx / dt);
           g.vy = 0.7 * g.vy + 0.3 * (-dy / dt);
         }
@@ -343,23 +376,8 @@ export function MapViewer({
       if (g.mode === "pinch" && e.touches.length >= 2) {
         const a = local(e.touches[0]);
         const b = local(e.touches[1]);
-        const midX = (a.x + b.x) / 2;
-        const midY = (a.y + b.y) / 2;
-        const nextZoom = clamp((g.startZoom * getDist(e.touches)) / g.startDist, MIN_ZOOM, MAX_ZOOM);
-        const left = g.anchorX * nextZoom - midX;
-        const top = g.anchorY * nextZoom - midY;
-
-        if (Math.abs(nextZoom - domZoomRef.current) < 0.0005) {
-          // Zoom unchanged (clamped or fingers steady): just follow the midpoint.
-          el.scrollLeft = left;
-          el.scrollTop = top;
-          return;
-        }
-
-        // Applied by the layout effect once the image is laid out at nextZoom.
-        pendingScrollRef.current = { left, top };
-        zoomRef.current = nextZoom;
-        setZoom(nextZoom);
+        const nextZoom = (g.startZoom * getDist(e.touches)) / g.startDist;
+        setZoomAt(nextZoom, { x: g.anchorX, y: g.anchorY }, { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 });
       }
     };
 
@@ -376,18 +394,68 @@ export function MapViewer({
       }
     };
 
+    // Desktop: wheel / trackpad pans; ctrl+wheel (trackpad pinch) zooms at the cursor.
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      stopFling();
+      const rect = el.getBoundingClientRect();
+      const at = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      if (e.ctrlKey) {
+        setZoomAt(zoomRef.current * Math.exp(-e.deltaY * 0.01), mapPointAt(at), at);
+        return;
+      }
+      applyOffset(offsetRef.current.x + e.deltaX, offsetRef.current.y + e.deltaY);
+    };
+
     el.addEventListener("touchstart", onTouchStart, { passive: true });
     el.addEventListener("touchmove", onTouchMove, { passive: false });
     el.addEventListener("touchend", onTouchEnd, { passive: true });
     el.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    el.addEventListener("wheel", onWheel, { passive: false });
     return () => {
       el.removeEventListener("touchstart", onTouchStart);
       el.removeEventListener("touchmove", onTouchMove);
       el.removeEventListener("touchend", onTouchEnd);
       el.removeEventListener("touchcancel", onTouchEnd);
-      if (flingRef.current) cancelAnimationFrame(flingRef.current);
+      el.removeEventListener("wheel", onWheel);
+      stopFling();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Desktop: drag with the mouse to pan. A drag must not read as a click on
+  // the map (which clears the selected pin).
+  const mouseDrag = useRef<{ x: number; y: number; moved: boolean } | null>(null);
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse" || e.button !== 0) return;
+    stopFling();
+    mouseDrag.current = { x: e.clientX, y: e.clientY, moved: false };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  };
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const d = mouseDrag.current;
+    if (!d || e.pointerType !== "mouse") return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (Math.abs(dx) + Math.abs(dy) > 3) d.moved = true;
+    applyOffset(offsetRef.current.x - dx, offsetRef.current.y - dy);
+    d.x = e.clientX;
+    d.y = e.clientY;
+  };
+  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const d = mouseDrag.current;
+    mouseDrag.current = null;
+    if (d?.moved) suppressClickRef.current = true;
+  };
+  const suppressClickRef = useRef(false);
+  const onContentClick = () => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+    setSelectedId(null);
+  };
 
   return (
     <>
@@ -460,12 +528,17 @@ export function MapViewer({
         <div className="relative">
           <div
             ref={containerRef}
-            className="app-map-scroll relative h-[58vh] min-h-[22rem] max-h-[44rem] overflow-auto bg-[#f3ead8] overscroll-contain"
+            className="app-map-scroll relative h-[58vh] min-h-[22rem] max-h-[44rem] cursor-grab overflow-hidden bg-[#f3ead8] active:cursor-grabbing"
+            onPointerDown={onPointerDown}
+            onPointerMove={onPointerMove}
+            onPointerUp={onPointerUp}
+            onPointerCancel={onPointerUp}
           >
             <div
-              className="relative"
+              ref={contentRef}
+              className="absolute left-0 top-0 will-change-transform"
               style={{ width: scaledWidth, height: scaledHeight }}
-              onClick={() => setSelectedId(null)}
+              onClick={onContentClick}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img

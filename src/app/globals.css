@@ -126,9 +126,11 @@ select {
   display: none;
 }
 
-/* The map viewer owns every touch gesture (pan, pinch, fling) in JS. With any
-   native panning allowed here, iOS would ignore the viewer's scroll writes
-   while a gesture is in flight and the pinch would scale from the corner. */
+/* The map viewer owns every gesture (touch pan, pinch, fling, wheel, mouse
+   drag) in JS and positions the map with a transform — no native scrolling:
+   iOS ignores programmatic scroll writes while a finger is down on a
+   scroller, so a scroll-based pan never moved and the pinch scaled from the
+   corner. */
 .app-map-scroll {
   touch-action: none;
   -webkit-user-select: none;

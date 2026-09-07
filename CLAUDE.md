@@ -168,18 +168,20 @@ Current intended behavior:
   - internal pinch-to-zoom on the map container
   - current range: 50% to 300%
   - current step: 25%
-- The map image sits inside a scrollable container for panning.
+- The map content is positioned with a CSS `translate3d()` inside an `overflow: hidden` viewport;
+  the viewer keeps an `offset` (the scroll position it replaces) and clamps it to the map bounds.
 - `.app-map-scroll` in `src/app/globals.css` sets `touch-action: none` and disables selection/image
-  drag. The viewer handles **every touch gesture in JS** (one-finger pan, two-finger pinch anchored
-  under the fingers, fling on release). Do not reintroduce native touch panning (`pan-x pan-y`):
-  iOS ignores programmatic scroll writes while a native scroll gesture is in flight, which made the
-  pinch scale from the map's top-left corner. Mouse wheel and scrollbars still work natively.
+  drag. The viewer handles **every gesture in JS**: one-finger pan, two-finger pinch anchored under
+  the fingers, fling on release, wheel / trackpad pan, ctrl+wheel zoom at the cursor, mouse drag.
+  **Do not go back to native overflow scrolling** for panning: iOS (WKWebView and Safari) ignores
+  programmatic `scrollLeft`/`scrollTop` writes while a finger is down on the scroller — a JS pan
+  never moved and the pinch scaled from the top-left corner. Transforms are always honoured.
 
 If changing map zoom/pan behavior, verify in a browser that:
 
 - `+` changes 100% to 125%.
 - Image dimensions change accordingly.
-- The map remains scrollable.
+- The map still pans (touch drag, mouse drag, wheel) and stays inside its bounds.
 - Browser/page zoom remains blocked while the map's own pinch/controls still work.
 
 ## Assets

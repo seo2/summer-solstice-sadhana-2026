@@ -45,6 +45,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **Map viewport on CSS transforms — touch pan finally moves on iOS** (cache
+  v80 → v81) — even with `touch-action: none`, WKWebView drops programmatic
+  `scrollLeft`/`scrollTop` writes while a finger is down on a scroll
+  container, so the JS one-finger pan of v78 never moved the map on a real
+  device (the pinch did, because its write landed after a layout change). The
+  map content is now positioned with `translate3d()` inside an
+  `overflow: hidden` viewport; pan, pinch (anchored under the fingers and
+  panning with them), fling, chip/legend focus, Overview/Reset and the zoom
+  buttons all drive that offset, which iOS always honours. A map smaller than
+  the viewport sits centered. Desktop gains wheel/trackpad panning,
+  ctrl+wheel (trackpad pinch) zoom at the cursor and mouse-drag panning
+  (scrollbars are gone). Verified in the iOS Simulator (WKWebView) and with
+  synthesized touch, wheel and pointer events in the browser.
 - **Map touch gestures owned by the viewer: pinch anchors under the fingers**
   (cache v77 → v78) — on iOS the pinch scaled the map from its top-left
   corner. Root cause: with `touch-action: pan-x pan-y` two fingers start a
