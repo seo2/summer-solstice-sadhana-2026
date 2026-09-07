@@ -247,6 +247,14 @@ Import with **Validate only** ticked first: the plugin reports each rejected row
 and why, without writing. The usual offender is a spreadsheet reformatting
 `09:00` into `9:00` or a date into `12/16/2026`.
 
+**Mode** (plugin ≥ 0.8.0, P8 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md)):
+*Add or update* upserts by `id` and leaves everything else alone; *Replace*
+makes the file the complete list for that content type — live rows it does not
+carry are soft-deleted, so re-importing a program whose ids changed does not
+leave the old rows next to the new ones. Replace refuses a file with any
+rejected row, and never touches the feed-owned `presenter-*` sessions. Use it
+to load a whole fixture over a previous one; use Add or update for touch-ups.
+
 The column lists in `fixture-to-csv.mjs` mirror `THREEHO_SSA_Importer::csv_columns()`
 in the plugin — change one and change the other.
 

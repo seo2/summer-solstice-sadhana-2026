@@ -12,6 +12,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Plugin P8: Import "Replace" mode** (3ho.org working tree, plugin v0.7.0 →
+  v0.8.0, no schema change; no app change, no cache bump) — the wp-admin Import
+  screen gains a Mode: *Add or update* (the existing upsert by id) or
+  *Replace*, where the file is the complete list for that content type and
+  every live row it does not carry is soft-deleted after the upsert. Motivated
+  by the WSOL26 template import landing next to the earlier dummy rows and
+  duplicating sessions. Replace validates the whole file first and writes
+  nothing if any row is rejected; feed-owned `presenter-*` sessions are never
+  retired; "Validate only" reports how many rows would go. Same rule on the
+  CLI as `wp ssa seed --replace`. Documented as P8 in `docs/BACKEND-WSOL26.md`
+  and in the CSV section of `docs/CONTENT-MODEL.md`.
 - **Synced events get the full Info Hub design** (cache v79 → v80) — the
   built-in Info Hub body (topic grid with icons, group headers, collapsible
   page cards, section cards with paragraphs, bullet and numbered lists,

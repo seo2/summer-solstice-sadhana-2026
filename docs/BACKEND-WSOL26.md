@@ -207,6 +207,52 @@ today. The plugin columns therefore only matter for **new** pages that need a
 topic other than "More", or for reordering: lower priority than before, ship
 with the next migration.
 
+## P8 — Import modes: "Add or update" vs "Replace" (WS7 · ✅ implemented 2026-09-07, working tree)
+
+**Today:** the Import screen upserts by `id` and never deletes. That is right
+for touch-ups, but a re-export whose ids differ from the rows already in the
+event (a new fixture, a renamed title that changed a generated id) leaves both
+sets live — importing the WSOL26 template program on 2026-09-07 over the earlier
+dummy rows produced exactly that: duplicated sessions on several days.
+
+**Implemented as plugin v0.8.0** (no schema change, DB stays v5):
+
+- **Import screen → Mode.** *Add or update* (default, unchanged) or *Replace*:
+  the file is the complete list for that content type, and every live row of
+  the type that the file does not carry is **soft-deleted** (`deleted = 1`,
+  `updated_at` bumped) after the upsert. Works for all six types. "Validate
+  only" reports how many rows would be removed.
+- **Safety rules.** Replace validates the whole file first: if any row is
+  rejected, nothing is written (the rejected rows are listed) — otherwise a typo
+  would remove the session it meant to update. Program rows owned by the
+  checkout feed (`presenter-*`) are never retired: the feed recreates them
+  hourly and already retires its own. Rows are hidden, not erased: favorites,
+  agenda entries and the app's change alerts key on program ids, and the sync
+  bundle already filters `deleted = 0`, so the app sees a removal on its next
+  sync (favorited sessions raise the local change alert).
+- **Code.** `THREEHO_SSA_Importer::upsert($type, …)` dispatches to the writer
+  per type and every writer now returns the `ids` it wrote;
+  `THREEHO_SSA_Importer::retire_missing($event_id, $type, $keep_ids, $dry_run)`
+  does the retiring; `THREEHO_SSA_Importer::TABLES` maps type → table.
+  `wp ssa seed --replace` applies the same rule per seeded type.
+
+**Verified 2026-09-07** with the plugin's own importer against the local MySQL
+on a scratch event (WordPress would not bootstrap from the `/Volumes/3HO`
+working tree in that session — WP-CLI and `wp-load.php` both hung — so a small
+harness supplied `$wpdb` and the handful of WP helpers the importer calls):
+the 47 dummy rows plus the 87-row template in *Add or update* leave 132 live
+(two ids are shared, so those update in place); *Replace* dry run reports 45
+to retire; the real run leaves 88 live (87 + one feed-owned `presenter-*` row,
+untouched) and 45 hidden; running it again retires 0; a file with one bad
+`startTime` is rejected whole; a re-imported hidden row comes back live;
+categories follow the same rule; other events are untouched. **Pending:**
+owner commit + production deploy (repo rule), then the re-import below.
+
+**Fix for production WSOL26:** after the deploy, re-import
+`scripts/fixtures/csv/wsol26-program.csv` with **Replace** ticked (validate
+first): the 87 template rows are updated in place and the earlier dummy rows
+disappear from the app on the next sync.
+
 ## Rollout
 
 - All three ship as **plugin v0.5.0 / DB v3** (one dbDelta migration, existing
@@ -219,3 +265,5 @@ with the next migration.
 - **P6** implemented 2026-09-04 as v0.7.0 / DB v5 in the working tree (app side
   already live behind the bundle fields, cache v76); **P7** stays proposed and
   rides the following migration, its app side follows once the fields exist.
+- **P8** implemented 2026-09-07 as v0.8.0 (no migration) in the same working
+  tree; nothing to change app-side.
