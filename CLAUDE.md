@@ -151,6 +151,35 @@ Current notable Info behavior:
 - `page-50` is displayed as “Sadhana & Gurdwara”. Its internal headings “Sadhana” and “Gurdwara” should both render as section-card titles.
 - `page-16` “Security at Solstice” is also preserved so its first internal title renders.
 
+## Program filter bar behavior
+
+`src/components/program-explorer.tsx` renders the filter block in one of three states
+(`data-state` on `.filter-shell`):
+
+- `expanded` — full panel (search, day strip, venue/category, advanced). **Not sticky**: it
+  scrolls with the page like the title above it.
+- `compact` — once the block's bottom edge reaches the app header it folds into a sticky
+  ~60 pt bar: search icon · day chips · filters icon (badge = venue + category + advanced).
+- `peek` — the compact bar with the full panel opened underneath (over the list) from either
+  icon; closes on *Done* or when the scroll drifts more than ~48 px.
+
+Rules that keep it from jumping:
+
+- A spacer `<div>` right after the shell holds `expandedHeight - currentHeight` while folded,
+  so the block's footprint in the document never changes and the list does not move under
+  the finger. The spacer must stay a **sibling** of the shell inside the same `<section>`
+  (the section is the sticky containing block; wrapping shell + spacer in a div would
+  unstick the bar as soon as that div scrolls out).
+- Fold/unfold is decided by geometry, not scroll direction: fold when the spacer's bottom
+  edge ≤ header bottom + bar height, unfold when it is ≥ that + 24 px of hysteresis.
+- Sticky offsets use `--app-header-offset` (`src/app/globals.css`) =
+  `calc(env(safe-area-inset-top) + 4.35rem)` — the iOS header carries the safe-area inset.
+  Day headers pin at that offset while `expanded` and at offset + shell height otherwise.
+
+When changing it, verify in a mobile viewport that the panel scrolls away, folds exactly
+when its bottom meets the header, the list does not jump, both icons peek, and scrolling
+back to the top unfolds it.
+
 ## Map page behavior
 
 `src/app/map/page.tsx` is a client component because it has internal zoom controls.

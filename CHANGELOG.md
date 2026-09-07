@@ -12,6 +12,18 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Program filters fold into a compact bar while reading** (cache v81 → v82) —
+  the filter block (search, day strip, venue/category, advanced) no longer sits
+  pinned under the header at full height. It scrolls with the page while
+  expanded; once its bottom edge reaches the app header it folds into a
+  ~60 pt sticky bar: search icon (orange dot when a query is active) · day
+  chips · filters icon with a badge counting venue/category/advanced filters.
+  Tapping either icon "peeks" the full panel over the list (search focuses the
+  input) until *Done* or a further scroll; scrolling back near the top unfolds
+  it. A spacer keeps the block's expanded footprint in the document so the list
+  never jumps under the finger; the day headers follow the bar height as
+  before. The list gains roughly 30 % of the iPhone screen while browsing.
+  Same behaviour on Favorites (shared `ProgramExplorer`).
 - **Plugin P8: Import "Replace" mode** (3ho.org working tree, plugin v0.7.0 →
   v0.8.0, no schema change; no app change, no cache bump) — the wp-admin Import
   screen gains a Mode: *Add or update* (the existing upsert by id) or
@@ -74,6 +86,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   flip the switch back on when accounts can be created again.
 
 ### Fixed
+
+- **Sticky filter block hidden under the iOS header** — the block was pinned
+  at `4.35rem`, but on iOS the header also carries the safe-area inset (Dynamic
+  Island), so the search box sat partly under it. Both the filter shell and the
+  sticky day headers now use `--app-header-offset` =
+  `calc(env(safe-area-inset-top) + 4.35rem)` (`src/app/globals.css`).
 
 - **Map viewport on CSS transforms — touch pan finally moves on iOS** (cache
   v80 → v81) — even with `touch-action: none`, WKWebView drops programmatic

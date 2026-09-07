@@ -12,6 +12,14 @@ const formatDayLabel = (date: string) =>
   new Intl.DateTimeFormat("en-US", { weekday: "long", month: "long", day: "numeric" }).format(new Date(`${date}T12:00:00`));
 
 type Mode = "all" | "favorites";
+type FilterShellState = "expanded" | "compact" | "peek";
+
+// Compact filter bar: fallback height until measured, hysteresis before the bar
+// unfolds again on the way up, and how far a scroll may drift before a peeked
+// panel closes itself.
+const COMPACT_BAR_FALLBACK = 60;
+const EXPAND_HYSTERESIS = 24;
+const PEEK_SCROLL_TOLERANCE = 48;
 
 // Advanced filters — hour range covers the real program span (Sadhana starts 3:00 AM).
 const RANGE_MIN = 180; // 3:00 AM, in minutes
@@ -67,17 +75,102 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all", 
   const [hourFrom, setHourFrom] = useState(RANGE_MIN);
   const [hourTo, setHourTo] = useState(RANGE_MAX);
   const filterRef = useRef<HTMLDivElement>(null);
+  const spacerRef = useRef<HTMLDivElement>(null);
   const dayStripRef = useRef<HTMLDivElement>(null);
+  const miniStripRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const [filterHeight, setFilterHeight] = useState(0);
+
+  // The filter block scrolls with the page while expanded. Once its bottom edge
+  // reaches the app header it folds into a compact bar (search · days · filters)
+  // pinned under the header; scrolling back near the top unfolds it. "peek" is
+  // the compact bar with the full panel opened over the list from its icons.
+  const [shell, setShell] = useState<FilterShellState>("expanded");
+  const shellRef = useRef<FilterShellState>("expanded");
+  shellRef.current = shell;
+  const expandedHeightRef = useRef(0);
+  const compactHeightRef = useRef(0);
+  const peekScrollYRef = useRef(0);
+  const focusSearchOnPeek = useRef(false);
 
   useEffect(() => {
     const el = filterRef.current;
     if (!el) return;
-    const obs = new ResizeObserver(() => setFilterHeight(el.offsetHeight));
+    const measure = () => {
+      const height = el.offsetHeight;
+      const state = shellRef.current;
+      if (state === "expanded") expandedHeightRef.current = height;
+      if (state === "compact") compactHeightRef.current = height;
+      // The block keeps its expanded footprint in the document while folded so
+      // the list never jumps under the finger; the spacer takes the difference.
+      if (spacerRef.current) {
+        spacerRef.current.style.height = state === "expanded" ? "0px" : `${Math.max(0, expandedHeightRef.current - height)}px`;
+      }
+      setFilterHeight(height);
+    };
+    measure();
+    const obs = new ResizeObserver(measure);
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    const onScroll = () => {
+      const spacer = spacerRef.current;
+      if (!spacer) return;
+      const stickyTop = header ? header.getBoundingClientRect().bottom : 70;
+      // Bottom edge of the block's reserved space; constant in the document.
+      const flowEnd = spacer.getBoundingClientRect().bottom;
+      const barHeight = compactHeightRef.current || COMPACT_BAR_FALLBACK;
+      const state = shellRef.current;
+      if (state === "expanded") {
+        if (flowEnd <= stickyTop + barHeight) setShell("compact");
+        return;
+      }
+      if (flowEnd >= stickyTop + barHeight + EXPAND_HYSTERESIS) {
+        setShell("expanded");
+      } else if (state === "peek" && Math.abs(window.scrollY - peekScrollYRef.current) > PEEK_SCROLL_TOLERANCE) {
+        setShell("compact");
+      }
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  // Keep the active day chip in view when the bar folds.
+  useEffect(() => {
+    if (shell !== "compact") return;
+    const strip = miniStripRef.current;
+    const chip = strip?.querySelector<HTMLElement>(`[data-day="${date}"]`);
+    if (!strip || !chip) return;
+    const stripRect = strip.getBoundingClientRect();
+    const chipRect = chip.getBoundingClientRect();
+    strip.scrollBy({ left: chipRect.left - stripRect.left - 8 });
+  }, [shell, date]);
+
+  useEffect(() => {
+    if (shell !== "peek" || !focusSearchOnPeek.current) return;
+    focusSearchOnPeek.current = false;
+    searchInputRef.current?.focus({ preventScroll: true });
+  }, [shell]);
+
+  const openPeek = (focusSearch: boolean) => {
+    peekScrollYRef.current = window.scrollY;
+    if (shell === "peek") {
+      if (focusSearch) searchInputRef.current?.focus({ preventScroll: true });
+      else setShell("compact");
+      return;
+    }
+    focusSearchOnPeek.current = focusSearch;
+    setShell("peek");
+  };
 
   const dates = useMemo(() => Array.from(new Set(activities.map((item) => item.date))).sort(), [activities]);
   const savedCount = mode === "favorites" ? favoriteIds.size : activities.length;
@@ -99,6 +192,8 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all", 
 
   const rangeActive = hourFrom !== RANGE_MIN || hourTo !== RANGE_MAX;
   const advCount = advCategories.size + timesOfDay.size + (rangeActive ? 1 : 0);
+  // Everything but the day and the search text — shown on the compact bar's badge.
+  const quickCount = (venue !== "all" ? 1 : 0) + (category !== "all" ? 1 : 0) + advCount;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -227,147 +322,199 @@ export function ProgramExplorer({ activities, venues, categories, mode = "all", 
     );
   }
 
-  const dayHeaderTop = `calc(4.35rem + ${filterHeight}px)`;
+  const dayChips = (
+    <>
+      <button type="button" data-day="all" onClick={() => setDate("all")} className={cn("day-filter-button", date === "all" && "day-filter-button-active")}>All days</button>
+      {dates.map((item) => (
+        <button key={item} type="button" data-day={item} onClick={() => setDate(item)} className={cn("day-filter-button", date === item && "day-filter-button-active")}>
+          {formatDate(item)}
+        </button>
+      ))}
+    </>
+  );
+
+  // Day headers pin right under the app header while the block scrolls with the
+  // page; once it folds they sit under the compact bar (or the peeked panel).
+  const dayHeaderTop = shell === "expanded" ? "var(--app-header-offset)" : `calc(var(--app-header-offset) + ${filterHeight}px)`;
 
   return (
-    <section className="space-y-4">
-      <div ref={filterRef} className="sticky top-[4.35rem] z-30 -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl sm:top-19">
-        <div className="filter-glass-card rounded-2xl p-4">
-          <label className="flex items-center gap-2 rounded-xl bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
-            <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search title, teacher, place..."
-              className="w-full bg-transparent text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
-            />
-          </label>
-          <div ref={dayStripRef} className="no-scrollbar -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" aria-label="Filter by day">
-            <button type="button" onClick={() => setDate("all")} className={cn("day-filter-button", date === "all" && "day-filter-button-active")}>All days</button>
-            {dates.map((item) => (
-              <button key={item} type="button" data-day={item} onClick={() => setDate(item)} className={cn("day-filter-button", date === item && "day-filter-button-active")}>
-                {formatDate(item)}
+    <section>
+      <div
+        ref={filterRef}
+        data-state={shell}
+        className={cn("filter-shell -mx-1 rounded-2xl bg-white/55 p-1 backdrop-blur-xl", shell !== "expanded" && "filter-shell-stuck")}
+      >
+        <div className={cn("filter-glass-card rounded-2xl", shell === "expanded" ? "p-4" : "filter-glass-card-compact")}>
+          {shell !== "expanded" && (
+            <div className="filter-mini">
+              <button
+                type="button"
+                className={cn("filter-mini-icon", query.trim() && "filter-mini-icon-active")}
+                aria-label="Search"
+                onClick={() => openPeek(true)}
+              >
+                <Search className="h-5 w-5" />
               </button>
-            ))}
-          </div>
-          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <select value={venue} onChange={(event) => setVenue(event.target.value)} className="filter-select">
-              <option value="all">Venue</option>
-              {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
-            </select>
-            <select
-              value={category}
-              onChange={(event) => {
-                setCategory(event.target.value);
-                setAdvCategories(new Set());
-              }}
-              className="filter-select"
-            >
-              <option value="all">Category</option>
-              {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
-            </select>
-          </div>
-
-          <button
-            type="button"
-            className="adv-toggle"
-            aria-expanded={advOpen}
-            aria-controls="advanced-filters-panel"
-            onClick={() => setAdvOpen((prev) => !prev)}
-          >
-            <span className="inline-flex items-center gap-2">
-              <SlidersHorizontal className="h-[1.1rem] w-[1.1rem]" />
-              Advanced filters
-            </span>
-            {advCount > 0 && <span className="adv-count">{advCount}</span>}
-            <ChevronDown className={cn("adv-chev h-[1.05rem] w-[1.05rem]", advCount === 0 && "ml-auto")} strokeWidth={2.4} />
-          </button>
-
-          <div id="advanced-filters-panel" className={cn("adv-panel", advOpen && "adv-panel-open")} aria-hidden={!advOpen}>
-            <div className="adv-inner">
-              <div className="adv-group">
-                <span className="adv-group-label">Categories · pick several</span>
-                <div className="chip-select">
-                  {categories.map((item) => (
-                    <FilterChip
-                      key={item.id}
-                      label={item.name}
-                      selected={advCategories.has(item.name)}
-                      onToggle={() => toggleAdvCategory(item.name)}
-                    />
-                  ))}
-                </div>
+              <div ref={miniStripRef} className="no-scrollbar filter-mini-strip" aria-label="Filter by day">
+                {dayChips}
               </div>
-
-              <div className="adv-group">
-                <span className="adv-group-label">Time of day</span>
-                <div className="chip-select">
-                  {TIME_OF_DAY.map((slot) => (
-                    <FilterChip
-                      key={slot.id}
-                      label={slot.label}
-                      selected={timesOfDay.has(slot.id)}
-                      onToggle={() => toggleTimeOfDay(slot.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              <div className="adv-group">
-                <span className="adv-group-label">Custom hour range</span>
-                <div className="hour-range-labels">
-                  <span>{formatMinutes(hourFrom)}</span>
-                  <span>{formatMinutes(hourTo)}</span>
-                </div>
-                <div className="hour-range">
-                  <div className="hour-range-track">
-                    <div
-                      className="hour-range-fill"
-                      style={{
-                        left: `${((hourFrom - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
-                        width: `${((hourTo - hourFrom) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
-                      }}
-                    />
-                  </div>
-                  <input
-                    type="range"
-                    min={RANGE_MIN}
-                    max={RANGE_MAX}
-                    step={RANGE_STEP}
-                    value={hourFrom}
-                    aria-label="From hour"
-                    onChange={(event) => setHourFrom(Math.min(Number(event.target.value), hourTo - MIN_GAP))}
-                  />
-                  <input
-                    type="range"
-                    min={RANGE_MIN}
-                    max={RANGE_MAX}
-                    step={RANGE_STEP}
-                    value={hourTo}
-                    aria-label="To hour"
-                    onChange={(event) => setHourTo(Math.max(Number(event.target.value), hourFrom + MIN_GAP))}
-                  />
-                </div>
-              </div>
-
-              <div className="adv-footer">
-                <button type="button" className="adv-clear" onClick={clearAdvanced}>Clear</button>
-                <button type="button" className="adv-apply" onClick={() => setAdvOpen(false)}>
-                  Apply{advCount > 0 ? ` · ${advCount}` : ""}
-                </button>
-              </div>
+              <button
+                type="button"
+                className="filter-mini-icon"
+                aria-label="Filters"
+                aria-expanded={shell === "peek"}
+                onClick={() => openPeek(false)}
+              >
+                <SlidersHorizontal className="h-5 w-5" />
+                {quickCount > 0 && <span className="filter-mini-badge">{quickCount}</span>}
+              </button>
             </div>
-          </div>
+          )}
+
+          {shell !== "compact" && (
+            <div className={cn(shell === "peek" && "filter-peek")}>
+              <label className="flex items-center gap-2 rounded-xl bg-white px-3 py-3 text-stone-700 shadow-sm ring-1 ring-sky-900/10">
+                <Search className="h-5 w-5 shrink-0 text-[#2f62b6]" />
+                <input
+                  ref={searchInputRef}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder="Search title, teacher, place..."
+                  className="w-full bg-transparent text-base font-semibold text-slate-900 outline-none placeholder:text-slate-400"
+                />
+              </label>
+              {shell === "expanded" && (
+                <div ref={dayStripRef} className="no-scrollbar -mx-1 mt-3 flex gap-2 overflow-x-auto px-1 pb-1" aria-label="Filter by day">
+                  {dayChips}
+                </div>
+              )}
+              <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <select value={venue} onChange={(event) => setVenue(event.target.value)} className="filter-select">
+                  <option value="all">Venue</option>
+                  {venues.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
+                </select>
+                <select
+                  value={category}
+                  onChange={(event) => {
+                    setCategory(event.target.value);
+                    setAdvCategories(new Set());
+                  }}
+                  className="filter-select"
+                >
+                  <option value="all">Category</option>
+                  {categories.map((item) => <option key={item.id} value={item.name}>{item.name}</option>)}
+                </select>
+              </div>
+
+              <button
+                type="button"
+                className="adv-toggle"
+                aria-expanded={advOpen}
+                aria-controls="advanced-filters-panel"
+                onClick={() => setAdvOpen((prev) => !prev)}
+              >
+                <span className="inline-flex items-center gap-2">
+                  <SlidersHorizontal className="h-[1.1rem] w-[1.1rem]" />
+                  Advanced filters
+                </span>
+                {advCount > 0 && <span className="adv-count">{advCount}</span>}
+                <ChevronDown className={cn("adv-chev h-[1.05rem] w-[1.05rem]", advCount === 0 && "ml-auto")} strokeWidth={2.4} />
+              </button>
+
+              <div id="advanced-filters-panel" className={cn("adv-panel", advOpen && "adv-panel-open")} aria-hidden={!advOpen}>
+                <div className="adv-inner">
+                  <div className="adv-group">
+                    <span className="adv-group-label">Categories · pick several</span>
+                    <div className="chip-select">
+                      {categories.map((item) => (
+                        <FilterChip
+                          key={item.id}
+                          label={item.name}
+                          selected={advCategories.has(item.name)}
+                          onToggle={() => toggleAdvCategory(item.name)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="adv-group">
+                    <span className="adv-group-label">Time of day</span>
+                    <div className="chip-select">
+                      {TIME_OF_DAY.map((slot) => (
+                        <FilterChip
+                          key={slot.id}
+                          label={slot.label}
+                          selected={timesOfDay.has(slot.id)}
+                          onToggle={() => toggleTimeOfDay(slot.id)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="adv-group">
+                    <span className="adv-group-label">Custom hour range</span>
+                    <div className="hour-range-labels">
+                      <span>{formatMinutes(hourFrom)}</span>
+                      <span>{formatMinutes(hourTo)}</span>
+                    </div>
+                    <div className="hour-range">
+                      <div className="hour-range-track">
+                        <div
+                          className="hour-range-fill"
+                          style={{
+                            left: `${((hourFrom - RANGE_MIN) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
+                            width: `${((hourTo - hourFrom) / (RANGE_MAX - RANGE_MIN)) * 100}%`,
+                          }}
+                        />
+                      </div>
+                      <input
+                        type="range"
+                        min={RANGE_MIN}
+                        max={RANGE_MAX}
+                        step={RANGE_STEP}
+                        value={hourFrom}
+                        aria-label="From hour"
+                        onChange={(event) => setHourFrom(Math.min(Number(event.target.value), hourTo - MIN_GAP))}
+                      />
+                      <input
+                        type="range"
+                        min={RANGE_MIN}
+                        max={RANGE_MAX}
+                        step={RANGE_STEP}
+                        value={hourTo}
+                        aria-label="To hour"
+                        onChange={(event) => setHourTo(Math.max(Number(event.target.value), hourFrom + MIN_GAP))}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="adv-footer">
+                    <button type="button" className="adv-clear" onClick={clearAdvanced}>Clear</button>
+                    <button type="button" className="adv-apply" onClick={() => setAdvOpen(false)}>
+                      Apply{advCount > 0 ? ` · ${advCount}` : ""}
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {shell === "peek" && (
+                <button type="button" className="filter-peek-done" onClick={() => setShell("compact")}>
+                  Done
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
+      <div ref={spacerRef} aria-hidden="true" />
 
       {filtered.length === 0 ? (
-        <div className="card rounded-2xl p-8 text-center">
+        <div className="card mt-4 rounded-2xl p-8 text-center">
           <p className="text-lg font-bold text-stone-900">Nothing here yet</p>
           <p className="mt-2 text-sm text-stone-600">Add activities with the heart button, or clear the filters.</p>
         </div>
       ) : (
-        <div ref={listRef} className="space-y-2">
+        <div ref={listRef} className="mt-4 space-y-2">
           {byDate.map(({ date: d, items }) => (
             <section key={d}>
               <div

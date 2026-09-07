@@ -59,6 +59,26 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
   dependency. Follow `design/PROGRAM-DESIGN-SYSTEM.md` tokens.
 - Depends on: nothing (can ship any time; bump offline cache).
 
+### Program compact filter bar — ✅ shipped (cache v82)
+
+- The filter block no longer sits pinned at full height while reading. It
+  scrolls with the page while expanded; once its bottom edge reaches the app
+  header it folds into a ~60 pt sticky bar: search icon (orange dot when a
+  query is active) · day chips · filters icon with a badge for venue / category
+  / advanced filters. Either icon "peeks" the full panel over the list (search
+  focuses the input) until *Done* or a further scroll; scrolling back near the
+  top unfolds it. The list gains roughly 30 % of the iPhone screen.
+- Decision record: four options were compared on interactive mockups
+  (scroll-away, auto-fold, permanent bar + bottom sheet, manual fold); the
+  auto-fold won because it keeps every existing filter and its logic, keeps the
+  day chips at one tap while reading, and its bar is the same bar a future
+  bottom-sheet design would use. Behaviour notes for maintainers live in
+  `CLAUDE.md` ("Program filter bar behavior").
+- Pure client-side change in `src/components/program-explorer.tsx` +
+  `src/app/globals.css`; also fixed the sticky offset on iOS via
+  `--app-header-offset` (safe-area inset + header height).
+- Depends on: nothing.
+
 ### Teacher / presenter info — ✅ step 1 shipped (static) · backend step 📋 Phase 3
 
 - Bios, photos, country, and the sessions each teacher leads (linked to program items,
