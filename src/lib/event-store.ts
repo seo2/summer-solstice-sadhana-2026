@@ -30,17 +30,38 @@ export type SyncedBundle = {
   categories: { id: string; name: string }[];
   infoPages?: ({ id: string; title: string; content?: string } & Record<string, unknown>)[];
   menus?: Record<string, unknown>[];
+  dishes?: Record<string, unknown>[];
 };
 
 /** Info page from the bundle; `group` / `sort` / `featured` are optional editorial hints (plugin P7). */
 export type SyncedInfoPage = { id: string; title: string; content: string; group?: string; sort?: number; featured?: boolean };
+
+/**
+ * What the kitchen says about one preparation (bundle `dishes[]`): what it is,
+ * its benefits, what goes in it, calories per serving, a photo and a recipe
+ * link. Menus list dishes by name, so "Yogi Tea" is described once and every
+ * menu that serves it picks the details up.
+ */
+export type DishDetails = {
+  description?: string;
+  benefits?: string[];
+  ingredients?: string[];
+  calories?: number;
+  photo?: string;
+  recipeUrl?: string;
+};
+
+export type Dish = DishDetails & { id: string; name: string };
+
+/** A dish as it appears on a menu: its name, plus the catalog details when the kitchen described it. */
+export type MenuDish = DishDetails & { name: string };
 
 export type MenuDay = {
   id: string;
   date: string;
   meal: "breakfast" | "lunch" | "dinner" | "snack";
   title?: string;
-  items: string[];
+  items: MenuDish[];
   notes?: string;
 };
 
@@ -261,19 +282,86 @@ export function bundleInfoPages(bundle: SyncedBundle): SyncedInfoPage[] {
 
 const MEALS = new Set(["breakfast", "lunch", "dinner", "snack"]);
 
+/** Menus name their dishes; the catalog is matched ignoring case and extra whitespace. */
+export const dishKey = (name: string): string => name.trim().toLowerCase().replace(/\s+/g, " ");
+
+/** Calories per serving: a non-negative whole number (the plugin sends an int, a hand-written fixture may send "60"). */
+const kcal = (value: unknown): number | undefined => {
+  const n = typeof value === "number" ? value : typeof value === "string" && value.trim() !== "" ? Number(value) : NaN;
+  return Number.isFinite(n) && n >= 0 ? Math.round(n) : undefined;
+};
+
+/** Recipe links open in the browser, so only http(s) URLs are accepted. */
+const httpUrl = (value: unknown): string | undefined => {
+  const text = str(value);
+  return text && /^https?:\/\//i.test(text) ? text : undefined;
+};
+
+/** Is there anything to show beyond the name — i.e. does tapping the dish open a sheet? */
+export function dishHasDetails(dish: DishDetails): boolean {
+  return Boolean(
+    dish.description ||
+      dish.benefits?.length ||
+      dish.ingredients?.length ||
+      dish.calories !== undefined ||
+      dish.photo ||
+      dish.recipeUrl,
+  );
+}
+
+export function bundleDishes(bundle: SyncedBundle): Dish[] {
+  const dishes: Dish[] = [];
+  for (const raw of bundle.dishes ?? []) {
+    const id = str(raw.id);
+    const name = str(raw.name)?.trim();
+    if (!id || !name) continue;
+    dishes.push({
+      id,
+      name,
+      description: str(raw.description),
+      benefits: strArray(raw.benefits),
+      ingredients: strArray(raw.ingredients),
+      calories: kcal(raw.calories),
+      photo: str(raw.photo),
+      recipeUrl: httpUrl(raw.recipeUrl),
+    });
+  }
+  return dishes;
+}
+
 export function bundleMenus(bundle: SyncedBundle): MenuDay[] {
+  const catalog = new Map<string, Dish>();
+  for (const dish of bundleDishes(bundle)) catalog.set(dishKey(dish.name), dish);
+
   const menus: MenuDay[] = [];
   for (const raw of bundle.menus ?? []) {
     const id = str(raw.id);
     const date = str(raw.date);
     const meal = str(raw.meal);
     if (!id || !date || !meal || !MEALS.has(meal)) continue;
+
+    const items: MenuDish[] = (strArray(raw.items) ?? []).map((line) => {
+      const name = line.trim();
+      const dish = catalog.get(dishKey(name));
+      return dish
+        ? {
+            name,
+            description: dish.description,
+            benefits: dish.benefits,
+            ingredients: dish.ingredients,
+            calories: dish.calories,
+            photo: dish.photo,
+            recipeUrl: dish.recipeUrl,
+          }
+        : { name };
+    });
+
     menus.push({
       id,
       date,
       meal: meal as MenuDay["meal"],
       title: str(raw.title),
-      items: strArray(raw.items) ?? [],
+      items,
       notes: str(raw.notes),
     });
   }

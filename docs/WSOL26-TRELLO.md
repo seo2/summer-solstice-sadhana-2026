@@ -237,10 +237,12 @@ are live. Done when an attendee checks tomorrow's breakfast with no signal.
 **Checklist — Build:**
 - Backend content model `menu_day`: per-event, per-day structured menus (meal → dishes + dietary notes like vegan/GF), editable in wp-admin, included in the bundle
 - Menus UI: Home tile + Info entry, opens on today's meals, day navigation like the program's day strip, offline once synced
+- Dish cards: per dish/preparation — what it is, benefits, ingredients, calories, photo, recipe link — described once (Event App → Dishes) and shown on every menu that names the dish
 - Nutrition & yogi-diet guidance pages (rides the WS2 per-event info-pages machinery)
 
 **Checklist — Content:**
 - Real WSOL26 menus for Dec 15–21 with dietary notes (kitchen/production team)
+- Dish cards for the recurring preparations (kitchen/production team)
 - Guidance texts written and reviewed
 - Verified on device, offline
 

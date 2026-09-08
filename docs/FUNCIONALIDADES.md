@@ -40,7 +40,7 @@ existe) y [WSOL26-PLAN.md](WSOL26-PLAN.md) (plan de la etapa con tareas explicad
    de futuros eventos a todos los que tengan la app instalada (con opt-in).
 5. **Alertas personales de agenda** — aviso si una sesión favorita cambia de hora,
    de lugar o se cancela.
-6. **Menús de alimentación y nutrición** — menú diario del comedor + guía de dieta
+6. **Menús de alimentación y nutrición** — menú diario del comedor con ficha por plato (qué es, beneficios, ingredientes, calorías, foto y enlace a la receta) + guía de dieta
    yóguica, offline.
 7. **Publicación en App Store y Google Play** — apps disponibles públicamente antes
    del evento (meta: 24 de noviembre).

@@ -33,6 +33,7 @@ GET /wp-json/3ho-solstice     event-sync.ts   ──saves──▶   IndexedDB
                                                         bundleCategories()  ──▶ Teachers
                                                         bundleInfoPages()   ──▶ Info Hub
                                                         bundleMenus()       ──▶ Menus
+                                                        bundleDishes()      ──▶ (joined into Menus by name)
                                                         bundleMapImage()    ──▶ Map
 
 src/data/*.json ──── passed as props from the static pages ─────▶ same screens
@@ -55,6 +56,7 @@ a session that simply never appears — check counts, not just that the screen r
 | `categories[]` | `id`, `name` | Program category filter and chips |
 | `infoPages[]` | `id`, `title` | Info Hub — grouped topic grid, page cards and section cards (same renderer as the booklet) |
 | `menus[]` | `id`, `date`, `meal` | Menus tab |
+| `dishes[]` | `id`, `name` | Dish cards opened from the Menus tab — joined to `menus[].items` by name |
 
 ## The three joins — match on NAME, not id
 
@@ -104,11 +106,36 @@ today without any of these fields.
 The fixture page `page-arrival-lake-wales` in `scripts/fixtures/wsol26.json`
 is a worked example of all of the above.
 
-## Menus
+## Menus and dish cards
 
 `menus[].meal` must be one of `breakfast` · `lunch` · `dinner` · `snack`; any
-other value is dropped. `items` is an array of dish strings, `notes` carries
+other value is dropped. `items` is an array of dish **names**, `notes` carries
 dietary information, `title` is an optional name for the meal.
+
+`dishes[]` is the event's **dish catalog**: one card per preparation, described
+once and reused by every menu that serves it. `bundleMenus()` joins the two **by
+name** — `dishKey()` lowercases and collapses whitespace, so "Yogi tea" on a menu
+finds the "Yogi Tea" card, but "Kitcheree" does not find "Kitcheree with mung
+beans". A dish with a card renders as a tappable row (kcal at the right) that
+opens `DishDetailSheet`; a dish without one stays a plain line. Nothing else
+about the menu changes, and `menus[].items` stays `string[]`, so app versions
+that predate the catalog keep rendering the menus.
+
+| Field | Type | Shown as |
+|---|---|---|
+| `name` | text | Title; also the join key |
+| `description` | text | "What it is" paragraph |
+| `benefits` | `string[]` | Bulleted "Benefits" list |
+| `ingredients` | `string[]` | "Ingredients" chips |
+| `calories` | integer kcal per serving | Badge in the sheet, small label on the menu row |
+| `photo` | URL (Media Library) | Full-width photo at the top of the sheet |
+| `recipeUrl` | http(s) URL | "Open the recipe" button (opens in the browser) |
+
+Plugin v0.9.0 / DB v6 (P9 in [BACKEND-WSOL26.md](BACKEND-WSOL26.md)) stores the
+cards in `ssa_dish`, edits them in **Event App → Dishes** (which also lists the
+menu dishes that have no card yet) and imports them as the `dishes` type (CSV
+columns `id, name, description, benefits, ingredients, calories, photo,
+recipeUrl`, lists `|`-separated).
 
 ## Venue map pins
 
@@ -147,8 +174,9 @@ as a real sync bundle. [`wsol26.json`](../scripts/fixtures/wsol26.json) is a ful
 dummy Winter Solstice 2026 — an 87-item template program across 7 days, 6
 teachers, 22 map points (6 venues + 16 landmarks) placed on the real Winter
 Solstice map artwork (`references/winter-solstice-map-revised-v3.jpg`, served
-by the mock as `/photos/wsol26-map.jpg`), 14 categories, 35 info pages and 19
-menu entries.
+by the mock as `/photos/wsol26-map.jpg`), 14 categories, 35 info pages, 19
+menu entries and a 17-card dish catalog (a few cards carry placeholder photos
+the mock serves at `/photos/dish-<slug>.svg`).
 
 Its **event metadata and White Tantric Yoga days are real**, mirrored from the
 registration system (`register.3ho.org/wp-json/wsol/v1/presenter/bundle?event=wsol26`

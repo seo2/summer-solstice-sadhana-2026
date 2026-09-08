@@ -6,7 +6,7 @@
  *   npm run fixtures:csv            → all fixtures in scripts/fixtures/
  *   npm run fixtures:csv -- wsol26  → just that one
  *
- * Writes scripts/fixtures/csv/<slug>-{program,teachers,menus}.csv.
+ * Writes scripts/fixtures/csv/<slug>-{program,teachers,menus,dishes,…}.csv.
  *
  * The column lists below mirror THREEHO_SSA_Importer::csv_columns() in the
  * plugin, and the "|" separator mirrors its CSV_MULTI_SEPARATOR — keep them in
@@ -24,6 +24,8 @@ const COLUMNS = {
   program: ["id", "date", "day", "startTime", "endTime", "title", "category", "tags", "location", "facilitator", "country", "language", "description", "photo", "photos", "sourcePage"],
   teachers: ["id", "name", "facilitatorNames", "bio", "country", "photo", "photos"],
   menus: ["id", "date", "meal", "title", "items", "notes", "sort"],
+  // Dish catalog: joined to menus[].items by name; benefits / ingredients are "|"-separated lists.
+  dishes: ["id", "name", "description", "benefits", "ingredients", "calories", "photo", "recipeUrl"],
   // Not importable from the plugin's Import screen yet — their upserts still
   // live in WP-CLI (upsert_simple / upsert_info_pages). Emitted so the files are
   // ready the moment the screen learns these types; the columns match what

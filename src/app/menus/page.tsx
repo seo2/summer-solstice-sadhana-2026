@@ -5,12 +5,18 @@
  * grouped by day, opening on today, offline once synced. Mid-event changes
  * arrive through the UpdateAgent like any other content. The built-in event
  * has no menu data, so the page shows a friendly empty state.
+ *
+ * Dishes the kitchen described in the event's dish catalog (bundle `dishes[]`,
+ * joined by name in `bundleMenus()`) are tappable and open a sheet with the
+ * photo, what the dish is, its benefits, ingredients, calories and a recipe
+ * link. Undescribed dishes stay plain list lines.
  */
 
 import { useMemo, useState } from "react";
-import { Coffee, Cookie, Moon, UtensilsCrossed } from "lucide-react";
+import { ChevronRight, Coffee, Cookie, Moon, UtensilsCrossed } from "lucide-react";
 import { ActiveEventBanner } from "@/components/active-event-banner";
-import { bundleMenus, useActiveSyncedEvent, type MenuDay } from "@/lib/event-store";
+import { DishDetailSheet } from "@/components/dish-detail-sheet";
+import { bundleMenus, dishHasDetails, useActiveSyncedEvent, type MenuDay, type MenuDish } from "@/lib/event-store";
 
 const MEAL_ORDER: MenuDay["meal"][] = ["breakfast", "lunch", "dinner", "snack"];
 
@@ -32,11 +38,15 @@ function formatDay(date: string): string {
   return parsed.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric" });
 }
 
+type OpenDish = { dish: MenuDish; context: string };
+
 export default function MenusPage() {
   const synced = useActiveSyncedEvent();
   const menus = useMemo(() => (synced ? bundleMenus(synced.bundle) : []), [synced]);
   const dates = useMemo(() => Array.from(new Set(menus.map((menu) => menu.date))).sort(), [menus]);
+  const anyDetails = useMemo(() => menus.some((menu) => menu.items.some(dishHasDetails)), [menus]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [openDish, setOpenDish] = useState<OpenDish | null>(null);
 
   const today = localToday();
   const activeDate = selectedDate && dates.includes(selectedDate) ? selectedDate : dates.includes(today) ? today : dates[0];
@@ -53,6 +63,7 @@ export default function MenusPage() {
         <h1 className="text-4xl font-black tracking-[-0.05em] text-[#2f62b6]">Menus</h1>
         <p className="mt-1 text-sm font-semibold text-stone-500">
           What the kitchen is serving each day. Saved on your device — works without signal.
+          {anyDetails && " Tap a dish to see what it is, its benefits, ingredients and calories."}
         </p>
       </div>
 
@@ -86,6 +97,7 @@ export default function MenusPage() {
             {dayMenus.map((menu) => {
               const meta = MEAL_META[menu.meal];
               const Icon = meta.icon;
+              const context = `${meta.label} · ${formatDay(menu.date)}`;
               return (
                 <article key={menu.id} className="rounded-2xl border border-sky-900/10 bg-white p-4 shadow-sm">
                   <div className="flex items-center gap-3">
@@ -98,13 +110,31 @@ export default function MenusPage() {
                     </div>
                   </div>
                   {menu.items.length > 0 && (
-                    <ul className="mt-3 space-y-1.5">
-                      {menu.items.map((dish) => (
-                        <li key={dish} className="flex gap-2 text-sm font-semibold leading-6 text-slate-700">
-                          <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f39200]" />
-                          <span>{dish}</span>
-                        </li>
-                      ))}
+                    <ul className="mt-3 space-y-1">
+                      {menu.items.map((dish, index) =>
+                        dishHasDetails(dish) ? (
+                          <li key={`${dish.name}-${index}`}>
+                            <button
+                              type="button"
+                              aria-haspopup="dialog"
+                              onClick={() => setOpenDish({ dish, context })}
+                              className="dish-row -mx-2 flex w-[calc(100%+1rem)] items-center gap-2 rounded-xl px-2 py-1 text-left text-sm font-semibold leading-6 text-slate-700 transition active:scale-[0.99]"
+                            >
+                              <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#f39200]" />
+                              <span className="min-w-0 flex-1 text-[#2f62b6] underline decoration-sky-200/80 underline-offset-2">{dish.name}</span>
+                              {dish.calories !== undefined && (
+                                <span className="shrink-0 text-[11px] font-black uppercase tracking-wide text-stone-400">{dish.calories} kcal</span>
+                              )}
+                              <ChevronRight className="h-4 w-4 shrink-0 text-sky-300" aria-hidden />
+                            </button>
+                          </li>
+                        ) : (
+                          <li key={`${dish.name}-${index}`} className="flex gap-2 px-0 py-1 text-sm font-semibold leading-6 text-slate-700">
+                            <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#f39200]" />
+                            <span>{dish.name}</span>
+                          </li>
+                        ),
+                      )}
                     </ul>
                   )}
                   {menu.notes && (
@@ -118,6 +148,8 @@ export default function MenusPage() {
           </div>
         </>
       )}
+
+      {openDish && <DishDetailSheet dish={openDish.dish} context={openDish.context} onClose={() => setOpenDish(null)} />}
     </div>
   );
 }

@@ -308,13 +308,22 @@ menu content arrives through the sync bundle, so it **doesn't gate store submiss
       snack order, dish lists and dietary-note badges; offline from the local
       store; a Home "Menus" tile appears only when the active event has menu
       content. Mid-event changes arrive via the UpdateAgent.
+- [x] **Dish cards** — ✅ done 2026-09-07 (plugin v0.9.0 / DB v6 working tree,
+      app cache v84): each dish or preparation can carry what it is, its
+      benefits, ingredients, calories per serving, a photo and a recipe link,
+      written once in Event App → Dishes and joined to every menu that names it
+      (bundle `dishes[]`). Tapping the dish on `/menus` opens the card. See
+      [BACKEND-WSOL26.md](BACKEND-WSOL26.md) P9 and
+      [CONTENT-MODEL.md](CONTENT-MODEL.md).
 - [ ] **Nutrition & yogi-diet guidance** — Editorial content explaining the solstice
       diet and its intent; **machinery ready** (rides the per-event info pages,
       which now render in the app) — what remains is writing the guidance texts
       (WS7/WS8 content task).
 - [ ] **WSOL26 menu content** — The kitchen/production team writes the real menus
-      for December 15–21 plus dietary notes (content task, parallel with WS7). Done
-      when real menus are loaded in WordPress and verified on device.
+      for December 15–21 plus dietary notes, and a card (description, benefits,
+      ingredients, kcal, photo, recipe) for the recurring dishes (content task,
+      parallel with WS7). Done when real menus are loaded in WordPress and verified
+      on device.
 
 ## Next version (post-WSOL26) ⏭️
 

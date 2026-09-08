@@ -1,7 +1,7 @@
 {
-  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). The program is a TEMPLATE: the recurring elements of every Solstice (Rise up sweet family dear!, Sadhana, Gurdwara, meals, Karma Yoga & Service Exchange Meetings, WTY, Rehras, Free Time, evening music, gong, Rensabai, Lights Out) at the times of the 2025 program, plus class slots tagged 'To be announced' that carry the category that can go in that slot. Teachers, info pages and menus are invented; the venue map pins are measured on the real Winter Solstice map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
+  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). The program is a TEMPLATE: the recurring elements of every Solstice (Rise up sweet family dear!, Sadhana, Gurdwara, meals, Karma Yoga & Service Exchange Meetings, WTY, Rehras, Free Time, evening music, gong, Rensabai, Lights Out) at the times of the 2025 program, plus class slots tagged 'To be announced' that carry the category that can go in that slot. Teachers, info pages and menus are invented; the venue map pins are measured on the real Winter Solstice map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md. dishes[] is the per-event dish catalog — what each preparation is, its benefits, ingredients, calories per serving, a photo and a recipe link — joined to menus[].items by dish name (case/whitespace-insensitive), so a dish is described once and every menu that serves it picks the details up; dishes the catalog does not know stay plain lines.",
   "ok": true,
-  "version": 7,
+  "version": 8,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -1779,7 +1779,7 @@
       "date": "2026-12-21",
       "meal": "lunch",
       "items": [
-        "Kitcheree",
+        "Kitcheree with mung beans",
         "Steamed greens",
         "Yogurt"
       ],
@@ -1796,6 +1796,345 @@
       ],
       "title": "Farewell meal",
       "notes": "Vegan · gluten-free"
+    }
+  ],
+  "dishes": [
+    {
+      "id": "yogi-tea",
+      "name": "Yogi Tea",
+      "description": "The spiced tea poured at every Solstice: black tea simmered slowly with whole spices and finished with the milk of your choice. Warming and grounding — the first cup after Sadhana.",
+      "benefits": [
+        "Warms the body and settles digestion after early-morning practice",
+        "Cinnamon, ginger and black pepper are traditionally used to support circulation",
+        "Cardamom and cloves soothe the stomach and freshen the breath"
+      ],
+      "ingredients": [
+        "Water",
+        "Cinnamon sticks",
+        "Green cardamom pods",
+        "Whole cloves",
+        "Black peppercorns",
+        "Fresh ginger",
+        "Black tea",
+        "Oat or dairy milk"
+      ],
+      "calories": 60,
+      "photo": "http://localhost:3999/photos/dish-yogi-tea.svg",
+      "recipeUrl": "https://example.com/recipes/yogi-tea"
+    },
+    {
+      "id": "kitcheree-with-mung-beans",
+      "name": "Kitcheree with mung beans",
+      "description": "Mung beans and basmati rice cooked into a soft, savory porridge with ghee or oil, ginger, turmeric and greens. The classic cleansing meal of the yogic kitchen — complete protein that is easy on the stomach.",
+      "benefits": [
+        "Easy to digest: a mono-diet staple during cleansing days",
+        "Mung beans and rice together form a complete protein",
+        "Turmeric and ginger are traditionally used to calm inflammation and support digestion"
+      ],
+      "ingredients": [
+        "Whole mung beans",
+        "Basmati rice",
+        "Onion",
+        "Fresh ginger",
+        "Garlic",
+        "Turmeric",
+        "Cumin",
+        "Coriander",
+        "Seasonal greens",
+        "Ghee or coconut oil",
+        "Sea salt"
+      ],
+      "calories": 320,
+      "photo": "http://localhost:3999/photos/dish-kitcheree.svg",
+      "recipeUrl": "https://example.com/recipes/kitcheree"
+    },
+    {
+      "id": "golden-milk",
+      "name": "Golden milk",
+      "description": "Turmeric paste warmed in oat or almond milk with a little almond oil and honey — the evening drink of the Kundalini Yoga tradition, taken to look after the joints and the spine.",
+      "benefits": [
+        "Turmeric is traditionally used for supple joints and a calm inflammatory response",
+        "Warm milk with almond oil before bed eases the body toward sleep",
+        "A gentle, lightly sweet way to end the day"
+      ],
+      "ingredients": [
+        "Turmeric root or paste",
+        "Oat or almond milk",
+        "Cold-pressed almond oil",
+        "Honey or maple syrup",
+        "Black pepper"
+      ],
+      "calories": 120,
+      "photo": "http://localhost:3999/photos/dish-golden-milk.svg",
+      "recipeUrl": "https://example.com/recipes/golden-milk"
+    },
+    {
+      "id": "lentil-soup",
+      "name": "Lentil soup",
+      "description": "Red lentils simmered with carrots, celery and cumin until they fall apart, finished with lemon and parsley. The arrival-night soup: simple, filling and ready whenever your bus comes in.",
+      "benefits": [
+        "High in plant protein and fiber — sustaining after a day of travel",
+        "Iron and folate from the lentils",
+        "Light enough for a late evening"
+      ],
+      "ingredients": [
+        "Red lentils",
+        "Carrot",
+        "Celery",
+        "Onion",
+        "Garlic",
+        "Cumin",
+        "Bay leaf",
+        "Lemon",
+        "Parsley",
+        "Olive oil",
+        "Sea salt"
+      ],
+      "calories": 210
+    },
+    {
+      "id": "dal-with-ginger",
+      "name": "Dal with ginger",
+      "description": "Yellow split peas cooked down with a generous amount of fresh ginger, turmeric and a tempering of cumin seeds in ghee.",
+      "benefits": [
+        "Ginger warms the digestion on cool December days",
+        "Plant protein that pairs with rice into a complete meal",
+        "Naturally gluten-free"
+      ],
+      "ingredients": [
+        "Yellow split peas",
+        "Fresh ginger",
+        "Turmeric",
+        "Cumin seeds",
+        "Tomato",
+        "Ghee or oil",
+        "Cilantro",
+        "Sea salt"
+      ],
+      "calories": 260
+    },
+    {
+      "id": "dal",
+      "name": "Dal",
+      "description": "Langar dal: black lentils and chickpeas slow-cooked overnight the way they are served in the Gurdwara kitchen — creamy, mildly spiced and shared by everyone regardless of who they are.",
+      "benefits": [
+        "A complete, sustaining meal when eaten with roti",
+        "Slow cooking makes the lentils gentle on the stomach",
+        "Prepared as seva and offered to all"
+      ],
+      "ingredients": [
+        "Black lentils (urad)",
+        "Chickpeas",
+        "Onion",
+        "Tomato",
+        "Ginger",
+        "Garlic",
+        "Garam masala",
+        "Ghee",
+        "Sea salt"
+      ],
+      "calories": 240
+    },
+    {
+      "id": "oatmeal-with-dates-and-almonds",
+      "name": "Oatmeal with dates and almonds",
+      "description": "Rolled oats cooked in oat milk with chopped dates, toasted almonds and a pinch of cinnamon.",
+      "benefits": [
+        "Slow-release energy through a long morning",
+        "Beta-glucan fiber from the oats",
+        "Dates sweeten the bowl without added sugar"
+      ],
+      "ingredients": [
+        "Rolled oats",
+        "Oat milk",
+        "Medjool dates",
+        "Almonds",
+        "Cinnamon",
+        "Sea salt"
+      ],
+      "calories": 340,
+      "recipeUrl": "https://example.com/recipes/solstice-oatmeal"
+    },
+    {
+      "id": "warm-rice-porridge",
+      "name": "Warm rice porridge",
+      "description": "Short-grain rice simmered until creamy with a little cardamom — a quiet, easy breakfast for a White Tantric Yoga® morning.",
+      "benefits": [
+        "Very easy to digest before a long day of sitting",
+        "Gentle and warming",
+        "Naturally gluten-free"
+      ],
+      "ingredients": [
+        "Short-grain rice",
+        "Water",
+        "Oat milk",
+        "Cardamom",
+        "Pinch of salt"
+      ],
+      "calories": 220
+    },
+    {
+      "id": "millet-porridge",
+      "name": "Millet porridge",
+      "description": "Whole millet cooked soft in almond milk and finished with a swirl of tahini.",
+      "benefits": [
+        "Millet is alkalizing and naturally gluten-free",
+        "Magnesium and B vitamins",
+        "Keeps you full through the morning kriyas"
+      ],
+      "ingredients": [
+        "Millet",
+        "Almond milk",
+        "Tahini",
+        "Cinnamon",
+        "Sea salt"
+      ],
+      "calories": 240
+    },
+    {
+      "id": "miso-vegetable-soup",
+      "name": "Miso vegetable soup",
+      "description": "A light broth with white miso, wakame, tofu and thinly sliced winter vegetables. Served on the second White Tantric Yoga® day so the afternoon sits easy.",
+      "benefits": [
+        "Fermented miso supports the gut",
+        "Light and hydrating between long meditations",
+        "Mineral-rich sea vegetables"
+      ],
+      "ingredients": [
+        "White miso",
+        "Wakame",
+        "Tofu",
+        "Daikon",
+        "Carrot",
+        "Scallion",
+        "Ginger"
+      ],
+      "calories": 90
+    },
+    {
+      "id": "squash-curry",
+      "name": "Squash curry",
+      "description": "Roasted winter squash in a coconut and tomato curry with chickpeas, spinach and warming spices — the Solstice-eve dinner, cooked as community seva.",
+      "benefits": [
+        "Beta-carotene from the squash",
+        "Chickpeas add protein and fiber",
+        "Warming spices for the longest night"
+      ],
+      "ingredients": [
+        "Winter squash",
+        "Chickpeas",
+        "Coconut milk",
+        "Tomato",
+        "Spinach",
+        "Onion",
+        "Ginger",
+        "Curry spices",
+        "Lime"
+      ],
+      "calories": 280,
+      "photo": "http://localhost:3999/photos/dish-squash-curry.svg",
+      "recipeUrl": "https://example.com/recipes/squash-curry"
+    },
+    {
+      "id": "coconut-rice",
+      "name": "Coconut rice",
+      "description": "Jasmine rice steamed in coconut milk with a little lime zest.",
+      "benefits": [
+        "A comforting base that balances the spice of the curry",
+        "Naturally gluten-free"
+      ],
+      "ingredients": [
+        "Jasmine rice",
+        "Coconut milk",
+        "Lime zest",
+        "Sea salt"
+      ],
+      "calories": 300
+    },
+    {
+      "id": "kheer",
+      "name": "Kheer",
+      "description": "Rice pudding slow-cooked in milk with cardamom, raisins and almonds — the sweet that closes the Langar.",
+      "benefits": [
+        "Served as prasad: a sweet, shared blessing",
+        "Cardamom aids digestion after the meal"
+      ],
+      "ingredients": [
+        "Basmati rice",
+        "Whole milk",
+        "Sugar",
+        "Cardamom",
+        "Raisins",
+        "Almonds"
+      ],
+      "calories": 230
+    },
+    {
+      "id": "roti",
+      "name": "Roti",
+      "description": "Whole-wheat flatbread rolled and cooked fresh on the griddle by the Langar seva team.",
+      "benefits": [
+        "Whole grain, made with only flour and water",
+        "Freshly cooked through the meal"
+      ],
+      "ingredients": [
+        "Whole-wheat flour",
+        "Water",
+        "Pinch of salt"
+      ],
+      "calories": 120
+    },
+    {
+      "id": "warm-almond-milk-with-cardamom",
+      "name": "Warm almond milk with cardamom",
+      "description": "Almond milk warmed with cardamom and a touch of maple — a soft first light on the morning after the Solstice.",
+      "benefits": [
+        "Gentle on an empty stomach",
+        "Vitamin E from the almonds"
+      ],
+      "ingredients": [
+        "Almond milk",
+        "Cardamom",
+        "Maple syrup"
+      ],
+      "calories": 110
+    },
+    {
+      "id": "steamed-winter-greens",
+      "name": "Steamed winter greens",
+      "description": "Kale, collards and chard steamed briefly and dressed with lemon and olive oil.",
+      "benefits": [
+        "Calcium, iron and vitamin K",
+        "Lightly cooked to keep the nutrients"
+      ],
+      "ingredients": [
+        "Kale",
+        "Collard greens",
+        "Swiss chard",
+        "Lemon",
+        "Olive oil",
+        "Sea salt"
+      ],
+      "calories": 60
+    },
+    {
+      "id": "vegetable-broth",
+      "name": "Vegetable broth",
+      "description": "A clear broth of root vegetables, celery and herbs, kept light on purpose for the first White Tantric Yoga® day.",
+      "benefits": [
+        "Hydrating and easy to digest during long sitting",
+        "Minerals without heaviness"
+      ],
+      "ingredients": [
+        "Carrot",
+        "Celery",
+        "Leek",
+        "Parsnip",
+        "Parsley",
+        "Bay leaf",
+        "Sea salt"
+      ],
+      "calories": 45
     }
   ]
 }

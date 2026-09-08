@@ -10,8 +10,29 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **Dish cards on the Menus page** (cache v83 → v84) — each dish or preparation
+  the kitchen describes now opens a sheet with its photo, what it is, benefits,
+  ingredients, calories per serving and an "Open the recipe" link; the menu row
+  shows the kcal and a chevron, undescribed dishes stay plain lines. Cards come
+  from a new per-event **dish catalog** in the sync bundle (`dishes[]`), joined
+  to `menus[].items` **by name** (case/whitespace-insensitive) in
+  `bundleMenus()`, so "Yogi Tea" is described once and every menu that serves
+  it picks it up; `items` stays a list of names, so already-installed app
+  versions keep working. Plugin side implemented in the 3ho.org working tree as
+  v0.9.0 / DB v6 (`ssa_dish` table, Event App → Dishes screen with Media
+  Library photo picker, `dishes` import type, bundle key) — see
+  `docs/BACKEND-WSOL26.md` P9 and `docs/CONTENT-MODEL.md`. The WSOL26 fixture
+  (v8) carries a 17-card catalog and `scripts/fixtures/csv/wsol26-dishes.csv`.
+
 ### Changed
 
+- **Mock backend honors `PORT`** (`PORT=4001 npm run mock-backend`) and rewrites
+  the fixtures' `http://localhost:3999` photo URLs to the running port, so a
+  second session can run its own mock while another holds 3999
+  (`.claude/launch.json` marks it `autoPort`). It also serves placeholder dish
+  photos at `/photos/dish-<slug>.svg`.
 - **No bottom bar on the app Home** (cache v83) — the tabs (Program, Favorites,
   Info, Map, Contact) are one event's sections, so on `/`, one level above any
   event, the bar is hidden; it appears again on the Event Home and every

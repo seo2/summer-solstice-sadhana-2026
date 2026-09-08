@@ -5,6 +5,9 @@
  * See docs/TESTING-LOCAL.md for the full walkthrough.
  *
  *   npm run mock-backend        → http://localhost:3999
+ *   PORT=4001 npm run mock-backend  → another port (e.g. when a second session
+ *       already holds 3999); the fixtures' http://localhost:3999 URLs are
+ *       rewritten to the running port on the way out.
  *
  * Serves (exact plugin response shapes):
  *   GET /wp-json/3ho-solstice/v1/sync?event=mocktest[&since=N]
@@ -29,7 +32,8 @@
  *   GET /photos/venue-map.svg, /photos/mock-teacher.png,
  *       /photos/event-cover.svg, /photos/post-cover.svg,
  *       /photos/wsol26-map.jpg (the real Winter Solstice map artwork from
- *       references/, so the WSOL26 fixture's pins can be checked visually)
+ *       references/, so the WSOL26 fixture's pins can be checked visually),
+ *       /photos/dish-<slug>.svg (placeholder photos for the fixture's dish catalog)
  *
  * Pair it with the app: /sync-lab → base http://localhost:3999, event
  * "mocktest" → Fetch bundle → open it from Home's "Events" catalog.
@@ -39,6 +43,8 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+const PORT = Number(process.env.PORT) || 3999;
+const BASE = `http://localhost:${PORT}`;
 const FIXTURES_DIR = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 const WSOL26_MAP_JPG = join(dirname(fileURLToPath(import.meta.url)), "..", "references", "winter-solstice-map-revised-v3.jpg");
 
@@ -53,6 +59,8 @@ function loadFixture(slug) {
   let raw;
   try {
     raw = readFileSync(join(FIXTURES_DIR, `${slug}.json`), "utf8");
+    // Fixtures spell their photo URLs with the default port; follow this instance's port.
+    raw = raw.replaceAll("http://localhost:3999", BASE);
   } catch {
     return null;
   }
@@ -71,7 +79,7 @@ const event = {
   endDate: "2026-12-21",
   location: "Lake Wales, FL",
   status: "active",
-  mapImage: "http://localhost:3999/photos/venue-map.svg",
+  mapImage: `${BASE}/photos/venue-map.svg`,
 };
 
 const MAP_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
@@ -125,7 +133,7 @@ const bundle = (version) => ({
       name: "Mock Teacher",
       facilitatorNames: ["Mock Teacher"],
       bio: "",
-      photo: version === 1 ? undefined : "http://localhost:3999/photos/mock-teacher.png",
+      photo: version === 1 ? undefined : `${BASE}/photos/mock-teacher.png`,
     },
   ],
   venues: [
@@ -151,7 +159,41 @@ const bundle = (version) => ({
     { id: "menu-2026-12-16-dinner", date: "2026-12-16", meal: "dinner", items: ["Vegetable soup", "Corn bread", "Herbal tea"] },
     { id: "menu-2026-12-17-breakfast", date: "2026-12-17", meal: "breakfast", items: ["Granola", "Almond milk", "Bananas"], notes: "Vegan" },
   ],
+  // Dish catalog: joined to menus[].items by name (case-insensitive). Dishes
+  // the catalog does not know ("Fresh fruit") stay plain lines in the app.
+  dishes: [
+    {
+      id: "yogi-tea",
+      name: "Yogi tea",
+      description: "Black tea simmered with whole spices and finished with the milk of your choice.",
+      benefits: ["Warms the body after early Sadhana", "Spices traditionally used to support digestion"],
+      ingredients: ["Water", "Cinnamon", "Cardamom", "Cloves", "Black pepper", "Ginger", "Black tea", "Oat milk"],
+      calories: 60,
+      photo: `${BASE}/photos/dish-yogi-tea.svg`,
+      recipeUrl: "https://example.com/recipes/yogi-tea",
+    },
+    {
+      id: "kitcheree",
+      name: "Kitcheree",
+      description: "Mung beans and basmati rice cooked into a soft, savory porridge with ginger and turmeric.",
+      benefits: ["Easy to digest", "Complete plant protein"],
+      ingredients: ["Mung beans", "Basmati rice", "Ginger", "Turmeric", "Cumin", "Greens", "Ghee"],
+      calories: 320,
+    },
+  ],
 });
+
+/** Placeholder dish photo: a warm plate with the dish name, so the sheet's photo layout can be checked. */
+function dishCoverSvg(label) {
+  const text = label.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffe7bf"/><stop offset="1" stop-color="#f7b56a"/></linearGradient></defs>
+  <rect width="900" height="560" fill="url(#g)"/>
+  <circle cx="450" cy="300" r="190" fill="#fff8ec" stroke="#e8a24a" stroke-width="10"/>
+  <circle cx="450" cy="300" r="140" fill="#f39200" opacity="0.85"/>
+  <text x="450" y="520" text-anchor="middle" font-family="Arial" font-size="40" font-weight="bold" fill="#7a4a10">${text}</text>
+</svg>`;
+}
 
 const PNG_1PX = Buffer.from(
   "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
@@ -170,7 +212,7 @@ const messages = [
 let nextMessageId = 3;
 
 createServer((req, res) => {
-  const url = new URL(req.url, "http://localhost:3999");
+  const url = new URL(req.url, BASE);
   res.setHeader("Access-Control-Allow-Origin", "*");
 
   if (url.pathname === "/mock/post") {
@@ -290,6 +332,13 @@ createServer((req, res) => {
     return;
   }
 
+  const dishPhoto = url.pathname.match(/^\/photos\/dish-([a-z0-9-]+)\.svg$/);
+  if (dishPhoto) {
+    res.writeHead(200, { "Content-Type": "image/svg+xml" });
+    res.end(dishCoverSvg(dishPhoto[1].replace(/-/g, " ")));
+    return;
+  }
+
   if (url.pathname === "/photos/venue-map.svg") {
     res.writeHead(200, { "Content-Type": "image/svg+xml" });
     res.end(MAP_SVG);
@@ -356,4 +405,4 @@ createServer((req, res) => {
 
   res.writeHead(404);
   res.end("not found");
-}).listen(3999, () => console.log("mock sync server on http://localhost:3999"));
+}).listen(PORT, () => console.log(`mock sync server on ${BASE}`));

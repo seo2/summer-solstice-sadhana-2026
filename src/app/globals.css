@@ -709,3 +709,12 @@ select {
   padding: 0.7rem 1rem;
   box-shadow: 0 12px 26px rgba(47, 98, 182, 0.24);
 }
+
+/* Menus: a dish the kitchen described is a tappable row (opens the dish sheet). */
+.dish-row:hover {
+  background: rgba(47, 98, 182, 0.05);
+}
+
+.dish-row:active {
+  background: rgba(47, 98, 182, 0.09);
+}

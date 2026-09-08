@@ -253,6 +253,65 @@ owner commit + production deploy (repo rule), then the re-import below.
 first): the 87 template rows are updated in place and the earlier dummy rows
 disappear from the app on the next sync.
 
+## P9 — Dish cards for the menus (WS8 follow-up · ✅ implemented 2026-09-07, working tree)
+
+**Today:** a menu is a date, a meal and a list of dish names (P3). The owner
+asked (2026-09-07) that each dish or preparation can also carry an explanation
+of what it is, its properties/benefits, ingredients and calories — and, in the
+same request, a photo and a link to the recipe.
+
+**Implemented as plugin v0.9.0 / DB v6** (on top of the uncommitted v0.6.0 →
+v0.8.0), as a **per-event dish catalog joined to the menus by name** rather than
+fields on each menu line: a Solstice kitchen serves the same preparations day
+after day ("Yogi Tea", "Kitcheree"), so a card written once should follow the
+dish everywhere it appears, and the existing `items` textarea / CSV column can
+stay exactly as it is.
+
+- **Schema.** New table `ssa_dish`: `id` VARCHAR(191) PK · `event_id` · `name`
+  VARCHAR(255) · `description` LONGTEXT · `benefits` LONGTEXT (one per line) ·
+  `ingredients` LONGTEXT (one per line) · `calories` SMALLINT UNSIGNED (kcal per
+  serving) · `photo` VARCHAR(500) · `recipe_url` VARCHAR(500) · `updated_at` ·
+  `deleted`. `ssa_menu_day` is untouched.
+- **Admin → Event App → Dishes.** List (name, kcal, has description, number of
+  benefits / ingredients, photo, recipe link, how many menus name it — with a
+  warning when none does, i.e. the spelling differs) + add / edit / soft delete.
+  Form: name, what it is, benefits (one per line), ingredients (one per line),
+  calories, photo (Media Library picker, same control as Program / Teachers),
+  recipe link (must be http(s)). Below the list: **menu dishes without a card**,
+  most-served first, each with an "Add card" link that prefills the name. Every
+  save bumps `content_version`. The Menus screen's help text points here.
+- **Import.** New type **Dishes** (JSON or CSV; columns `id, name, description,
+  benefits, ingredients, calories, photo, recipeUrl`; `benefits` / `ingredients`
+  `|`-separated in CSV). Per-row validation: name required, `calories` a whole
+  number ≥ 0, `recipeUrl` a full http(s) link; missing ids come from the name
+  (`sanitize_title`). Dry run, **Replace** mode and the CSV template work as for
+  the other types. `wp ssa seed` also reads `menus.json` / `dishes.json`.
+- **Bundle.** New top-level `dishes: [{ id, name, description?, benefits?: [],
+  ingredients?: [], calories?: int, photo?, recipeUrl? }]`
+  (`THREEHO_SSA_Sync::dish_row()`, public so it can be exercised without a WP
+  bootstrap). `menus[].items` is still a list of names — older app versions
+  ignore the new key and keep working.
+- **App side (this repo, cache v84).** `bundleDishes()` + the by-name join in
+  `bundleMenus()` (`src/lib/event-store.ts`), tappable dish rows with a kcal
+  label on `/menus`, and `DishDetailSheet` (photo, kicker "Lunch · Wed, Dec 16",
+  kcal badge, description, Benefits list, Ingredients chips, "Open the recipe").
+  The WSOL26 fixture carries a 17-card catalog; the mock serves placeholder dish
+  photos at `/photos/dish-<slug>.svg`.
+
+**Verified 2026-09-07** with the plugin's real importer, `retire_missing()` and
+`dish_row()` against the local MySQL on a scratch event (same `$wpdb`-shim
+harness as P8; WordPress still does not bootstrap from the volume): the fixture
+CSV (17 rows) decodes with `|` lists as arrays, dry run writes nothing, the real
+import stores 17 rows with kcal / lines / photo / link intact; a JSON batch with
+a missing name, `calories: "plenty"` and `recipeUrl: "www…"` rejects exactly
+those three with named reasons while `"  Golden   Milk "` updates the existing
+`golden-milk` card in place and `"250"` becomes 250; `dish_row()` emits arrays,
+an int and camelCase keys and nothing internal; Replace retires the two cards
+the CSV does not carry; other events untouched; scratch event removed.
+**Pending:** owner QA of the Dishes screen in wp-admin (the media picker in
+particular), commit + production deploy (DB 5 → 6 runs on the first
+`plugins_loaded`), then the kitchen team's real cards.
+
 ## Rollout
 
 - All three ship as **plugin v0.5.0 / DB v3** (one dbDelta migration, existing

@@ -89,6 +89,9 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 ### Daily menus + nutrition / yogi diet — 📋 pulled forward to the WSOL26 stage
 
 - Per-day meals, nutritional info, and general yogi-diet guidance.
+- ✅ Shipped: daily menus (`/menus`) and per-dish cards — what it is, benefits,
+  ingredients, calories, photo, recipe link — from the event's dish catalog
+  (bundle `dishes[]`, plugin v0.9.0). Guidance texts remain a content task.
 - Content-driven; can seed statically first, then move to backend.
 - Depends on: content model (`menu_day`), optional editing workflow.
 - Owner decision 2026-08-25: ships with the WSOL26 stage — see
