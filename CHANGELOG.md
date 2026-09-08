@@ -23,7 +23,10 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   landings too, and "Add dates to calendar" builds an all-day `.ics` on the
   device from `startDate` / `endDate` / `location` when the landing names no
   file. The mock serves two fixture landings from `scripts/fixtures/home.json`
-  (one scoped to WSOL26, one pinned for everyone). Plugin side remains P10.
+  (one scoped to WSOL26, one pinned for everyone). Plugin side implemented the
+  same day in the 3ho.org working tree as v0.10.0 / DB v7 (`ssa_landing`,
+  Event App → Landings, `landings[]` in `/home`, JSON import) — see
+  `docs/BACKEND-WSOL26.md` P10; owner QA, commit and deploy pending there.
 - **Landing template** (cache v84 → v85) — the designed promo page built by
   hand for A Woman's Renewal Experience is now a reusable template
   (`LandingView`, `LandingTile`, `LandingActions`, `LandingReminder`) rendered

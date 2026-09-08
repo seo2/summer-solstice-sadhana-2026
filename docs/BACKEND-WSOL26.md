@@ -312,7 +312,7 @@ the CSV does not carry; other events untouched; scratch event removed.
 particular), commit + production deploy (DB 5 → 6 runs on the first
 `plugins_loaded`), then the kitchen team's real cards.
 
-## P10 — Landings: designed promo pages from wp-admin (proposed 2026-09-08 · app side ✅ done, cache v86)
+## P10 — Landings: designed promo pages from wp-admin (✅ implemented 2026-09-08, working tree · plugin v0.10.0 / DB v7)
 
 **Today:** the app renders landings through one designed template
 (`LandingView`; contract and sections in [LANDINGS.md](LANDINGS.md)) from two
@@ -321,8 +321,38 @@ sources — `src/data/landings.json` (A Woman's Renewal Experience) and
 on the Event Home and the App Home with a shared `/landing#<id>` page. Only the
 plugin side is missing: until it lands, a new landing needs an app release.
 
-**Proposed (next migration):** the same pattern as posts (P5) — event-independent
-content in the Home feed, scoped by event.
+**Implemented as plugin v0.10.0 / DB v7** (on top of the uncommitted v0.6.0 →
+v0.9.0), following the posts pattern (P5) — event-independent content in the
+Home feed, scoped by event. What landed, against the proposal below:
+`includes/class-ssa-landings.php` (new) holds the validator
+`THREEHO_SSA_Landings::normalize()`, `row_to_landing()` and the form's line
+parsers; `ssa_landing` is in the schema; `GET /home` emits `landings[]`
+(published only; the weak ETag covers them); the *Event App → Landings* screen
+exists with the field-per-section form, Media Library pickers and a rejected
+save that comes back filled in with the reasons; the Import screen has a
+**Landings** type (JSON only — a CSV is refused with a message); `wp ssa seed`
+reads `landings.json`. Two rules worth knowing: an item **without `eventSlug`
+is for everyone** (the Import screen's selected event is *not* applied as a
+default scope), and **Replace retires across all events** for landings
+(`THREEHO_SSA_Importer::EVENT_FREE_TYPES`), since a landing for everyone has
+no event. The seed never retires landings.
+
+**Verified 2026-09-08** with the harness (`$wpdb` shim over `mysqli`, scratch
+table prefix `zz_ssa_harness_` so no real table is touched, DDL taken from the
+schema class): the two fixture landings from `scripts/fixtures/home.json`
+normalize cleanly and round-trip through the JSON `content` column and
+`row_to_landing()` with keys inside the app contract and media URLs resolved;
+seven kinds of bad input are rejected with named reasons; extra facts and
+highlights are cut to three; the form's line grammars round-trip; dry run
+writes nothing; scope resolves `wsol26` → `event_id` and absent → NULL; a
+re-import without `publishedAt` keeps the stored one; an unknown `eventSlug`
+rejects the row; Replace retires the landing of the other scope and a
+re-import brings it back. `php -l` clean on the seven touched files.
+**Pending:** owner QA in wp-admin (Landings screen, media picker, an import of
+the fixture JSON), commit + production deploy (DB 6 → 7 on the first
+`plugins_loaded`), then the first real landing.
+
+**Proposal as written on 2026-09-08 (kept for the record):**
 
 1. **Schema.** New table `ssa_landing`: `id` VARCHAR(191) PK · `event_id`
    BIGINT NULL (NULL = the app's Home) · `status` VARCHAR(20) DEFAULT
@@ -374,5 +404,6 @@ type there, and `scripts/fixtures/home.json` is a worked example of it.
   rides the following migration, its app side follows once the fields exist.
 - **P8** implemented 2026-09-07 as v0.8.0 (no migration) in the same working
   tree; nothing to change app-side.
-- **P10** proposed 2026-09-08; the app side is complete (template cache v85,
-  feed + pages cache v86), so the plugin work is schema + admin + `/home` only.
+- **P10** implemented 2026-09-08 as v0.10.0 / DB v7 in the same working tree;
+  the app side was already complete (template cache v85, feed + pages cache
+  v86). Pending owner QA, commit and deploy.

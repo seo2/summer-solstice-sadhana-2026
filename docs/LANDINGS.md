@@ -8,11 +8,13 @@ program, teachers, a map). Like everything else in the app it is attendee-facing
 works offline once on the device, and **links out** for registration — the app
 never sells anything itself (ROADMAP Phase 5).
 
-Status (2026-09-08): **phases 1 and 2 shipped** (cache v86) — the template
-exists, the Women's Renewal page renders from data, and the app already reads
-`landings[]` from the Home feed: tiles on the Event Home and the App Home, the
-shared `/landing#<id>` page, the reminder and a generated calendar file. Phase 3
-(plugin P10) is what remains for staff to publish landings from wp-admin.
+Status (2026-09-08): **all three phases built.** The template exists, the
+Women's Renewal page renders from data, the app reads `landings[]` from the
+Home feed (tiles on both homes, the shared `/landing#<id>` page, the reminder,
+a generated calendar file — cache v86), and the plugin side (P10, v0.10.0 / DB
+v7) is implemented in the 3ho.org working tree: *Event App → Landings*,
+`landings[]` in `GET /home`, a JSON import type. Pending there: owner QA,
+commit and production deploy.
 
 ## One template, content only
 
@@ -164,8 +166,16 @@ as an empty list.
    `.ics`, and two landings in `scripts/fixtures/home.json` (one scoped to
    `wsol26`, one pinned for everyone) served by the mock. Built and testable
    before the plugin exists — see "Testing locally" below.
-3. **Phase 3 — plugin P10.** `ssa_landing`, an *Event App → Landings* screen,
-   `landings[]` in `GET /home`, a `landings` import type — see
+3. **Phase 3 — plugin P10 ✅ (2026-09-08, working tree, v0.10.0 / DB v7).**
+   `ssa_landing` (scalars in columns, sections as JSON `content`), the
+   *Event App → Landings* screen (one field per section; repeated things one
+   per line, compound rows with `|`, FAQ in the info grammar; Media Library
+   pickers; a rejected save returns filled in with the reasons), `landings[]`
+   in `GET /home` (published only, pinned first then newest), a JSON-only
+   **Landings** import type and `landings.json` in `wp ssa seed`. Two rules:
+   an item without `eventSlug` is for everyone (the Import screen's event is
+   not applied), and Replace retires across all events. Verified with the
+   plugin harness against local MySQL; details and the owner QA list in
    [BACKEND-WSOL26.md](BACKEND-WSOL26.md) P10.
 
 ## Testing locally
