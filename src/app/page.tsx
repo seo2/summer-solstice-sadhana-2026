@@ -2,11 +2,12 @@ import { InstallHint } from "@/components/install-hint";
 import { HomeEvents } from "@/components/home-events";
 import { HomeAnnouncements } from "@/components/home-announcements";
 import { HomeNews } from "@/components/home-news";
+import { HomeFeatured } from "@/components/home-featured";
 
 /**
  * Home — the app's front door, one level above any event. Every event 3HO
  * publishes (with the one being viewed marked), the latest announcements for
- * that event, and news & posts. Opening an event leads to its own home at
+ * that event, featured landings, and news & posts. Opening an event leads to its own home at
  * /event. Everything reads from the local store: a fresh install with no
  * connectivity sees the built-in Summer Solstice as the only event and no
  * posts, and stays fully usable.
@@ -28,6 +29,8 @@ export default function Home() {
       <InstallHint />
 
       <HomeAnnouncements showEvent />
+
+      <HomeFeatured />
 
       <HomeNews />
     </div>

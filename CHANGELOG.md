@@ -12,6 +12,18 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Landings from the Home feed** (cache v85 → v86) — `GET /home` may now carry
+  `landings[]`; the app normalizes them (`normalizeLanding()`), stores them in
+  the `solstice-home-feed` DB (v2) and pre-caches their photos. They surface as
+  tiles on the **Event Home** (scoped by `eventSlug`, next to the built-in
+  ones) and under **Featured** on the **App Home** (landings for everyone plus
+  pinned ones), and open at the shared **`/landing#<id>`** page — the id rides
+  in the hash so the service worker's cache key stays `/landing` and the page
+  opens offline after a reload. The reminder banner now watches synced
+  landings too, and "Add dates to calendar" builds an all-day `.ics` on the
+  device from `startDate` / `endDate` / `location` when the landing names no
+  file. The mock serves two fixture landings from `scripts/fixtures/home.json`
+  (one scoped to WSOL26, one pinned for everyone). Plugin side remains P10.
 - **Landing template** (cache v84 → v85) — the designed promo page built by
   hand for A Woman's Renewal Experience is now a reusable template
   (`LandingView`, `LandingTile`, `LandingActions`, `LandingReminder`) rendered

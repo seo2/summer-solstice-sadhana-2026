@@ -1,5 +1,5 @@
 {
-  "_comment": "Home feed fixture served by scripts/mock-backend.mjs at GET /wp-json/3ho-solstice/v1/home. `events` adds catalog-only fields (summary, cover, registrationUrl) per slug — a slug with no bundle fixture (the built-in Summer Solstice) is listed from here alone. `posts` are staff-authored posts: eventSlug scopes one to an event, omit it for everyone. Bodies use the info-page grammar (blank line = paragraph, ∙ = bullet). Re-read on every request — edit and reload.",
+  "_comment": "Home feed fixture served by scripts/mock-backend.mjs at GET /wp-json/3ho-solstice/v1/home. `events` adds catalog-only fields (summary, cover, registrationUrl) per slug — a slug with no bundle fixture (the built-in Summer Solstice) is listed from here alone. `posts` are staff-authored posts: eventSlug scopes one to an event, omit it for everyone. Bodies use the info-page grammar (blank line = paragraph, ∙ = bullet). `landings` are designed promo pages (docs/LANDINGS.md): eventSlug scopes one to an event's home, omit it (or set pinned) for the app Home's Featured section. Re-read on every request — edit and reload.",
   "events": {
     "summer-solstice-2026": {
       "slug": "summer-solstice-2026",
@@ -60,6 +60,210 @@
       "body": "Summer Solstice Sadhana returns to Ram Das Puri in June 2027. Dates and registration will be announced here first.",
       "pinned": false,
       "publishedAt": "2026-08-15T09:00:00+00:00"
+    }
+  ],
+  "landings": [
+    {
+      "id": "landing-wsol26-gong-immersion",
+      "eventSlug": "wsol26",
+      "status": "published",
+      "pinned": false,
+      "publishedAt": "2026-09-05T12:00:00+00:00",
+      "kicker": "After Winter Solstice",
+      "title": "Gong & Sound Immersion",
+      "tagline": "Stay one more day by the lake: two days of gong, mantra and deep rest to seal your Solstice.",
+      "summary": "Dec 22-23. Save the details offline and register when you are online.",
+      "startDate": "2026-12-22",
+      "endDate": "2026-12-23",
+      "location": "Retreats By The Lake, Lake Wales, FL",
+      "hero": {
+        "image": "http://localhost:3999/photos/event-cover.svg",
+        "alt": "Lake at sunrise"
+      },
+      "cardImage": "http://localhost:3999/photos/post-cover.svg",
+      "cardImageAlt": "Gongs in the meditation hall",
+      "facts": [
+        {
+          "icon": "calendar",
+          "label": "Dates",
+          "value": "Dec 22-23, 2026"
+        },
+        {
+          "icon": "map-pin",
+          "label": "Venue",
+          "value": "Retreats By The Lake"
+        },
+        {
+          "icon": "heart",
+          "label": "Rate",
+          "value": "Early Bird $180"
+        }
+      ],
+      "cta": {
+        "url": "https://register.3ho.org/",
+        "label": "Register today"
+      },
+      "highlights": [
+        "A gentle landing after seven days of Sadhana and White Tantric Yoga®.",
+        "Gong baths, mantra and long rest — nothing to achieve.",
+        "Simple tools to keep the Solstice frequency at home."
+      ],
+      "about": {
+        "kicker": "What you get",
+        "title": "Two days of sound and stillness",
+        "body": "Designed as the natural continuation of Winter Solstice: you stay at the same venue, the camp quiets down, and the gong does the work.\n\nMeals are included from Tuesday breakfast to Wednesday lunch.",
+        "image": "http://localhost:3999/photos/post-cover.svg",
+        "imageAlt": "Gongs in the meditation hall",
+        "includes": [
+          "Morning Sadhana",
+          "Three gong baths",
+          "Mantra and kirtan evening",
+          "Breakfast, lunch and dinner",
+          "Closing circle"
+        ],
+        "callout": {
+          "icon": "utensils",
+          "title": "Meals included. Lodging booked separately.",
+          "body": "Extend your Solstice lodging with the venue when you register."
+        }
+      },
+      "schedule": {
+        "kicker": "Program",
+        "title": "Two-day flow",
+        "days": [
+          {
+            "label": "Day 1",
+            "date": "Dec 22",
+            "title": "Receive",
+            "items": [
+              "Sadhana",
+              "Gong bath",
+              "Rest",
+              "Mantra evening"
+            ]
+          },
+          {
+            "label": "Day 2",
+            "date": "Dec 23",
+            "title": "Integrate",
+            "items": [
+              "Sadhana",
+              "Gong bath",
+              "Closing circle",
+              "Closing lunch"
+            ]
+          }
+        ]
+      },
+      "people": {
+        "kicker": "Teachers",
+        "title": "Holding the space",
+        "items": [
+          {
+            "name": "Surajdev Singh Khalsa",
+            "role": "Gong master",
+            "photo": "http://localhost:3999/photos/mock-teacher.png"
+          },
+          {
+            "name": "Siri Simran Kaur",
+            "role": "Mantra and kirtan"
+          }
+        ]
+      },
+      "banner": {
+        "title": "Member savings",
+        "body": "3HO Premium members and active IKYTA members receive $30 off with a member-only code at checkout.",
+        "linkLabel": "Read the FAQ"
+      },
+      "faq": {
+        "kicker": "FAQ",
+        "title": "Gong Immersion questions",
+        "items": [
+          {
+            "question": "Is lodging included?",
+            "answer": "No. Extend your Winter Solstice lodging with the venue, or book nearby.",
+            "links": [
+              {
+                "label": "Retreats By The Lake",
+                "href": "https://www.retreatsbythelake.com/"
+              }
+            ]
+          },
+          {
+            "question": "Can I come without attending Winter Solstice?",
+            "answer": "Yes. The immersion is open to everyone; Solstice attendees simply stay on."
+          }
+        ]
+      }
+    },
+    {
+      "id": "landing-l1-teacher-training-2027",
+      "status": "published",
+      "pinned": true,
+      "publishedAt": "2026-08-20T09:00:00+00:00",
+      "kicker": "Deepen your practice",
+      "title": "Level One Teacher Training 2027",
+      "tagline": "Become a KRI-certified Kundalini Yoga teacher with 3HO's 2027 cohort.",
+      "summary": "Applications open now. Hybrid: online modules and an in-person week in Espanola.",
+      "startDate": "2027-03-05",
+      "endDate": "2027-11-14",
+      "location": "Online and Espanola, NM",
+      "hero": {
+        "image": "http://localhost:3999/photos/event-cover.svg",
+        "alt": "Students practicing in the morning light"
+      },
+      "facts": [
+        {
+          "icon": "calendar",
+          "label": "Starts",
+          "value": "March 5, 2027"
+        },
+        {
+          "icon": "map-pin",
+          "label": "Format",
+          "value": "Online + Espanola week"
+        },
+        {
+          "icon": "tag",
+          "label": "Rate",
+          "value": "Early Bird until Dec 31"
+        }
+      ],
+      "cta": {
+        "url": "https://www.3ho.org/",
+        "label": "Apply now"
+      },
+      "highlights": [
+        "220 hours over nine months, with a mentor group.",
+        "One in-person week at the Hacienda in June.",
+        "IKYTA membership included for the first year."
+      ],
+      "about": {
+        "kicker": "What you get",
+        "title": "A year to become a teacher",
+        "body": "The Level One program covers the foundations of Kundalini Yoga as taught by Yogi Bhajan®: kriya, meditation, mantra, yogic philosophy and the art of teaching.",
+        "includes": [
+          "220-hour KRI certification",
+          "Monthly online weekends",
+          "In-person week in Espanola",
+          "Mentor group of six",
+          "Teacher's manual and textbook"
+        ]
+      },
+      "faq": {
+        "kicker": "FAQ",
+        "title": "Training questions",
+        "items": [
+          {
+            "question": "Do I need experience?",
+            "answer": "A regular practice helps, but the training is open to sincere beginners."
+          },
+          {
+            "question": "Is there a payment plan?",
+            "answer": "Yes. Monthly installments are available at checkout."
+          }
+        ]
+      }
     }
   ]
 }

@@ -32,7 +32,8 @@ has downloaded.
 | 2 | **Events** — the first entry is the Home's **hero**: deep-blue card with the event's cover as backdrop, phase + countdown badge ("Upcoming · In 102 days", "Happening now · Day 3 of 7", "Past event · Ended Jun 27"), display-size uppercase name, dates in orange, summary, white CTA (+ Register); the rest as compact rows with cover thumbnails | `home-feed.ts` catalog ∪ built-in ∪ locally synced (`HomeEvents`) | never (the built-in event is always there) |
 | 3 | **Install hint** | existing | installed / native / dismissed |
 | 4 | **Announcements** — two newest official/alert messages of the event being viewed, with that event's name | `messages.ts` local store (`HomeAnnouncements showEvent`) | no message stored for that event |
-| 5 | **News & posts** — three newest visible posts; the first one in a magazine layout (full-width image, big title) when it has an image | `home-feed.ts` posts (`HomeNews`) | no visible post |
+| 5 | **Featured** — landing tiles for everyone (no event scope) plus pinned ones | `home-feed.ts` landings (`HomeFeatured`), see [LANDINGS.md](LANDINGS.md) | no such landing |
+| 6 | **News & posts** — three newest visible posts; the first one in a magazine layout (full-width image, big title) when it has an image | `home-feed.ts` posts (`HomeNews`) | no visible post |
 
 Every dynamic section reads from IndexedDB, so a fresh install with no
 connectivity still sees a complete, calm Home. Design per `PRODUCT.md`: one
@@ -156,6 +157,16 @@ fetches whole and replaces locally:
       "pinned": true,
       "publishedAt": "2026-09-01T15:00:00+00:00"
     }
+  ],
+  "landings": [
+    {
+      "id": "landing-wsol26-gong-immersion",
+      "eventSlug": "wsol26",
+      "status": "published",
+      "pinned": false,
+      "title": "Gong & Sound Immersion",
+      "…": "the full Landing contract — see LANDINGS.md"
+    }
   ]
 }
 ```
@@ -168,6 +179,9 @@ Rules the app relies on:
   `content_version`, informational.
 - `posts[]` lists non-deleted posts, newest first; `id` and `title` required.
   `eventSlug` null/absent means "for everyone".
+- `landings[]` (optional — plugin P10) lists published, non-deleted landings in
+  the `Landing` shape of [LANDINGS.md](LANDINGS.md); `id` and `title` required,
+  `eventSlug` null/absent = the app's Home. A backend without the key is fine.
 - Media URLs are **absolute** (Media Library) so the app can pre-cache them; a
   future camp mirror serves the same contract from its own origin (the
   LOCAL-NETWORK.md constraint already applied to bundle photos).
@@ -176,16 +190,17 @@ Rules the app relies on:
 
 ### Client behaviour
 
-- **Storage:** Dexie DB `solstice-home-feed` — tables `events` (by slug),
-  `posts` (by id), `state` (`fetchedAt`). Each refresh replaces both tables in
-  one transaction, so a post deleted in wp-admin disappears on the next fetch.
+- **Storage:** Dexie DB `solstice-home-feed` (v2) — tables `events` (by slug),
+  `posts` (by id), `landings` (by id), `state` (`fetchedAt`). Each refresh
+  replaces the three content tables in one transaction, so a post or landing
+  deleted in wp-admin disappears on the next fetch.
 - **Refresh:** `HomeFeedAgent` — 10 s after start (staggered behind the bundle
   and alerts agents), when back online, when the tab becomes visible, every
   30 min while open. Silent on failure. `/news` has a manual refresh button.
 - **Backend origin:** `getBackendBaseUrl()` — production 3ho.org, or the Sync
   Lab override for local testing.
-- **Images:** covers and post images are warmed into the offline cache
-  (`warmImageUrls`, shared with bundle photos).
+- **Images:** covers, post images and landing photos are warmed into the
+  offline cache (`warmImageUrls`, shared with bundle photos).
 
 ## P5 — plugin side (3ho.org repo) — IMPLEMENTED 2026-09-04, pending owner QA + commit
 

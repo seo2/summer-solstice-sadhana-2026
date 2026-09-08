@@ -16,7 +16,9 @@ type Props = {
   landingId: string;
   ctaUrl: string;
   ctaLabel?: string;
-  calendarUrl?: string;
+  /** A calendar file URL or a data: URL built on the device (landing-calendar.ts). */
+  calendarHref?: string;
+  calendarFileName?: string;
   faqHref?: string;
 };
 
@@ -42,7 +44,7 @@ function useOnlineStatus() {
   return online;
 }
 
-export function LandingActions({ landingId, ctaUrl, ctaLabel = "Register today", calendarUrl, faqHref }: Props) {
+export function LandingActions({ landingId, ctaUrl, ctaLabel = "Register today", calendarHref, calendarFileName, faqHref }: Props) {
   const online = useOnlineStatus();
   const [saved, setSaved] = useState(false);
   const interestKey = landingInterestKey(landingId);
@@ -57,7 +59,7 @@ export function LandingActions({ landingId, ctaUrl, ctaLabel = "Register today",
     setSaved(true);
   }
 
-  const secondaryRow = calendarUrl || faqHref;
+  const secondaryRow = calendarHref || faqHref;
 
   return (
     <section className="rounded-xl border border-sky-900/10 bg-white p-4 shadow-[0_18px_48px_rgba(47,98,182,0.09)]">
@@ -124,10 +126,10 @@ export function LandingActions({ landingId, ctaUrl, ctaLabel = "Register today",
 
       {secondaryRow && (
         <div className="mt-3 grid gap-2 sm:grid-cols-2">
-          {calendarUrl && (
+          {calendarHref && (
             <a
-              href={calendarUrl}
-              download
+              href={calendarHref}
+              download={calendarFileName ?? true}
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-900/10 bg-sky-50 px-4 py-2.5 text-center text-sm font-black text-[#2f62b6]"
             >
               Add dates to calendar

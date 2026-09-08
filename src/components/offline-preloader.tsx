@@ -2,20 +2,20 @@
 
 import program from "@/data/program.json";
 import teachers from "@/data/teachers.json";
-import { builtinLandings, landingAssets } from "@/lib/landings";
+import { LANDING_ROUTE, builtinLandings, landingAssets } from "@/lib/landings";
 import type { Activity, Teacher } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export const CACHE_NAME = "solstice-full-offline-v85";
-const STORAGE_KEY = "solstice-full-offline-v85-complete";
-const DISMISSED_KEY = "solstice-full-offline-v85-dismissed";
+export const CACHE_NAME = "solstice-full-offline-v86";
+const STORAGE_KEY = "solstice-full-offline-v86-complete";
+const DISMISSED_KEY = "solstice-full-offline-v86-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
 // Built-in landings live at their own static routes (src/data/landings.json).
 const landingRoutes = builtinLandings.map((landing) => landing.path).filter((path): path is string => typeof path === "string");
-const staticPageRoutes = ["/", "/event", "/program", "/teachers", "/favorites", "/info", "/map", "/contact", "/account", "/announcements", "/news", "/menus", "/privacy", ...landingRoutes, "/install"];
+const staticPageRoutes = ["/", "/event", "/program", "/teachers", "/favorites", "/info", "/map", "/contact", "/account", "/announcements", "/news", "/menus", "/privacy", ...landingRoutes, LANDING_ROUTE, "/install"];
 const staticRoutes = [...staticPageRoutes, "/manifest.webmanifest"];
 const staticAssets = [
   "/images/solstice-cover-top.jpg",

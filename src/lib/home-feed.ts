@@ -1,11 +1,12 @@
 "use client";
 
 /**
- * Home feed: the catalog of events the backend publishes plus staff-authored
- * posts (news, calls to register, notices that are not urgent alerts). One
- * public endpoint, `GET /home`, fetched in the background and stored in
- * IndexedDB so the Home screen renders it offline. Independent of the active
- * event: this is the *app's* home, the sync bundle is one event's content.
+ * Home feed: the catalog of events the backend publishes, staff-authored
+ * posts (news, calls to register, notices that are not urgent alerts) and
+ * landings (designed promo pages, see docs/LANDINGS.md). One public endpoint,
+ * `GET /home`, fetched in the background and stored in IndexedDB so the Home
+ * screen renders it offline. Independent of the active event: this is the
+ * *app's* home, the sync bundle is one event's content.
  *
  * Shapes are the contract proposed in docs/HOME.md and served verbatim by
  * scripts/mock-backend.mjs; normalizers drop malformed items silently, like
@@ -18,6 +19,7 @@ import { apiUrl } from "@/lib/backend";
 import { BUILTIN_EVENT_SLUG } from "@/lib/messages";
 import { warmImageUrls } from "@/lib/event-sync";
 import type { SyncedEventRecord } from "@/lib/event-store";
+import { landingImageUrls, normalizeLanding, type Landing } from "@/lib/landings";
 
 export type HomeEvent = {
   slug: string;
@@ -56,6 +58,7 @@ type FeedState = { key: string; value: string };
 class HomeFeedDatabase extends Dexie {
   events!: Table<HomeEvent, string>;
   posts!: Table<HomePost, string>;
+  landings!: Table<Landing, string>;
   state!: Table<FeedState, string>;
 
   constructor() {
@@ -63,6 +66,13 @@ class HomeFeedDatabase extends Dexie {
     this.version(1).stores({
       events: "slug, startDate",
       posts: "id, eventSlug, publishedAt",
+      state: "key",
+    });
+    // v2 (cache v86): landings join the feed.
+    this.version(2).stores({
+      events: "slug, startDate",
+      posts: "id, eventSlug, publishedAt",
+      landings: "id, eventSlug, publishedAt",
       state: "key",
     });
   }
@@ -136,7 +146,7 @@ function normalizePost(raw: unknown): HomePost | null {
   };
 }
 
-type HomeFeedResponse = { ok?: boolean; events?: unknown; posts?: unknown };
+type HomeFeedResponse = { ok?: boolean; events?: unknown; posts?: unknown; landings?: unknown };
 
 /**
  * One refresh: fetch the whole feed (it is small — a handful of events and a
@@ -160,19 +170,27 @@ export async function refreshHomeFeed(): Promise<boolean> {
 
   const events = data.events.map(normalizeEvent).filter((event): event is HomeEvent => event !== null);
   const posts = data.posts.map(normalizePost).filter((post): post is HomePost => post !== null);
+  // Optional key: a backend that predates landings simply publishes none.
+  const landings = (Array.isArray(data.landings) ? data.landings : [])
+    .map(normalizeLanding)
+    .filter((landing): landing is Landing => landing !== null);
 
-  await homeDb.transaction("rw", homeDb.events, homeDb.posts, homeDb.state, async () => {
+  await homeDb.transaction("rw", homeDb.events, homeDb.posts, homeDb.landings, homeDb.state, async () => {
     await homeDb.events.clear();
     await homeDb.events.bulkPut(events);
     await homeDb.posts.clear();
     await homeDb.posts.bulkPut(posts);
+    await homeDb.landings.clear();
+    await homeDb.landings.bulkPut(landings);
     await homeDb.state.put({ key: FETCHED_AT_KEY, value: new Date().toISOString() });
   });
 
-  // Best effort: covers and post images for the next offline session.
-  const images = [...events.map((event) => event.cover), ...posts.map((post) => post.image)].filter(
-    (url): url is string => typeof url === "string",
-  );
+  // Best effort: covers, post images and landing photos for the next offline session.
+  const images = [
+    ...events.map((event) => event.cover),
+    ...posts.map((post) => post.image),
+    ...landings.flatMap(landingImageUrls),
+  ].filter((url): url is string => typeof url === "string");
   warmImageUrls(images).catch(() => {});
 
   return true;
@@ -186,6 +204,15 @@ export function useHomeEvents(): HomeEvent[] {
 /** Every stored post, unsorted and unscoped — see visiblePosts(). */
 export function useHomePosts(): HomePost[] {
   return useLiveQuery(() => homeDb.posts.toArray(), [], []);
+}
+
+/**
+ * Every stored landing, unsorted and unscoped — `undefined` until the store
+ * has answered once, so a page can tell "not loaded yet" from "not found".
+ * Scope with landingsForEvent() / featuredLandings() from landings.ts.
+ */
+export function useHomeLandings(): Landing[] | undefined {
+  return useLiveQuery(() => homeDb.landings.toArray(), []);
 }
 
 /** ISO timestamp of the last successful refresh, or null. */

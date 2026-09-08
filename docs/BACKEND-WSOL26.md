@@ -312,12 +312,14 @@ the CSV does not carry; other events untouched; scratch event removed.
 particular), commit + production deploy (DB 5 → 6 runs on the first
 `plugins_loaded`), then the kitchen team's real cards.
 
-## P10 — Landings: designed promo pages from wp-admin (proposed 2026-09-08 · app template ✅ done)
+## P10 — Landings: designed promo pages from wp-admin (proposed 2026-09-08 · app side ✅ done, cache v86)
 
-**Today:** A Woman's Renewal Experience is the only landing. Since 2026-09-08 it
-renders from `src/data/landings.json` through one designed template
-(`LandingView`; contract and sections in [LANDINGS.md](LANDINGS.md)) — but a
-new landing still needs an app release.
+**Today:** the app renders landings through one designed template
+(`LandingView`; contract and sections in [LANDINGS.md](LANDINGS.md)) from two
+sources — `src/data/landings.json` (A Woman's Renewal Experience) and
+`landings[]` in `GET /home`, already consumed, stored offline and shown as tiles
+on the Event Home and the App Home with a shared `/landing#<id>` page. Only the
+plugin side is missing: until it lands, a new landing needs an app release.
 
 **Proposed (next migration):** the same pattern as posts (P5) — event-independent
 content in the Home feed, scoped by event.
@@ -353,9 +355,10 @@ content in the Home feed, scoped by event.
 5. **No content-version coupling** — like posts, the feed is independent of any
    event's `content_version`.
 
-App side follows as phase 2 in [LANDINGS.md](LANDINGS.md) (store, tiles, the
-`/landing?id=` page, the fixture in `scripts/fixtures/home.json`) and can be
-built against the mock before the plugin lands.
+The app side (store, tiles, the `/landing#<id>` page, the fixture in
+`scripts/fixtures/home.json`) shipped 2026-09-08 as phase 2 of
+[LANDINGS.md](LANDINGS.md); the contract the plugin must emit is the `Landing`
+type there, and `scripts/fixtures/home.json` is a worked example of it.
 
 ## Rollout
 
@@ -371,5 +374,5 @@ built against the mock before the plugin lands.
   rides the following migration, its app side follows once the fields exist.
 - **P8** implemented 2026-09-07 as v0.8.0 (no migration) in the same working
   tree; nothing to change app-side.
-- **P10** proposed 2026-09-08; the app's landing template is already in place
-  (cache v85), so the plugin work is schema + admin + `/home` only.
+- **P10** proposed 2026-09-08; the app side is complete (template cache v85,
+  feed + pages cache v86), so the plugin work is schema + admin + `/home` only.

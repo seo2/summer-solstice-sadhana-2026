@@ -4,27 +4,29 @@
  * Online reminder for saved landings: once the attendee tapped "Save reminder"
  * on a landing and the device is back online, a small fixed banner offers the
  * registration link and a way back to the landing, until dismissed. Personal
- * opt-in, so it is not gated by the active event. Today it knows the built-in
- * landings; synced landings join once they reach the local store.
+ * opt-in, so it is not gated by the active event. Candidates are the built-in
+ * landings plus the synced ones in the Home feed store.
  */
 
 import { AppLink as Link } from "@/components/app-link";
+import { useHomeLandings } from "@/lib/home-feed";
 import {
   LANDING_INTEREST_EVENT,
   builtinLandings,
   landingDismissedKey,
   landingHref,
   landingInterestKey,
+  mergeLandings,
   type Landing,
 } from "@/lib/landings";
 import { CheckCircle, ExternalLink, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-function pendingLanding(): Landing | null {
+function pendingLanding(candidates: Landing[]): Landing | null {
   if (typeof window === "undefined" || !window.navigator.onLine) return null;
   const storage = window.localStorage;
   return (
-    builtinLandings.find(
+    candidates.find(
       (landing) =>
         landing.cta &&
         landing.status !== "draft" &&
@@ -35,10 +37,12 @@ function pendingLanding(): Landing | null {
 }
 
 export function LandingReminder() {
+  const synced = useHomeLandings();
+  const candidates = useMemo(() => mergeLandings(builtinLandings, synced ?? []), [synced]);
   const [landing, setLanding] = useState<Landing | null>(null);
 
   useEffect(() => {
-    const update = () => setLanding(pendingLanding());
+    const update = () => setLanding(pendingLanding(candidates));
     update();
     window.addEventListener("online", update);
     window.addEventListener("storage", update);
@@ -48,7 +52,7 @@ export function LandingReminder() {
       window.removeEventListener("storage", update);
       window.removeEventListener(LANDING_INTEREST_EVENT, update);
     };
-  }, []);
+  }, [candidates]);
 
   if (!landing || !landing.cta) return null;
 
@@ -81,7 +85,7 @@ export function LandingReminder() {
           aria-label={`Dismiss ${landing.title} reminder`}
           onClick={() => {
             window.localStorage.setItem(landingDismissedKey(landing.id), "true");
-            setLanding(pendingLanding());
+            setLanding(pendingLanding(candidates));
           }}
           className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500"
         >

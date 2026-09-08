@@ -5,6 +5,7 @@ import { EventHero } from "@/components/event-hero";
 import { MenusTile } from "@/components/menus-tile";
 import { BuiltinOnly } from "@/components/builtin-only";
 import { LandingTile } from "@/components/landing-tile";
+import { SyncedLandingTiles } from "@/components/synced-landing-tiles";
 import { BUILTIN_EVENT_SLUG } from "@/lib/builtin-event";
 import { builtinLandings, landingsForEvent } from "@/lib/landings";
 import { ACCOUNT_SIGN_IN_ENABLED } from "@/lib/features";
@@ -81,6 +82,7 @@ export default function EventHomePage() {
           <LandingTile key={landing.id} landing={landing} />
         ))}
       </BuiltinOnly>
+      <SyncedLandingTiles />
 
       <section className="grid grid-cols-2 gap-3" aria-label="Event sections">
         {navItems.map((item) => {

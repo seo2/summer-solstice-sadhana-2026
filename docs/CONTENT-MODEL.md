@@ -306,9 +306,10 @@ the plugin side is proposed as P5. Full contract in [HOME.md](HOME.md).
 A **landing** is a designed promo page (A Woman's Renewal Experience is the
 first) rendered by one template from data: hero, actions, highlights, "what you
 get", schedule, people, banner, FAQ — every section optional. Built-in landings
-live in `src/data/landings.json` and are scoped to an event by `eventSlug`;
-synced ones are planned as `landings[]` in the same `GET /home` feed, with the
-plugin side proposed as P10. Contract, sections and plan in
+live in `src/data/landings.json`; synced ones arrive as `landings[]` in the
+same `GET /home` feed and open at `/landing#<id>`. `eventSlug` scopes a landing
+to an event's home; without it (or when pinned) it is featured on the app's
+Home. Plugin side proposed as P10. Contract, sections and plan in
 [LANDINGS.md](LANDINGS.md).
 
 ## Known gaps (2026-09-01)

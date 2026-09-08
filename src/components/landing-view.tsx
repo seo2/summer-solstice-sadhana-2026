@@ -1,4 +1,5 @@
 import { LandingActions } from "@/components/landing-actions";
+import { landingCalendar } from "@/lib/landing-calendar";
 import type { Landing, LandingIcon } from "@/lib/landings";
 import { parsePlainText } from "@/lib/plain-text";
 import {
@@ -108,6 +109,7 @@ export function LandingView({ landing }: { landing: Landing }) {
   const faqs = landing.faq?.items ?? [];
   const faqHref = faqs.length > 0 ? `#${LANDING_FAQ_ID}` : undefined;
   const CalloutIcon = iconFor(about?.callout?.icon, Info);
+  const calendar = landingCalendar(landing);
 
   return (
     <div className="space-y-5">
@@ -147,7 +149,8 @@ export function LandingView({ landing }: { landing: Landing }) {
           landingId={landing.id}
           ctaUrl={landing.cta.url}
           ctaLabel={landing.cta.label}
-          calendarUrl={landing.calendarUrl}
+          calendarHref={calendar?.href}
+          calendarFileName={calendar?.fileName}
           faqHref={faqHref}
         />
       )}

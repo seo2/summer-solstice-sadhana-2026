@@ -24,8 +24,9 @@
  *       recently finished, across every fixture.
  *   GET /wp-json/3ho-solstice/v1/home
  *       the Home feed: the events catalog (every fixture's event, plus the
- *       catalog-only fields and slugs in scripts/fixtures/home.json) and
- *       the staff posts from that same file. See docs/HOME.md.
+ *       catalog-only fields and slugs in scripts/fixtures/home.json), the
+ *       staff posts and the landings from that same file. See docs/HOME.md
+ *       and docs/LANDINGS.md.
  *   GET /wp-json/3ho-solstice/v1/updates?event=mocktest&since=N
  *   GET /wp-json/3ho-solstice/v1/channels/{id}/messages?since=N
  *   GET /mock/post?type=alert|official&body=…   → publish a new broadcast
@@ -290,9 +291,10 @@ createServer((req, res) => {
 
     const list = Array.from(events.values()).sort((a, b) => (a.startDate ?? "").localeCompare(b.startDate ?? ""));
     const posts = Array.isArray(home.posts) ? home.posts : [];
-    console.log(`home -> ${list.length} events, ${posts.length} posts`);
+    const landings = Array.isArray(home.landings) ? home.landings : [];
+    console.log(`home -> ${list.length} events, ${posts.length} posts, ${landings.length} landings`);
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ ok: true, generatedAt: new Date().toISOString(), events: list, posts }));
+    res.end(JSON.stringify({ ok: true, generatedAt: new Date().toISOString(), events: list, posts, landings }));
     return;
   }
 

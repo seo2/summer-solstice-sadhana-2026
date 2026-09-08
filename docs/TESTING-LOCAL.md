@@ -36,7 +36,7 @@ Walkthrough:
    event slug `mocktest` → **Fetch bundle** (saves v1 locally).
 2. Home → **Events** → tap **Mock Winter Solstice** (Open event) — it becomes
    the active event and lands on its Event Home (`/event`). Home also shows the
-   mock's **News & posts** and the **Announcements** digest within ~10 s.
+   mock's **Featured** landings, **News & posts** and the **Announcements** digest within ~10 s.
 3. Explore: Program (one session), **Info** (2 event pages), **Map** (Florida
    SVG with zoom), **Menus** (Home tile appears; day chips + meal cards).
 4. **Change alert**: favorite "Morning Sadhana" (heart), then reload the page.
