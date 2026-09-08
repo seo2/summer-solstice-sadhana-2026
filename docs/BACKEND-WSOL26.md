@@ -312,6 +312,51 @@ the CSV does not carry; other events untouched; scratch event removed.
 particular), commit + production deploy (DB 5 → 6 runs on the first
 `plugins_loaded`), then the kitchen team's real cards.
 
+## P10 — Landings: designed promo pages from wp-admin (proposed 2026-09-08 · app template ✅ done)
+
+**Today:** A Woman's Renewal Experience is the only landing. Since 2026-09-08 it
+renders from `src/data/landings.json` through one designed template
+(`LandingView`; contract and sections in [LANDINGS.md](LANDINGS.md)) — but a
+new landing still needs an app release.
+
+**Proposed (next migration):** the same pattern as posts (P5) — event-independent
+content in the Home feed, scoped by event.
+
+1. **Schema.** New table `ssa_landing`: `id` VARCHAR(191) PK · `event_id`
+   BIGINT NULL (NULL = the app's Home) · `status` VARCHAR(20) DEFAULT
+   'published' · `pinned` TINYINT(1) DEFAULT 0 · `title` VARCHAR(255) ·
+   `start_date` DATE NULL · `end_date` DATE NULL · `content` LONGTEXT (JSON —
+   every other field of the `Landing` contract, stored exactly in the bundle
+   shape) · `published_at` DATETIME · `updated_at` DATETIME · `deleted`
+   TINYINT(1) DEFAULT 0. Scalars that are listed or sorted get columns; the
+   sections live in `content` so adding a section later is not a migration.
+2. **Admin — Event App → Landings.** List (title, scope, status, dates,
+   updated) + add / edit / soft delete. The form has **one field per
+   section** of the template: kicker, title, tagline, summary, dates, location;
+   hero image and card image (Media Library picker, like dishes); facts (one
+   per line: `calendar | Dates | June 29-July 1, 2026`); CTA URL + label;
+   calendar file URL; highlights (one per line); about kicker / title / body /
+   image / includes (one per line) / callout icon + title + body; schedule
+   (one day per line: `Day 1 | Jun 29 | Reset and refill | Sadhana; Breathwalk;
+   Gong nap`); people (one per line: `Name | Role | photo URL`); banner title /
+   body / link label / URL; FAQ (a textarea in the info-page grammar:
+   `## Question`, answer paragraphs, `- Label: https://…` lines become link
+   chips). On save the plugin parses the lines into the JSON `content`; on edit
+   it prints them back. Validation: title required, CTA and photo URLs
+   http(s) or Media Library, at most three facts / highlights, dates ISO.
+3. **Route.** `GET /home` gains `landings[]` — row scalars + decoded `content`
+   + `eventSlug` joined from `ssa_event.slug`, published and non-deleted only,
+   pinned first then newest. Older app versions ignore the key.
+4. **Import.** New type **Landings** (JSON only — the shape is too nested for
+   CSV); dry run and Replace mode as for the other types; `wp ssa seed` reads
+   `landings.json`.
+5. **No content-version coupling** — like posts, the feed is independent of any
+   event's `content_version`.
+
+App side follows as phase 2 in [LANDINGS.md](LANDINGS.md) (store, tiles, the
+`/landing?id=` page, the fixture in `scripts/fixtures/home.json`) and can be
+built against the mock before the plugin lands.
+
 ## Rollout
 
 - All three ship as **plugin v0.5.0 / DB v3** (one dbDelta migration, existing
@@ -326,3 +371,5 @@ particular), commit + production deploy (DB 5 → 6 runs on the first
   rides the following migration, its app side follows once the fields exist.
 - **P8** implemented 2026-09-07 as v0.8.0 (no migration) in the same working
   tree; nothing to change app-side.
+- **P10** proposed 2026-09-08; the app's landing template is already in place
+  (cache v85), so the plugin work is schema + admin + `/home` only.

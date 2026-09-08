@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AppLink as Link } from "@/components/app-link";
 import { OfflinePreloader } from "@/components/offline-preloader";
 import { BottomNav } from "@/components/bottom-nav";
-import { WomensRenewalReminder } from "@/components/womens-renewal-reminder";
+import { LandingReminder } from "@/components/landing-reminder";
 import { NavigationWarmup } from "@/components/navigation-warmup";
 import { RouteTransitionShell } from "@/components/route-transition-shell";
 import { ContactOutboxSync } from "@/components/contact-outbox-sync";
@@ -72,7 +72,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <AlertsAgent />
           <HomeFeedAgent />
           <OfflinePreloader />
-          <WomensRenewalReminder />
+          <LandingReminder />
           <BottomNav />
         </div>
       </body>

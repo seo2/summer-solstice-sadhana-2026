@@ -29,6 +29,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [ROADMAP.md](ROADMAP.md) | Phased plan from PWA → backend → native → multi-event → commerce |
 | [BACKEND.md](BACKEND.md) | Backend proposal, multi-event data model, sync strategy |
 | [HOME.md](HOME.md) | The two homes: app Home (`/` — events catalog, announcements digest, news & posts) before the Event Home (`/event`); `GET /home` contract, local store, refresh cadence, and the P5 plugin proposal (posts table + event catalog fields) |
+| [LANDINGS.md](LANDINGS.md) | Landings: the designed promo-page template (`LandingView`) fed by `src/data/landings.json` today and the Home feed's `landings[]` next — sections, contract, where they appear, reminder keys, phases, plugin P10 pointer |
 | [CONTENT-MODEL.md](CONTENT-MODEL.md) | Where each screen's content comes from: built-in JSON vs synced bundle, field contracts, the name-based joins, and loading a full dummy event locally |
 | [NATIVE.md](NATIVE.md) | Capacitor iOS/Android, push, widget, lock-screen "up next" |
 | [LOCAL-NETWORK.md](LOCAL-NETWORK.md) | Campsite local network + edge server for offline updates/notifications |

@@ -2,17 +2,20 @@
 
 import program from "@/data/program.json";
 import teachers from "@/data/teachers.json";
+import { builtinLandings, landingAssets } from "@/lib/landings";
 import type { Activity, Teacher } from "@/lib/types";
 import { CheckCircle, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-export const CACHE_NAME = "solstice-full-offline-v84";
-const STORAGE_KEY = "solstice-full-offline-v84-complete";
-const DISMISSED_KEY = "solstice-full-offline-v84-dismissed";
+export const CACHE_NAME = "solstice-full-offline-v85";
+const STORAGE_KEY = "solstice-full-offline-v85-complete";
+const DISMISSED_KEY = "solstice-full-offline-v85-dismissed";
 const OLD_CACHE_PREFIX = "solstice-full-offline-";
 const CONCURRENCY = 6;
 
-const staticPageRoutes = ["/", "/event", "/program", "/teachers", "/favorites", "/info", "/map", "/contact", "/account", "/announcements", "/news", "/menus", "/privacy", "/womens-renewal", "/install"];
+// Built-in landings live at their own static routes (src/data/landings.json).
+const landingRoutes = builtinLandings.map((landing) => landing.path).filter((path): path is string => typeof path === "string");
+const staticPageRoutes = ["/", "/event", "/program", "/teachers", "/favorites", "/info", "/map", "/contact", "/account", "/announcements", "/news", "/menus", "/privacy", ...landingRoutes, "/install"];
 const staticRoutes = [...staticPageRoutes, "/manifest.webmanifest"];
 const staticAssets = [
   "/images/solstice-cover-top.jpg",
@@ -20,15 +23,10 @@ const staticAssets = [
   "/images/camp-map.png",
   "/images/icon.png",
   "/images/3ho-logo-horizontal.png",
-  "/images/womens-renewal/hero.jpg",
-  "/images/womens-renewal/circle.jpg",
-  "/images/womens-renewal/shakta-kaur.jpg",
-  "/images/womens-renewal/rupinder-kaur.jpg",
-  "/images/womens-renewal/Nam-Hari-Kaur.jpg",
-  "/images/womens-renewal/satbachankaur.jpg",
   "/icons/icon-192.png",
   "/icons/icon-512.png",
-  "/womens-renewal-2026.ics",
+  // Landing images and calendar files, straight from the data so a new landing needs no edit here.
+  ...builtinLandings.flatMap(landingAssets),
 ];
 
 function routePayloadUrl(route: string) {

@@ -14,6 +14,7 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 | ✅ Offline Info Hub | Generated from booklet content |
 | ✅ Camp map | Zoom/pan, tappable legend pins and quick-access chips — built-in and per event from the bundle (`mapPoint`) |
 | ✅ Contact form | Local outbox + optional WordPress endpoint |
+| ✅ Landing template | Promo pages (A Woman's Renewal Experience) render from `src/data/landings.json` through one designed template; admin-managed landings via the Home feed are the next phase — see [LANDINGS.md](LANDINGS.md) |
 
 ## Planned features
 

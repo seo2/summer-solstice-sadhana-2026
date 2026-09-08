@@ -12,6 +12,18 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Landing template** (cache v84 → v85) — the designed promo page built by
+  hand for A Woman's Renewal Experience is now a reusable template
+  (`LandingView`, `LandingTile`, `LandingActions`, `LandingReminder`) rendered
+  from data alone: hero with up to three facts, register / save-reminder card,
+  highlights, "what you get" with checklist and callout, schedule, people,
+  banner and FAQ — every section optional. The first landing lives in
+  `src/data/landings.json`; the Event Home lists the built-in event's landings
+  as tiles, the offline preloader and navigation warm-up derive routes and
+  assets from the data, and reminder storage keys are per landing (the
+  Women's Renewal keys are unchanged, so saved reminders survive). Spec, contract
+  and phases in `docs/LANDINGS.md`; admin-managed landings through the Home feed
+  are proposed as plugin P10 in `docs/BACKEND-WSOL26.md`.
 - **Dish cards on the Menus page** (cache v83 → v84) — each dish or preparation
   the kitchen describes now opens a sheet with its photo, what it is, benefits,
   ingredients, calories per serving and an "Open the recipe" link; the menu row
@@ -28,6 +40,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Women's Renewal page and promo card render from data** (cache v85) — same
+  look; the promo card's button now reads "See details" (was "Open Renewal") and
+  the FAQ anchor is `#landing-faq`. `src/lib/womens-renewal.ts` and the two
+  Women's Renewal components are gone; `BUILTIN_EVENT_SLUG` moved to the plain
+  module `src/lib/builtin-event.ts` (re-exported by `messages.ts`) so server
+  components can read it.
 - **Mock backend honors `PORT`** (`PORT=4001 npm run mock-backend`) and rewrites
   the fixtures' `http://localhost:3999` photo URLs to the running port, so a
   second session can run its own mock while another holds 3999

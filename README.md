@@ -39,7 +39,9 @@ The app is evolving into a backend-connected, multi-event native app (see
   (`/sync-lab`, internal) remains the backend test bench. See `docs/HOME.md`.
 - **Contact form** — saves to a local outbox first, then sends to the WordPress
   endpoint when online.
-- **Women's Renewal** page, install tutorial, and an account entry in the global header.
+- **Landings** — designed promo pages rendered from data (`src/data/landings.json`;
+  A Woman's Renewal Experience is the first, see `docs/LANDINGS.md`), install tutorial,
+  and an account entry in the global header.
 
 ## Documentation
 

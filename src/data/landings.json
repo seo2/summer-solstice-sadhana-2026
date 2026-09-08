@@ -1,0 +1,147 @@
+[
+  {
+    "id": "womens-renewal-2026",
+    "eventSlug": "summer-solstice-2026",
+    "path": "/womens-renewal",
+    "status": "published",
+    "kicker": "After Solstice",
+    "title": "A Woman's Renewal Experience",
+    "tagline": "Continue your Solstice journey with three days of practice, rest and integration.",
+    "summary": "June 29-July 1. Save the details offline and register when you are online.",
+    "startDate": "2026-06-29",
+    "endDate": "2026-07-01",
+    "location": "Hacienda Guru Ram Das Ashram, Espanola, NM",
+    "hero": {
+      "image": "/images/womens-renewal/hero.jpg",
+      "alt": "Hacienda Guru Ram Das Ashram landscape"
+    },
+    "cardImage": "/images/womens-renewal/circle.jpg",
+    "cardImageAlt": "Women meditating after Summer Solstice",
+    "facts": [
+      { "icon": "calendar", "label": "Dates", "value": "June 29-July 1, 2026" },
+      { "icon": "map-pin", "label": "Venue", "value": "Hacienda Guru Ram Das Ashram" },
+      { "icon": "heart", "label": "Rate", "value": "Early Bird $255" }
+    ],
+    "cta": {
+      "url": "https://registration.3ho.org/checkout/new-session/id/7720784/chk/2822/?ref=solstice_pwa&utm_source=solstice_pwa&utm_medium=offline_companion&utm_campaign=womens_renewal_2026",
+      "label": "Register today"
+    },
+    "calendarUrl": "/womens-renewal-2026.ics",
+    "highlights": [
+      "A place to exhale after the intensity of Solstice.",
+      "Kundalini Yoga, meditation, breath, sound and women's circle.",
+      "Simple integration tools you can keep using at home."
+    ],
+    "about": {
+      "kicker": "What you get",
+      "title": "A quieter landing after Solstice",
+      "body": "This is designed as a natural continuation after Summer Solstice: an in-person women's experience to reset your nervous system, reconnect with intuition and carry the teachings into daily life.",
+      "image": "/images/womens-renewal/circle.jpg",
+      "imageAlt": "Women meditating in a circle",
+      "includes": [
+        "Kundalini Yoga and meditation practices",
+        "Daily Sadhana",
+        "Breathwalk practice",
+        "Gong baths and gong naps",
+        "Kirtan and sacred chanting",
+        "Breakfast, lunch and dinner",
+        "Guest teacher sessions"
+      ],
+      "callout": {
+        "icon": "utensils",
+        "title": "Meals included. Lodging is not included.",
+        "body": "The venue is about a 20-minute drive from Ram Das Puri, with nearby access to everyday essentials in Espanola."
+      }
+    },
+    "schedule": {
+      "kicker": "Program",
+      "title": "Three-day flow",
+      "days": [
+        {
+          "label": "Day 1",
+          "date": "Jun 29",
+          "title": "Reset and refill",
+          "items": ["Sadhana", "Breathwalk", "Woman as the Adi Shakti", "Numerology", "Gong nap", "Chant night"]
+        },
+        {
+          "label": "Day 2",
+          "date": "Jun 30",
+          "title": "Clear and reconnect",
+          "items": ["Sadhana", "Breathwalk", "Creative container", "Universal cycle of 2026", "Rise Up, Woman", "Kirtan"]
+        },
+        {
+          "label": "Day 3",
+          "date": "Jul 1",
+          "title": "Integrate and return",
+          "items": ["Sadhana", "Breathwalk", "Living as Infinity", "The Magic Slippers", "Closing Women's Circle", "Closing lunch"]
+        }
+      ]
+    },
+    "people": {
+      "kicker": "Teachers",
+      "title": "Women leading the experience",
+      "items": [
+        {
+          "name": "Shakta Kaur",
+          "role": "KRI Lead Trainer, Breathwalk Instructor Trainer",
+          "photo": "/images/womens-renewal/shakta-kaur.jpg"
+        },
+        {
+          "name": "Rupinder Kaur",
+          "role": "Lead teacher, women's yoga and mental health",
+          "photo": "/images/womens-renewal/rupinder-kaur.jpg"
+        },
+        {
+          "name": "Nam Hari Kaur",
+          "role": "Akara Numerology teacher and counselor",
+          "photo": "/images/womens-renewal/Nam-Hari-Kaur.jpg"
+        },
+        {
+          "name": "Sat Bachan Kaur",
+          "role": "Conscious Pregnancy Lead Trainer, Yoga Mujer founder",
+          "photo": "/images/womens-renewal/satbachankaur.jpg"
+        }
+      ]
+    },
+    "banner": {
+      "title": "Member savings",
+      "body": "3HO Premium members and active IKYTA members can receive an additional $50 off with a member-only code at checkout.",
+      "linkLabel": "Read the FAQ",
+      "linkUrl": "#landing-faq"
+    },
+    "faq": {
+      "kicker": "FAQ",
+      "title": "Woman's Renewal questions",
+      "items": [
+        {
+          "question": "Is lodging included?",
+          "answer": "No. On-site lodging is not included with registration. 3HO lists two nearby options for people who want to stay close to Hacienda Guru Ram Das Ashram.",
+          "links": [
+            { "label": "LYF Rentals", "href": "https://www.lyfrentals.com/" },
+            { "label": "Espanola Ashram Accommodations", "href": "https://www.espanolaashram.com/pages/accommodations" }
+          ]
+        },
+        {
+          "question": "Can I attend if I am new to Kundalini Yoga?",
+          "answer": "Yes. The experience is beginner-friendly. Teachers will offer guidance and options so participants can practice at their own pace, rest, modify, or step out as needed."
+        },
+        {
+          "question": "What language will the event use?",
+          "answer": "The experience is primarily in English. Spanish support or translation will be available as needed for English- and Spanish-speaking participants."
+        },
+        {
+          "question": "How does the transition work after Summer Solstice?",
+          "answer": "After Summer Solstice, participants travel from Ram Das Puri to Hacienda Guru Ram Das Ashram in Espanola for the June 29 start. Organizers will share check-in details, start time, and what to bring."
+        },
+        {
+          "question": "What is the refund or transfer policy?",
+          "answer": "Cancellation requests made up to 15 days before the event may receive a partial refund. A $75 cancellation fee applies, and transaction or booking fees are not refunded.\n\nFrom 15 days before the event through the first day, refunds are not available. Payment may be transferred to another attendee for the same event by written request."
+        },
+        {
+          "question": "Is there a member discount?",
+          "answer": "Yes. 3HO Premium members and active IKYTA members can receive an additional $50 off by requesting a member-only code and applying it at checkout."
+        }
+      ]
+    }
+  }
+]

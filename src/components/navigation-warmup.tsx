@@ -1,9 +1,19 @@
 "use client";
 
+import { builtinLandings } from "@/lib/landings";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-const primaryRoutes = ["/", "/event", "/program", "/favorites", "/info", "/map", "/contact", "/womens-renewal"];
+const primaryRoutes = [
+  "/",
+  "/event",
+  "/program",
+  "/favorites",
+  "/info",
+  "/map",
+  "/contact",
+  ...builtinLandings.map((landing) => landing.path).filter((path): path is string => typeof path === "string"),
+];
 
 export function NavigationWarmup() {
   const router = useRouter();

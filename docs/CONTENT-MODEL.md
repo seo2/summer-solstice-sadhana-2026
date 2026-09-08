@@ -301,6 +301,16 @@ one event). Stored in its own Dexie DB (`solstice-home-feed`) and replaced
 whole on every refresh. `scripts/fixtures/home.json` is the mock's source;
 the plugin side is proposed as P5. Full contract in [HOME.md](HOME.md).
 
+## Landings (not part of the bundle either)
+
+A **landing** is a designed promo page (A Woman's Renewal Experience is the
+first) rendered by one template from data: hero, actions, highlights, "what you
+get", schedule, people, banner, FAQ — every section optional. Built-in landings
+live in `src/data/landings.json` and are scoped to an event by `eventSlug`;
+synced ones are planned as `landings[]` in the same `GET /home` feed, with the
+plugin side proposed as P10. Contract, sections and plan in
+[LANDINGS.md](LANDINGS.md).
+
 ## Known gaps (2026-09-01)
 
 Found while loading the WSOL26 dummy bundle; both are static strings built from

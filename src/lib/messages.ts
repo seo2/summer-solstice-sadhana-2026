@@ -13,7 +13,9 @@ import Dexie, { type Table } from "dexie";
 import { useLiveQuery } from "dexie-react-hooks";
 import { getBackendBaseUrl } from "@/lib/backend";
 
-export const BUILTIN_EVENT_SLUG = "summer-solstice-2026";
+import { BUILTIN_EVENT_SLUG } from "@/lib/builtin-event";
+
+export { BUILTIN_EVENT_SLUG };
 
 export type BroadcastMessage = {
   /** `${eventSlug}:${id}` — Dexie primary key. */

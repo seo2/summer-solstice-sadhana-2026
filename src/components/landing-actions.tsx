@@ -1,15 +1,28 @@
 "use client";
 
-import {
-  WOMENS_RENEWAL_INTEREST_KEY,
-  WOMENS_RENEWAL_REGISTRATION_URL,
-} from "@/lib/womens-renewal";
+/**
+ * The interactive card under a landing's hero: register (outside the app,
+ * online only), "Save reminder" (local opt-in — the online reminder banner
+ * then points back here), add the dates to the calendar, jump to the FAQ.
+ * Storage keys are per landing (landingInterestKey), so several landings can
+ * be saved at once. Renders only for landings that carry a call to action.
+ */
+
+import { LANDING_INTEREST_EVENT, landingInterestKey } from "@/lib/landings";
 import { Bell, CalendarPlus, CheckCircle, CircleHelp, ExternalLink, Wifi, WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
 
-function readSavedInterest() {
+type Props = {
+  landingId: string;
+  ctaUrl: string;
+  ctaLabel?: string;
+  calendarUrl?: string;
+  faqHref?: string;
+};
+
+function readSavedInterest(key: string) {
   if (typeof window === "undefined") return false;
-  return window.localStorage.getItem(WOMENS_RENEWAL_INTEREST_KEY) === "true";
+  return window.localStorage.getItem(key) === "true";
 }
 
 function useOnlineStatus() {
@@ -29,19 +42,22 @@ function useOnlineStatus() {
   return online;
 }
 
-export function WomensRenewalActions() {
+export function LandingActions({ landingId, ctaUrl, ctaLabel = "Register today", calendarUrl, faqHref }: Props) {
   const online = useOnlineStatus();
   const [saved, setSaved] = useState(false);
+  const interestKey = landingInterestKey(landingId);
 
   useEffect(() => {
-    setSaved(readSavedInterest());
-  }, []);
+    setSaved(readSavedInterest(interestKey));
+  }, [interestKey]);
 
   function saveInterest() {
-    window.localStorage.setItem(WOMENS_RENEWAL_INTEREST_KEY, "true");
-    window.dispatchEvent(new Event("womens-renewal-interest"));
+    window.localStorage.setItem(interestKey, "true");
+    window.dispatchEvent(new Event(LANDING_INTEREST_EVENT));
     setSaved(true);
   }
+
+  const secondaryRow = calendarUrl || faqHref;
 
   return (
     <section className="rounded-xl border border-sky-900/10 bg-white p-4 shadow-[0_18px_48px_rgba(47,98,182,0.09)]">
@@ -55,7 +71,7 @@ export function WomensRenewalActions() {
           </h2>
           <p className="mt-1 text-sm leading-6 text-slate-600">
             {online
-              ? "The checkout opens outside this PWA. If camp connectivity is unreliable, save this reminder too."
+              ? "The checkout opens outside this app. If camp connectivity is unreliable, save this reminder too."
               : "Your interest is stored only on this device. When internet returns, the app can show the registration link."}
           </p>
         </div>
@@ -64,12 +80,12 @@ export function WomensRenewalActions() {
       <div className="mt-4 grid gap-2 sm:grid-cols-2">
         {online ? (
           <a
-            href={WOMENS_RENEWAL_REGISTRATION_URL}
+            href={ctaUrl}
             target="_blank"
             rel="noreferrer"
             className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#2f62b6] px-4 py-3 text-center text-sm font-black text-white shadow-[0_12px_28px_rgba(47,98,182,0.24)]"
           >
-            Register today
+            {ctaLabel}
             <ExternalLink className="h-4 w-4" />
           </a>
         ) : (
@@ -106,23 +122,29 @@ export function WomensRenewalActions() {
         </button>
       </div>
 
-      <div className="mt-3 grid gap-2 sm:grid-cols-2">
-        <a
-          href="/womens-renewal-2026.ics"
-          download
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-900/10 bg-sky-50 px-4 py-2.5 text-center text-sm font-black text-[#2f62b6]"
-        >
-          Add dates to calendar
-          <CalendarPlus className="h-4 w-4" />
-        </a>
-        <a
-          href="#renewal-faq"
-          className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-900/10 bg-white px-4 py-2.5 text-center text-sm font-black text-slate-700"
-        >
-          View FAQ
-          <CircleHelp className="h-4 w-4" />
-        </a>
-      </div>
+      {secondaryRow && (
+        <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          {calendarUrl && (
+            <a
+              href={calendarUrl}
+              download
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-900/10 bg-sky-50 px-4 py-2.5 text-center text-sm font-black text-[#2f62b6]"
+            >
+              Add dates to calendar
+              <CalendarPlus className="h-4 w-4" />
+            </a>
+          )}
+          {faqHref && (
+            <a
+              href={faqHref}
+              className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-sky-900/10 bg-white px-4 py-2.5 text-center text-sm font-black text-slate-700"
+            >
+              View FAQ
+              <CircleHelp className="h-4 w-4" />
+            </a>
+          )}
+        </div>
+      )}
     </section>
   );
 }

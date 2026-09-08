@@ -7,7 +7,8 @@ Two homes, in this order:
 2. **Event Home (`/event`)** — one event's own front door: its hero (built-in
    Summer Solstice artwork, or the synced event's name/dates/location) and the
    event's sections (Program, Teachers, Favorites, Info, Map, Contact,
-   Account, Menus when published, the Women's Renewal promo for the built-in).
+   Account, Menus when published, and the event's landing tiles — the Women's
+   Renewal promo for the built-in, see [LANDINGS.md](LANDINGS.md)).
    Reached by opening an event on the App Home.
 
 Until now `/` *was* the event home: the app opened straight into Summer
@@ -43,8 +44,9 @@ homes feel like one app — and white cards for everything else.
 
 The former `/` content, unchanged in look: `ActiveEventBanner` (synced event →
 "All events" link back to `/`), an "All events" back link for the built-in
-event, the hero (`EventHero`, formerly `HomeHero`), the Women's Renewal promo
-(`BuiltinOnly`), and the section tiles. It is in the offline preload list and
+event, the hero (`EventHero`, formerly `HomeHero`), one `LandingTile` per
+landing scoped to the event (the Women's Renewal promo for the built-in, inside
+`BuiltinOnly`; see [LANDINGS.md](LANDINGS.md)), and the section tiles. It is in the offline preload list and
 the navigation warm-up. The bottom bar's **Home** tab always leads to `/`; the
 bar itself is **hidden on the app Home** (owner direction 2026-09-04): its tabs
 are one event's sections and have nothing to point at before an event is open.
