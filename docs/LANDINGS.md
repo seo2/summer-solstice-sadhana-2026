@@ -176,7 +176,35 @@ as an empty list.
    an item without `eventSlug` is for everyone (the Import screen's event is
    not applied), and Replace retires across all events. Verified with the
    plugin harness against local MySQL; details and the owner QA list in
-   [BACKEND-WSOL26.md](BACKEND-WSOL26.md) P10.
+   [BACKEND-WSOL26.md](BACKEND-WSOL26.md) P10. **v0.10.1 (2026-09-14)** added
+   the one-click Publish / Unpublish toggle and the bundled sample landing
+   ("Add sample as draft"), so a test landing can be switched on and off for
+   WSOL26 without touching the form — see "Testing against WordPress" above.
+
+## Testing against WordPress (plugin ≥ 0.10.1)
+
+Three ways to get a landing into the plugin, all ending in the same
+`ssa_landing` row and the same `landings[]` in `GET /home`:
+
+1. **Add sample as draft** on *Event App → Landings*: pick the event (or "App
+   Home — everyone") and click. The bundled sample — a complete two-day "Gong &
+   Sound Immersion" with every section filled, stock app photos resolved through
+   the media base URL — lands as a **draft** with the stable id
+   `landing-sample-<slug>`; re-adding resets it instead of duplicating.
+2. **Import JSON…** (*Event App → Import*, type Landings): paste or upload an
+   array in the `Landing` shape. `npm run fixtures:csv -- wsol26` writes
+   `scripts/fixtures/csv/wsol26-landings.json` — the fixture landing scoped to
+   `wsol26`, ready to paste (its photos point at the mock, so swap them for
+   Media Library URLs before publishing to real attendees).
+3. **Add landing**: the form, one field per section.
+
+**Activate / deactivate:** the list has a one-click **Publish / Unpublish**
+button that flips `published` ⇄ `draft`. A draft is left out of `GET /home` at
+once, so the app drops it on its next refresh (within 30 minutes while open, on
+launch, or the refresh button on `/news`); publishing puts it back the same way.
+Nothing else about the landing changes, so the loop for WSOL26 is: add the
+sample for Winter Solstice → Publish → open the event in the app and check the
+tile and `/landing#landing-sample-wsol26` → Unpublish.
 
 ## Testing locally
 

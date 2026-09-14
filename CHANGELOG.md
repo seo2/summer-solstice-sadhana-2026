@@ -12,6 +12,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Per-event landings JSON from the fixture converter** — `npm run fixtures:csv
+  -- wsol26` now also writes `scripts/fixtures/csv/wsol26-landings.json` (the
+  landings in `home.json` scoped to that event), the file the plugin's Import
+  screen takes for its JSON-only **Landings** type. Companion to plugin v0.10.1
+  (3ho.org working tree): a one-click Publish / Unpublish toggle and a bundled
+  sample landing that can be switched on and off for WSOL26 — see
+  `docs/LANDINGS.md` "Testing against WordPress". No app UI change, no cache bump.
 - **Landings from the Home feed** (cache v85 → v86) — `GET /home` may now carry
   `landings[]`; the app normalizes them (`normalizeLanding()`), stores them in
   the `solstice-home-feed` DB (v2) and pre-caches their photos. They surface as

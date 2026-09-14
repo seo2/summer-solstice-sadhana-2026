@@ -288,7 +288,10 @@ The column lists in `fixture-to-csv.mjs` mirror `THREEHO_SSA_Importer::csv_colum
 in the plugin — change one and change the other.
 
 The converter also emits `venues`, `categories` and `infoPages` CSVs; the
-Import screen accepts those types too (plugin ≥ 0.5.x). The venues CSV carries
+Import screen accepts those types too (plugin ≥ 0.5.x). It also writes
+`<slug>-landings.json` — the landings in `scripts/fixtures/home.json` scoped to
+that event — because landings import as JSON only (plugin ≥ 0.10.0, type
+**Landings**; see [LANDINGS.md](LANDINGS.md)). The venues CSV carries
 the map-pin columns (`mapX`, `mapY`, `color`, `number`, `featured`, `kind`)
 that plugin v0.7.0 (P6) imports — older plugins silently keep only id, name and
 description.

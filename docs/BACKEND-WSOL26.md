@@ -352,6 +352,23 @@ re-import brings it back. `php -l` clean on the seven touched files.
 the fixture JSON), commit + production deploy (DB 6 → 7 on the first
 `plugins_loaded`), then the first real landing.
 
+**v0.10.1 (2026-09-14, working tree, no schema change):** owner request — a
+test import that can be switched on and off for WSOL26. The Landings list
+gained a one-click **Publish / Unpublish** (`toggle_landing`, nonce-protected;
+flips `status` between `published` and `draft`, nothing else) and an **Add
+sample as draft** form (event select, "App Home — everyone" option) that
+imports the bundled `seeds/landings/sample-gong-immersion.json` through the
+shared `upsert_landings()` writer via `THREEHO_SSA_Landings::sample_item()`:
+stable id `landing-sample-<slug>`, always draft, never pinned, images as
+app-relative paths resolved by `media_url()` against the legacy media base
+(still serving, checked 2026-09-14). Plus an "Import JSON…" shortcut. Harness:
+the sample normalizes with every section, imports as draft scoped to `wsol26`,
+is absent from the `/home` selection while draft and present after the
+toggle's write with absolute image URLs, hides again on unpublish, re-adding
+does not duplicate, an unknown slug is rejected. On the app side
+`scripts/fixture-to-csv.mjs` now also writes `<slug>-landings.json` from
+`home.json` for the Import screen.
+
 **Proposal as written on 2026-09-08 (kept for the record):**
 
 1. **Schema.** New table `ssa_landing`: `id` VARCHAR(191) PK · `event_id`
@@ -406,4 +423,5 @@ type there, and `scripts/fixtures/home.json` is a worked example of it.
   tree; nothing to change app-side.
 - **P10** implemented 2026-09-08 as v0.10.0 / DB v7 in the same working tree;
   the app side was already complete (template cache v85, feed + pages cache
-  v86). Pending owner QA, commit and deploy.
+  v86). **v0.10.1** (2026-09-14) added the Publish / Unpublish toggle and the
+  sample landing. Pending owner QA, commit and deploy.

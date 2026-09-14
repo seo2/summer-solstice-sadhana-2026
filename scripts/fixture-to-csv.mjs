@@ -6,7 +6,10 @@
  *   npm run fixtures:csv            → all fixtures in scripts/fixtures/
  *   npm run fixtures:csv -- wsol26  → just that one
  *
- * Writes scripts/fixtures/csv/<slug>-{program,teachers,menus,dishes,…}.csv.
+ * Writes scripts/fixtures/csv/<slug>-{program,teachers,menus,dishes,…}.csv, plus
+ * <slug>-landings.json when scripts/fixtures/home.json carries landings scoped
+ * to that event — landings import as JSON only (the shape is too nested for
+ * CSV), so that file is what the Import screen's "Landings" type takes.
  *
  * The column lists below mirror THREEHO_SSA_Importer::csv_columns() in the
  * plugin, and the "|" separator mirrors its CSV_MULTI_SEPARATOR — keep them in
@@ -65,9 +68,27 @@ function flattenRow(row) {
   return row;
 }
 
+/** Landings scoped to one event, from the Home feed fixture (docs/LANDINGS.md). */
+function landingsFor(slug) {
+  let home;
+  try {
+    home = JSON.parse(readFileSync(join(FIXTURES_DIR, "home.json"), "utf8"));
+  } catch {
+    return [];
+  }
+  return (Array.isArray(home.landings) ? home.landings : []).filter((landing) => landing.eventSlug === slug);
+}
+
 function convert(slug) {
   const bundle = JSON.parse(readFileSync(join(FIXTURES_DIR, `${slug}.json`), "utf8"));
   const written = [];
+
+  const landings = landingsFor(slug);
+  if (landings.length) {
+    const file = join(OUT_DIR, `${slug}-landings.json`);
+    writeFileSync(file, `${JSON.stringify(landings, null, 2)}\n`);
+    written.push(`${slug}-landings.json (${landings.length} landings, JSON only)`);
+  }
 
   for (const [type, columns] of Object.entries(COLUMNS)) {
     const rows = (bundle[type] ?? []).map(flattenRow);
