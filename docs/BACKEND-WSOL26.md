@@ -369,6 +369,27 @@ does not duplicate, an unknown slug is rejected. On the app side
 `scripts/fixture-to-csv.mjs` now also writes `<slug>-landings.json` from
 `home.json` for the Import screen.
 
+**v0.11.0 (2026-09-14, working tree, no schema change) — visual editor.** Owner
+request: make the Landings admin more graphic and clearer about what it
+produces in the app. `render_landing_form()` was rebuilt with its own assets
+(`assets/landing-admin.css` / `.js`, enqueued only on Event App → Landings):
+nine collapsible sections in the page's order, each with a sketch of the page
+lighting its block, a one-line "how it looks" and a live **In the page / Not
+shown** badge; repeaters with separate fields (facts with icon select, days,
+people with a Media Library button, FAQ entries with link chips) replacing the
+`|` grammar, which the save handler still accepts as a fallback
+(`post_rows()`); a publish box (Published / Draft with meaning, scope, pinned,
+a two-phone diagram lighting App Home or Event Home, date); and a **live phone
+preview** with a Tile tab (the tile under the chosen event's hero, or under the
+App Home's Featured header) and a Full page tab, re-rendered on input in the
+app's colors and section order — the JS is a hand port of `LandingView`, so
+keep the two in step when the template changes. Verified by rendering the form
+through a WP-stub harness to static HTML and driving it in the browser with the
+real assets (two columns at 1440 px, all nine badges lit by the sample, the
+tile in the "Winter Solstice Sadhana 2026" context, eight page sections, draft
+hint, "Add fact" hidden at three). Pending owner QA in real wp-admin (media
+picker, save round trip), commit, deploy.
+
 **Proposal as written on 2026-09-08 (kept for the record):**
 
 1. **Schema.** New table `ssa_landing`: `id` VARCHAR(191) PK · `event_id`
@@ -424,4 +445,5 @@ type there, and `scripts/fixtures/home.json` is a worked example of it.
 - **P10** implemented 2026-09-08 as v0.10.0 / DB v7 in the same working tree;
   the app side was already complete (template cache v85, feed + pages cache
   v86). **v0.10.1** (2026-09-14) added the Publish / Unpublish toggle and the
-  sample landing. Pending owner QA, commit and deploy.
+  sample landing; **v0.11.0** (same day) the visual editor with the live phone
+  preview. Pending owner QA, commit and deploy.

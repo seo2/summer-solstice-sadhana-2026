@@ -201,7 +201,13 @@ Three ways to get a landing into the plugin, all ending in the same
    2026-09-14 via `GET /home`), and an unknown slug rejects the row with a
    reason that lists the site's slugs. Edit the slug (and swap the photos for
    Media Library URLs) before pasting into production, or use the sample.
-3. **Add landing**: the form, one field per section.
+3. **Add landing**: the editor (plugin ≥ 0.11.0) — nine collapsible sections
+   in the page's order, each with a sketch of where it lands and an "In the
+   page / Not shown" badge; repeaters for facts, days, people and FAQ; a
+   publish box with a two-phone diagram (App Home / Event Home); and a **live
+   phone preview** of the tile in its home context and of the full page,
+   re-rendered as you type. The preview is a hand port of `LandingView` in
+   `assets/landing-admin.js` — when this app's template changes, update it too.
 
 **Activate / deactivate:** the list has a one-click **Publish / Unpublish**
 button that flips `published` ⇄ `draft`. A draft is left out of `GET /home` at

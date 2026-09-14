@@ -24,6 +24,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   paste without editing the slug rejects every row (plugin v0.10.1 now names
   the site's slugs in the reason and no longer bumps `content_version` for
   landings). Noted in `docs/LANDINGS.md`.
+- **Docs: plugin v0.11.0 visual landing editor** — the wp-admin Landings form
+  now mirrors the app's page (sections in order with sketches and live badges,
+  repeaters, publish box with an App Home / Event Home diagram) and shows a
+  live phone preview of the tile and the full page; that preview is a hand
+  port of `LandingView`, so template changes here must be mirrored there.
+  Recorded in `docs/LANDINGS.md` and `docs/BACKEND-WSOL26.md` P10.
 - **Landings from the Home feed** (cache v85 → v86) — `GET /home` may now carry
   `landings[]`; the app normalizes them (`normalizeLanding()`), stores them in
   the `solstice-home-feed` DB (v2) and pre-caches their photos. They surface as
