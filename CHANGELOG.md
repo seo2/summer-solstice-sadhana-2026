@@ -19,6 +19,11 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   (3ho.org working tree): a one-click Publish / Unpublish toggle and a bundled
   sample landing that can be switched on and off for WSOL26 — see
   `docs/LANDINGS.md` "Testing against WordPress". No app UI change, no cache bump.
+- **Docs: `eventSlug` must match the target site** — the fixture landings carry
+  the mock's `wsol26`; production's WSOL26 event is `winter-solstice-2026`, so a
+  paste without editing the slug rejects every row (plugin v0.10.1 now names
+  the site's slugs in the reason and no longer bumps `content_version` for
+  landings). Noted in `docs/LANDINGS.md`.
 - **Landings from the Home feed** (cache v85 → v86) — `GET /home` may now carry
   `landings[]`; the app normalizes them (`normalizeLanding()`), stores them in
   the `solstice-home-feed` DB (v2) and pre-caches their photos. They surface as

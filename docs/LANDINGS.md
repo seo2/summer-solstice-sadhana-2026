@@ -194,8 +194,13 @@ Three ways to get a landing into the plugin, all ending in the same
 2. **Import JSON…** (*Event App → Import*, type Landings): paste or upload an
    array in the `Landing` shape. `npm run fixtures:csv -- wsol26` writes
    `scripts/fixtures/csv/wsol26-landings.json` — the fixture landing scoped to
-   `wsol26`, ready to paste (its photos point at the mock, so swap them for
-   Media Library URLs before publishing to real attendees).
+   `wsol26`, ready to paste against the **mock** (its photos point at
+   `localhost:3999` too). **`eventSlug` must be exactly the slug shown in
+   Event App → Events of the site you import into** — `wsol26` is the mock's
+   slug; production's WSOL26 event is `winter-solstice-2026` (checked
+   2026-09-14 via `GET /home`), and an unknown slug rejects the row with a
+   reason that lists the site's slugs. Edit the slug (and swap the photos for
+   Media Library URLs) before pasting into production, or use the sample.
 3. **Add landing**: the form, one field per section.
 
 **Activate / deactivate:** the list has a one-click **Publish / Unpublish**
@@ -204,7 +209,10 @@ once, so the app drops it on its next refresh (within 30 minutes while open, on
 launch, or the refresh button on `/news`); publishing puts it back the same way.
 Nothing else about the landing changes, so the loop for WSOL26 is: add the
 sample for Winter Solstice → Publish → open the event in the app and check the
-tile and `/landing#landing-sample-wsol26` → Unpublish.
+tile and `/landing#landing-sample-<slug>` (`landing-sample-winter-solstice-2026`
+in production) → Unpublish. Landings never bump the event's `content_version`:
+the Import summary for them talks about the Home feed, and a run where every
+row was rejected says so instead of announcing a bump.
 
 ## Testing locally
 
