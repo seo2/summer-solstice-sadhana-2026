@@ -286,6 +286,18 @@ live but **empty**.
 - [ ] **WSOL26 info texts & map artwork** — Arrival/camp-life texts for the Florida
       venue and the venue map image (feeds WS2). Done when WS2 has real content to
       render.
+      *Interim (2026-09-14):* the 34 Summer Solstice info pages the WSOL26 event
+      inherited are cut back to what is generic — in `scripts/fixtures/wsol26.json`
+      (v9) and `scripts/fixtures/csv/wsol26-infoPages.csv`, ready to import over
+      the live pages. 12 pages are unchanged (teaching and reference), 10 are
+      rewritten without Ram Das Puri or June specifics, and 12 carry a
+      "Details for Winter Solstice 2026 are coming soon" notice where the winter
+      fact is pending: weather, First Aid, emergency plan, lodging and bathrooms,
+      Bazaar hours, departure and shuttles, meal times, recycling rules, WTY®
+      mantras, the all-camp meditation, tickets, accommodation, cancellation. The
+      page-by-page brief for the content team (current text + what the winter
+      version needs) is the "Winter Solstice Info Brief" artifact shared by the
+      owner.
 - [ ] **On-device content QA** — Full read-through on a phone before freeze;
       terminology exactly as provided: WTY®, White Tantric Yoga®, Sadhana, Gurdwara.
       Done when no extraction artifacts or wrong labels remain.

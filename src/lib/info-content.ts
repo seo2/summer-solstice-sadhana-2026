@@ -10,7 +10,7 @@
  *
  * Authoring conventions for synced pages (written fresh in wp-admin):
  *  - `## Heading` opens a section card (any known booklet heading works too).
- *  - A blank line or `¶` starts a new paragraph.
+ *  - A line holding only `¶` starts a new paragraph (blank lines are collapsed).
  *  - `∙` `•` `—` `-` start a bullet; `1.` `2.` … a numbered item.
  *  - `Label: value` with a known label (Posture, Mantra, Time…) renders as a
  *    definition; `> text` renders as a quote; `*` or `**` open a footnote.
@@ -100,7 +100,7 @@ export const infoGroupCatalog: InfoGroupSpec[] = [
   {
     id: "wty",
     title: "White Tantric Yoga®",
-    description: "Participant guidelines, mantras for courses #110–#112, and monitor & organizer reference.",
+    description: "Participant guidelines, the mantras for each course, and monitor & organizer reference.",
     pages: ["page-wty-intro", "page-wty-mantras", "page-wty-organizer", "page-wty-monitor"],
   },
   {

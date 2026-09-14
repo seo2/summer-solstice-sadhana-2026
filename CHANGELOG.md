@@ -55,6 +55,26 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **WSOL26 info pages cut back to generic text** (fixture v9, cache v86 → v87)
+  — the 34 Summer Solstice pages the winter event inherited
+  now carry only what holds for any Solstice, in `scripts/fixtures/wsol26.json`
+  and the regenerated `scripts/fixtures/csv/wsol26-infoPages.csv` (35 rows,
+  ready for the Import screen). 12 pages are unchanged (glossary, Dharma and
+  yoga teaching, Sadhana mantras, WTY® organizer guidelines, diet, Youth Camp,
+  FAQ payment), 10 are rewritten without Ram Das Puri, June or summer-only
+  facts, and 12 carry a "Details for Winter Solstice 2026 are coming soon"
+  notice (rendered as the orange quote card) where the winter fact is pending:
+  weather, First Aid, emergency plan, lodging and bathrooms, Bazaar hours,
+  departure and shuttles, meal times, recycling rules, WTY® mantras, the
+  all-camp meditation, tickets, accommodation and cancellation. Rewritten
+  pages use the `## Heading` convention and every stored title now matches the
+  title the app shows. The shared topic catalog's White Tantric Yoga® description
+  no longer names the summer courses (#110–#112) — it reads "the mantras for each
+  course" for both events, hence the cache bump. Docs: the paragraph rule in `docs/CONTENT-MODEL.md`,
+  `CLAUDE.md` and the `info-content.ts` header now says what the parser does —
+  only a `¶` line breaks a paragraph, blank lines are collapsed. WS7 in
+  `docs/WSOL26-PLAN.md` records the interim.
+
 - **Women's Renewal page and promo card render from data** (cache v85) — same
   look; the promo card's button now reads "See details" (was "Open Renewal") and
   the FAQ anchor is `#landing-faq`. `src/lib/womens-renewal.ts` and the two

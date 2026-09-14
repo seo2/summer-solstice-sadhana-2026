@@ -94,7 +94,8 @@ today without any of these fields.
 **Content.** `infoPages[].content` is plain text with light conventions:
 
 - `## Heading` opens a section card (the booklet's known headings work too).
-- A blank line (or a lone `¶`) starts a new paragraph.
+- A line holding only `¶` starts a new paragraph. Blank lines do **not**: the parser
+  collapses them, so consecutive plain lines join into one paragraph.
 - `∙`, `•`, `—` or `-` start a bullet; `1.`, `2.` … a numbered item.
 - `Label: value` with a known label (Posture, Mantra, Meaning of the Mantra,
   Breath, Mudra, Eye Focus, Time, End, Comments, Directions) renders as a

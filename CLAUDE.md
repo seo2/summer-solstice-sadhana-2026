@@ -143,6 +143,8 @@ Pitfalls:
   `## Heading` instead of relying on that list.
 - Grouping: a page's `group` key (bundle) wins, then the catalog's page-id lists, then "More".
 - Bullet lines beginning with `∙`, `•`, `—`, or `-` render as styled list items.
+- Only a line holding `¶` breaks a paragraph; blank lines are collapsed and consecutive plain
+  lines join into one paragraph.
 - Avoid user-facing labels like “PDF page” or “Section N”.
 - Keep visible labels clean and event-attendee friendly.
 
