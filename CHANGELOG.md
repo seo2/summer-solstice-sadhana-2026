@@ -12,6 +12,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **Agenda reminders never fired on native** (found in on-device QA, iPhone +
+  simulator): favoriting a session neither asked for notification permission
+  nor scheduled the 15-minute reminder — `nativeLocalNotifications()` returned
+  the Capacitor plugin proxy directly from an async function, and the proxy
+  fabricates a method for every property access including `then`, so the
+  `await` treated it as a thenable that never settles and the whole chain
+  hung silently (every failure swallowed as best-effort). Now the plugin is
+  returned wrapped in a plain object, mirroring `nativePush()`. Verified on a
+  clean simulator install: favoriting prompts for permission and
+  `getPending → requestPermissions → schedule` all reach the bridge. Both
+  store binaries carried the bug, so build numbers bumped for re-upload:
+  iOS 1.0 (2), Android versionCode 2. Native-only behavior, no cache bump.
+
 - **Program header date range follows the active event** (cache v88 → v89):
   with a synced event active, the range under the "Program" title still showed
   the built-in event's dates (e.g. "Fri, Jun 19 – Sat, Jun 27" over the WSOL26

@@ -12,13 +12,17 @@ async function nativeLocalNotifications() {
   const capacitor = await import("@capacitor/core");
   if (!capacitor.Capacitor.isNativePlatform()) return null;
   const { LocalNotifications } = await import("@capacitor/local-notifications");
-  return LocalNotifications;
+  // Wrapped in a plain object on purpose: returning the plugin proxy directly
+  // from an async function hangs forever — the proxy fabricates a method for
+  // EVERY property access, `then` included, so the await machinery treats it
+  // as a thenable that never settles. Same pattern as nativePush() in push.ts.
+  return { LocalNotifications };
 }
 
 export async function requestLocalNotificationPermission(): Promise<boolean> {
-  const notifications = await nativeLocalNotifications();
-  if (!notifications) return false;
-  const result = await notifications.requestPermissions();
+  const native = await nativeLocalNotifications();
+  if (!native) return false;
+  const result = await native.LocalNotifications.requestPermissions();
   return result.display === "granted";
 }
 
@@ -27,8 +31,9 @@ export async function requestLocalNotificationPermission(): Promise<boolean> {
  * times are scheduled). Called by ReminderAgent whenever favorites change.
  */
 export async function rescheduleFavoriteReminders(reminders: ReminderInput[]): Promise<void> {
-  const notifications = await nativeLocalNotifications();
-  if (!notifications) return;
+  const native = await nativeLocalNotifications();
+  if (!native) return;
+  const notifications = native.LocalNotifications;
 
   const pending = await notifications.getPending();
   if (pending.notifications.length > 0) {
@@ -59,11 +64,11 @@ export async function rescheduleFavoriteReminders(reminders: ReminderInput[]): P
  * acceptable for v1 (the toast still shows).
  */
 export async function notifyScheduleChanges(messages: string[]): Promise<void> {
-  const notifications = await nativeLocalNotifications();
-  if (!notifications || messages.length === 0) return;
+  const native = await nativeLocalNotifications();
+  if (!native || messages.length === 0) return;
 
   const base = Date.now() % 2147483647;
-  await notifications.schedule({
+  await native.LocalNotifications.schedule({
     notifications: messages.map((body, index) => ({
       id: (base + index) % 2147483647,
       title: "Schedule change",
