@@ -53,6 +53,18 @@ Two things to keep in mind:
   privacy policy still describes what happens *if* a session exists. Details in
   [ACCOUNTS.md](ACCOUNTS.md).
 
+## Console accounts (who owns what)
+
+- **Apple Developer Program** enrolls with the Apple ID **`rai@3ho.org`**
+  (decided 2026-09-14 — replaces the earlier plan to use `developer@3ho.org`,
+  whose email verification kept failing on Apple ID creation). After
+  enrollment, invite `developer@3ho.org` in **App Store Connect → Users and
+  Access** (App Manager role with the Developer resource, or Admin) so the dev
+  can upload TestFlight builds and manage the listing.
+- **Google Play Console** opens with **`developer@3ho.org`** as planned.
+- Both consoles support multiple users — access is granted by invitation, so
+  nobody shares passwords.
+
 ## A — Apple chain
 
 1. **Apple Developer Program** (developer.apple.com, $99/yr): enroll as the
