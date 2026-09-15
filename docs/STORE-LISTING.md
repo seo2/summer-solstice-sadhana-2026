@@ -84,18 +84,27 @@ toggle), never at launch. Content is loaded from the organization's WordPress
 backend and cached on the device for offline use.
 ```
 
-## Screenshots (to produce)
+## Screenshots
 
 Required: iPhone 6.9" (1320×2868) — and iPad 13" only if iPad stays enabled;
-Play: phone (16:9 or 9:16, ≥1080px). Suggested set, using the WSOL26 fixture:
+Play: phone (16:9 or 9:16, ≥1080px).
 
-1. App Home — featured event hero with countdown.
-2. Program — day strip + session cards.
-3. Session detail with favorite + reminder.
-4. Venue map with pins, mid-zoom.
-5. Daily menus with a dish card open.
-6. Announcements feed (alert + announcement).
-7. Info Hub topics.
+**Draft set captured 2026-09-14** (8 shots, exact 1320×2868, iPhone 17 Pro Max
+simulator, status bar staged to 9:41/full battery), mostly against the **live
+production backend** — real WSOL26 program, map and menus:
 
-They can be captured headlessly from the simulator (toolchain in
-[TESTING-LOCAL.md](TESTING-LOCAL.md) Level D) once the final icon/splash are in.
+1. App Home — hero + featured event card with countdown + past event.
+2. Event Home — event hero with Open Program / Info Hub.
+3. Program — day strip + session cards (favorited heart visible).
+4. Session detail sheet with the red "Saved" state.
+5. Venue map at 100% centered on ASTA with its pin + description callout.
+6. Info Hub topic grid.
+7. Announcements feed (alert + announcements — mock-seeded; production
+   channels held no messages yet).
+8. Daily menus — Wed day with Breakfast/Lunch cards (production has no dish
+   records yet, so no dish sheet).
+
+Redo the set once the **final icon/splash art** lands (same recipe:
+[TESTING-LOCAL.md](TESTING-LOCAL.md) Level D, including the
+mock-announcements trick) — and ideally with real announcements and dishes in
+production so every shot is genuine content.

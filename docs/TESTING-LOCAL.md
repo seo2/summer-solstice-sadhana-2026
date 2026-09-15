@@ -198,6 +198,31 @@ Gotchas that cost time the first run:
   immediate "Schedule change" notifications — both work in the iOS simulator.
   **Real push delivery does not** (APNs needs a physical device + keys — WS4).
 
+### Pointing the iOS app at the mock without any UI (store screenshots)
+
+Since production went live, a fresh install auto-adopts
+`winter-solstice-2026` from `https://www.3ho.org` (events/current). The
+no-accounts build has **no path to Account → Sync Lab**, so to make the
+simulator talk to the mock backend instead (e.g. to fill the Announcements
+feed for screenshots — production channels exist but may hold no messages):
+
+```bash
+xcrun simctl terminate <udid> org.threeho.eventapp
+# app container → .../Library/WebKit/org.threeho.eventapp/WebsiteData/Default/*/*/LocalStorage/localstorage.sqlite3
+# insert key 'ssa-sync-lab-base' with value 'http://localhost:3999' encoded UTF-16LE (WebKit stores values that way)
+xcrun simctl launch <udid> org.threeho.eventapp
+```
+
+On the next boot tick the app asks the mock's `events/current`, syncs and
+adopts `wsol26`. Seed announcements first with
+`curl "http://localhost:3999/mock/post?type=official&body=..."` (and
+`type=alert`) — the AlertsAgent stores them within ~12 s, or tap the refresh
+button on /announcements. To restore: terminate, `DELETE` that key, relaunch —
+the app re-adopts production on its own — and remove the leftover mock event
+from the Home list (trash icon). The draft store screenshot set (8 shots,
+1320×2868) was produced this way on 2026-09-14; see
+[STORE-LISTING.md](STORE-LISTING.md).
+
 ## What cannot be tested locally
 
 Store installs, push delivery end-to-end (APNs/FCM), and review-facing flows —
