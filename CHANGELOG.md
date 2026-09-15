@@ -30,6 +30,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **iOS push entitlement**: new `ios/App/App/App.entitlements` with
+  `aps-environment`, wired via `CODE_SIGN_ENTITLEMENTS` in both build
+  configurations — required for APNs registration in TestFlight/App Store
+  builds. Native project config only, no cache bump.
+
+
 - **Android push enabled**: `android/app/google-services.json` (Firebase
   project `threeho-event-app`, package `org.threeho.eventapp`) is now in the
   repo — the `FCM_CONFIGURED` guard detects it at build time and compiles in
