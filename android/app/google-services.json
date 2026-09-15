@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "285656376264",
+    "project_id": "threeho-event-app",
+    "storage_bucket": "threeho-event-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:285656376264:android:58fc2d4c4869c410ab56fd",
+        "android_client_info": {
+          "package_name": "org.threeho.eventapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaiIbi4cOHMAvAmyjIPrBcaA38FVE4v-Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -30,6 +30,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Android push enabled**: `android/app/google-services.json` (Firebase
+  project `threeho-event-app`, package `org.threeho.eventapp`) is now in the
+  repo — the `FCM_CONFIGURED` guard detects it at build time and compiles in
+  Android push registration. Native-gated behavior only, no cache bump.
+
+
 - **Store release prep** (cache v87 → v88): the **privacy policy** at
   `/privacy` now matches the no-accounts release — the "Optional account"
   section is gone, the short version says there is nothing to sign up for,
