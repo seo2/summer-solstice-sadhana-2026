@@ -86,8 +86,8 @@ backend and cached on the device for offline use.
 
 ## Screenshots
 
-Required: iPhone 6.9" (1320×2868) — and iPad 13" only if iPad stays enabled;
-Play: phone (16:9 or 9:16, ≥1080px).
+Required: iPhone 6.9" (1320×2868); iPad is disabled (iPhone-only target,
+2026-09-14), so no iPad shots. Play: phone (16:9 or 9:16, ≥1080px).
 
 **Draft set captured 2026-09-14** (8 shots, exact 1320×2868, iPhone 17 Pro Max
 simulator, status bar staged to 9:41/full battery), mostly against the **live

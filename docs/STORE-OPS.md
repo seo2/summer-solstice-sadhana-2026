@@ -24,6 +24,9 @@ the WS4 Trello card checklists. Prepared 2026-08-28.
   only, so App Store Connect skips the export-compliance question per build.
 - Android `targetSdkVersion 36` / `compileSdk 36` — meets Play's current
   target-API requirement.
+- iOS targets **iPhone only** (`TARGETED_DEVICE_FAMILY = 1`, 2026-09-14) — no
+  iPad 13" screenshots or iPad review surface required; iPads can still
+  install it in iPhone-compatibility mode.
 - **Listing copy ready to paste** (names, descriptions, keywords, promo text,
   What's New, review notes, screenshot plan): [STORE-LISTING.md](STORE-LISTING.md).
 
@@ -83,8 +86,8 @@ Two things to keep in mind:
    signing automatically; archive → upload to TestFlight.
 5. **TestFlight**: add internal testers; run the on-device QA below.
 6. Listing: description, keywords, support URL (3ho.org), privacy policy URL,
-   screenshots (6.9"/6.7" iPhone required; iPad 13" if iPad is enabled — or
-   disable iPad).
+   screenshots (6.9"/6.7" iPhone required; iPad is disabled — iPhone-only
+   target — so no iPad screenshots).
 7. **Privacy labels** (answers below) + review notes (below) → submit early
    November.
 

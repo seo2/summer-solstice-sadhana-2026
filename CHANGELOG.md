@@ -21,6 +21,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   are missing, the synced program's first/last day). Single-day events render
   as one date instead of "X – X".
 
+### Changed
+
+- **iOS targets iPhone only** (`TARGETED_DEVICE_FAMILY = 1`): drops the iPad
+  13" screenshot requirement and iPad review surface for the App Store
+  submission — iPads can still install the app in iPhone-compatibility mode.
+  Native project config only, no cache bump.
+
 ### Added
 
 - **Store release prep** (cache v87 → v88): the **privacy policy** at
