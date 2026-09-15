@@ -26,14 +26,15 @@ export default function PrivacyPage() {
       <div>
         <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#f39200]">3HO Event App</p>
         <h1 className="text-4xl font-black tracking-[-0.05em] text-[#2f62b6]">Privacy Policy</h1>
-        <p className="mt-1 text-sm font-semibold text-stone-500">Last updated: August 28, 2026</p>
+        <p className="mt-1 text-sm font-semibold text-stone-500">Last updated: September 14, 2026</p>
       </div>
 
       <Section title="The short version">
         <p>
-          The 3HO Event App is an offline-first event guide. Almost everything you do in it — browsing the
-          program, saving favorites, building your agenda, reading event info — stays on your device. There
-          are no ads, no third-party analytics, no location tracking, and we never sell your information.
+          The 3HO Event App is an offline-first event guide that needs no account — there is nothing to
+          sign up for. Almost everything you do in it — browsing the program, saving favorites, building
+          your agenda, reading event info — stays on your device. There are no ads, no third-party
+          analytics, no location tracking, and we never sell your information.
         </p>
       </Section>
 
@@ -46,22 +47,11 @@ export default function PrivacyPage() {
         </p>
       </Section>
 
-      <Section title="Optional account">
-        <p>
-          You can use the entire app without an account, and the app does not create accounts — those are
-          made on 3HO&apos;s website. If you choose to sign in with a 3HO account,
-          your email address, display name, and password are processed by 3HO&apos;s website (3ho.org) to
-          authenticate you, and your favorited sessions are synced to your account so they follow you across
-          devices. Passwords are handled by WordPress&apos;s standard authentication; the app stores only an
-          access token on your device, which is invalidated when you sign out.
-        </p>
-      </Section>
-
       <Section title="Notifications">
         <p>
           If you allow notifications, the app registers your device&apos;s push token with 3HO&apos;s server together
-          with your notification preferences, the event you are viewing, and the app version — with or
-          without an account. This is used only to deliver event alerts and, if you opt in, occasional news
+          with your notification preferences, the event you are viewing, and the app version — no account
+          or identity is involved. This is used only to deliver event alerts and, if you opt in, occasional news
           about future 3HO events. You can change both preferences in the app at any time, or disable
           notifications entirely in your device settings. Reminders for your favorited sessions are scheduled
           locally on your device and involve no server at all.
@@ -88,10 +78,9 @@ export default function PrivacyPage() {
 
       <Section title="Your choices & deletion">
         <p>
-          Signing out stops favorites sync and invalidates the app&apos;s access token. Disabling notifications
-          unregisters your device from push delivery. Uninstalling the app removes all locally stored data.
-          To delete your 3HO account and its synced data, ask us through the app&apos;s Contact section or on
-          3ho.org, where the account was created.
+          Disabling notifications unregisters your device from push delivery. Uninstalling the app removes
+          all locally stored data. For any other privacy request, reach us through the app&apos;s Contact
+          section.
         </p>
       </Section>
 

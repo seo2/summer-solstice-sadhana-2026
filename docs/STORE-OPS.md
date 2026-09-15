@@ -15,10 +15,17 @@ the WS4 Trello card checklists. Prepared 2026-08-28.
   for reminders/push to display — was missing, fixed 2026-08-28).
 - Versions: iOS `MARKETING_VERSION 1.0` / build 1 · Android `versionName 1.0` /
   `versionCode 1` — fine for first submission.
-- Privacy policy drafted at the app route **`/privacy`** (linked from Account).
-  ⚠️ Review the text with the organization before submitting, and decide the
-  **public web domain** of the PWA (the policy URL you give the stores, e.g.
-  `https://<final-domain>/privacy`).
+- Privacy policy at **`/privacy`**, updated 2026-09-14 (cache v88) to the
+  **no-accounts** release: the "Optional account" section is gone, push is
+  described as fully anonymous. ⚠️ Still pending: organization review of the
+  text, and the **public web domain** decision (the policy URL for the stores,
+  e.g. `https://<final-domain>/privacy`).
+- iOS `ITSAppUsesNonExemptEncryption = NO` set (2026-09-14) — standard HTTPS
+  only, so App Store Connect skips the export-compliance question per build.
+- Android `targetSdkVersion 36` / `compileSdk 36` — meets Play's current
+  target-API requirement.
+- **Listing copy ready to paste** (names, descriptions, keywords, promo text,
+  What's New, review notes, screenshot plan): [STORE-LISTING.md](STORE-LISTING.md).
 
 ## ~~Blocker: in-app account deletion (G1)~~ — resolved by dropping sign-up
 
@@ -107,31 +114,29 @@ npm run cap:sync
 
 ## D — Privacy answers (derived from the actual code)
 
-The app collects **no** analytics, ads identifiers, location, or diagnostics.
+The app collects **no** analytics, ads identifiers, location, or diagnostics —
+and since the no-accounts decision (v68/v79), **no account data at all**.
 
 | Data | When | Linked to identity? | Purpose |
 |---|---|---|---|
-| Email + name | Optional account only | Yes (the account) | Sign-in, favorites sync |
-| Favorited sessions | Signed-in sync only | Yes (the account) | App functionality (cross-device sync) |
-| Push token + notification prefs + active event + app version | If notifications allowed | No (anonymous unless signed in) | Push delivery |
+| Push token + notification prefs + active event + app version | Only if notifications allowed | No (fully anonymous) | Push delivery |
 | Contact-form fields (name, email, phone, message) | Only when the user sends a message | Used to respond, not stored as a profile | App functionality |
 
-- **Apple labels**: "Data Linked to You" → Contact Info (email, name), User
-  Content (favorites) — *only for account holders*; "Data Not Linked to You" →
-  Identifiers (device push token). Tracking: **No**.
-- **Play Data safety**: collects Email + Name (optional, account), Device IDs
-  (push token); encrypted in transit; user can request deletion; **no**
-  sharing with third parties, **no** ads.
+- **Apple labels**: "Data Not Linked to You" → Identifiers (device push
+  token), Contact Info (name/email — contact form only, app functionality).
+  Nothing under "Data Linked to You". Tracking: **No**.
+- **Play Data safety**: collects Device IDs (push token, optional) and
+  Name/Email (contact form, optional); encrypted in transit; deletion on
+  request; **no** sharing with third parties, **no** ads.
 
 ## E — Review notes (paste into both stores)
 
-> The app is an offline-first event guide. Accounts are OPTIONAL — all content
-> works without signing in. Commerce links out to the organization's existing
-> ticketing website; there are no in-app purchases. Notification permission is
-> requested in context (first favorited session or enabling a notification
-> toggle), never at launch. Demo account for review: **create a dedicated
-> 3ho.org test account and paste its credentials here** (never reuse a real
-> user's account).
+> There is NO sign-in and NO account — every feature works immediately on
+> first launch, so **no demo credentials are needed**. Commerce links out to
+> the organization's existing ticketing website; there are no in-app
+> purchases. Notification permission is requested in context (first favorited
+> session or enabling a notification toggle), never at launch.
+> Full paste-ready version in [STORE-LISTING.md](STORE-LISTING.md).
 
 ## F — On-device QA (physical iPhone + Android)
 

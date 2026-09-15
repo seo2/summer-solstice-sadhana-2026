@@ -12,6 +12,20 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Store release prep** (cache v87 → v88): the **privacy policy** at
+  `/privacy` now matches the no-accounts release — the "Optional account"
+  section is gone, the short version says there is nothing to sign up for,
+  push registration is described as fully anonymous, and the deletion section
+  covers notifications/uninstall/contact only. iOS gains
+  **`ITSAppUsesNonExemptEncryption = NO`** (standard HTTPS only), so App Store
+  Connect stops asking the export-compliance question on every build. New
+  **`docs/STORE-LISTING.md`** with paste-ready listing copy for both stores:
+  names, Apple subtitle/keywords/promotional text, Play short description,
+  shared full description, What's New v1.0, review notes (no demo credentials
+  needed — there is no sign-in), and the 7-shot screenshot plan.
+  `docs/STORE-OPS.md` technical-state and privacy-answer tables refreshed to
+  the same reality (no account data collected at all; targetSdk 36 noted).
+
 - **Per-event landings JSON from the fixture converter** — `npm run fixtures:csv
   -- wsol26` now also writes `scripts/fixtures/csv/wsol26-landings.json` (the
   landings in `home.json` scoped to that event), the file the plugin's Import

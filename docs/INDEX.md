@@ -21,6 +21,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | [../CHANGELOG.md](../CHANGELOG.md) | Notable changes, Keep-a-Changelog format |
 | [TESTING-LOCAL.md](TESTING-LOCAL.md) | How to test the app locally: alone, against the mock backend, against local WordPress, and in simulators |
 | [STORE-OPS.md](STORE-OPS.md) | WS4 runbook: Apple/Google store chains, privacy answers, review notes, QA checklist, timeline to Nov 24 |
+| [STORE-LISTING.md](STORE-LISTING.md) | Paste-ready store listing copy: names, descriptions, keywords, promo text, What's New, review notes, screenshot plan |
 
 ## Planning & architecture
 
