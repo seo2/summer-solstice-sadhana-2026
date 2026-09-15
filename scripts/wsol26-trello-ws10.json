@@ -1,0 +1,24 @@
+{
+  "list": "To do",
+  "cards": [
+    {
+      "name": "WS10 — Pantalla bloqueada: widgets y Live Activities (v1.1)",
+      "desc": "La experiencia \"Delta Airlines\" para el asistente, en una actualización 1.1 después del release 1.0 y antes del evento (dic 15–21).\n\n**Dos superficies:**\n1. **Widget de countdown** (pantalla de inicio + bloqueada, iOS 16+/Android): \"Winter Solstice · faltan N días\" — timeline nativa, sin servidor.\n2. **Live Activity durante el evento** (iOS 16.1+, Dynamic Island): countdown a la próxima sesión favorita → barra de progreso mientras corre → siguiente en la agenda. Los timers corren solos en el sistema (sin push); las transiciones se actualizan al abrir la app. En Android: notificación persistente con cronómetro (Live Updates en Android 16).\n\nRequiere targets nativos (SwiftUI Widget Extension + Kotlin) y un puente Capacitor pequeño con App Group para pasar evento/agenda.\n\nOpcional futuro (necesita el sender de WS4): push-to-start y updates remotos (iOS 17.2+).",
+      "checklists": [
+        {
+          "name": "Entregables",
+          "items": [
+            "Widget countdown iOS (WidgetKit, home + lock screen) leyendo el evento activo/próximo",
+            "Widget countdown Android (AppWidget)",
+            "Live Activity iOS: ciclo antes/durante/después de la sesión favorita, con Dynamic Island",
+            "Notificación persistente Android con cronómetro durante la sesión",
+            "Puente Capacitor + App Group: datos de evento/agenda hacia los targets nativos",
+            "QA en dispositivos reales (iPhone + Android)",
+            "Release 1.1 en ambas tiendas antes del evento",
+            "(luego, con sender WS4) push-to-start y updates remotos"
+          ]
+        }
+      ]
+    }
+  ]
+}

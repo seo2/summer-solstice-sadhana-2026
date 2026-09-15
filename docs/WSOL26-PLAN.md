@@ -337,6 +337,36 @@ menu content arrives through the sync bundle, so it **doesn't gate store submiss
       parallel with WS7). Done when real menus are loaded in WordPress and verified
       on device.
 
+## v1.1 — after the 1.0 store release, before the event 📲
+
+### WS10 — Lock-screen presence: widgets & Live Activities (P1 · app, native)
+
+The "Delta Airlines" experience for attendees, shipped as a 1.1 update once
+the 1.0 release is in the stores (updates review fast) — in hands before
+December 15. Two distinct surfaces, chosen by system constraints (Live
+Activities are capped at ~8–12 h of life, so the long countdown is a widget):
+
+- [ ] **Event countdown widget** (iOS WidgetKit home + lock screen · Android
+      AppWidget) — "Winter Solstice · in N days" for the next/active event
+      from the synced store; timeline-driven, no server involved. Done when
+      the widget tracks the active event and survives event switches.
+- [ ] **Live Activity during the event** (iOS 16.1+, Dynamic Island) — for the
+      attendee's own agenda: countdown to the next favorited session, native
+      progress bar while it runs, next-up when it ends. Timers render natively
+      (`Text(timerInterval:)`) with no push; transitions refresh on app open.
+      Done when a favorited session shows the full before/during/after cycle
+      on the lock screen.
+- [ ] **Android ongoing notification** — chronometer notification while a
+      favorited session runs (ProgressStyle "Live Updates" on Android 16).
+      Done when the session in progress is visible without opening the app.
+- [ ] **Capacitor bridge + App Group storage** — a small native plugin handing
+      event/agenda data to the widget/activity targets. Done when web-side
+      agenda changes reflect on the native surfaces.
+- [ ] *(later — needs the WS4 push sender)* **Push-to-start & remote updates**
+      (iOS 17.2+): schedule changes update or start the activity server-side.
+
+Trello: `scripts/wsol26-trello-ws10.json` (import with `trello-import.mjs`).
+
 ## Next version (post-WSOL26) ⏭️
 
 Deferred by owner decision **2026-08-26** — these ship in the release after the
