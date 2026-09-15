@@ -1,6 +1,7 @@
 import { AppLink as Link } from "@/components/app-link";
 import { GraduationCap } from "lucide-react";
 import { ActiveEventBanner } from "@/components/active-event-banner";
+import { ProgramDateRange } from "@/components/program-date-range";
 import { ProgramView } from "@/components/program-view";
 import { ScheduleNoticeBanner } from "@/components/schedule-notice";
 import program from "@/data/program.json";
@@ -21,7 +22,7 @@ export default function ProgramPage() {
         <div>
           <p className="solstice-kicker text-xs font-black uppercase text-[#f39200]">Daily Schedule</p>
           <h1 className="mt-1 text-4xl font-black tracking-tight text-[#2f62b6]">Program</h1>
-          <p className="mt-1 text-sm font-semibold text-stone-600">{dateRange}</p>
+          <ProgramDateRange builtin={dateRange} />
         </div>
         <Link
           href="/teachers"

@@ -10,6 +10,17 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Fixed
+
+- **Program header date range follows the active event** (cache v88 → v89):
+  with a synced event active, the range under the "Program" title still showed
+  the built-in event's dates (e.g. "Fri, Jun 19 – Sat, Jun 27" over the WSOL26
+  schedule — found while producing the store screenshots). New client
+  component `ProgramDateRange` keeps the statically exported built-in range as
+  the fallback and switches to the synced bundle's event dates (or, when those
+  are missing, the synced program's first/last day). Single-day events render
+  as one date instead of "X – X".
+
 ### Added
 
 - **Store release prep** (cache v87 → v88): the **privacy policy** at
