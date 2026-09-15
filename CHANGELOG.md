@@ -36,6 +36,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Agenda reminder copy**: the notification now leads with the session name
+  as its title and carries the useful line in the body — "Starting soon ·
+  1:00 PM · Gurdwara" (time and venue omitted gracefully when absent).
+  Build numbers bumped again for the store uploads: iOS 1.0 (3), Android
+  versionCode 3. Native-only, no cache bump.
+
 - **iOS targets iPhone only** (`TARGETED_DEVICE_FAMILY = 1`): drops the iPad
   13" screenshot requirement and iPad review surface for the App Store
   submission — iPads can still install the app in iPhone-compatibility mode.

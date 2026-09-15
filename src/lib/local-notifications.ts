@@ -4,6 +4,8 @@
 export type ReminderInput = {
   activityId: string;
   title: string;
+  /** Pre-composed body line, e.g. "Starting soon · 1:00 PM · Gurdwara". */
+  detail: string;
   at: Date;
 };
 
@@ -49,8 +51,8 @@ export async function rescheduleFavoriteReminders(reminders: ReminderInput[]): P
   await notifications.schedule({
     notifications: upcoming.map((reminder) => ({
       id: Math.abs(hashCode(reminder.activityId)) % 2147483647,
-      title: "Starting soon",
-      body: reminder.title,
+      title: reminder.title,
+      body: reminder.detail,
       schedule: { at: reminder.at },
     })),
   });

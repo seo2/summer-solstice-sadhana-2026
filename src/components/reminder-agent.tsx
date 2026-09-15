@@ -17,6 +17,7 @@ import {
   type ReminderInput,
 } from "@/lib/local-notifications";
 import type { Activity } from "@/lib/types";
+import { formatTime } from "@/lib/utils";
 
 const LEAD_MINUTES = 15;
 
@@ -28,6 +29,7 @@ function reminderFor(activity: Activity): ReminderInput | null {
   return {
     activityId: activity.id,
     title: activity.title,
+    detail: ["Starting soon", formatTime(activity.startTime), activity.location].filter(Boolean).join(" · "),
     at: new Date(start.getTime() - LEAD_MINUTES * 60 * 1000),
   };
 }
