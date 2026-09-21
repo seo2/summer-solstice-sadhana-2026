@@ -36,6 +36,14 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Changed
 
+- **Official app icon** (cache v89 → v90): the organization's real 1024 px
+  3HO International art replaces the upscaled placeholder everywhere — native
+  icon sets regenerated with `@capacitor/assets` (iOS + Android adaptive),
+  in-app splash logo (`public/images/icon.png`, now 512 px) and PWA manifest
+  icons (192 any + 512 maskable with safe-zone padding). Store builds bumped:
+  iOS 1.0 (5), Android versionCode 4.
+
+
 - **Agenda reminder copy**: the notification now leads with the session name
   as its title and carries the useful line in the body — "Starting soon ·
   1:00 PM · Gurdwara" (time and venue omitted gracefully when absent).
