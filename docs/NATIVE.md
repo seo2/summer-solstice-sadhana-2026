@@ -20,7 +20,9 @@ Plan for shipping real native apps from the existing web build using Capacitor.
 > **UIScene life cycle (required since the iOS 27 SDK):** `ios/App/App/SceneDelegate.swift`
 > owns the window (`Main.storyboard` via `UIApplicationSceneManifest` in `Info.plist`) and
 > forwards URL opens / user activities to `ApplicationDelegateProxy`; without it UIKit aborts
-> at launch. The target is universal (iPhone + iPad, `TARGETED_DEVICE_FAMILY = "1,2"`). Brand asset sources live in
+> at launch. The target is iPhone-only (`TARGETED_DEVICE_FAMILY = 1`) for now — App Review
+> still launches it on iPad in compatibility mode, so test iPad simulators before each upload.
+> Going universal later means flipping it to `"1,2"` and adding 13" iPad screenshots. Brand asset sources live in
 > `assets/` (icon 1024 upscaled from 512 + splash on brand blue) — regenerate
 > native icons/splash with `npx @capacitor/assets generate`, and replace
 > `assets/icon.png` with a true 1024px export before store submission.

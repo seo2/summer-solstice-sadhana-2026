@@ -20,9 +20,9 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   opens and user activities to Capacitor's `ApplicationDelegateProxy`) and a
   `UIApplicationSceneManifest` in `Info.plist` that loads `Main.storyboard`;
   the window moved from `AppDelegate` to the scene. Reproduced and verified on
-  the iPad Air 11" and iPhone 16 Pro iOS 27 simulators. The target is now
-  universal (`TARGETED_DEVICE_FAMILY = "1,2"`), so the app runs natively on
-  iPad instead of in iPhone compatibility mode. iOS build number → 6. No web
+  the iPad Air 11" and iPhone 16 Pro iOS 27 simulators. The target stays
+  iPhone-only (`TARGETED_DEVICE_FAMILY = 1`); on iPad it runs in iPhone
+  compatibility mode, which is how App Review tests it. iOS build number → 6. No web
   changes, no cache bump.
 
 - **Agenda reminders never fired on native** (found in on-device QA, iPhone +
