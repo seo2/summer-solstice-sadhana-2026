@@ -12,6 +12,10 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **Xcode warning "The image set 'Splash' has 3 unassigned children"**: removed
+  the three `splash-2732x2732*.png` left over from the Capacitor template in
+  `Splash.imageset` (the brand splash `Default@…` files are the ones in use).
+
 - **Xcode Cloud archives failed** ("Could not resolve package dependencies":
   `node_modules/@capacitor/local-notifications` and `push-notifications` missing):
   the clone has neither `node_modules` nor the gitignored web export in
