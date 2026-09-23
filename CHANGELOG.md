@@ -12,6 +12,19 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **iOS app crashed on launch under iOS/iPadOS 27** (App Review rejection,
+  Guideline 2.1(a), build 1.0 (5) on an iPad Air 11" M3): binaries built with
+  the iOS 27 SDK must adopt the UIScene life cycle, and UIKit aborts with
+  `EXC_BREAKPOINT` in `_UIApplicationEvaluateRuntimeIssueForNoSceneLifecycleAdoption`
+  otherwise — on iPhone as well as iPad. Added `SceneDelegate.swift` (forwards URL
+  opens and user activities to Capacitor's `ApplicationDelegateProxy`) and a
+  `UIApplicationSceneManifest` in `Info.plist` that loads `Main.storyboard`;
+  the window moved from `AppDelegate` to the scene. Reproduced and verified on
+  the iPad Air 11" and iPhone 16 Pro iOS 27 simulators. The target is now
+  universal (`TARGETED_DEVICE_FAMILY = "1,2"`), so the app runs natively on
+  iPad instead of in iPhone compatibility mode. iOS build number → 6. No web
+  changes, no cache bump.
+
 - **Agenda reminders never fired on native** (found in on-device QA, iPhone +
   simulator): favoriting a session neither asked for notification permission
   nor scheduled the 15-minute reminder — `nativeLocalNotifications()` returned
