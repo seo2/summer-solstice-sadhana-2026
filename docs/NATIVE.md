@@ -22,7 +22,10 @@ Plan for shipping real native apps from the existing web build using Capacitor.
 > forwards URL opens / user activities to `ApplicationDelegateProxy`; without it UIKit aborts
 > at launch. The target is iPhone-only (`TARGETED_DEVICE_FAMILY = 1`) for now — App Review
 > still launches it on iPad in compatibility mode, so test iPad simulators before each upload.
-> Going universal later means flipping it to `"1,2"` and adding 13" iPad screenshots. Brand asset sources live in
+> Going universal later means flipping it to `"1,2"` and adding 13" iPad screenshots.
+> **Xcode Cloud:** the workflow builds on every push to `main`. `ios/App/ci_scripts/ci_post_clone.sh`
+> runs `npm ci && npm run build && npx cap sync ios` first — the clone has no `node_modules`
+> (Capacitor plugin packages resolve from there) and no `ios/App/App/public` (gitignored). Brand asset sources live in
 > `assets/` (icon 1024 upscaled from 512 + splash on brand blue) — regenerate
 > native icons/splash with `npx @capacitor/assets generate`, and replace
 > `assets/icon.png` with a true 1024px export before store submission.

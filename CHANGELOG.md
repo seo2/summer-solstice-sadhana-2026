@@ -12,6 +12,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Fixed
 
+- **Xcode Cloud archives failed** ("Could not resolve package dependencies":
+  `node_modules/@capacitor/local-notifications` and `push-notifications` missing):
+  the clone has neither `node_modules` nor the gitignored web export in
+  `ios/App/App/public`. Added `ios/App/ci_scripts/ci_post_clone.sh` — installs
+  Node 22 via Homebrew if needed, then `npm ci`, `npm run build`, `npx cap sync ios`.
+  Verified on a fresh clone: packages resolve and the app builds.
+
 - **iOS app crashed on launch under iOS/iPadOS 27** (App Review rejection,
   Guideline 2.1(a), build 1.0 (5) on an iPad Air 11" M3): binaries built with
   the iOS 27 SDK must adopt the UIScene life cycle, and UIKit aborts with
