@@ -51,6 +51,20 @@
         "--port=8081"
       ],
       "port": 8081
+    },
+    {
+      "name": "ssol-dev-3014",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [
+        "run",
+        "dev",
+        "--prefix",
+        "/Users/Seo2_1/htdocs/summer-solstice-sadhana-2026",
+        "--",
+        "-p",
+        "3014"
+      ],
+      "port": 3014
     }
   ]
 }

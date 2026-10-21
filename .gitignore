@@ -141,3 +141,13 @@ references/design/pdf/01_SSOL booklet 2026_Page_88.jpg
 references/design/pdf/01_SSOL booklet 2026_Page_89.jpg
 references/design/pdf/01_SSOL booklet 2026_Page_90.jpg
 references/Program-All Activities.csv
+
+# video-manual (HyperFrames): rendered videos and regenerable caches
+video-manual/**/renders/
+video-manual/**/*.mp4
+video-manual/**/.thumbnails/
+video-manual/**/.waveform-cache/
+video-manual/**/.hyperframes/
+video-manual/**/snapshots/
+video-manual/**/.media/audio/
+video-manual/**/node_modules/

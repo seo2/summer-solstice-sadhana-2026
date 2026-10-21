@@ -1,0 +1,12 @@
+import { createRequire } from "node:module";
+const puppeteer = createRequire("/Users/Seo2_1/.npm/_npx/702923228c2ce1e6/node_modules/x.js")("puppeteer-core");
+const exe = "/Users/Seo2_1/.cache/puppeteer/chrome-headless-shell/mac_arm-151.0.7922.77/chrome-headless-shell-mac-arm64/chrome-headless-shell";
+const b = await puppeteer.launch({ executablePath: exe });
+const p = await b.newPage();
+await p.setUserAgent("Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/151.0 Mobile Safari/537.36");
+await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+await p.goto("https://apps.apple.com/us/app/3ho-event-app/id6812428621", { waitUntil: "networkidle2", timeout: 60000 });
+await new Promise((r) => setTimeout(r, 3000));
+await p.screenshot({ path: "assets/11-appstore.png" });
+console.log((await p.evaluate(() => document.body.innerText)).slice(0, 500));
+await b.close();

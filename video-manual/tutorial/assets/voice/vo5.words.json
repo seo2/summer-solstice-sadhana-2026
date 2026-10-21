@@ -1,0 +1,86 @@
+[
+  {
+    "text": "In",
+    "start": 0.03,
+    "end": 0.14,
+    "id": "w0"
+  },
+  {
+    "text": "program",
+    "start": 0.14,
+    "end": 0.65,
+    "id": "w1"
+  },
+  {
+    "text": "you'll",
+    "start": 0.65,
+    "end": 1.07,
+    "id": "w2"
+  },
+  {
+    "text": "find",
+    "start": 1.09,
+    "end": 1.38,
+    "id": "w3"
+  },
+  {
+    "text": "every",
+    "start": 1.38,
+    "end": 1.73,
+    "id": "w4"
+  },
+  {
+    "text": "session.",
+    "start": 1.73,
+    "end": 2.3,
+    "id": "w5"
+  },
+  {
+    "text": "Tap",
+    "start": 2.33,
+    "end": 2.44,
+    "id": "w6"
+  },
+  {
+    "text": "a",
+    "start": 2.44,
+    "end": 2.55,
+    "id": "w7"
+  },
+  {
+    "text": "day",
+    "start": 2.55,
+    "end": 2.7,
+    "id": "w8"
+  },
+  {
+    "text": "to",
+    "start": 2.75,
+    "end": 2.87,
+    "id": "w9"
+  },
+  {
+    "text": "jump",
+    "start": 2.87,
+    "end": 3.06,
+    "id": "w10"
+  },
+  {
+    "text": "straight",
+    "start": 3.17,
+    "end": 3.63,
+    "id": "w11"
+  },
+  {
+    "text": "to",
+    "start": 3.63,
+    "end": 3.75,
+    "id": "w12"
+  },
+  {
+    "text": "it.",
+    "start": 3.82,
+    "end": 4.12,
+    "id": "w13"
+  }
+]

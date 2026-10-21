@@ -1,0 +1,80 @@
+[
+  {
+    "text": "Tap",
+    "start": 0.03,
+    "end": 0.17,
+    "id": "w0"
+  },
+  {
+    "text": "teachers",
+    "start": 0.17,
+    "end": 0.62,
+    "id": "w1"
+  },
+  {
+    "text": "to",
+    "start": 0.62,
+    "end": 0.73,
+    "id": "w2"
+  },
+  {
+    "text": "meet",
+    "start": 0.73,
+    "end": 0.95,
+    "id": "w3"
+  },
+  {
+    "text": "the",
+    "start": 0.95,
+    "end": 1.06,
+    "id": "w4"
+  },
+  {
+    "text": "people",
+    "start": 1.14,
+    "end": 1.46,
+    "id": "w5"
+  },
+  {
+    "text": "leading",
+    "start": 1.46,
+    "end": 1.88,
+    "id": "w6"
+  },
+  {
+    "text": "the",
+    "start": 1.88,
+    "end": 2.18,
+    "id": "w7"
+  },
+  {
+    "text": "event",
+    "start": 2.18,
+    "end": 2.36,
+    "id": "w8"
+  },
+  {
+    "text": "and",
+    "start": 2.71,
+    "end": 2.87,
+    "id": "w9"
+  },
+  {
+    "text": "read",
+    "start": 2.87,
+    "end": 3.13,
+    "id": "w10"
+  },
+  {
+    "text": "their",
+    "start": 3.13,
+    "end": 3.44,
+    "id": "w11"
+  },
+  {
+    "text": "bios.",
+    "start": 3.44,
+    "end": 3.72,
+    "id": "w12"
+  }
+]

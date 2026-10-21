@@ -1,0 +1,65 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Storyboard v2</title><style>
+:root{--blue:#2f62b6;--sky:#39a9ef;--orange:#f39200;--gold:#ffd66b;--text:#374151}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Geist","Inter",-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#0f1b33;color:#e8eefb;padding:40px 5vw 80px}
+header{max-width:1500px;margin:0 auto 32px} header h1{font-size:34px;font-weight:900;letter-spacing:-.03em}
+header p{opacity:.75;margin-top:6px;font-size:16px} .tag{display:inline-block;margin-top:12px;padding:6px 14px;border-radius:99px;background:#1d2e55;font-size:13px;font-weight:700;letter-spacing:.08em}
+.grid{max-width:1500px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+.cell{display:flex;flex-direction:column;gap:10px}
+.frame{aspect-ratio:9/16;container-type:inline-size;position:relative;overflow:hidden;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.35)}
+.light{background:radial-gradient(120% 60% at 80% 0%,#fff8ea 0%,transparent 60%),linear-gradient(#f7fbff,#eaf4ff)}
+.deep{background:radial-gradient(90% 50% at 85% 0%,#39a9ef55,transparent 60%),linear-gradient(160deg,#2f62b6,#1e3f86)}
+.cap{position:absolute;left:7cqw;right:7cqw;top:8cqw}
+.kick{font-weight:800;font-size:3.2cqw;letter-spacing:.2em;color:var(--orange)}
+h2{font-weight:900;font-size:10.4cqw;line-height:1;letter-spacing:-.045em;color:var(--blue);margin-top:3cqw}
+.sub{font-weight:600;font-size:4.2cqw;color:var(--text);margin-top:3.5cqw}
+.deep h2{color:#fff} .deep .sub{color:rgba(255,255,255,.85)} .deep .kick{color:var(--gold)}
+.phone{position:absolute;aspect-ratio:390/844;background:#111827;border-radius:8.3cqw;padding:.6cqw;box-shadow:0 4cqw 11cqw rgba(47,98,182,.35)}
+.phone img{width:100%;height:100%;display:block;border-radius:7.8cqw;object-fit:cover}
+.solo{width:62cqw;left:19cqw;top:56cqw}
+.f1 .solo{top:78cqw} .f1 h2{font-size:11.5cqw}
+.f2 .solo{top:80cqw} .f2 .chips{top:58cqw} .alt{position:absolute;left:7cqw;right:7cqw;top:70cqw;font-weight:600;font-size:3.4cqw;color:#64748b}
+.back{width:50cqw;left:5cqw;top:70cqw;transform:rotate(-3deg)}
+.front{width:54cqw;left:42cqw;top:84cqw;transform:rotate(2deg)}
+.chips{position:absolute;left:7cqw;right:7cqw;top:50cqw;display:flex;gap:2.2cqw;z-index:2}
+.chips span,.tiles span{background:#fff;border:1px solid #2f62b633;border-radius:99px;padding:1.8cqw 3.6cqw;font-weight:900;font-size:3.6cqw;color:var(--blue)}
+.plane{position:absolute;left:34cqw;width:32cqw;top:72cqw}
+.tiles{position:absolute;left:7cqw;right:7cqw;top:112cqw;display:flex;gap:3cqw;justify-content:center}
+.f7 .tiles span{background:#ffffff1f;color:#fff;border-color:#ffffff44;font-size:4.4cqw;padding:2.4cqw 5cqw}
+.f7 .cap{top:100cqw} .f7 .plane{top:22cqw} .f7 .tiles{top:156cqw}
+.f7 h2{font-size:13cqw}
+.logo{position:absolute;left:12cqw;right:12cqw;top:112cqw;background:#fff;border-radius:6cqw;padding:7cqw;box-shadow:0 4cqw 11cqw rgba(0,0,0,.25)}
+.logo img{width:100%;display:block}
+.f8 .cap{top:34cqw} .f8 h2{font-size:12cqw}
+figcaption .row{display:flex;justify-content:space-between;font-size:13px;letter-spacing:.08em} figcaption .row b{color:#fff} figcaption .row span{opacity:.6}
+figcaption p{font-size:13px;line-height:1.45;opacity:.85;margin-top:4px} figcaption em{display:inline-block;margin-top:6px;font-size:11px;font-style:normal;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:99px;background:#1d2e55;color:#ffd66b}
+.card{background:#16264a;border-radius:14px;padding:22px;font-size:14px;line-height:1.6;grid-column:span 2}
+.card h3{font-size:16px;margin-bottom:10px} .sw{display:inline-flex;align-items:center;gap:6px;margin:3px 10px 3px 0} .sw i{width:16px;height:16px;border-radius:5px;display:inline-block;border:1px solid #ffffff44}
+.seams{display:flex;flex-wrap:wrap;gap:6px;align-items:center} .seams b{background:#1d2e55;border-radius:99px;padding:4px 10px;font-size:12px}
+</style></head><body>
+<header><h1>Storyboard v2 · Winter Solstice Sadhana 2026 app manual</h1><p>Sketches: real app captures + final type/colour. No motion yet. Open from file://.</p><span class="tag">1080×1920 · ~75s · 8 beats · no voice-over</span></header>
+<section class="grid"><figure class="cell"><div class="frame deep f1" id="frame-01">
+<div class="cap"><div class="kick">DEC 15–21 · LAKE WALES, FL</div><h2>Winter Solstice Sadhana 2026</h2><p class="sub">Your pocket guide</p></div><div class="phone solo"><img src="assets/01-event.png"></div></div>
+<figcaption><div class="row"><b>01 · HOOK</b><span>0–7s</span></div><p>Phone rises from the bottom while the title builds word by word.</p><em>cut in</em></figcaption></figure><figure class="cell"><div class="frame light f2" id="frame-02">
+<div class="cap"><div class="kick">STEP 1 · FREE</div><h2>Get the 3HO Event App</h2><p class="sub">On the App Store and Google Play</p></div><div class="chips"><span>App Store</span><span>Google Play</span></div><div class="alt">No store? Add the web app to your Home Screen.</div><div class="phone solo"><img src="assets/11-appstore.png"></div></div>
+<figcaption><div class="row"><b>02 · GET THE APP</b><span>7–17s</span></div><p>Phone slides up with the real App Store listing; store chips pop in under the headline.</p><em>crossfade</em></figcaption></figure><figure class="cell"><div class="frame light f3" id="frame-03">
+<div class="cap"><div class="kick">THE SCHEDULE</div><h2>Browse the full program</h2><p class="sub">Filter by day, venue or category</p></div><div class="phone back"><img src="assets/02-program-top.png"></div><div class="phone front"><img src="assets/03-program-day.png"></div></div>
+<figcaption><div class="row"><b>03 · PROGRAM</b><span>17–29s</span></div><p>Back phone scrolls, then the Thu Dec 17 phone slides in front.</p><em>crossfade</em></figcaption></figure><figure class="cell"><div class="frame light f4" id="frame-04">
+<div class="cap"><div class="kick">YOUR AGENDA</div><h2>Tap the heart to save sessions</h2><p class="sub">They live in Favorites</p></div><div class="phone back"><img src="assets/04-program-hearts.png"></div><div class="phone front"><img src="assets/05-favorites.png"></div></div>
+<figcaption><div class="row"><b>04 · FAVORITES</b><span>29–40s</span></div><p>Hearts pop one by one, then the Favorites phone takes over.</p><em>wipe left</em></figcaption></figure><figure class="cell"><div class="frame light f5" id="frame-05">
+<div class="cap"><div class="kick">GOOD TO KNOW</div><h2>Everything, grouped by topic</h2><p class="sub">Works offline too</p></div><div class="phone back"><img src="assets/06-info.png"></div><div class="phone front"><img src="assets/07-info-groups.png"></div></div>
+<figcaption><div class="row"><b>05 · INFO HUB</b><span>40–50s</span></div><p>Hub scrolls to the topic tiles; tiles stagger in.</p><em>crossfade</em></figcaption></figure><figure class="cell"><div class="frame light f6" id="frame-06">
+<div class="cap"><div class="kick">FIND YOUR WAY</div><h2>Every venue, one tap away</h2><p class="sub">Pinch or tap + to zoom</p></div><div class="phone back"><img src="assets/08-map.png"></div><div class="phone front"><img src="assets/09-map-zoom.png"></div></div>
+<figcaption><div class="row"><b>06 · CAMP MAP</b><span>50–62s</span></div><p>Overview first, then a smooth zoom into the camp.</p><em>crossfade</em></figcaption></figure><figure class="cell"><div class="frame deep f7" id="frame-07">
+<div class="cap"><div class="kick">NO SIGNAL?</div><h2>No problem.</h2><p class="sub">Program, map and info are saved on your phone</p></div><div class="plane"><svg viewBox="0 0 24 24" width="100%" fill="none" stroke="#ffd66b" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></div><div class="tiles"><span>Program</span><span>Map</span><span>Info</span></div></div>
+<figcaption><div class="row"><b>07 · OFFLINE</b><span>62–69s</span></div><p>Held frame: the line lands, the three tiles settle.</p><em>crossfade</em></figcaption></figure><figure class="cell"><div class="frame deep f8" id="frame-08">
+<div class="cap"><div class="kick">SEE YOU THERE</div><h2>Winter Solstice Sadhana 2026</h2><p class="sub">Dec 15–21 · Lake Wales, FL</p></div><div class="logo"><img src="assets/3ho-logo-horizontal.png"></div></div>
+<figcaption><div class="row"><b>08 · CLOSE</b><span>69–75s</span></div><p>Logo and title breathe slowly; no hard stop.</p><em>crossfade</em></figcaption></figure>
+<div class="card"><h3>Seam map</h3><div class="seams"><b>01</b>cut<b>02</b>crossfade<b>03</b>crossfade<b>04</b>wipe ←<b>05</b>crossfade<b>06</b>crossfade<b>07</b>crossfade<b>08</b></div><p style="margin-top:10px;opacity:.8">Direction rule: wipes and slides travel leftward. The phone is the spine: it stays on screen across seams and is swapped by the next capture.</p></div>
+<div class="card"><h3>Tokens &amp; bans</h3>
+<span class="sw"><i style="background:#2f62b6"></i>blue #2f62b6</span><span class="sw"><i style="background:#39a9ef"></i>sky #39a9ef</span><span class="sw"><i style="background:#f39200"></i>orange #f39200</span><span class="sw"><i style="background:#ffd66b"></i>gold #ffd66b</span><span class="sw"><i style="background:#f7fbff"></i>bg #f7fbff</span>
+<p style="margin-top:8px">Geist Black display · bold uppercase kickers · captions in the top ~83%.</p>
+<p style="margin-top:8px;opacity:.8">Bans: fake UI, stock imagery, glow orbs, static end card, any summer / Ram Das Puri reference.</p></div>
+</section></body></html>

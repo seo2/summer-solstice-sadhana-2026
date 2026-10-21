@@ -1,0 +1,128 @@
+[
+  {
+    "text": "Tap",
+    "start": 0.03,
+    "end": 0.22,
+    "id": "w0"
+  },
+  {
+    "text": "the",
+    "start": 0.34,
+    "end": 0.4,
+    "id": "w1"
+  },
+  {
+    "text": "heart",
+    "start": 0.45,
+    "end": 0.81,
+    "id": "w2"
+  },
+  {
+    "text": "to",
+    "start": 0.81,
+    "end": 0.95,
+    "id": "w3"
+  },
+  {
+    "text": "save",
+    "start": 0.95,
+    "end": 1.24,
+    "id": "w4"
+  },
+  {
+    "text": "a",
+    "start": 1.24,
+    "end": 1.31,
+    "id": "w5"
+  },
+  {
+    "text": "session.",
+    "start": 1.31,
+    "end": 2.08,
+    "id": "w6"
+  },
+  {
+    "text": "Your",
+    "start": 2.11,
+    "end": 2.3,
+    "id": "w7"
+  },
+  {
+    "text": "favorites",
+    "start": 2.42,
+    "end": 2.9,
+    "id": "w8"
+  },
+  {
+    "text": "become",
+    "start": 2.97,
+    "end": 3.28,
+    "id": "w9"
+  },
+  {
+    "text": "your",
+    "start": 3.28,
+    "end": 3.53,
+    "id": "w10"
+  },
+  {
+    "text": "personal",
+    "start": 3.53,
+    "end": 3.68,
+    "id": "w11"
+  },
+  {
+    "text": "agenda,",
+    "start": 4.2,
+    "end": 4.48,
+    "id": "w12"
+  },
+  {
+    "text": "and",
+    "start": 4.51,
+    "end": 4.67,
+    "id": "w13"
+  },
+  {
+    "text": "the",
+    "start": 4.67,
+    "end": 4.86,
+    "id": "w14"
+  },
+  {
+    "text": "app",
+    "start": 4.86,
+    "end": 5.05,
+    "id": "w15"
+  },
+  {
+    "text": "reminds",
+    "start": 5.05,
+    "end": 5.5,
+    "id": "w16"
+  },
+  {
+    "text": "you",
+    "start": 5.5,
+    "end": 5.63,
+    "id": "w17"
+  },
+  {
+    "text": "15",
+    "start": 5.68,
+    "end": 6.06,
+    "id": "w18"
+  },
+  {
+    "text": "minutes",
+    "start": 6.06,
+    "end": 6.08,
+    "id": "w19"
+  },
+  {
+    "text": "before.",
+    "start": 6.6,
+    "end": 7.12,
+    "id": "w20"
+  }
+]

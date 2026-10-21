@@ -1,0 +1,92 @@
+[
+  {
+    "text": "The",
+    "start": 0.05,
+    "end": 0.19,
+    "id": "w0"
+  },
+  {
+    "text": "bar",
+    "start": 0.19,
+    "end": 0.38,
+    "id": "w1"
+  },
+  {
+    "text": "at",
+    "start": 0.38,
+    "end": 0.5,
+    "id": "w2"
+  },
+  {
+    "text": "the",
+    "start": 0.5,
+    "end": 0.69,
+    "id": "w3"
+  },
+  {
+    "text": "bottom",
+    "start": 0.69,
+    "end": 1.05,
+    "id": "w4"
+  },
+  {
+    "text": "takes",
+    "start": 1.1,
+    "end": 1.38,
+    "id": "w5"
+  },
+  {
+    "text": "you",
+    "start": 1.38,
+    "end": 1.56,
+    "id": "w6"
+  },
+  {
+    "text": "everywhere.",
+    "start": 1.56,
+    "end": 2.24,
+    "id": "w7"
+  },
+  {
+    "text": "Home,",
+    "start": 2.29,
+    "end": 2.63,
+    "id": "w8"
+  },
+  {
+    "text": "program,",
+    "start": 2.71,
+    "end": 3.29,
+    "id": "w9"
+  },
+  {
+    "text": "favorites,",
+    "start": 3.29,
+    "end": 4.04,
+    "id": "w10"
+  },
+  {
+    "text": "info,",
+    "start": 4.42,
+    "end": 4.57,
+    "id": "w11"
+  },
+  {
+    "text": "map,",
+    "start": 4.57,
+    "end": 4.89,
+    "id": "w12"
+  },
+  {
+    "text": "and",
+    "start": 4.89,
+    "end": 5.19,
+    "id": "w13"
+  },
+  {
+    "text": "contact.",
+    "start": 5.19,
+    "end": 5.91,
+    "id": "w14"
+  }
+]

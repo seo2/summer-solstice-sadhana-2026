@@ -1,0 +1,98 @@
+[
+  {
+    "text": "Welcome",
+    "start": 0.04,
+    "end": 0.53,
+    "id": "w0"
+  },
+  {
+    "text": "to",
+    "start": 0.56,
+    "end": 0.7,
+    "id": "w1"
+  },
+  {
+    "text": "Winter",
+    "start": 0.7,
+    "end": 1.17,
+    "id": "w2"
+  },
+  {
+    "text": "Solstice",
+    "start": 1.17,
+    "end": 1.79,
+    "id": "w3"
+  },
+  {
+    "text": "Saadhana",
+    "start": 1.79,
+    "end": 2.39,
+    "id": "w4"
+  },
+  {
+    "text": "2026.",
+    "start": 2.39,
+    "end": 3.62,
+    "id": "w5"
+  },
+  {
+    "text": "Here's",
+    "start": 3.66,
+    "end": 4.02,
+    "id": "w6"
+  },
+  {
+    "text": "how",
+    "start": 4.02,
+    "end": 4.22,
+    "id": "w7"
+  },
+  {
+    "text": "to",
+    "start": 4.22,
+    "end": 4.35,
+    "id": "w8"
+  },
+  {
+    "text": "use",
+    "start": 4.35,
+    "end": 4.55,
+    "id": "w9"
+  },
+  {
+    "text": "the",
+    "start": 4.55,
+    "end": 4.75,
+    "id": "w10"
+  },
+  {
+    "text": "event",
+    "start": 4.75,
+    "end": 5.08,
+    "id": "w11"
+  },
+  {
+    "text": "app,",
+    "start": 5.08,
+    "end": 5.41,
+    "id": "w12"
+  },
+  {
+    "text": "step",
+    "start": 5.41,
+    "end": 5.68,
+    "id": "w13"
+  },
+  {
+    "text": "by",
+    "start": 5.68,
+    "end": 5.81,
+    "id": "w14"
+  },
+  {
+    "text": "step.",
+    "start": 5.89,
+    "end": 6.34,
+    "id": "w15"
+  }
+]

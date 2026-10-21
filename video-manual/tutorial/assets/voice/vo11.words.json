@@ -1,0 +1,62 @@
+[
+  {
+    "text": "Info",
+    "start": 0.03,
+    "end": 0.19,
+    "id": "w0"
+  },
+  {
+    "text": "gathers",
+    "start": 0.29,
+    "end": 0.75,
+    "id": "w1"
+  },
+  {
+    "text": "everything",
+    "start": 0.75,
+    "end": 1.43,
+    "id": "w2"
+  },
+  {
+    "text": "you",
+    "start": 1.43,
+    "end": 1.61,
+    "id": "w3"
+  },
+  {
+    "text": "need",
+    "start": 1.65,
+    "end": 1.9,
+    "id": "w4"
+  },
+  {
+    "text": "to",
+    "start": 1.9,
+    "end": 2.03,
+    "id": "w5"
+  },
+  {
+    "text": "know,",
+    "start": 2.03,
+    "end": 2.36,
+    "id": "w6"
+  },
+  {
+    "text": "grouped",
+    "start": 2.4,
+    "end": 2.9,
+    "id": "w7"
+  },
+  {
+    "text": "by",
+    "start": 2.94,
+    "end": 3.07,
+    "id": "w8"
+  },
+  {
+    "text": "topic.",
+    "start": 3.07,
+    "end": 3.54,
+    "id": "w9"
+  }
+]

@@ -51,6 +51,20 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 |---|---|
 | [../TODO_CONTENT_REVIEW.md](../TODO_CONTENT_REVIEW.md) | Manual review of content extracted from the booklet PDF |
 
+## Video manual (HyperFrames)
+
+Attendee-facing videos built from real app captures, in `video-manual/` (rendered MP4s are gitignored;
+re-render with `npm run render` inside each project).
+
+| Doc | What it covers |
+|---|---|
+| [../video-manual/BRIEF.md](../video-manual/BRIEF.md) | 46 s quick tour (vertical, WhatsApp stories): brief and intent |
+| [../video-manual/STORYBOARD.md](../video-manual/STORYBOARD.md) | Tour storyboard, 8 frames |
+| [../video-manual/frame.md](../video-manual/frame.md) | Video design spec, adapted from `DESIGN.md` |
+| [../video-manual/TUTORIAL-PLAN.md](../video-manual/TUTORIAL-PLAN.md) | Plan and approval history of the step-by-step tutorial |
+| [../video-manual/tutorial/BRIEF.md](../video-manual/tutorial/BRIEF.md) | 2:09 step-by-step tutorial (vertical, YouTube/web): brief, content guardrails, store-only rule |
+| [../video-manual/tutorial/STORYBOARD.md](../video-manual/tutorial/STORYBOARD.md) | Tutorial storyboard, 16 frames with voice-over lines; how to re-voice and rebuild |
+
 ---
 
 Reading order for someone new: **README → PRODUCT → ROADMAP**, then the specific

@@ -10,6 +10,15 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ## [Unreleased]
 
+### Added
+
+- **Video manual** (`video-manual/`, HyperFrames; no app change, no cache bump): a 46 s
+  vertical quick tour and a 2:09 step-by-step tutorial for Winter Solstice Sadhana 2026
+  attendees — real app captures (`tutorial/scripts/capture.mjs`), English voice-over, taps
+  timed to the narration. Store downloads only (no web / Add to Home Screen). Rendered MP4s and
+  HyperFrames caches are gitignored. Docs indexed in `docs/INDEX.md`.
+- `.claude/launch.json`: `ssol-dev-3014` dev-server config (3011/3012 are often taken).
+
 ### Fixed
 
 - **Xcode warning "The image set 'Splash' has 3 unassigned children"**: removed
