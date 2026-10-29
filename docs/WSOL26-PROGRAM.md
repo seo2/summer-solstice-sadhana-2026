@@ -74,8 +74,11 @@ How the cells were turned into items:
   8:30–9:30 at CHURUATA, both "To be announced" for the musicians.
 - **Sunday evening:** *Closing Circle* 6:30–7:30 replaces Karma Yoga Action; *Nagar Kirtan*
   at 7:30 (no time in the sheet; its row sits between the closing circle and the Rensabai
-  row); *Rensabai Kirtan* at 8:00 in the Gurdwara with Karina Skye (the grid says "7 or 8?",
-  the Gurdwara tab says 7:30 PM — tagged, start to confirm, no end time).
+  row); *Rensabai Kirtan* from 7:30 PM in the Gurdwara with Karina Skye, **through the
+  night**, no end time (owner decision 2026-10-29: the grid says "7 or 8?", the Gurdwara tab
+  7:30 PM — published at 7:30, tagged until the start is confirmed).
+- **No Rehras on WTY days** (owner decision 2026-10-29): White Tantric Yoga® runs through the
+  5:00 PM slot, so Thu–Sat carry no Rehras item.
 - **Tuesday:** *Arrival & Registration* 1:00–8:00 PM at OFFICE (the map's registration
   point; hours tagged, the sheet gives none) and *Orientation & First Sessions* 3:00–5:30
   PM tagged.
@@ -117,9 +120,9 @@ points at it on the artwork (venues without `mapPoint` are listed, not drawn).
 
 ## Open questions for the programming team
 
-1. **WTY hours.** Confirm start and end (published 8:00 AM–5:30 PM; 2025 ran to 6:00 PM) and
-   whether Rehras happens after WTY on those days (none is published).
-2. **Rensabai**: 7:30 or 8:00 PM, and the end time (Lights Out is 10:00 PM in the sheet).
+1. **WTY hours.** Confirm start and end (published 8:00 AM–5:30 PM; 2025 ran to 6:00 PM).
+2. **Rensabai** start time (published 7:30 PM; it runs through the night, so Sunday's
+   10:00 PM Lights Out, which the sheet merges across Tue–Sun, may not apply).
 3. **Nagar Kirtan**: start time; published 7:30 PM right after the Closing Circle.
 4. **Sat Nam Rasayan** (Wed): one session 1:45–5:00 with a break, or two?
 5. **Sadhana leaders** for Thu–Mon.

@@ -80,8 +80,8 @@ const IKYTA = "International Kundalini Yoga Teachers Association session. Detail
 const WOMEN = "Facilitator to be announced.";
 const TANTRIC_INTEGRATION = "Integrate the three days of White Tantric Yoga®. Facilitator to be announced.";
 const CLOSING = "All camp together to close the Solstice, leading into Nagar Kirtan.";
-const NAGAR = "Kirtan procession through camp to the Gurdwara, leading into Rensabai. Start time to be confirmed.";
-const RENSABAI = "Rensabai Kirtan: musicians take turns singing Gurbani through the evening. Start time to be confirmed (7:30 or 8:00 PM).";
+const NAGAR = "Kirtan procession through camp to the Gurdwara, where Rensabai begins. Start time to be confirmed.";
+const RENSABAI = "Rensabai Kirtan: musicians take turns singing Gurbani through the night. Start time to be confirmed.";
 const DEPART = "Everyone who is not helping with camp tear-down leaves the site in the morning. Travel day: no afternoon or evening program.";
 
 /* ------------------------------------------------------------- builders */
@@ -151,6 +151,7 @@ evening(d);
 night(d);
 
 /* ------------------------------------------------------------- Thu 17 · Fri 18 · Sat 19 · White Tantric Yoga® */
+// No Rehras on WTY days (owner decision 2026-10-29): WTY runs through the Rehras slot.
 for (const [date, n] of [["2026-12-17", "One"], ["2026-12-18", "Two"], ["2026-12-19", "Three"]]) {
   rise(date, "03:40");
   sadhana(date, "03:40", "05:50", { description: SADHANA_WTY });
@@ -186,7 +187,7 @@ rehras(d);
 meal(d, "17:30", "18:30", "Dinner");
 add(d, "18:30", "19:30", "Closing Circle", { category: "Community", location: TANTRIC, description: CLOSING });
 add(d, "19:30", null, "Nagar Kirtan", { category: "Gurdwara", description: NAGAR, tags: TBA });
-add(d, "20:00", null, "Rensabai Kirtan", { category: "Music", location: GURDWARA, facilitator: KARINA, description: RENSABAI, tags: TBA });
+add(d, "19:30", null, "Rensabai Kirtan", { category: "Music", location: GURDWARA, facilitator: KARINA, description: RENSABAI, tags: TBA });
 night(d);
 
 /* ------------------------------------------------------------- Mon Dec 21 · departure */

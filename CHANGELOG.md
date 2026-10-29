@@ -17,8 +17,8 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   2026-10-29) replaces the template: 92 items over Dec 15–21 with the real workshops,
   teachers and venues (Wed 16 and Sun 20 class days at Churuata, Tree Pavilion and Inco
   Park, Sat Nam Rasayan and "Rewiring Stress into Strength" as all-camp classes, WTY
-  Dec 17–19 with gates 7:15 / warm-ups 8:00, Closing Circle, Nagar Kirtan and Rensabai on
-  Sunday, departure Monday); 21 items stay tagged "To be announced" where the sheet is
+  Dec 17–19 with gates 7:15 / warm-ups 8:00 and no Rehras, Closing Circle, Nagar Kirtan and
+  Rensabai through the night from 7:30 PM on Sunday, departure Monday); 21 items stay tagged "To be announced" where the sheet is
   open (sadhana leaders, two circle facilitators, SDI / IKYTA details, musicians, Rensabai
   start, registration hours, Kids Camp). New `scripts/wsol26-official-program.mjs` holds
   the transcription and rewrites the fixture, asserting every venue, category and

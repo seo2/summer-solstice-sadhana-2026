@@ -1,7 +1,7 @@
 {
   "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system. The PROGRAM, VENUES and TEACHERS are the official Winter Solstice 2026 program as read from the programming team's master sheet, written by scripts/wsol26-official-program.mjs (reading decisions and open questions in docs/WSOL26-PROGRAM.md); items tagged 'To be announced' are the ones the sheet leaves open. Info pages and menus are interim. Venue map pins are measured on the real map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 10,
+  "version": 11,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -935,13 +935,13 @@
       "tags": [
         "To be announced"
       ],
-      "description": "Kirtan procession through camp to the Gurdwara, leading into Rensabai. Start time to be confirmed."
+      "description": "Kirtan procession through camp to the Gurdwara, where Rensabai begins. Start time to be confirmed."
     },
     {
-      "id": "2026-12-20-2000-rensabai-kirtan",
+      "id": "2026-12-20-1930-rensabai-kirtan",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "20:00",
+      "startTime": "19:30",
       "title": "Rensabai Kirtan",
       "category": "Music",
       "tags": [
@@ -949,7 +949,7 @@
       ],
       "location": "GURDWARA",
       "facilitator": "Karina Skye",
-      "description": "Rensabai Kirtan: musicians take turns singing Gurbani through the evening. Start time to be confirmed (7:30 or 8:00 PM)."
+      "description": "Rensabai Kirtan: musicians take turns singing Gurbani through the night. Start time to be confirmed."
     },
     {
       "id": "2026-12-20-2145-bazaar-closes",
