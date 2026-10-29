@@ -1,5 +1,6 @@
 import { AppLink as Link } from "@/components/app-link";
 import { Heart, MapPin } from "lucide-react";
+import { ActivityPhotos, activityPhotoSources } from "@/components/activity-photos";
 import { TeacherQuickView } from "@/components/teacher-quick-view";
 import { sessionSummariesForTeacher, teacherForActivity, type TeacherSession } from "@/lib/teachers";
 import type { Activity, Teacher } from "@/lib/types";
@@ -100,16 +101,14 @@ export function ActivityCard({ activity, isFavorite, onToggleFavorite, onOpenDet
         const resolution = (resolveTeacher ?? defaultResolveTeacher)(activity);
         const teacher = resolution?.teacher ?? null;
         const sessions = resolution?.sessions ?? [];
-        const photoImgs = activity.photos && activity.photos.length > 0 ? (
-          <span className="flex shrink-0 gap-1.5">
-            {activity.photos.map((src, i) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-12 rounded-lg object-contain shadow-sm ring-1 ring-sky-900/10" />
-            ))}
-          </span>
-        ) : activity.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-sm ring-1 ring-sky-900/10" />
+        const photoSources = activityPhotoSources(activity, teacher);
+        const photoImgs = photoSources.length > 0 ? (
+          <ActivityPhotos
+            sources={photoSources}
+            alt={activity.facilitator ?? activity.title}
+            single="w-16 shrink-0 rounded-xl object-contain shadow-sm ring-1 ring-sky-900/10"
+            multi="w-12 rounded-lg object-contain shadow-sm ring-1 ring-sky-900/10"
+          />
         ) : null;
 
         return (

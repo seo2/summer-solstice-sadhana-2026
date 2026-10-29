@@ -1,5 +1,6 @@
 import { AppLink as Link } from "@/components/app-link";
 import { ActivityActions } from "@/components/activity-actions";
+import { ActivityPhotos, activityPhotoSources } from "@/components/activity-photos";
 import { TeacherQuickView } from "@/components/teacher-quick-view";
 import { notFound } from "next/navigation";
 import { ArrowLeft, MapPin } from "lucide-react";
@@ -46,16 +47,14 @@ export default async function ActivityDetailPage({ params }: { params: Promise<{
           {activity.language && <span className="rounded-full bg-sky-50 px-3 py-1.5 text-sky-800 ring-1 ring-sky-200/80">{activity.language}</span>}
         </div>
         {(activity.facilitator || activity.description) && (() => {
-          const photoImgs = activity.photos && activity.photos.length > 0 ? (
-            <span className="flex shrink-0 gap-1.5">
-              {activity.photos.map((src, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-14 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
-              ))}
-            </span>
-          ) : activity.photo ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10" />
+          const photoSources = activityPhotoSources(activity, teacher);
+          const photoImgs = photoSources.length > 0 ? (
+            <ActivityPhotos
+              sources={photoSources}
+              alt={activity.facilitator ?? activity.title}
+              single="w-16 shrink-0 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10"
+              multi="w-14 rounded-xl object-contain shadow-md ring-1 ring-sky-900/10"
+            />
           ) : null;
 
           return (

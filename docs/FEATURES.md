@@ -84,6 +84,8 @@ Status legend: ✅ shipped · 🔜 next · 📋 planned · 💤 deferred
 
 - Bios, photos, country, and the sessions each teacher leads (linked to program items,
   accessible from program detail). Spec: [TEACHERS.md](TEACHERS.md).
+- Program cards, the detail page and the synced detail sheet show the teacher's photo when
+  the session has none of its own (cache v91); tapping it opens the quick view.
 - Static-first via `teachers.json`; migrates to the backend bundle unchanged.
 - Depends on: nothing for step 1; backend content model (`teacher`) for step 2.
 

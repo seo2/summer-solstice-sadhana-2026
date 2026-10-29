@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Heart, MapPin, X } from "lucide-react";
+import { ActivityPhotos, activityPhotoSources } from "@/components/activity-photos";
 import { TeacherQuickView } from "@/components/teacher-quick-view";
 import { useSavedActivities } from "@/lib/db";
 import type { Activity, Teacher } from "@/lib/types";
@@ -52,6 +53,15 @@ export function ActivityDetailSheet({ activity, teacher, teacherSessions = [], o
   }, [close]);
 
   const isFavorite = favoriteIds.has(activity.id);
+  const photoSources = activityPhotoSources(activity, teacher);
+  const photoImgs = (
+    <ActivityPhotos
+      sources={photoSources}
+      alt={activity.facilitator ?? activity.title}
+      single="w-16 shrink-0 rounded-xl object-cover shadow-md ring-1 ring-sky-900/10"
+      multi="w-14 rounded-xl object-cover shadow-md ring-1 ring-sky-900/10"
+    />
+  );
 
   return createPortal(
     <div
@@ -97,17 +107,13 @@ export function ActivityDetailSheet({ activity, teacher, teacherSessions = [], o
 
         {(activity.facilitator || activity.description) && (
           <div className="teacher-modal-item mt-5 flex items-start gap-4" style={{ animationDelay: "140ms" }}>
-            {(activity.photos && activity.photos.length > 0 ? (
-              <span className="flex shrink-0 gap-1.5">
-                {activity.photos.map((src, i) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={src} alt={activity.facilitator ?? activity.title} className="w-14 rounded-xl object-cover shadow-md ring-1 ring-sky-900/10" />
-                ))}
-              </span>
-            ) : activity.photo ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={activity.photo} alt={activity.facilitator ?? activity.title} className="w-16 shrink-0 rounded-xl object-cover shadow-md ring-1 ring-sky-900/10" />
-            ) : null)}
+            {photoSources.length > 0 && (teacher ? (
+              <TeacherQuickView teacher={teacher} sessions={teacherSessions} showProfileLink={false} className="shrink-0 transition-transform duration-150 active:scale-[0.98]">
+                {photoImgs}
+              </TeacherQuickView>
+            ) : (
+              photoImgs
+            ))}
             <div className="min-w-0 flex-1">
               {activity.facilitator && (
                 <div className="mb-3">

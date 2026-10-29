@@ -12,6 +12,13 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Teacher photo on program cards and detail** (cache v90 → v91) — when a session carries no
+  photo of its own, the program card, the static detail page and the synced detail sheet show
+  the resolved teacher's photo (matched by `facilitator` name, as the quick view already was),
+  and tapping it opens the teacher quick view. Synced programs carry photos on the teacher
+  only, so winter sessions showed none; the summer program looks the same (its sessions already
+  carried the teacher's photo). Shared `src/components/activity-photos.tsx` holds the order:
+  `photos` → `photo` → teacher `photos` → teacher `photo`.
 - **WSOL26 official program** (fixture v9 → v12; `scripts/`, `references/` and docs only,
   no cache bump) — the programming team's master sheet ("General Program" tab, read
   2026-10-29) replaces the template: 92 items over Dec 15–21 with the real workshops,
