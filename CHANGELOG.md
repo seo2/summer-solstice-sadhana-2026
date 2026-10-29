@@ -28,7 +28,9 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   to program venue, TREE PAVILION added without a pin. CSVs regenerated. Reading
   decisions, what was left out, open questions and the production import order in the new
   `docs/WSOL26-PROGRAM.md` (indexed); `CONTENT-MODEL.md`, `TESTING-LOCAL.md` and the WS7
-  note in `WSOL26-PLAN.md` updated.
+  note in `WSOL26-PLAN.md` updated. **Imported into production** (`winter-solstice-2026`,
+  plugin 0.12.0) the same day: venues 23 (content version 23), teachers 14 (v24), program
+  92 in with 60 template rows retired by Replace (v25).
 - **Video manual** (`video-manual/`, HyperFrames; no app change, no cache bump): a 46 s
   vertical quick tour and a 2:09 step-by-step tutorial for Winter Solstice Sadhana 2026
   attendees — real app captures (`tutorial/scripts/capture.mjs`), English voice-over, taps

@@ -287,8 +287,9 @@ live but **empty**.
       `scripts/wsol26-official-program.mjs`; production already carries the 12
       presenters with bios and photos. Reading decisions, open questions and the
       import order (venues, teachers, then program with Replace) in
-      [WSOL26-PROGRAM.md](WSOL26-PROGRAM.md). Done when the open questions are
-      answered and the CSVs are imported.
+      [WSOL26-PROGRAM.md](WSOL26-PROGRAM.md). **Imported into production the same
+      day** (content version 25: 92 sessions, 14 teachers, 23 venues). Open until the
+      "To be announced" items are filled from the programming team's answers.
 - [ ] **Teacher bios** — 33 of 34 bios are still empty (applies to both events). The
       profile "About" section appears automatically as soon as a bio exists. Done
       when priority teachers have bios.

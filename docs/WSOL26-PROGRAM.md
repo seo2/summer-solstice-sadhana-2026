@@ -140,18 +140,24 @@ points at it on the artwork (venues without `mapPoint` are listed, not drawn).
 ## Importing into production
 
 The production event is **`winter-solstice-2026`** (the fixture's `wsol26` is the mock's
-slug) and already carries the 12 presenters and 22 venues. Order, in **Event App → Import**:
+slug). Order, in **Event App → Import** (plugin 0.12.0):
 
 1. **Venues** · `wsol26-venues.csv` · *Add or update* — updates Inco Park (now `kind` venue)
    and adds Tree Pavilion; the other rows are unchanged re-imports (pins included).
 2. **Teachers** · `wsol26-teachers.csv` · *Add or update* — the 12 existing rows match by id,
    Chief Open Heart and Karina Skye are added.
-3. **Program** · `wsol26-program.csv` · **Replace**, *Validate only* first (expect 92 rows
-   in, 87 template rows out, 0 rejected), then for real. Replace retires the template rows;
-   favorites on the recurring items (same ids: Sadhana, Gurdwara, meals, Lights Out…)
-   survive.
+3. **Program** · `wsol26-program.csv` · **Replace**, *Validate only* first, then for real.
+   Replace retires the rows the file does not carry; favorites on the recurring items
+   (same ids: Sadhana, Gurdwara, meals, Lights Out…) survive.
 
 Every import bumps `content_version`; installed apps pick it up on their next sync.
+
+**Done 2026-10-29** (fixture v11): venues 23 imported (content version 23), teachers 14
+(v24), program 92 imported and **60** template rows retired (v25) — not 87, because 27
+recurring ids were shared with the template and updated in place. The public bundle
+afterwards: 92 sessions, no duplicate ids, every `location`, `category` and `facilitator`
+joined, INCO PARK a venue with its pin, TREE PAVILION listed without one. Each later
+change to the sheet repeats step 3 only (plus 1 or 2 when venues or teachers change).
 
 ## Keeping it current
 
