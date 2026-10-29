@@ -26,7 +26,7 @@ The other tabs are team notes: **Gurdwara** (three dated entries and a set-up ch
 | Artifact | Content |
 |---|---|
 | `scripts/wsol26-official-program.mjs` | The transcription: every session as code, with the reading decisions below. Run it to rewrite the fixture (it bumps `version`). |
-| `scripts/fixtures/wsol26.json` (v10) | `program` 92 items over Dec 15–21 (21 tagged "To be announced"), `venues` 23 (Inco Park promoted to a program venue, Tree Pavilion added), `teachers` 14. |
+| `scripts/fixtures/wsol26.json` (v12) | `program` 92 items over Dec 15–21 (21 tagged "To be announced"), `venues` 23 (Inco Park promoted to a program venue, Tree Pavilion added), `teachers` 14. |
 | `references/wsol26-teachers-production.json` | Snapshot of the 12 presenters production already carries (ids, names, name variants, bios, photos), so the fixture and the CSV reuse their ids. |
 | `scripts/fixtures/csv/wsol26-{program,venues,teachers}.csv` | What goes into **Event App → Import** (`npm run fixtures:csv -- wsol26`). |
 
@@ -63,8 +63,11 @@ How the cells were turned into items:
 - **Sat Nam Rasayan** (Wed): the all-camp class 1:45–3:30 and the "SNR" cell at 3:45–5:00
   are one item, 1:45–5:00 with a break, matching the 3-hour session of 2025.
 - **WTY Monitors Meeting** (Wed, lunch row) and **WTY First Timers Meeting** (Wed, dinner
-  row) are items over the meal hour at Churuata. The Monitors cell is merged Wed→Sun in the
-  sheet; it is published for Wednesday only, as in 2025.
+  row) are items over the meal hour: Monitors at Churuata, First Timers at Tantric Shelter
+  (owner, 2026-10-29). The Monitors cell is merged Wed→Sun in the sheet; it is published for
+  Wednesday only, as in 2025.
+- **Rewiring Stress into Strength** (Sun 1:45–3:30, the all-camp class) is at Churuata, not
+  the Tantric Shelter (owner, 2026-10-29).
 - **White Tantric Yoga® – Day One/Two/Three**: 8:00 AM (warm-ups) to 5:30 PM, description
   carries "gates open 7:15". The sheet does not state the end time.
 - **Kids Camp** 9:00–5:00 on Wed–Sun as "To be announced" (the Youth camp tab is empty but
@@ -158,6 +161,9 @@ recurring ids were shared with the template and updated in place. The public bun
 afterwards: 92 sessions, no duplicate ids, every `location`, `category` and `facilitator`
 joined, INCO PARK a venue with its pin, TREE PAVILION listed without one. Each later
 change to the sheet repeats step 3 only (plus 1 or 2 when venues or teachers change).
+Later that day the owner moved *WTY First Timers Meeting* to Tantric Shelter and *Rewiring
+Stress into Strength* to Churuata directly in wp-admin (content version 27); fixture v12 and
+the CSV carry the same venues, so the next Replace keeps them.
 
 ## Keeping it current
 

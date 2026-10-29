@@ -1,7 +1,7 @@
 {
   "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system. The PROGRAM, VENUES and TEACHERS are the official Winter Solstice 2026 program as read from the programming team's master sheet, written by scripts/wsol26-official-program.mjs (reading decisions and open questions in docs/WSOL26-PROGRAM.md); items tagged 'To be announced' are the ones the sheet leaves open. Info pages and menus are interim. Venue map pins are measured on the real map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 11,
+  "version": 12,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -267,7 +267,7 @@
       "endTime": "18:30",
       "title": "WTY First Timers Meeting",
       "category": "White Tantric Yoga",
-      "location": "CHURUATA",
+      "location": "TANTRIC SHELTER",
       "description": "During dinner. First time at White Tantric Yoga®? Meet the WTY team and learn what to expect over the three days."
     },
     {
@@ -853,7 +853,7 @@
       "endTime": "15:30",
       "title": "Rewiring Stress into Strength",
       "category": "Kriya and Meditation",
-      "location": "TANTRIC SHELTER",
+      "location": "CHURUATA",
       "facilitator": "Dr Haridass Kaur",
       "description": "All camp together, no parallel classes."
     },

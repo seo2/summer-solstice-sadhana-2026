@@ -145,7 +145,7 @@ add(d, "12:30", "13:45", "WTY Monitors Meeting", { category: "White Tantric Yoga
 cls(d, "13:45", "17:00", "Sat Nam Rasayan", "Meditation", TANTRIC, SIRI_SIMRAN, { description: SNR });
 rehras(d);
 meal(d, "17:30", "18:30", "Dinner");
-add(d, "17:30", "18:30", "WTY First Timers Meeting", { category: "White Tantric Yoga", location: CHURUATA, description: FIRST_TIMERS });
+add(d, "17:30", "18:30", "WTY First Timers Meeting", { category: "White Tantric Yoga", location: TANTRIC, description: FIRST_TIMERS }); // Tantric Shelter (owner, 2026-10-29)
 karmaYoga(d);
 evening(d);
 night(d);
@@ -179,7 +179,7 @@ cls(d, "11:15", "12:30", "Conscious Communication within Silence", "Meditation",
 cls(d, "11:15", "12:30", "Winter Solstice Glandular Summit", "Kriya and Meditation", TREE, DYAL);
 cls(d, "11:15", "12:30", "Women's Circle", "Community", INCO, null, { description: WOMEN, tags: TBA });
 meal(d, "12:30", "13:45", "Lunch", LUNCH);
-cls(d, "13:45", "15:30", "Rewiring Stress into Strength", "Kriya and Meditation", TANTRIC, HARIDASS, { description: ALL_CAMP });
+cls(d, "13:45", "15:30", "Rewiring Stress into Strength", "Kriya and Meditation", CHURUATA, HARIDASS, { description: ALL_CAMP }); // Churuata (owner, 2026-10-29)
 cls(d, "15:45", "17:00", "Rejuvenate: Emotional Balance & Alertness", "Kriya and Meditation", CHURUATA, KHUSHBIR);
 cls(d, "15:45", "17:00", "The Preserver", "Kriya and Meditation", TREE, KARUNA);
 cls(d, "15:45", "17:00", "Tantric Integration Circle", "Kriya and Meditation", INCO, null, { description: TANTRIC_INTEGRATION, tags: TBA });

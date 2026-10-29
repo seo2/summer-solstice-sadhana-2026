@@ -12,7 +12,7 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
-- **WSOL26 official program** (fixture v9 → v10; `scripts/`, `references/` and docs only,
+- **WSOL26 official program** (fixture v9 → v12; `scripts/`, `references/` and docs only,
   no cache bump) — the programming team's master sheet ("General Program" tab, read
   2026-10-29) replaces the template: 92 items over Dec 15–21 with the real workshops,
   teachers and venues (Wed 16 and Sun 20 class days at Churuata, Tree Pavilion and Inco
@@ -37,6 +37,10 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
   timed to the narration. Store downloads only (no web / Add to Home Screen). Rendered MP4s and
   HyperFrames caches are gitignored. Docs indexed in `docs/INDEX.md`.
 - `.claude/launch.json`: `ssol-dev-3014` dev-server config (3011/3012 are often taken).
+  Venue corrections from the owner the same day (fixture v12): *WTY First Timers Meeting* at
+  Tantric Shelter and *Rewiring Stress into Strength* at Churuata, applied in wp-admin
+  directly (content version 27) and mirrored in the transcription so the next Replace keeps
+  them.
 
 ### Fixed
 
