@@ -61,10 +61,10 @@ see the app carrying a realistic event, use the fixture instead:
 `/sync-lab` → base `http://localhost:3999`, event slug **`wsol26`** → Fetch
 bundle → Use this event in the app (or open it from Home's **Events** list —
 the adoption agent also pulls it by itself once the base URL is set). That
-loads the 87-item template program across 7 days (the recurring Solstice
-elements plus "To be announced" class slots — see
-[CONTENT-MODEL.md](CONTENT-MODEL.md)), 6 teachers, 22 map points (6 venues +
-16 landmarks) on the real Florida map with tappable pins and chips, 14
+loads the official 92-item program across 7 days (see
+[WSOL26-PROGRAM.md](WSOL26-PROGRAM.md)), 14 teachers, 23 venues with 22 map
+points (8 program venues + 15 landmarks) on the real Florida map with tappable
+pins and chips, 14
 categories, 35 info pages and 19 menu entries; Home lists it with its cover and
 Register link from `scripts/fixtures/home.json` (see [HOME.md](HOME.md)).
 

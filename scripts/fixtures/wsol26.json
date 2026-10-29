@@ -1,7 +1,7 @@
 {
-  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system (register.3ho.org wsol/v1 feed + 3ho-solstice-checkout seed). The program is a TEMPLATE: the recurring elements of every Solstice (Rise up sweet family dear!, Sadhana, Gurdwara, meals, Karma Yoga & Service Exchange Meetings, WTY, Rehras, Free Time, evening music, gong, Rensabai, Lights Out) at the times of the 2025 program, plus class slots tagged 'To be announced' that carry the category that can go in that slot. Teachers and menus are invented; info pages are the Summer Solstice 2026 set cut back to generic text, with 'coming soon' notices where the winter details are pending (2026-09-14); the venue map pins are measured on the real Winter Solstice map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md. dishes[] is the per-event dish catalog — what each preparation is, its benefits, ingredients, calories per serving, a photo and a recipe link — joined to menus[].items by dish name (case/whitespace-insensitive), so a dish is described once and every menu that serves it picks the details up; dishes the catalog does not know stay plain lines.",
+  "_comment": "Dummy WSOL26 bundle for local testing. Event metadata (name, dates, venue) and the White Tantric Yoga days (Dec 17-19) mirror the real registration system. The PROGRAM, VENUES and TEACHERS are the official Winter Solstice 2026 program as read from the programming team's master sheet, written by scripts/wsol26-official-program.mjs (reading decisions and open questions in docs/WSOL26-PROGRAM.md); items tagged 'To be announced' are the ones the sheet leaves open. Info pages and menus are interim. Venue map pins are measured on the real map artwork (references/winter-solstice-map-revised-v3.jpg, served by the mock as /photos/wsol26-map.jpg). Served by scripts/mock-backend.mjs and convertible to CSV with scripts/fixture-to-csv.mjs. See docs/CONTENT-MODEL.md.",
   "ok": true,
-  "version": 9,
+  "version": 10,
   "event": {
     "slug": "wsol26",
     "name": "Winter Solstice Sadhana Celebration 2026",
@@ -14,39 +14,32 @@
   },
   "program": [
     {
-      "id": "2026-12-15-1300-welcome-gurdwara",
-      "date": "2026-12-15",
-      "day": "Tuesday",
-      "startTime": "13:00",
-      "endTime": "14:30",
-      "title": "Welcome Gurdwara",
-      "category": "Gurdwara",
-      "location": "GURDWARA",
-      "description": "Followed by Guru Ka Langar."
-    },
-    {
-      "id": "2026-12-15-1300-registration-check-in",
+      "id": "2026-12-15-1300-arrival-registration",
       "date": "2026-12-15",
       "day": "Tuesday",
       "startTime": "13:00",
       "endTime": "20:00",
-      "title": "Registration & Check-in",
+      "title": "Arrival & Registration",
       "category": "Logistics",
-      "location": "CHURUATA",
-      "description": "Welcome! Please have your ticket QR code and your ID ready; that makes the process swift. If you don't have a service exchange or karma yoga team yet, one will be assigned at check-in. You can also register on arrival. We are happy you are here!"
-    },
-    {
-      "id": "2026-12-15-1430-kri-trainers-forum",
-      "date": "2026-12-15",
-      "day": "Tuesday",
-      "startTime": "14:30",
-      "endTime": "18:30",
-      "title": "KRI Trainers Forum",
-      "category": "Workshop",
       "tags": [
         "To be announced"
       ],
-      "description": "Forum for KRI-certified Kundalini Yoga teacher trainers. Location to be announced."
+      "location": "OFFICE",
+      "description": "Have your ticket QR code and a photo ID ready. If you don't have a service exchange or karma yoga team yet, one will be assigned at check-in. Check-in hours to be confirmed."
+    },
+    {
+      "id": "2026-12-15-1500-orientation-first-sessions",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "15:00",
+      "endTime": "17:30",
+      "title": "Orientation & First Sessions",
+      "category": "Community",
+      "tags": [
+        "To be announced"
+      ],
+      "location": "TANTRIC SHELTER",
+      "description": "The program begins at 3:00 PM with an orientation and the first sessions. Details to be announced."
     },
     {
       "id": "2026-12-15-1730-dinner",
@@ -59,21 +52,38 @@
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-15-1900-all-camp-opening-ceremony",
+      "id": "2026-12-15-1830-karma-yoga-action",
       "date": "2026-12-15",
       "day": "Tuesday",
-      "startTime": "19:00",
-      "endTime": "21:00",
-      "title": "All Camp Opening Ceremony",
-      "category": "Community",
-      "location": "TANTRIC SHELTER",
-      "description": "Come open the space with us! Welcome home, welcome back. We are so excited to be in community. Join many of the teachers to open this Winter Solstice Celebration with music, laughter, meditation and joy."
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Karma Yoga Action",
+      "category": "Service"
     },
     {
-      "id": "2026-12-15-2145-lights-out",
+      "id": "2026-12-15-1930-opening-circle",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "19:30",
+      "endTime": "21:00",
+      "title": "Opening Circle",
+      "category": "Community",
+      "location": "TANTRIC SHELTER",
+      "description": "Come open the space with us! Welcome home, welcome back. Join the teachers to open this Winter Solstice Celebration with music, laughter, meditation and joy."
+    },
+    {
+      "id": "2026-12-15-2145-bazaar-closes",
       "date": "2026-12-15",
       "day": "Tuesday",
       "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-15-2200-lights-out",
+      "date": "2026-12-15",
+      "day": "Tuesday",
+      "startTime": "22:00",
       "title": "🌙 Lights Out",
       "category": "Logistics"
     },
@@ -82,19 +92,20 @@
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "03:00",
-      "endTime": "03:45",
+      "endTime": "03:40",
       "title": "Rise up sweet family dear!",
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-16-0345-morning-sadhana",
+      "id": "2026-12-16-0340-aquarian-sadhana",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "03:45",
+      "startTime": "03:40",
       "endTime": "06:00",
-      "title": "Morning Sadhana",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
+      "facilitator": "Dr Haridass Kaur",
       "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
     },
     {
@@ -109,25 +120,25 @@
       "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome."
     },
     {
-      "id": "2026-12-16-0730-breakfast",
+      "id": "2026-12-16-0715-breakfast",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "07:30",
-      "endTime": "08:30",
+      "startTime": "07:15",
+      "endTime": "08:15",
       "title": "🍴 Breakfast",
       "category": "Meal",
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-16-0830-karma-yoga-service-exchange-meetings",
+      "id": "2026-12-16-0830-all-camp-meditation-karma-yoga-meetings",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "08:30",
       "endTime": "09:30",
-      "title": "Karma Yoga & Service Exchange Meetings",
-      "category": "Service",
-      "location": "CHURUATA",
-      "description": "Come see us and vibe with your team! All attendees have a karma yoga: it helps keep the event sustainable and flowing. Unsure of yours? Ask at the event office to sort it out."
+      "title": "All-Camp Meditation & Karma Yoga Meetings",
+      "category": "Community",
+      "location": "TANTRIC SHELTER",
+      "description": "A short all-camp meditation, then meet your Karma Yoga or Service Exchange team. All attendees have a karma yoga: it keeps the event sustainable and flowing. Unsure of yours? Ask at the event office."
     },
     {
       "id": "2026-12-16-0900-kids-camp",
@@ -144,144 +155,95 @@
       "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced."
     },
     {
-      "id": "2026-12-16-0945-kundalini-yoga-class",
+      "id": "2026-12-16-0945-raising-the-heart-with-our-inner-sun-power",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "09:45",
       "endTime": "11:00",
-      "title": "Kundalini Yoga Class",
+      "title": "Raising the Heart with our Inner Sun Power",
       "category": "Kriya and Meditation",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
+      "location": "CHURUATA",
+      "facilitator": "Chris Maanas"
     },
     {
-      "id": "2026-12-16-0945-lecture",
+      "id": "2026-12-16-0945-understanding-the-science-and-research-on-yoga",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "09:45",
       "endTime": "11:00",
-      "title": "Lecture",
+      "title": "Understanding the Science and Research on Yoga",
       "category": "Lecture",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
+      "location": "TREE PAVILION",
+      "facilitator": "Sat Bir Singh"
     },
     {
-      "id": "2026-12-16-1115-kundalini-yoga-class",
+      "id": "2026-12-16-1115-ikyta-day",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "11:15",
       "endTime": "12:30",
-      "title": "Kundalini Yoga Class",
-      "category": "Kriya and Meditation",
+      "title": "IKYTA Day",
+      "category": "Workshop",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
+      "location": "TREE PAVILION",
+      "description": "International Kundalini Yoga Teachers Association session. Details to be announced."
     },
     {
-      "id": "2026-12-16-1115-meditation-class",
+      "id": "2026-12-16-1115-sdi-gathering",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "11:15",
       "endTime": "12:30",
-      "title": "Meditation Class",
-      "category": "Meditation",
+      "title": "SDI Gathering",
+      "category": "Workshop",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
+      "location": "CHURUATA",
+      "description": "Sikh Dharma International gathering. Title and presenters to be announced."
     },
     {
       "id": "2026-12-16-1230-lunch",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "12:30",
-      "endTime": "13:30",
+      "endTime": "13:45",
       "title": "🍴 Lunch",
       "category": "Meal",
-      "location": "CHURUATA"
+      "location": "CHURUATA",
+      "description": "Free time until the afternoon program."
     },
     {
-      "id": "2026-12-16-1330-wty-monitors-meeting",
+      "id": "2026-12-16-1230-wty-monitors-meeting",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "13:30",
-      "endTime": "14:15",
+      "startTime": "12:30",
+      "endTime": "13:45",
       "title": "WTY Monitors Meeting",
       "category": "White Tantric Yoga",
       "location": "CHURUATA",
-      "description": "Interested in being a Monitor at White Tantric Yoga® (WTY)? A WTY Monitor must have attended at least one day of WTY, wear white clothing and a white head covering, and wear the Monitor ID marker. Monitors receive the same benefits of WTY as if they were doing the meditations with a partner. Come learn more about this important role!"
+      "description": "During lunch. Interested in being a Monitor at White Tantric Yoga® (WTY)? A WTY Monitor must have attended at least one day of WTY, wear white clothing and a white head covering, and wear the Monitor ID marker. Monitors receive the same benefits of WTY as if they were doing the meditations with a partner."
     },
     {
-      "id": "2026-12-16-1430-kundalini-yoga-class",
+      "id": "2026-12-16-1345-sat-nam-rasayan",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "14:30",
-      "endTime": "15:45",
-      "title": "Kundalini Yoga Class",
-      "category": "Kriya and Meditation",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-16-1430-workshop",
-      "date": "2026-12-16",
-      "day": "Wednesday",
-      "startTime": "14:30",
-      "endTime": "15:45",
-      "title": "Workshop",
-      "category": "Workshop",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-16-1600-mantra-chanting",
-      "date": "2026-12-16",
-      "day": "Wednesday",
-      "startTime": "16:00",
-      "endTime": "17:15",
-      "title": "Mantra & Chanting",
-      "category": "Mantras",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-16-1600-meditation-class",
-      "date": "2026-12-16",
-      "day": "Wednesday",
-      "startTime": "16:00",
-      "endTime": "17:15",
-      "title": "Meditation Class",
+      "startTime": "13:45",
+      "endTime": "17:00",
+      "title": "Sat Nam Rasayan",
       "category": "Meditation",
-      "tags": [
-        "To be announced"
-      ],
       "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
+      "facilitator": "Siri Simran Kaur",
+      "description": "Sat Nam Rasayan®: healing through awareness, in deep meditative silence. All camp together, no parallel classes, with a short break at 3:30 PM."
     },
     {
-      "id": "2026-12-16-1715-rehras",
+      "id": "2026-12-16-1700-rehras",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "17:15",
-      "endTime": "17:45",
+      "startTime": "17:00",
+      "endTime": "17:30",
       "title": "Rehras",
       "category": "Gurdwara",
       "location": "GURDWARA",
@@ -298,38 +260,66 @@
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-16-1900-evening-music",
+      "id": "2026-12-16-1730-wty-first-timers-meeting",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "19:00",
-      "endTime": "21:00",
-      "title": "Evening Music",
+      "startTime": "17:30",
+      "endTime": "18:30",
+      "title": "WTY First Timers Meeting",
+      "category": "White Tantric Yoga",
+      "location": "CHURUATA",
+      "description": "During dinner. First time at White Tantric Yoga®? Meet the WTY team and learn what to expect over the three days."
+    },
+    {
+      "id": "2026-12-16-1830-karma-yoga-action",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Karma Yoga Action",
+      "category": "Service"
+    },
+    {
+      "id": "2026-12-16-1930-yogi-tea-caf-music",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "title": "Yogi Tea Café Music",
       "category": "Music",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Musicians to be announced."
+      "location": "BAZAAR / YOGI TEA",
+      "description": "Live music at the Yogi Tea Café. Musicians to be announced."
     },
     {
-      "id": "2026-12-16-2000-gong-meditation",
+      "id": "2026-12-16-2030-gong-meditation",
       "date": "2026-12-16",
       "day": "Wednesday",
-      "startTime": "20:00",
-      "endTime": "20:45",
+      "startTime": "20:30",
+      "endTime": "21:30",
       "title": "Gong Meditation",
       "category": "Meditation",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Gong meditation and deep relaxation. Bring a blanket. Teacher to be announced."
+      "location": "CHURUATA",
+      "description": "Gong meditation and deep relaxation at the Churuata. Bring a blanket. Facilitator to be announced."
     },
     {
-      "id": "2026-12-16-2145-lights-out",
+      "id": "2026-12-16-2145-bazaar-closes",
       "date": "2026-12-16",
       "day": "Wednesday",
       "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-16-2200-lights-out",
+      "date": "2026-12-16",
+      "day": "Wednesday",
+      "startTime": "22:00",
       "title": "🌙 Lights Out",
       "category": "Logistics"
     },
@@ -343,26 +333,26 @@
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-17-0340-sadhana",
+      "id": "2026-12-17-0340-aquarian-sadhana",
       "date": "2026-12-17",
       "day": "Thursday",
       "startTime": "03:40",
-      "endTime": "05:45",
-      "title": "Sadhana",
+      "endTime": "05:50",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
-      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
+      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket. Shorter on White Tantric Yoga® days."
     },
     {
-      "id": "2026-12-17-0545-gurdwara",
+      "id": "2026-12-17-0550-gurdwara",
       "date": "2026-12-17",
       "day": "Thursday",
-      "startTime": "05:45",
+      "startTime": "05:50",
       "endTime": "07:00",
       "title": "Gurdwara",
       "category": "Gurdwara",
       "location": "GURDWARA",
-      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome."
+      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome. Shorter on White Tantric Yoga® days."
     },
     {
       "id": "2026-12-17-0700-breakfast",
@@ -379,11 +369,11 @@
       "date": "2026-12-17",
       "day": "Thursday",
       "startTime": "08:00",
-      "endTime": "18:00",
+      "endTime": "17:30",
       "title": "White Tantric Yoga® – Day One",
       "category": "White Tantric Yoga",
       "location": "TANTRIC SHELTER",
-      "description": "Wear white clothing and a white head covering. Lunch is served midday at the Tantric Shelter. Doors close when a meditation begins and reopen when it ends."
+      "description": "Gates open 7:15 AM, warm-ups 8:00 AM. Wear white clothing and a white head covering. Lunch is served midday. Doors close when a meditation begins and reopen when it ends."
     },
     {
       "id": "2026-12-17-0900-kids-camp",
@@ -397,62 +387,68 @@
         "To be announced"
       ],
       "location": "CHILDREN'S CAMP",
-      "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced."
+      "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced. Today the Kids Camp visits the Gurdwara at 2:30 PM."
     },
     {
-      "id": "2026-12-17-1800-rehras",
+      "id": "2026-12-17-1730-dinner",
       "date": "2026-12-17",
       "day": "Thursday",
-      "startTime": "18:00",
+      "startTime": "17:30",
       "endTime": "18:30",
-      "title": "Rehras",
-      "category": "Gurdwara",
-      "location": "GURDWARA",
-      "description": "After White Tantric Yoga®. Followed by Sukhasan (Hukam, Kirtan Sohila, Ardas)."
-    },
-    {
-      "id": "2026-12-17-1800-dinner",
-      "date": "2026-12-17",
-      "day": "Thursday",
-      "startTime": "18:00",
-      "endTime": "19:00",
       "title": "🍴 Dinner",
       "category": "Meal",
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-17-1900-evening-music-mantra",
+      "id": "2026-12-17-1830-karma-yoga-action",
       "date": "2026-12-17",
       "day": "Thursday",
-      "startTime": "19:00",
-      "endTime": "21:00",
-      "title": "Evening Music & Mantra",
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Karma Yoga Action",
+      "category": "Service"
+    },
+    {
+      "id": "2026-12-17-1930-yogi-tea-caf-music",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "title": "Yogi Tea Café Music",
       "category": "Music",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Musicians to be announced."
+      "location": "BAZAAR / YOGI TEA",
+      "description": "Live music at the Yogi Tea Café. Musicians to be announced."
     },
     {
-      "id": "2026-12-17-2000-gong-meditation",
+      "id": "2026-12-17-2030-gong-meditation",
       "date": "2026-12-17",
       "day": "Thursday",
-      "startTime": "20:00",
-      "endTime": "20:45",
+      "startTime": "20:30",
+      "endTime": "21:30",
       "title": "Gong Meditation",
       "category": "Meditation",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Gong meditation and deep relaxation. Bring a blanket. Teacher to be announced."
+      "location": "CHURUATA",
+      "description": "Gong meditation and deep relaxation at the Churuata. Bring a blanket. Facilitator to be announced."
     },
     {
-      "id": "2026-12-17-2145-lights-out",
+      "id": "2026-12-17-2145-bazaar-closes",
       "date": "2026-12-17",
       "day": "Thursday",
       "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-17-2200-lights-out",
+      "date": "2026-12-17",
+      "day": "Thursday",
+      "startTime": "22:00",
       "title": "🌙 Lights Out",
       "category": "Logistics"
     },
@@ -466,26 +462,26 @@
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-18-0340-sadhana",
+      "id": "2026-12-18-0340-aquarian-sadhana",
       "date": "2026-12-18",
       "day": "Friday",
       "startTime": "03:40",
-      "endTime": "05:45",
-      "title": "Sadhana",
+      "endTime": "05:50",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
-      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
+      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket. Shorter on White Tantric Yoga® days."
     },
     {
-      "id": "2026-12-18-0545-gurdwara",
+      "id": "2026-12-18-0550-gurdwara",
       "date": "2026-12-18",
       "day": "Friday",
-      "startTime": "05:45",
+      "startTime": "05:50",
       "endTime": "07:00",
       "title": "Gurdwara",
       "category": "Gurdwara",
       "location": "GURDWARA",
-      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome."
+      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome. Shorter on White Tantric Yoga® days."
     },
     {
       "id": "2026-12-18-0700-breakfast",
@@ -502,11 +498,11 @@
       "date": "2026-12-18",
       "day": "Friday",
       "startTime": "08:00",
-      "endTime": "18:00",
+      "endTime": "17:30",
       "title": "White Tantric Yoga® – Day Two",
       "category": "White Tantric Yoga",
       "location": "TANTRIC SHELTER",
-      "description": "Wear white clothing and a white head covering. Lunch is served midday at the Tantric Shelter. Doors close when a meditation begins and reopen when it ends."
+      "description": "Gates open 7:15 AM, warm-ups 8:00 AM. Wear white clothing and a white head covering. Lunch is served midday. Doors close when a meditation begins and reopen when it ends."
     },
     {
       "id": "2026-12-18-0900-kids-camp",
@@ -523,59 +519,65 @@
       "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced."
     },
     {
-      "id": "2026-12-18-1800-rehras",
+      "id": "2026-12-18-1730-dinner",
       "date": "2026-12-18",
       "day": "Friday",
-      "startTime": "18:00",
+      "startTime": "17:30",
       "endTime": "18:30",
-      "title": "Rehras",
-      "category": "Gurdwara",
-      "location": "GURDWARA",
-      "description": "After White Tantric Yoga®. Followed by Sukhasan (Hukam, Kirtan Sohila, Ardas)."
-    },
-    {
-      "id": "2026-12-18-1800-dinner",
-      "date": "2026-12-18",
-      "day": "Friday",
-      "startTime": "18:00",
-      "endTime": "19:00",
       "title": "🍴 Dinner",
       "category": "Meal",
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-18-1900-evening-music-mantra",
+      "id": "2026-12-18-1830-karma-yoga-action",
       "date": "2026-12-18",
       "day": "Friday",
-      "startTime": "19:00",
-      "endTime": "21:00",
-      "title": "Evening Music & Mantra",
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Karma Yoga Action",
+      "category": "Service"
+    },
+    {
+      "id": "2026-12-18-1930-yogi-tea-caf-music",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "title": "Yogi Tea Café Music",
       "category": "Music",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Musicians to be announced."
+      "location": "BAZAAR / YOGI TEA",
+      "description": "Live music at the Yogi Tea Café. Musicians to be announced."
     },
     {
-      "id": "2026-12-18-2000-gong-meditation",
+      "id": "2026-12-18-2030-gong-meditation",
       "date": "2026-12-18",
       "day": "Friday",
-      "startTime": "20:00",
-      "endTime": "20:45",
+      "startTime": "20:30",
+      "endTime": "21:30",
       "title": "Gong Meditation",
       "category": "Meditation",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Gong meditation and deep relaxation. Bring a blanket. Teacher to be announced."
+      "location": "CHURUATA",
+      "description": "Gong meditation and deep relaxation at the Churuata. Bring a blanket. Facilitator to be announced."
     },
     {
-      "id": "2026-12-18-2145-lights-out",
+      "id": "2026-12-18-2145-bazaar-closes",
       "date": "2026-12-18",
       "day": "Friday",
       "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-18-2200-lights-out",
+      "date": "2026-12-18",
+      "day": "Friday",
+      "startTime": "22:00",
       "title": "🌙 Lights Out",
       "category": "Logistics"
     },
@@ -589,26 +591,26 @@
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-19-0340-sadhana",
+      "id": "2026-12-19-0340-aquarian-sadhana",
       "date": "2026-12-19",
       "day": "Saturday",
       "startTime": "03:40",
-      "endTime": "05:45",
-      "title": "Sadhana",
+      "endTime": "05:50",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
-      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
+      "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket. Shorter on White Tantric Yoga® days."
     },
     {
-      "id": "2026-12-19-0545-gurdwara",
+      "id": "2026-12-19-0550-gurdwara",
       "date": "2026-12-19",
       "day": "Saturday",
-      "startTime": "05:45",
+      "startTime": "05:50",
       "endTime": "07:00",
       "title": "Gurdwara",
       "category": "Gurdwara",
       "location": "GURDWARA",
-      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome."
+      "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome. Shorter on White Tantric Yoga® days."
     },
     {
       "id": "2026-12-19-0700-breakfast",
@@ -625,11 +627,11 @@
       "date": "2026-12-19",
       "day": "Saturday",
       "startTime": "08:00",
-      "endTime": "18:00",
+      "endTime": "17:30",
       "title": "White Tantric Yoga® – Day Three",
       "category": "White Tantric Yoga",
       "location": "TANTRIC SHELTER",
-      "description": "Wear white clothing and a white head covering. Lunch is served midday at the Tantric Shelter. Doors close when a meditation begins and reopen when it ends."
+      "description": "Gates open 7:15 AM, warm-ups 8:00 AM. Wear white clothing and a white head covering. Lunch is served midday. Doors close when a meditation begins and reopen when it ends."
     },
     {
       "id": "2026-12-19-0900-kids-camp",
@@ -646,74 +648,65 @@
       "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced."
     },
     {
-      "id": "2026-12-19-1800-ecstatic-dance",
+      "id": "2026-12-19-1730-dinner",
       "date": "2026-12-19",
       "day": "Saturday",
-      "startTime": "18:00",
+      "startTime": "17:30",
       "endTime": "18:30",
-      "title": "Ecstatic Dance",
-      "category": "Dance Yoga",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "At the end of White Tantric Yoga®: move freely and release whatever has come up over these three profound days."
-    },
-    {
-      "id": "2026-12-19-1800-rehras",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "18:00",
-      "endTime": "18:30",
-      "title": "Rehras",
-      "category": "Gurdwara",
-      "location": "GURDWARA",
-      "description": "After White Tantric Yoga®. Followed by Sukhasan (Hukam, Kirtan Sohila, Ardas)."
-    },
-    {
-      "id": "2026-12-19-1800-dinner",
-      "date": "2026-12-19",
-      "day": "Saturday",
-      "startTime": "18:00",
-      "endTime": "19:00",
       "title": "🍴 Dinner",
       "category": "Meal",
-      "location": "CHURUATA",
-      "description": "This dinner may be earlier or later, depending on when White Tantric Yoga® ends."
+      "location": "CHURUATA"
     },
     {
-      "id": "2026-12-19-1900-evening-music-mantra",
+      "id": "2026-12-19-1830-karma-yoga-action",
       "date": "2026-12-19",
       "day": "Saturday",
-      "startTime": "19:00",
-      "endTime": "21:00",
-      "title": "Evening Music & Mantra",
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Karma Yoga Action",
+      "category": "Service"
+    },
+    {
+      "id": "2026-12-19-1930-yogi-tea-caf-music",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "19:30",
+      "endTime": "21:30",
+      "title": "Yogi Tea Café Music",
       "category": "Music",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Musicians to be announced."
+      "location": "BAZAAR / YOGI TEA",
+      "description": "Live music at the Yogi Tea Café. Musicians to be announced."
     },
     {
-      "id": "2026-12-19-2000-gong-meditation",
+      "id": "2026-12-19-2030-gong-meditation",
       "date": "2026-12-19",
       "day": "Saturday",
-      "startTime": "20:00",
-      "endTime": "20:45",
+      "startTime": "20:30",
+      "endTime": "21:30",
       "title": "Gong Meditation",
       "category": "Meditation",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Gong meditation and deep relaxation. Bring a blanket. Teacher to be announced."
+      "location": "CHURUATA",
+      "description": "Gong meditation and deep relaxation at the Churuata. Bring a blanket. Facilitator to be announced."
     },
     {
-      "id": "2026-12-19-2145-lights-out",
+      "id": "2026-12-19-2145-bazaar-closes",
       "date": "2026-12-19",
       "day": "Saturday",
       "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-19-2200-lights-out",
+      "date": "2026-12-19",
+      "day": "Saturday",
+      "startTime": "22:00",
       "title": "🌙 Lights Out",
       "category": "Logistics"
     },
@@ -722,17 +715,17 @@
       "date": "2026-12-20",
       "day": "Sunday",
       "startTime": "03:00",
-      "endTime": "03:45",
+      "endTime": "03:40",
       "title": "Rise up sweet family dear!",
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-20-0345-morning-sadhana",
+      "id": "2026-12-20-0340-aquarian-sadhana",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "03:45",
+      "startTime": "03:40",
       "endTime": "06:00",
-      "title": "Morning Sadhana",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
       "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
@@ -749,25 +742,25 @@
       "description": "Gurdwara is a sacred space of Shabad (sound current), sangat (community), and seva (service). Whether this is your first time or a treasured tradition, you're invited to sit together in remembrance, sing the Naam, and bathe the mind in Gurbani kirtan. All are welcome."
     },
     {
-      "id": "2026-12-20-0730-breakfast",
+      "id": "2026-12-20-0715-breakfast",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "07:30",
-      "endTime": "08:30",
+      "startTime": "07:15",
+      "endTime": "08:15",
       "title": "🍴 Breakfast",
       "category": "Meal",
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-20-0830-karma-yoga-service-exchange-meetings",
+      "id": "2026-12-20-0830-all-camp-meditation-karma-yoga-meetings",
       "date": "2026-12-20",
       "day": "Sunday",
       "startTime": "08:30",
       "endTime": "09:30",
-      "title": "Karma Yoga & Service Exchange Meetings",
-      "category": "Service",
+      "title": "All-Camp Meditation & Karma Yoga Meetings",
+      "category": "Community",
       "location": "TANTRIC SHELTER",
-      "description": "Come see us and vibe with your team! All attendees have a karma yoga: it helps keep the event sustainable and flowing. Unsure of yours? Ask at the event office to sort it out."
+      "description": "A short all-camp meditation, then meet your Karma Yoga or Service Exchange team. All attendees have a karma yoga: it keeps the event sustainable and flowing. Unsure of yours? Ask at the event office."
     },
     {
       "id": "2026-12-20-0900-kids-camp",
@@ -784,157 +777,128 @@
       "description": "Program for children and youth while the adults are in class. Parents check children in and out. Daily schedule to be announced."
     },
     {
-      "id": "2026-12-20-0945-community-circle",
+      "id": "2026-12-20-0945-divine-mother-the-love-that-holds-everything",
       "date": "2026-12-20",
       "day": "Sunday",
       "startTime": "09:45",
       "endTime": "11:00",
-      "title": "Community Circle",
+      "title": "Divine Mother: The Love That Holds Everything",
+      "category": "Kriya and Meditation",
+      "location": "CHURUATA",
+      "facilitator": "Devi Rajpriti Kaur"
+    },
+    {
+      "id": "2026-12-20-0945-men-s-circle",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "09:45",
+      "endTime": "11:00",
+      "title": "Men's Circle",
+      "category": "Community",
+      "location": "INCO PARK",
+      "facilitator": "Chief Open Heart"
+    },
+    {
+      "id": "2026-12-20-1115-conscious-communication-within-silence",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "11:15",
+      "endTime": "12:30",
+      "title": "Conscious Communication within Silence",
+      "category": "Meditation",
+      "location": "CHURUATA",
+      "facilitator": "Jot Simrit"
+    },
+    {
+      "id": "2026-12-20-1115-winter-solstice-glandular-summit",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "11:15",
+      "endTime": "12:30",
+      "title": "Winter Solstice Glandular Summit",
+      "category": "Kriya and Meditation",
+      "location": "TREE PAVILION",
+      "facilitator": "Dyal Gobinde"
+    },
+    {
+      "id": "2026-12-20-1115-women-s-circle",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "11:15",
+      "endTime": "12:30",
+      "title": "Women's Circle",
       "category": "Community",
       "tags": [
         "To be announced"
       ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-20-0945-meditation-class",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "09:45",
-      "endTime": "11:00",
-      "title": "Meditation Class",
-      "category": "Meditation",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-20-1115-kundalini-yoga-class",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "11:15",
-      "endTime": "12:30",
-      "title": "Kundalini Yoga Class",
-      "category": "Kriya and Meditation",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-20-1115-lecture",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "11:15",
-      "endTime": "12:30",
-      "title": "Lecture",
-      "category": "Lecture",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
+      "location": "INCO PARK",
+      "description": "Facilitator to be announced."
     },
     {
       "id": "2026-12-20-1230-lunch",
       "date": "2026-12-20",
       "day": "Sunday",
       "startTime": "12:30",
-      "endTime": "13:30",
+      "endTime": "13:45",
       "title": "🍴 Lunch",
       "category": "Meal",
-      "location": "CHURUATA"
+      "location": "CHURUATA",
+      "description": "Free time until the afternoon program."
     },
     {
-      "id": "2026-12-20-1230-free-time",
+      "id": "2026-12-20-1345-rewiring-stress-into-strength",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "12:30",
-      "endTime": "14:15",
-      "title": "Free Time",
-      "category": "Logistics",
-      "description": "Take time for yourself, eat, and be still for a while!"
+      "startTime": "13:45",
+      "endTime": "15:30",
+      "title": "Rewiring Stress into Strength",
+      "category": "Kriya and Meditation",
+      "location": "TANTRIC SHELTER",
+      "facilitator": "Dr Haridass Kaur",
+      "description": "All camp together, no parallel classes."
     },
     {
-      "id": "2026-12-20-1430-community-circle",
+      "id": "2026-12-20-1545-rejuvenate-emotional-balance-alertness",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "14:30",
-      "endTime": "15:45",
-      "title": "Community Circle",
-      "category": "Community",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "CAMPFIRE",
-      "description": "Class and teacher to be announced."
+      "startTime": "15:45",
+      "endTime": "17:00",
+      "title": "Rejuvenate: Emotional Balance & Alertness",
+      "category": "Kriya and Meditation",
+      "location": "CHURUATA",
+      "facilitator": "Khushbir Singh"
     },
     {
-      "id": "2026-12-20-1430-kundalini-yoga-class",
+      "id": "2026-12-20-1545-tantric-integration-circle",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "14:30",
-      "endTime": "15:45",
-      "title": "Kundalini Yoga Class",
+      "startTime": "15:45",
+      "endTime": "17:00",
+      "title": "Tantric Integration Circle",
       "category": "Kriya and Meditation",
       "tags": [
         "To be announced"
       ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
+      "location": "INCO PARK",
+      "description": "Integrate the three days of White Tantric Yoga®. Facilitator to be announced."
     },
     {
-      "id": "2026-12-20-1430-lecture",
+      "id": "2026-12-20-1545-the-preserver",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "14:30",
-      "endTime": "15:45",
-      "title": "Lecture",
-      "category": "Lecture",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-20-1600-kundalini-yoga-class",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "16:00",
-      "endTime": "17:15",
-      "title": "Kundalini Yoga Class",
+      "startTime": "15:45",
+      "endTime": "17:00",
+      "title": "The Preserver",
       "category": "Kriya and Meditation",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "TANTRIC SHELTER",
-      "description": "Class and teacher to be announced."
+      "location": "TREE PAVILION",
+      "facilitator": "Karuna"
     },
     {
-      "id": "2026-12-20-1600-workshop",
+      "id": "2026-12-20-1700-rehras",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "16:00",
-      "endTime": "17:15",
-      "title": "Workshop",
-      "category": "Workshop",
-      "tags": [
-        "To be announced"
-      ],
-      "location": "ASTA",
-      "description": "Class and teacher to be announced."
-    },
-    {
-      "id": "2026-12-20-1715-rehras",
-      "date": "2026-12-20",
-      "day": "Sunday",
-      "startTime": "17:15",
-      "endTime": "17:45",
+      "startTime": "17:00",
+      "endTime": "17:30",
       "title": "Rehras",
       "category": "Gurdwara",
       "location": "GURDWARA",
@@ -951,43 +915,74 @@
       "location": "CHURUATA"
     },
     {
-      "id": "2026-12-20-1900-prepare-for-rensabai",
+      "id": "2026-12-20-1830-closing-circle",
       "date": "2026-12-20",
       "day": "Sunday",
-      "startTime": "19:00",
-      "endTime": "20:00",
-      "title": "Prepare for Rensabai",
+      "startTime": "18:30",
+      "endTime": "19:30",
+      "title": "Closing Circle",
+      "category": "Community",
+      "location": "TANTRIC SHELTER",
+      "description": "All camp together to close the Solstice, leading into Nagar Kirtan."
+    },
+    {
+      "id": "2026-12-20-1930-nagar-kirtan",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "19:30",
+      "title": "Nagar Kirtan",
       "category": "Gurdwara",
-      "location": "GURDWARA",
-      "description": "The Gurdwara is prepared for the evening of kirtan. Musicians check in with the Gurdwara team."
+      "tags": [
+        "To be announced"
+      ],
+      "description": "Kirtan procession through camp to the Gurdwara, leading into Rensabai. Start time to be confirmed."
     },
     {
       "id": "2026-12-20-2000-rensabai-kirtan",
       "date": "2026-12-20",
       "day": "Sunday",
       "startTime": "20:00",
-      "endTime": "23:00",
       "title": "Rensabai Kirtan",
       "category": "Music",
+      "tags": [
+        "To be announced"
+      ],
       "location": "GURDWARA",
-      "description": "Rensabai Kirtan: musicians take turns singing Gurbani through the evening. Last musician at 10:30 PM, followed by a short Ardas and Hukam."
+      "facilitator": "Karina Skye",
+      "description": "Rensabai Kirtan: musicians take turns singing Gurbani through the evening. Start time to be confirmed (7:30 or 8:00 PM)."
+    },
+    {
+      "id": "2026-12-20-2145-bazaar-closes",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "21:45",
+      "title": "Bazaar closes",
+      "category": "Logistics"
+    },
+    {
+      "id": "2026-12-20-2200-lights-out",
+      "date": "2026-12-20",
+      "day": "Sunday",
+      "startTime": "22:00",
+      "title": "🌙 Lights Out",
+      "category": "Logistics"
     },
     {
       "id": "2026-12-21-0300-rise-up-sweet-family-dear",
       "date": "2026-12-21",
       "day": "Monday",
       "startTime": "03:00",
-      "endTime": "03:45",
+      "endTime": "03:40",
       "title": "Rise up sweet family dear!",
       "description": "Wake up, get cleaned up, get ready for Sadhana!"
     },
     {
-      "id": "2026-12-21-0345-morning-sadhana",
+      "id": "2026-12-21-0340-aquarian-sadhana",
       "date": "2026-12-21",
       "day": "Monday",
-      "startTime": "03:45",
+      "startTime": "03:40",
       "endTime": "06:00",
-      "title": "Morning Sadhana",
+      "title": "Aquarian Sadhana",
       "category": "Sadhana",
       "location": "TANTRIC SHELTER",
       "description": "Japji Sahib, a Kundalini Yoga kriya and the Aquarian Sadhana mantras. Come as you are, bring a blanket."
@@ -1018,67 +1013,166 @@
       "date": "2026-12-21",
       "day": "Monday",
       "startTime": "08:15",
-      "endTime": "13:00",
       "title": "Start the Journey Home",
       "category": "Logistics",
-      "description": "Everyone who is not helping with camp tear-down must leave the site by 1:00 PM. Want to stay an extra night and help strike camp? Let the event office know."
+      "description": "Everyone who is not helping with camp tear-down leaves the site in the morning. Travel day: no afternoon or evening program."
     }
   ],
   "teachers": [
     {
-      "id": "t-hari-simran",
-      "name": "Hari Simran Kaur",
+      "id": "chief-open-heart",
+      "name": "Chief Open Heart",
       "facilitatorNames": [
-        "Hari Simran Kaur"
+        "Chief Open Heart"
       ],
-      "bio": "Teaches Kundalini Yoga as taught by Yogi Bhajan® since 1998. Lead trainer in Level 2 Vitality and Stress.",
-      "country": "United States"
+      "bio": "",
+      "country": "United States",
+      "photo": "/images/teachers/Chief-Open-Heart.jpg"
     },
     {
-      "id": "t-guru-dev",
-      "name": "Guru Dev Singh",
+      "id": "chris-maanas",
+      "name": "Chris Maanas",
       "facilitatorNames": [
-        "Guru Dev Singh"
+        "Chris Maanas"
       ],
-      "bio": "Longtime Sadhana leader; guides the pre-dawn practice and the mantra intensives.",
-      "country": "Mexico"
+      "bio": "Chris is always happy and inspired to share his passion for yoga, healing, meditation, and traveling and he is deeply grateful for the opportunity to bring all of these passions together to create one amazing life changing experience.\n\nBased in Miami, co-founder of Fresh Prana Miami.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Chris-Maanas.jpg"
     },
     {
-      "id": "t-siri-atma",
-      "name": "Dr. Siri Atma Kaur",
+      "id": "devi-rajpriti-kaur",
+      "name": "Devi Rajpriti Kaur",
       "facilitatorNames": [
-        "Dr. Siri Atma Kaur",
-        "Siri Atma Kaur"
+        "Devi Rajpriti Kaur",
+        "Devi Raj Priti Kaur",
+        "Olena Devi Rajpriti Kaur",
+        "Olena Devi Kaur"
       ],
-      "bio": "Physician and Ayurvedic practitioner. Lectures on winter immunity and the yogic diet.",
-      "country": "Canada"
+      "bio": "Olena Devi Kaur is a Kundalini Yoga teacher, meditation facilitator, and spiritual wellbeing educator. Trained through KRI, Khalsa Way Prenatal Yoga, and years of immersive practice, she creates transformative experiences centered on consciousness, dignity, devotion, and embodied spiritual growth.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Devi-Rajpriti-Kaur.jpg"
     },
     {
-      "id": "t-nirvair",
-      "name": "Nirvair Singh",
+      "id": "dr-haridass-kaur",
+      "name": "Dr Haridass Kaur",
       "facilitatorNames": [
-        "Nirvair Singh"
+        "Dr Haridass Kaur",
+        "Dr. Haridass Kaur",
+        "Haridass Kaur"
       ],
-      "bio": "White Tantric Yoga® facilitator and course host.",
-      "country": "United States"
+      "bio": "Author, Mentoring Teacher Trainer, Entrepreneur, Investor, Speaker and founder of Infinite Goddess School of Human Advancement in Los Angeles where she offers training programs, workshops, as well as online educational programs to teachers, individuals and business professionals.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Dr-Haridass-Kaur.jpg"
     },
     {
-      "id": "t-amrit-kirtan",
-      "name": "Amrit Kirtan Kaur",
+      "id": "dyal-gobinde",
+      "name": "Dyal Gobinde",
       "facilitatorNames": [
-        "Amrit Kirtan Kaur"
+        "Dyal Gobinde",
+        "Dyal Gobinde Singh"
       ],
-      "bio": "Kirtan singer and Gurdwara musician. Leads the evening chants.",
-      "country": "Brazil"
+      "bio": "Kundalini Yoga instructor for 10 years, after a Kundalini awakening 12 years ago. Sadhana practitioner, Level 2 Sat Nam Rasayan, and 60+ days of White Tantric Yoga. He has taught thousands of classes and students in Chicago and around the world.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Dyal-Gobinde.jpg"
     },
     {
-      "id": "t-jagat",
-      "name": "Jagat Prakash Singh",
+      "id": "jot-simrit",
+      "name": "Jot Simrit",
       "facilitatorNames": [
-        "Jagat Prakash Singh"
+        "Jot Simrit",
+        "Jot Simrit Singh"
       ],
-      "bio": "Community coordinator; runs the youth and family program.",
-      "country": "Spain"
+      "bio": "Jot Simrit is a KRI Certified Kundalini Yoga instructor, sound facilitator, and meditation guide based in Mallorca.",
+      "country": "Spain",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Jot-Simrit.jpg"
+    },
+    {
+      "id": "karina-skye",
+      "name": "Karina Skye",
+      "facilitatorNames": [
+        "Karina Skye"
+      ],
+      "bio": "",
+      "country": "United States",
+      "photo": "/images/teachers/Karina-Skye.jpg"
+    },
+    {
+      "id": "karuna",
+      "name": "Karuna",
+      "facilitatorNames": [
+        "Karuna"
+      ],
+      "bio": "Karuna is a teacher of Kundalini Yoga, meditation, and mantra as practical tools for lived transformation and everyday life. A Kundalini Research Institute Associate Level One, Two, and Three Teacher Trainer. Lives in Boulder, CO. Bringing joy, focus, resilience, harmony, healing: yoga, meditation.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Karuna.jpg"
+    },
+    {
+      "id": "khushbir-singh",
+      "name": "Khushbir Singh",
+      "facilitatorNames": [
+        "Khushbir Singh",
+        "Khushbir"
+      ],
+      "bio": "Khushbir is a Level 3 Teacher, Lead Teacher Trainer, and has practiced and taught Kundalini Yoga since 1992. In Utah’s Salt Lake Valley, he grows a wild vegetable & flower garden shared by happy birds and bees. He plants trees with TreeUtah, plays in the mountains and deserts, and travels for fun.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Khushbir-Singh.jpg"
+    },
+    {
+      "id": "livtar-singh",
+      "name": "Livtar Singh",
+      "facilitatorNames": [
+        "Livtar Singh",
+        "Livtar Singh Khalsa"
+      ],
+      "bio": "Livtar Singh has been a Kundalini Yoga student and teacher since 1969, when he first met Yogi Bhajan. He is one of the most inspirational songwriters and singers of the Yogic/Khalsa musical heritage. His words combine personal experience with devotion to the love of the ONE. His melodies and voice create a mood of sweetness and beauty.\nHe is a huge fan of the Solstice experience to achieve permanent spiritual growth.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Livtar-Singh.jpg"
+    },
+    {
+      "id": "sat-bir-singh",
+      "name": "Sat Bir Singh",
+      "facilitatorNames": [
+        "Sat Bir Singh",
+        "Sat Bir Singh Khalsa",
+        "Dr. Sat Bir Singh"
+      ],
+      "bio": "Sat Bir Singh Khalsa, Ph.D. is a Corresponding Member of the Faculty of Medicine at Harvard Medical School, Director of Research for the Kundalini Research Institute, editor-in-chief of the International Journal of Yoga Therapy, and chief editor of The Principles and Practice of Yoga in Health Care.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Sat-Bir-Singh.jpg"
+    },
+    {
+      "id": "satwant-singh",
+      "name": "Satwant Singh",
+      "facilitatorNames": [
+        "Satwant Singh",
+        "Satwant Singh Khalsa"
+      ],
+      "bio": "Satwant Singh has been practicing and teaching Kundalini Yoga for over 50 years. He serves as Executive Director of the Siri Singh Sahib Corporation and Treasurer of Sikh Dharma of Virginia and 3HO Foundation of Virginia. He provides insights gained from both the Sadhana Room and the Board Room.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Satwant-Singh.jpg"
+    },
+    {
+      "id": "sergio-akaal",
+      "name": "Sergio Akaal",
+      "facilitatorNames": [
+        "Sergio Akaal",
+        "Sergio"
+      ],
+      "bio": "Sergio began his Kundalini Yoga journey over a decade ago. His dynamic yet heart-centered classes reflect years of devoted practice, including 10+ Tantric days each year, creating an experience designed to awaken and transform you.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Sergio-Akaal.jpg"
+    },
+    {
+      "id": "siri-simran-kaur",
+      "name": "Siri Simran Kaur",
+      "facilitatorNames": [
+        "Siri Simran Kaur",
+        "Siri Simran Khalsa",
+        "Siri Simran K."
+      ],
+      "bio": "Siri Simran Khalsa is a Level III Sat Nam Rasayan® healer, and CEO of White Tantric Yoga®. She has devoted over two decades to the meditative healing arts, guiding students to deepen their awareness, strengthen their intuition, and experience the healing power of the meditative mind.",
+      "country": "United States",
+      "photo": "https://www.3ho.org/wp-content/uploads/2026/10/Siri-Simran-Kaur.jpg"
     }
   ],
   "venues": [
@@ -1147,7 +1241,7 @@
       "description": "Youth and family program. Parents check children in and out.",
       "mapPoint": {
         "x": 30.2,
-        "y": 79.0
+        "y": 79
       },
       "color": "#b8402f",
       "number": 6
@@ -1281,14 +1375,14 @@
     {
       "id": "inco-park",
       "name": "INCO PARK",
-      "description": "Open lawn for outdoor classes.",
+      "description": "Open lawn for circles and outdoor classes.",
       "mapPoint": {
         "x": 54.5,
-        "y": 36.0
+        "y": 36
       },
       "color": "#4c9a3c",
       "number": 18,
-      "kind": "landmark"
+      "kind": "venue"
     },
     {
       "id": "cabins-1-7",
@@ -1333,6 +1427,12 @@
       "color": "#4a8f3f",
       "number": 22,
       "kind": "landmark"
+    },
+    {
+      "id": "tree-pavilion",
+      "name": "TREE PAVILION",
+      "description": "Open-air pavilion under the trees for workshops. Location on the map to be confirmed.",
+      "kind": "venue"
     }
   ],
   "categories": [

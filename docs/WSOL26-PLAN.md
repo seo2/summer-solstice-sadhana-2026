@@ -280,6 +280,15 @@ live but **empty**.
       and `scripts/fixtures/csv/wsol26-program.csv` (87 rows), ready to import
       into the WSOL26 event so the app shows the shape of the week before the
       real schedule lands. Structure in [CONTENT-MODEL.md](CONTENT-MODEL.md).
+      *Update (2026-10-29):* the **official program** arrived as the programming
+      team's master sheet and is transcribed into the fixture (v10: 92 items, 21
+      still "To be announced", 14 teachers, Tree Pavilion + Inco Park as venues)
+      and `scripts/fixtures/csv/wsol26-{program,venues,teachers}.csv` by
+      `scripts/wsol26-official-program.mjs`; production already carries the 12
+      presenters with bios and photos. Reading decisions, open questions and the
+      import order (venues, teachers, then program with Replace) in
+      [WSOL26-PROGRAM.md](WSOL26-PROGRAM.md). Done when the open questions are
+      answered and the CSVs are imported.
 - [ ] **Teacher bios** — 33 of 34 bios are still empty (applies to both events). The
       profile "About" section appears automatically as soon as a bio exists. Done
       when priority teachers have bios.

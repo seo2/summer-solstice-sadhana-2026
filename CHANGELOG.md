@@ -12,6 +12,23 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **WSOL26 official program** (fixture v9 → v10; `scripts/`, `references/` and docs only,
+  no cache bump) — the programming team's master sheet ("General Program" tab, read
+  2026-10-29) replaces the template: 92 items over Dec 15–21 with the real workshops,
+  teachers and venues (Wed 16 and Sun 20 class days at Churuata, Tree Pavilion and Inco
+  Park, Sat Nam Rasayan and "Rewiring Stress into Strength" as all-camp classes, WTY
+  Dec 17–19 with gates 7:15 / warm-ups 8:00, Closing Circle, Nagar Kirtan and Rensabai on
+  Sunday, departure Monday); 21 items stay tagged "To be announced" where the sheet is
+  open (sadhana leaders, two circle facilitators, SDI / IKYTA details, musicians, Rensabai
+  start, registration hours, Kids Camp). New `scripts/wsol26-official-program.mjs` holds
+  the transcription and rewrites the fixture, asserting every venue, category and
+  facilitator joins by name; `references/wsol26-teachers-production.json` snapshots the 12
+  presenters production already carries so the fixture (now 14 teachers, with Chief Open
+  Heart and Karina Skye added) reuses their ids. Venues: INCO PARK promoted from landmark
+  to program venue, TREE PAVILION added without a pin. CSVs regenerated. Reading
+  decisions, what was left out, open questions and the production import order in the new
+  `docs/WSOL26-PROGRAM.md` (indexed); `CONTENT-MODEL.md`, `TESTING-LOCAL.md` and the WS7
+  note in `WSOL26-PLAN.md` updated.
 - **Video manual** (`video-manual/`, HyperFrames; no app change, no cache bump): a 46 s
   vertical quick tour and a 2:09 step-by-step tutorial for Winter Solstice Sadhana 2026
   attendees — real app captures (`tutorial/scripts/capture.mjs`), English voice-over, taps

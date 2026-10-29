@@ -50,6 +50,7 @@ doc is added, renamed, or removed (see the documentation discipline in `CLAUDE.m
 | Doc | What it covers |
 |---|---|
 | [../TODO_CONTENT_REVIEW.md](../TODO_CONTENT_REVIEW.md) | Manual review of content extracted from the booklet PDF |
+| [WSOL26-PROGRAM.md](WSOL26-PROGRAM.md) | The official Winter Solstice 2026 program: the source sheet, how it was read into the fixture and CSVs, what was left out, open questions for the programming team, import order |
 
 ## Video manual (HyperFrames)
 

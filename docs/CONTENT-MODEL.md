@@ -172,12 +172,12 @@ So: **bump `version` whenever content changes**, or clients will never see it.
 
 `scripts/mock-backend.mjs` serves any fixture in `scripts/fixtures/<slug>.json`
 as a real sync bundle. [`wsol26.json`](../scripts/fixtures/wsol26.json) is a full
-dummy Winter Solstice 2026 — an 87-item template program across 7 days, 6
-teachers, 22 map points (6 venues + 16 landmarks) placed on the real Winter
-Solstice map artwork (`references/winter-solstice-map-revised-v3.jpg`, served
-by the mock as `/photos/wsol26-map.jpg`), 14 categories, 35 info pages, 19
-menu entries and a 17-card dish catalog (a few cards carry placeholder photos
-the mock serves at `/photos/dish-<slug>.svg`).
+dummy Winter Solstice 2026 — the official 92-item program across 7 days, 14
+teachers, 23 venues (8 program venues + 15 landmarks, 22 of them placed on the
+real Winter Solstice map artwork, `references/winter-solstice-map-revised-v3.jpg`,
+served by the mock as `/photos/wsol26-map.jpg`), 14 categories, 35 info pages,
+19 menu entries and a 17-card dish catalog (a few cards carry placeholder
+photos the mock serves at `/photos/dish-<slug>.svg`).
 
 Its **event metadata and White Tantric Yoga days are real**, mirrored from the
 registration system (`register.3ho.org/wp-json/wsol/v1/presenter/bundle?event=wsol26`
@@ -185,22 +185,14 @@ and the `3ho-solstice-checkout` seed): "Winter Solstice Sadhana Celebration
 2026", Dec 15–21 2026, Retreats By The Lake, 2819 Tiger Lake Road, Lake Wales,
 FL 33898, with WTY on Dec 17–19 and the Solstice itself on Dec 20.
 
-**The program is a template, not an invented schedule.** Every element that
-repeats year to year sits at the times of the 2025 Winter Solstice program:
-Registration & Check-in, Welcome Gurdwara and the All Camp Opening Ceremony on
-arrival day; "Rise up sweet family dear!", Sadhana, Gurdwara, 🍴 Breakfast /
-Lunch / Dinner, Karma Yoga & Service Exchange Meetings, Rehras, evening music,
-Gong Meditation and 🌙 Lights Out every day; White Tantric Yoga® on Dec 17–19
-(Ecstatic Dance closes day three); Free Time and Rensabai on Sunday; Start the
-Journey Home on Monday. Between the fixed elements are **class slots** tagged
-"To be announced" whose title and category say what kind of session can go
-there — Kundalini Yoga Class (*Kriya and Meditation*), Meditation Class,
-Lecture, Workshop, Mantra & Chanting (*Mantras*), Community Circle
-(*Community*) — two in parallel (TANTRIC SHELTER + ASTA, a third at CAMPFIRE
-on Sunday) in the 9:45, 11:15, 2:30 and 4:00 blocks of the two class days. To
-fill a slot, replace its title, teacher and description and drop the tag; to
-add a parallel class, copy a slot row and change its `id` and `location`.
-Teachers, info pages and menus are invented.
+**The program, venues and teachers are the official ones**, transcribed from
+the programming team's master sheet by `scripts/wsol26-official-program.mjs`;
+the reading decisions, what was left out and the open questions are in
+[WSOL26-PROGRAM.md](WSOL26-PROGRAM.md). Items tagged **"To be announced"** are
+the ones the sheet still leaves open (a facilitator, a time, the details) and
+say what is missing in their description. To change the program, edit the
+script, run it (it bumps `version`) and regenerate the CSVs — never edit the
+fixture's `program` by hand. Info pages and menus are interim.
 
 ```bash
 npm run mock-backend      # http://localhost:3999
