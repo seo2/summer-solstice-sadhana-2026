@@ -65,6 +65,7 @@ re-render with `npm run render` inside each project).
 | [../video-manual/TUTORIAL-PLAN.md](../video-manual/TUTORIAL-PLAN.md) | Plan and approval history of the step-by-step tutorial |
 | [../video-manual/tutorial/BRIEF.md](../video-manual/tutorial/BRIEF.md) | 2:09 step-by-step tutorial (vertical, YouTube/web): brief, content guardrails, store-only rule |
 | [../video-manual/tutorial/STORYBOARD.md](../video-manual/tutorial/STORYBOARD.md) | Tutorial storyboard, 16 frames with voice-over lines; how to re-voice and rebuild |
+| [../video-manual/reels/README.md](../video-manual/reels/README.md) | Three 15–17 s launch reels (Instagram/Facebook): copy, beats, music sync, how to recapture and rebuild |
 
 ---
 

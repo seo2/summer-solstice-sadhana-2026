@@ -12,6 +12,12 @@ ships, its `Unreleased` bullets move into a dated section below — newest on to
 
 ### Added
 
+- **Launch reels** (`video-manual/reels/`, HyperFrames; no app change, no cache bump) — three
+  vertical 15–17 s videos for the app launch on social (The Big Reveal; Schedule & Favorites;
+  Map & Offline) from the social team's script, on fresh captures of the official WSOL26
+  program, cut to the music's beat with end cards on its strongest hit. One generator
+  (`reels/scripts/build.py`) builds all three; `.claude/launch.json` gains `ssol-dev-3017` for
+  the captures.
 - **Teacher photo on program cards and detail** (cache v90 → v91) — when a session carries no
   photo of its own, the program card, the static detail page and the synced detail sheet show
   the resolved teacher's photo (matched by `facilitator` name, as the quick view already was),
