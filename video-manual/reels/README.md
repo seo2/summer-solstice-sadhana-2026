@@ -42,8 +42,16 @@ BASE=http://localhost:3017 ADOPT=1 node scripts/capture.mjs /tmp/reels-profile
 python3 scripts/build.py
 # 3. check and render
 (cd 02-plan && npx --yes hyperframes@0.8.181 check)
-(cd 02-plan && npx --yes hyperframes@0.8.181 render -q delivery -o ../renders/wsol26-reel-02-plan.mp4)
+(cd 02-plan && npx --yes hyperframes@0.8.181 render -q delivery -o ../renders/3HO-Event-App-Launch-2-Program-Filters-and-Favorites.mp4)
 ```
+
+Delivery file names (in `renders/`):
+
+| Project | File |
+| --- | --- |
+| `01-reveal` | `3HO-Event-App-Launch-1-The-Official-App-Is-Here.mp4` |
+| `02-plan` | `3HO-Event-App-Launch-2-Program-Filters-and-Favorites.mp4` |
+| `03-offline` | `3HO-Event-App-Launch-3-Camp-Map-and-Offline-Mode.mp4` |
 
 Edit copy, timing and camera rows in `REELS` at the top of `scripts/build.py`, never in the
 generated HTML. MP4s in `renders/` are gitignored.
